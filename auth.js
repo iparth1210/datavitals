@@ -1,86 +1,44 @@
 /**
- * 🔐 AUTHENTICATION SERVICE (FIREBASE) 🔐
- * Handles Google Sign-In and session management.
+ * 🔐 AUTHENTICATION SERVICE (LOCAL STORAGE) 🔐
+ * Handles local user registration and login.
  */
 
 class AuthService {
     constructor() {
-        if (!firebase.apps.length) {
-            firebase.initializeApp(window.firebaseConfig);
-        }
-        this.auth = firebase.auth();
-        this.provider = new firebase.auth.GoogleAuthProvider();
         this.currentUser = null;
-
-        // Listen for auth state changes
-        this.auth.onAuthStateChanged(user => {
-            if (user) {
-                this.currentUser = {
-                    username: user.displayName || user.email.split('@')[0],
-                    email: user.email,
-                    uid: user.uid,
-                    photoURL: user.photoURL
-                };
-                console.log("User logged in:", this.currentUser.username);
-                // Trigger UI update if on landing page
-                if (window.renderLandingPage && document.querySelector('.landing-page')) {
-                    window.renderLandingPage(); // Will redirect to roadmap
-                }
-            } else {
-                this.currentUser = null;
-                console.log("User logged out");
-            }
-        });
+        this.users = JSON.parse(localStorage.getItem('datavitals_users') || '{}');
     }
 
-    loginWithGoogle() {
-        return this.auth.signInWithPopup(this.provider)
-            .then(result => {
-                return { success: true, message: `Welcome ${result.user.displayName}!` };
-            })
-            .catch(error => {
-                console.error(error);
-                return { success: false, message: error.message };
-            });
+    register(username, password) {
+        if (this.users[username]) {
+            return { success: false, message: "Username already exists!" };
+        }
+        this.users[username] = { password: password }; // In a real app, hash this!
+        localStorage.setItem('datavitals_users', JSON.stringify(this.users));
+        return { success: true, message: "Registration successful! Please login." };
+    }
+
+    login(username, password) {
+        const user = this.users[username];
+        if (user && user.password === password) {
+            this.currentUser = { username: username };
+            return { success: true, message: `Welcome back, ${username}!` };
+        }
+        return { success: false, message: "Invalid username or password." };
     }
 
     logout() {
-        this.auth.signOut().then(() => {
-            window.location.reload();
-        });
+        this.currentUser = null;
+        window.location.reload();
     }
 
     getCurrentUser() {
         return this.currentUser;
     }
+
+    isLoggedIn() {
+        return !!this.currentUser;
+    }
 }
 
-// Initialize only if config is present (prevents crash on empty config)
-if (window.firebaseConfig && window.firebaseConfig.apiKey !== "YOUR_API_KEY_HERE") {
-    window.authService = new AuthService();
-} else {
-    console.warn("Firebase Auth not initialized: Using Demo Mode");
-
-    // Demo Mode Auth Service
-    window.authService = {
-        currentUser: null,
-        loginWithGoogle: async () => {
-            // Simulate network delay
-            await new Promise(r => setTimeout(r, 800));
-            window.authService.currentUser = {
-                username: "Demo User",
-                email: "demo@example.com",
-                photoURL: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
-                uid: "demo-123"
-            };
-            if (window.renderLandingPage) window.renderLandingPage(); // Trigger re-render
-            return { success: true, message: "Welcome Demo User!" };
-        },
-        logout: () => {
-            window.authService.currentUser = null;
-            window.location.reload();
-        },
-        getCurrentUser: () => window.authService.currentUser,
-        isLoggedIn: () => !!window.authService.currentUser
-    };
-}
+window.authService = new AuthService();

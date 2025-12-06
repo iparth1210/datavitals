@@ -7,31 +7,28 @@ let currentModuleIndex = 0;
 let isLandingPage = true;
 
 // --- PROGRESS SYSTEM ---
-// --- PROGRESS SYSTEM ---
 function loadProgress() {
-    const user = window.authService.getCurrentUser();
-    if (!user) return [];
-
-    const saved = localStorage.getItem(`datavitals_progress_${user.username}`);
+    // Default single-user persistence key
+    const saved = localStorage.getItem('datavitals_progress_default');
     if (saved) {
-        return JSON.parse(saved);
+        try {
+            return JSON.parse(saved);
+        } catch (e) {
+            console.error("Error parsing progress:", e);
+            return ['week-1-d1'];
+        }
     }
     // Default: Week 1, Day 1 is unlocked
     return ['week-1-d1'];
 }
 
 function saveProgress(dayId) {
-    const user = window.authService.getCurrentUser();
-    if (!user) return;
-
     let unlocked = loadProgress();
     if (!unlocked.includes(dayId)) {
         unlocked.push(dayId);
-        localStorage.setItem(`datavitals_progress_${user.username}`, JSON.stringify(unlocked));
+        localStorage.setItem('datavitals_progress_default', JSON.stringify(unlocked));
     }
 }
-
-// ... existing helper functions (isWeekUnlocked, unlockNextDay) remain valid as they call loadProgress() ...
 
 function isWeekUnlocked(weekId) {
     const unlocked = loadProgress();
@@ -74,58 +71,14 @@ function unlockNextDay(currentDayId) {
     return "🎉 Course Completed!";
 }
 
-// ... RENDER FUNCTIONS ...
-
-function renderLandingPage() {
-    // Check for Demo Mode (Missing Config)
-    const isDemo = window.firebaseConfig && window.firebaseConfig.apiKey === "YOUR_API_KEY_HERE";
-
-    if (window.authService && window.authService.isLoggedIn && window.authService.isLoggedIn()) {
-        renderRoadmap();
-        return;
-    }
-
-    app.innerHTML = `
-        <div class="landing-page">
-            <div class="landing-content">
-                <span class="mascot">👨‍⚕️📊</span>
-                <h1>DataVitals</h1>
-                <p style="font-size: 1.2rem; margin: 1rem 0;">Zero to AI Analyst: 52 Weeks, 365 Days.</p>
-                
-                <div class="auth-buttons" style="margin-top: 2rem;">
-                    <button id="google-login-btn" class="btn" style="background-color: white; color: #333; display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0 auto; padding: 12px 24px;">
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20">
-                        ${isDemo ? 'Sign in (Demo Mode)' : 'Sign in with Google'}
-                    </button>
-                    ${isDemo ? '<p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.8;">(No API Keys required)</p>' : ''}
-                    <p id="login-error" style="color: #ff7675; margin-top: 1rem; font-size: 0.9rem;"></p>
-                </div>
-            </div>
-        </div>
-    `;
-
-    document.getElementById('google-login-btn').addEventListener('click', () => {
-        const errorEl = document.getElementById('login-error');
-        errorEl.textContent = "Connecting...";
-
-        window.authService.loginWithGoogle().then(result => {
-            if (result.success) {
-                // onAuthStateChanged/Success handler will rerender
-            } else {
-                errorEl.textContent = result.message;
-            }
-        });
-    });
-}
-// Deprecated local auth function, kept empty to prevent reference errors if called
-function renderAuth() { }
+// --- RENDER FUNCTIONS ---
 
 function renderRoadmap() {
     const unlocked = loadProgress();
 
     app.innerHTML = `
-    < div class="roadmap-container" >
-            <h2 style="text-align: center; margin-bottom: 2rem; color: var(--color-primary-dark);">Your 52-Week Journey 🗺️</h2>
+        <div class="roadmap-container">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: var(--text-main);">Your 52-Week Journey 🗺️</h2>
             <div class="roadmap-grid">
                 ${window.roadmap.map((week, index) => {
         // Check if Week 1 Day 1 is unlocked for this week
@@ -145,9 +98,9 @@ function renderRoadmap() {
                 `}).join('')}
             </div>
             <div style="text-align: center; margin-top: 2rem;">
-                <button onclick="resetProgress()" class="btn btn-secondary" style="font-size: 0.8rem;">Logout</button>
+                <button onclick="resetProgress()" class="btn btn-secondary" style="font-size: 0.8rem;">Reset Journey</button>
             </div>
-        </div >
+        </div>
     `;
 }
 
@@ -163,10 +116,10 @@ function renderWeekView(weekId) {
     }
 
     app.innerHTML = `
-    < div class="roadmap-container" >
+        <div class="roadmap-container">
             <div style="max-width: 1200px; margin: 0 auto; margin-bottom: 2rem; display: flex; align-items: center;">
                 <button onclick="renderRoadmap()" class="btn btn-secondary">← Back to Map</button>
-                <h2 style="margin-left: 2rem; color: var(--color-primary-dark);">${week.title}</h2>
+                <h2 style="margin-left: 2rem; color: var(--text-main);">${week.title}</h2>
             </div>
             
             <div class="roadmap-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
@@ -176,7 +129,7 @@ function renderWeekView(weekId) {
 
         return `
                     <div class="roadmap-node ${statusClass}" onclick="handleDayClick('${day.id}', '${day.lessonId}')">
-                        <div class="node-number" style="background: #718096;">${index + 1}</div>
+                        <div class="node-number" style="background: var(--secondary);">${index + 1}</div>
                         <div class="node-content">
                             <h3>${day.title}</h3>
                         </div>
@@ -184,7 +137,7 @@ function renderWeekView(weekId) {
                     </div>
                 `}).join('')}
             </div>
-        </div >
+        </div>
     `;
 }
 
@@ -206,7 +159,7 @@ function renderLesson(lessonId, dayId) {
     }
 
     app.innerHTML = `
-    < div class="split-screen" >
+        <div class="split-screen">
             <div class="pane pane-left">
                 <div class="module-header">
                     <button onclick="renderWeekView('${getWeekIdForDay(dayId)}')" class="btn btn-secondary" style="margin-bottom: 1rem; padding: 8px 16px; font-size: 0.9rem;">📅 Back to Week</button>
@@ -225,7 +178,7 @@ function renderLesson(lessonId, dayId) {
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
     `;
 
     attachLessonListeners(lesson, dayId);
@@ -243,14 +196,14 @@ function renderTable(data) {
 
     let html = '<table class="data-table"><thead><tr>';
     headers.forEach(h => {
-        html += `< th > ${h.charAt(0).toUpperCase() + h.slice(1)}</th > `;
+        html += `<th>${h.charAt(0).toUpperCase() + h.slice(1)}</th>`;
     });
     html += '</tr></thead><tbody>';
 
     data.forEach((row, rowIndex) => {
         html += '<tr>';
         headers.forEach(key => {
-            html += `< td class="clickable-cell" data - row="${rowIndex}" data - col="${key}" data - val="${row[key]}" > ${row[key]}</td > `;
+            html += `<td class="clickable-cell" data-row="${rowIndex}" data-col="${key}" data-val="${row[key]}">${row[key]}</td>`;
         });
         html += '</tr>';
     });
@@ -298,9 +251,9 @@ function attachLessonListeners(lesson, currentDayId) {
 }
 
 function resetProgress() {
-    if (confirm("Are you sure you want to log out?")) {
-        window.authService.logout();
-        renderLandingPage();
+    if (confirm("Are you sure you want to reset your journey?")) {
+        localStorage.removeItem('datavitals_progress_default');
+        renderRoadmap();
     }
 }
 
@@ -327,4 +280,11 @@ function triggerConfetti() {
 }
 
 // Init
-renderLandingPage();
+try {
+    console.log("Starting DataVitals...");
+    renderRoadmap();
+    console.log("Roadmap rendered successfully.");
+} catch (e) {
+    console.error("Critical Error generating roadmap:", e);
+    alert("Error loading app: " + e.message);
+}
