@@ -77,8 +77,23 @@ function unlockNextDay(currentDayId) {
 // ... RENDER FUNCTIONS ...
 
 function renderLandingPage() {
-    // Check for Demo Mode (Missing Config)
-    const isDemo = window.firebaseConfig && window.firebaseConfig.apiKey === "YOUR_API_KEY_HERE";
+    // Check if auth is not ready (missing config)
+    if (window.firebaseConfig && window.firebaseConfig.apiKey === "YOUR_API_KEY_HERE") {
+        app.innerHTML = `
+            <div class="landing-page">
+                <div class="landing-content">
+                    <h1>Configuration Needed ⚠️</h1>
+                    <p style="margin-bottom: 30px;">This app requires Firebase for Google Authentication.</p>
+                    <div style="background: rgba(0,0,0,0.1); padding: 20px; text-align: left; border-radius: 8px;">
+                        <p style="font-weight: bold; margin-bottom: 10px;">Step 1:</p>
+                        <p>Open <code>firebase-config.js</code> in your editor.</p>
+                        <p style="font-weight: bold; margin-top: 15px; margin-bottom: 10px;">Step 2:</p>
+                        <p>Paste your Firebase Config keys.</p>
+                    </div>
+                </div>
+            </div>`;
+        return;
+    }
 
     if (window.authService && window.authService.isLoggedIn && window.authService.isLoggedIn()) {
         renderRoadmap();
@@ -91,40 +106,76 @@ function renderLandingPage() {
                 <span class="mascot">👨‍⚕️📊</span>
                 <h1>DataVitals</h1>
                 <p style="font-size: 1.2rem; margin: 1rem 0;">Zero to AI Analyst: 52 Weeks, 365 Days.</p>
-                
-                <div class="auth-buttons" style="margin-top: 2rem;">
-                    <button id="google-login-btn" class="btn" style="background-color: white; color: #333; display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0 auto; padding: 12px 24px;">
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20">
-                        ${isDemo ? 'Sign in (Demo Mode)' : 'Sign in with Google'}
-                    </button>
-                    ${isDemo ? '<p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.8;">(No API Keys required)</p>' : ''}
-                    <p id="login-error" style="color: #ff7675; margin-top: 1rem; font-size: 0.9rem;"></p>
+                <div class="auth-buttons" style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                    <button id="login-btn" class="btn btn-primary">Login</button>
+                    <button id="register-btn" class="btn btn-secondary">Register</button>
                 </div>
             </div>
         </div>
     `;
 
-    document.getElementById('google-login-btn').addEventListener('click', () => {
-        const errorEl = document.getElementById('login-error');
-        errorEl.textContent = "Connecting...";
+    document.getElementById('login-btn').addEventListener('click', () => renderAuth('login'));
+    document.getElementById('register-btn').addEventListener('click', () => renderAuth('register'));
+}
 
-        window.authService.loginWithGoogle().then(result => {
-            if (result.success) {
-                // onAuthStateChanged/Success handler will rerender
+function renderAuth(mode) {
+    const title = mode === 'login' ? 'Login' : 'Create Account';
+    const btnText = mode === 'login' ? 'Enter Hospital' : 'Join Staff';
+
+    app.innerHTML = `
+        <div class="landing-page">
+            <div class="landing-content" style="max-width: 400px;">
+                <button onclick="renderLandingPage()" style="background:none; border:none; color:white; cursor:pointer; font-size:1.5rem; position:absolute; top:20px; left:20px;">←</button>
+                <h2>${title}</h2>
+                <div class="form-group" style="text-align: left; margin: 1rem 0;">
+                    <label style="display:block; margin-bottom: 0.5rem;">Username</label>
+                    <input type="text" id="username" style="width: 100%; padding: 0.8rem; border-radius: 8px; border: none;">
+                </div>
+                <div class="form-group" style="text-align: left; margin: 1rem 0;">
+                    <label style="display:block; margin-bottom: 0.5rem;">Password</label>
+                    <input type="password" id="password" style="width: 100%; padding: 0.8rem; border-radius: 8px; border: none;">
+                </div>
+                <button id="auth-action-btn" class="btn btn-primary" style="width: 100%;">${btnText}</button>
+                <p id="auth-error" style="color: #ff7675; margin-top: 1rem; min-height: 1.2em;"></p>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('auth-action-btn').addEventListener('click', () => {
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+        const errorEl = document.getElementById('auth-error');
+
+        if (!user || !pass) {
+            errorEl.textContent = "Please fill in all fields.";
+            return;
+        }
+
+        let result;
+        if (mode === 'login') {
+            result = window.authService.login(user, pass);
+        } else {
+            result = window.authService.register(user, pass);
+        }
+
+        if (result.success) {
+            if (mode === 'register') {
+                alert(result.message); // Prompt to login after registering
+                renderAuth('login');
             } else {
-                errorEl.textContent = result.message;
+                renderRoadmap();
             }
-        });
+        } else {
+            errorEl.textContent = result.message;
+        }
     });
 }
-// Deprecated local auth function, kept empty to prevent reference errors if called
-function renderAuth() { }
 
 function renderRoadmap() {
     const unlocked = loadProgress();
 
     app.innerHTML = `
-    < div class="roadmap-container" >
+        <div class="roadmap-container">
             <h2 style="text-align: center; margin-bottom: 2rem; color: var(--color-primary-dark);">Your 52-Week Journey 🗺️</h2>
             <div class="roadmap-grid">
                 ${window.roadmap.map((week, index) => {
@@ -147,7 +198,7 @@ function renderRoadmap() {
             <div style="text-align: center; margin-top: 2rem;">
                 <button onclick="resetProgress()" class="btn btn-secondary" style="font-size: 0.8rem;">Logout</button>
             </div>
-        </div >
+        </div>
     `;
 }
 
@@ -163,7 +214,7 @@ function renderWeekView(weekId) {
     }
 
     app.innerHTML = `
-    < div class="roadmap-container" >
+        <div class="roadmap-container">
             <div style="max-width: 1200px; margin: 0 auto; margin-bottom: 2rem; display: flex; align-items: center;">
                 <button onclick="renderRoadmap()" class="btn btn-secondary">← Back to Map</button>
                 <h2 style="margin-left: 2rem; color: var(--color-primary-dark);">${week.title}</h2>
@@ -184,7 +235,7 @@ function renderWeekView(weekId) {
                     </div>
                 `}).join('')}
             </div>
-        </div >
+        </div>
     `;
 }
 
@@ -206,7 +257,7 @@ function renderLesson(lessonId, dayId) {
     }
 
     app.innerHTML = `
-    < div class="split-screen" >
+        <div class="split-screen">
             <div class="pane pane-left">
                 <div class="module-header">
                     <button onclick="renderWeekView('${getWeekIdForDay(dayId)}')" class="btn btn-secondary" style="margin-bottom: 1rem; padding: 8px 16px; font-size: 0.9rem;">📅 Back to Week</button>
@@ -225,7 +276,7 @@ function renderLesson(lessonId, dayId) {
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
     `;
 
     attachLessonListeners(lesson, dayId);
@@ -243,14 +294,14 @@ function renderTable(data) {
 
     let html = '<table class="data-table"><thead><tr>';
     headers.forEach(h => {
-        html += `< th > ${h.charAt(0).toUpperCase() + h.slice(1)}</th > `;
+        html += `<th>${h.charAt(0).toUpperCase() + h.slice(1)}</th>`;
     });
     html += '</tr></thead><tbody>';
 
     data.forEach((row, rowIndex) => {
         html += '<tr>';
         headers.forEach(key => {
-            html += `< td class="clickable-cell" data - row="${rowIndex}" data - col="${key}" data - val="${row[key]}" > ${row[key]}</td > `;
+            html += `<td class="clickable-cell" data-row="${rowIndex}" data-col="${key}" data-val="${row[key]}">${row[key]}</td>`;
         });
         html += '</tr>';
     });

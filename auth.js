@@ -59,28 +59,12 @@ class AuthService {
 if (window.firebaseConfig && window.firebaseConfig.apiKey !== "YOUR_API_KEY_HERE") {
     window.authService = new AuthService();
 } else {
-    console.warn("Firebase Auth not initialized: Using Demo Mode");
-
-    // Demo Mode Auth Service
+    console.warn("Firebase Auth not initialized: Missing Config");
+    // Fallback/Mock for UI testing before config is added
     window.authService = {
-        currentUser: null,
-        loginWithGoogle: async () => {
-            // Simulate network delay
-            await new Promise(r => setTimeout(r, 800));
-            window.authService.currentUser = {
-                username: "Demo User",
-                email: "demo@example.com",
-                photoURL: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
-                uid: "demo-123"
-            };
-            if (window.renderLandingPage) window.renderLandingPage(); // Trigger re-render
-            return { success: true, message: "Welcome Demo User!" };
-        },
-        logout: () => {
-            window.authService.currentUser = null;
-            window.location.reload();
-        },
-        getCurrentUser: () => window.authService.currentUser,
-        isLoggedIn: () => !!window.authService.currentUser
+        loginWithGoogle: async () => ({ success: false, message: "Please configure Firebase in firebase-config.js" }),
+        logout: () => { },
+        getCurrentUser: () => null,
+        isLoggedIn: () => false
     };
 }
