@@ -281,10 +281,21 @@ function triggerConfetti() {
 
 // Init
 try {
-    console.log("Starting DataVitals...");
-    renderRoadmap();
-    console.log("Roadmap rendered successfully.");
+    console.log("System Initializing...");
+
+    // Simulate boot sequence
+    setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        if (splash) {
+            splash.classList.add('hidden');
+            // Remove from DOM after fade out to save resources
+            setTimeout(() => splash.remove(), 800);
+        }
+        renderRoadmap();
+        console.log("Neural Link Established.");
+    }, 3500); // 3.5s delay to match typing animation
+
 } catch (e) {
-    console.error("Critical Error generating roadmap:", e);
-    alert("Error loading app: " + e.message);
+    console.error("Critical System Failure:", e);
+    alert("System Error: " + e.message);
 }

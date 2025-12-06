@@ -4,29 +4,30 @@
     --bg-glass: rgba(30, 41, 59, 0.7);
     --bg-glass-hover: rgba(51, 65, 85, 0.8);
     --bg-card: #1e293b;
-    
+
     --primary: #3b82f6;
     --primary-glow: rgba(59, 130, 246, 0.5);
     --secondary: #64748b;
-    
+
     --accent-teal: #14b8a6;
     --accent-purple: #8b5cf6;
     --accent-rose: #f43f5e;
-    
+
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
-    
+
     /* Gradients */
     --grad-primary: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%);
     --grad-locked: linear-gradient(135deg, #334155 0%, #1e293b 100%);
-    
+
     /* Effects */
     --glass-border: 1px solid rgba(255, 255, 255, 0.1);
     --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     --backdrop-blur: blur(12px);
-    
+
     --font-heading: 'Outfit', sans-serif;
-    --font-body: 'Outfit', sans-serif; /* Keeping consistent for simplicity, can change if needed */
+    --font-body: 'Outfit', sans-serif;
+    /* Keeping consistent for simplicity, can change if needed */
 }
 
 * {
@@ -37,7 +38,7 @@
 
 body {
     background-color: var(--bg-core);
-    background-image: 
+    background-image:
         radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
         radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
     background-attachment: fixed;
@@ -58,7 +59,9 @@ body {
 }
 
 /* --- Typography --- */
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     font-family: var(--font-heading);
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -338,17 +341,31 @@ p {
 }
 
 @keyframes fall {
-    to { transform: translateY(110vh) rotate(700deg); }
+    to {
+        transform: translateY(110vh) rotate(700deg);
+    }
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Scrollbar */
@@ -375,8 +392,117 @@ p {
         grid-template-columns: 1fr;
         height: auto;
     }
-    
+
     .pane {
         min-height: 500px;
+    }
+}
+
+/* --- Cinematic Splash Screen --- */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    /* Deepest black for contrast */
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s ease-out, visibility 0.8s;
+}
+
+#splash-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.splash-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.splash-logo {
+    font-family: var(--font-heading);
+    font-size: 5rem;
+    font-weight: 800;
+    background: linear-gradient(to right, #fff, #3b82f6, #10b981);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 2rem;
+    animation: pulseGlow 2s infinite alternate;
+}
+
+.splash-slogan {
+    font-family: 'Courier New', Courier, monospace;
+    /* Terminal vibe */
+    color: var(--primary);
+    font-size: 1.5rem;
+    overflow: hidden;
+    /* Ensures the content is not revealed until the animation */
+    border-right: .15em solid var(--accent-teal);
+    /* The typwriter cursor */
+    white-space: nowrap;
+    /* Keeps the content on a single line */
+    margin: 0 auto;
+    letter-spacing: .15em;
+    animation:
+        typing 3.5s steps(40, end),
+        blink-caret .75s step-end infinite;
+}
+
+.background-matrix {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)),
+        repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(59, 130, 246, 0.1) 1px, rgba(59, 130, 246, 0.1) 2px);
+    background-size: 100% 4px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes pulseGlow {
+    from {
+        text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        transform: scale(1);
+    }
+
+    to {
+        text-shadow: 0 0 30px rgba(16, 185, 129, 0.8);
+        transform: scale(1.05);
+    }
+}
+
+/* The typing effect */
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: var(--accent-teal);
     }
 }
