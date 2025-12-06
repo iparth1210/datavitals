@@ -427,16 +427,42 @@ p {
     z-index: 2;
 }
 
-.splash-logo {
+.splash-logo-img {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.6));
+    animation: rotateLogo 4s linear infinite;
+    border-radius: 50%;
+}
+
+.splash-logo-text {
     font-family: var(--font-heading);
-    font-size: 5rem;
+    font-size: 3rem;
     font-weight: 800;
+    margin-bottom: 1rem;
     background: linear-gradient(to right, #fff, #3b82f6, #10b981);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 2rem;
-    animation: pulseGlow 2s infinite alternate;
+    letter-spacing: 2px;
+}
+
+@keyframes rotateLogo {
+    0% {
+        transform: scale(1) rotate(0deg);
+        filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.6));
+    }
+
+    50% {
+        transform: scale(1.1) rotate(180deg);
+        filter: drop-shadow(0 0 25px rgba(16, 185, 129, 0.8));
+    }
+
+    100% {
+        transform: scale(1) rotate(360deg);
+        filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.6));
+    }
 }
 
 .splash-slogan {
@@ -465,10 +491,21 @@ p {
     height: 100%;
     background:
         linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)),
-        repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(59, 130, 246, 0.1) 1px, rgba(59, 130, 246, 0.1) 2px);
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(59, 130, 246, 0.2) 2px, rgba(59, 130, 246, 0.2) 4px);
     background-size: 100% 4px;
     z-index: 1;
     pointer-events: none;
+    animation: scanline 10s linear infinite;
+}
+
+@keyframes scanline {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 0 100%;
+    }
 }
 
 @keyframes pulseGlow {
