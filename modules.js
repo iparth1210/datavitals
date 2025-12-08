@@ -171,46 +171,6 @@ window.modules = [
         },
         data: [
             { id: 1, user: "Dr. Smith", password: "Xy9#mK2$p", strength: "Strong" },
-            { id: 2, user: "Nurse Joy", password: "Correct-Horse-Battery", strength: "Strong" },
-            { id: 3, user: "Intern Bob", password: "123456", strength: "Weak" }, // Target
-            { id: 4, user: "Admin", password: "AdminUser2023!", strength: "Medium" }
-        ]
-    },
-    {
-        id: 'lesson-w1-d7',
-        title: 'W1-D7: Weekly Review',
-        image: 'assets/lesson_review.png',
-        video: 'https://www.youtube.com/embed/AkFi90lZmXA?si=premium_mode', // Review/Summary
-        sources: [
-            { title: 'Week 1 Recap (Interactive)', url: '#' }
-        ],
-        story: `
-            <p><strong>Day 7: The Review</strong></p>
-            <p>You made it through Week 1! Let's review.</p>
-            <p>Hardware, Software, OS, Files, Cloud, Security.</p>
-            <p><strong>Task:</strong> Find the <strong>"All Clear"</strong> status to graduate to Week 2.</p>
-        `,
-        task: {
-            type: 'find-value',
-            targetColumn: 'status',
-            condition: (val) => val === 'All Clear',
-            successMessage: "Congratulations! You have completed Week 1. Week 2 is now unlocked!",
-            errorMessage: "Find the 'All Clear' status."
-        },
-        data: [
-            { id: 1, check: "Hardware", status: "Pass" },
-            { id: 2, check: "Software", status: "Pass" },
-            { id: 3, check: "Security", status: "Pass" },
-            { id: 4, check: "Final Exam", status: "All Clear" } // Target
-        ]
-    },
-    // --- WEEK 2 PLACEHOLDERS (To be filled later) ---
-    {
-        id: 'lesson-w1-d2',
-        title: 'W1-D2: The Operating System',
-        image: 'assets/lesson_os_brain.png',
-        video: 'https://www.youtube.com/embed/p1q34_D2kKQ?si=premium_mode', // GCFLearnFree
-        sources: [
             { title: 'What is an OS? (Microsoft)', url: 'https://support.microsoft.com/en-us/windows/what-is-an-operating-system-8bc2f5bc-9f55-4c03-8d62-0959f6c77006' },
             { title: 'History of Operating Systems', url: 'https://en.wikipedia.org/wiki/History_of_operating_systems' }
         ],

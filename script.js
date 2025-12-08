@@ -120,6 +120,7 @@ function handleDayClick(dayId, lessonId) {
     renderLesson(lessonId, dayId);
 }
 
+
 function renderLesson(lessonId, dayId) {
     const lesson = window.modules.find(m => m.id === lessonId) || window.modules.find(m => m.id === 'placeholder-lesson');
 
@@ -127,6 +128,8 @@ function renderLesson(lessonId, dayId) {
         alert("Error: Lesson not found!");
         return;
     }
+
+    const isPythonLesson = lesson.type === 'python';
 
     app.innerHTML = `
         <div class="split-screen">
@@ -158,18 +161,44 @@ function renderLesson(lessonId, dayId) {
                 ` : ''}
             </div>
             <div class="pane pane-right">
-                <div class="interactive-area">
-                    <h3>Interactive Task</h3>
-                    ${renderTable(lesson.data)}
-                    <div id="feedback" class="feedback-box">
-                        Select a cell to analyze it...
-                    </div>
+                <div class="interactive-area" style="height:100%; display:flex; flex-direction:column;">
+                    <h3>${isPythonLesson ? '🐍 Python Terminal' : 'Interactive Task'}</h3>
+                    
+                    ${isPythonLesson ? `
+                        <div id="monaco-container" class="editor-pane" style="flex:1; min-height:300px; border:1px solid #334155; border-radius:8px;"></div>
+                        <div class="term-controls" style="margin-top:10px;">
+                            <button onclick="PythonEngine.run()" class="run-btn">▶ Run Code</button>
+                            <span style="font-size:0.8rem; color:#64748b; margin-left:10px;">Output below:</span>
+                        </div>
+                        <div id="term-output" class="console-pane" style="height:150px; width:100%; margin-top:10px; border-radius:8px;">
+                            <div class="term-line info">Ready.</div>
+                        </div>
+                    ` : `
+                        ${renderTable(lesson.data)}
+                        <div id="feedback" class="feedback-box">
+                            Select a cell to analyze it...
+                        </div>
+                    `}
                 </div>
             </div>
         </div>
     `;
 
-    attachLessonListeners(lesson, dayId);
+    if (isPythonLesson) {
+        // Init Engine for this lesson
+        if (window.PythonEngine) {
+            // Need small delay for DOM to be ready
+            setTimeout(() => {
+                PythonEngine.init().then(() => {
+                    if (PythonEngine.editor) {
+                        PythonEngine.editor.setValue(lesson.code_start || '# Write your code here\nprint("Hello World")');
+                    }
+                });
+            }, 100);
+        }
+    } else {
+        attachLessonListeners(lesson, dayId);
+    }
 }
 
 function getWeekIdForDay(dayId) {
@@ -271,6 +300,20 @@ function triggerConfetti() {
     setTimeout(() => {
         container.remove();
     }, 5000);
+}
+
+
+// --- PYTHON TERMINAL ---
+function toggleTerminal() {
+    const term = document.getElementById('terminal-modal');
+    if (!term) return;
+
+    term.classList.toggle('hidden');
+
+    // Lazy Load on first open
+    if (!term.classList.contains('hidden') && window.PythonEngine) {
+        PythonEngine.init();
+    }
 }
 
 // --- Neural Assistant Logic ---

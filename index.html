@@ -42,6 +42,7 @@
             </div>
 
             <div class="nav-links">
+                <a href="#" onclick="toggleTerminal()" class="terminal-btn"> >_ Terminal</a>
                 <a href="#" onclick="showRoadmap()"
                     style="color:white; text-decoration:none; margin-right:20px;">Roadmap</a>
                 <a href="#" onclick="handleLogout()" class="logout-btn"
@@ -49,6 +50,23 @@
             </div>
         </div>
     </nav>
+
+    <!-- PYTHON TERMINAL MODAL -->
+    <div id="terminal-modal" class="terminal-modal hidden">
+        <div class="terminal-header">
+            <span class="term-title">🐍 Neural Python Kernel (v3.11)</span>
+            <div class="term-controls">
+                <button onclick="PythonEngine.run()" class="run-btn">▶ Run Code</button>
+                <button onclick="toggleTerminal()" class="close-term">×</button>
+            </div>
+        </div>
+        <div class="terminal-body">
+            <div id="monaco-container" class="editor-pane"></div>
+            <div id="term-output" class="console-pane">
+                <div class="term-line info">Click 'Run' to execute. Pyodide loading...</div>
+            </div>
+        </div>
+    </div>
 
     <!-- Main App Container -->
     <div id="app" style="margin-top: 80px;">
@@ -90,6 +108,7 @@
     <script src="roadmap.js"></script>
     <script src="modules.js"></script>
     <script src="gamification.js"></script>
+    <script src="python_engine.js"></script>
     <script src="script.js"></script>
 </body>
 
