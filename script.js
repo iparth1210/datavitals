@@ -229,6 +229,23 @@ function renderTable(data) {
     return html;
 }
 
+// Helper to find next lesson object
+function getNextLesson(currentDayId) {
+    for (let w = 0; w < window.roadmap.length; w++) {
+        const week = window.roadmap[w];
+        const dIndex = week.days.findIndex(d => d.id === currentDayId);
+        if (dIndex !== -1) {
+            // Found current day
+            if (dIndex < week.days.length - 1) {
+                return week.days[dIndex + 1]; // Next day in same week
+            } else if (w < window.roadmap.length - 1) {
+                return window.roadmap[w + 1].days[0]; // First day of next week
+            }
+        }
+    }
+    return null;
+}
+
 function attachLessonListeners(lesson, currentDayId) {
     const cells = document.querySelectorAll('.clickable-cell');
     const feedback = document.getElementById('feedback');
@@ -259,7 +276,26 @@ function attachLessonListeners(lesson, currentDayId) {
                     }
 
                     const unlockMsg = unlockNextDay(currentDayId);
-                    feedback.innerHTML = `✅ ${lesson.task.successMessage} <br><strong>${unlockMsg}</strong>`;
+
+                    // Generate Next Lesson Button
+                    const nextLesson = getNextLesson(currentDayId);
+                    let nextBtnHtml = '';
+                    if (nextLesson) {
+                        nextBtnHtml = `
+                            <button onclick="renderLesson('${nextLesson.lessonId}', '${nextLesson.id}')" 
+                                    class="btn btn-primary" 
+                                    style="margin-left: 15px; padding: 5px 15px; font-size: 0.9rem; animation: pulseGlow 2s infinite;">
+                                Next Lesson →
+                            </button>
+                        `;
+                    }
+
+                    feedback.innerHTML = `
+                        <div style="display:flex; align-items:center; justify-content:center; gap:10px;">
+                            <span>✅ ${lesson.task.successMessage} <br><strong>${unlockMsg}</strong></span>
+                            ${nextBtnHtml}
+                        </div>
+                    `;
                     triggerConfetti();
                 } else {
                     feedback.className = 'feedback-box error';
