@@ -543,3 +543,51 @@ p {
         border-color: var(--accent-teal);
     }
 }
+
+/* --- Lesson Content Enhancements --- */
+.lesson-hero-image {
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.knowledge-base {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: var(--radius);
+}
+
+.knowledge-base h4 {
+    color: var(--accent-blue);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.source-list {
+    list-style: none;
+}
+
+.source-list li {
+    margin-bottom: 0.5rem;
+}
+
+.source-list a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.source-list a:hover {
+    color: var(--accent-teal);
+    transform: translateX(5px);
+}

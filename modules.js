@@ -7,6 +7,12 @@ window.modules = [
     {
         id: 'lesson-w1-d1',
         title: 'W1-D1: Hardware vs Software',
+        image: 'assets/lesson_hardware_software.png',
+        video: 'https://www.youtube.com/embed/xnyFYiK2rSY?si=premium_mode', // Code.org
+        sources: [
+            { title: 'Computer Basics (GCFGlobal)', url: 'https://edu.gcfglobal.org/en/computerbasics/what-is-a-computer/1/' },
+            { title: 'Hardware vs Software (Diffen)', url: 'https://www.diffen.com/difference/Hardware_vs_Software' }
+        ],
         story: `
             <p><strong>Day 1: The Body and The Mind</strong></p>
             <p>Think of a computer like a human:</p>
@@ -33,6 +39,12 @@ window.modules = [
     {
         id: 'lesson-w1-d2',
         title: 'W1-D2: The Operating System',
+        image: 'assets/lesson_os_brain.png',
+        video: 'https://www.youtube.com/embed/p1q34_D2kKQ?si=premium_mode', // GCFLearnFree
+        sources: [
+            { title: 'What is an OS? (Microsoft)', url: 'https://support.microsoft.com/en-us/windows/what-is-an-operating-system-8bc2f5bc-9f55-4c03-8d62-0959f6c77006' },
+            { title: 'History of Operating Systems', url: 'https://en.wikipedia.org/wiki/History_of_operating_systems' }
+        ],
         story: `
             <p><strong>Day 2: The Manager</strong></p>
             <p>The <strong>Operating System (OS)</strong> is the boss. It manages all the hardware and software. Examples: Windows, macOS, Linux.</p>
@@ -56,6 +68,11 @@ window.modules = [
     {
         id: 'lesson-w1-d3',
         title: 'W1-D3: Files & Folders',
+        image: 'assets/lesson_files.png',
+        video: 'https://www.youtube.com/embed/Q5K3jR9a3pM?si=premium_mode', // GCFGlobal
+        sources: [
+            { title: 'Managing Files (Computers 101)', url: 'https://www.computerhope.com/issues/ch001732.htm' }
+        ],
         story: `
             <p><strong>Day 3: The Filing Cabinet</strong></p>
             <p>Data is stored in <strong>Files</strong>. Files live in <strong>Folders</strong>.</p>
@@ -79,6 +96,11 @@ window.modules = [
     {
         id: 'lesson-w1-d4',
         title: 'W1-D4: The Internet & Cloud',
+        image: 'assets/lesson_cloud_network.png',
+        video: 'https://www.youtube.com/embed/M988_fsOSWo?si=premium_mode', // Code.org
+        sources: [
+            { title: 'What is the Cloud? (Azure)', url: 'https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/what-is-the-cloud/' }
+        ],
         story: `
             <p><strong>Day 4: The Network</strong></p>
             <p>"The Cloud" is just someone else's computer that you access over the internet.</p>

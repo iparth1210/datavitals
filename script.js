@@ -163,11 +163,29 @@ function renderLesson(lessonId, dayId) {
             <div class="pane pane-left">
                 <div class="module-header">
                     <button onclick="renderWeekView('${getWeekIdForDay(dayId)}')" class="btn btn-secondary" style="margin-bottom: 1rem; padding: 8px 16px; font-size: 0.9rem;">📅 Back to Week</button>
+                    ${lesson.image ? `<img src="${lesson.image}" alt="${lesson.title}" class="lesson-hero-image">` : ''}
                     <h2 class="module-title">${lesson.title}</h2>
                 </div>
                 <div class="story-text">
                     ${lesson.story}
                 </div>
+
+                ${lesson.video ? `
+                <div class="video-container" style="margin-bottom: 2rem;">
+                    <iframe width="100%" height="315" src="${lesson.video}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.1);"></iframe>
+                </div>
+                ` : ''}
+                
+                ${lesson.sources ? `
+                <div class="knowledge-base">
+                    <h4>🧠 Neural Knowledge Base</h4>
+                    <ul class="source-list">
+                        ${lesson.sources.map(s => `
+                            <li><a href="${s.url}" target="_blank" rel="noopener noreferrer">🔗 ${s.title}</a></li>
+                        `).join('')}
+                    </ul>
+                </div>
+                ` : ''}
             </div>
             <div class="pane pane-right">
                 <div class="interactive-area">
@@ -277,6 +295,74 @@ function triggerConfetti() {
     setTimeout(() => {
         container.remove();
     }, 5000);
+}
+
+// --- Neural Assistant Logic ---
+function toggleChat() {
+    const chatWindow = document.getElementById('chat-window');
+    chatWindow.classList.toggle('hidden');
+    if (!chatWindow.classList.contains('hidden')) {
+        document.getElementById('user-input').focus();
+    }
+}
+
+function handleChatInput(event) {
+    if (event.key === 'Enter') {
+        sendMessage();
+    }
+}
+
+function sendMessage() {
+    const input = document.getElementById('user-input');
+    const message = input.value.trim();
+    if (!message) return;
+
+    // User Message
+    addMessage(message, 'user');
+    input.value = '';
+
+    // Simulate Thinking
+    setTimeout(() => {
+        const botResponse = generateBotResponse(message);
+        addMessage(botResponse, 'bot');
+    }, 1000);
+}
+
+function addMessage(text, sender) {
+    const messagesContainer = document.getElementById('chat-messages');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `message ${sender}-message`;
+    msgDiv.innerHTML = text.replace(/\n/g, '<br>');
+    messagesContainer.appendChild(msgDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function generateBotResponse(userMsg) {
+    const msg = userMsg.toLowerCase();
+
+    // Context: Which lesson is active?
+    const titleEl = document.querySelector('.module-title');
+    const currentLesson = titleEl ? titleEl.innerText : "the Roadmap";
+
+    if (msg.includes('hello') || msg.includes('hi')) {
+        return `Greetings. I see you are currently focusing on **${currentLesson}**. How can I clarify this topic?`;
+    }
+
+    if (msg.includes('help') || msg.includes('stuck')) {
+        return "Do not worry. Learning is an iterative process. \n\n1. Read the story text carefully.\n2. Check the 'Neural Knowledge Base' links.\n3. Analyze the data table for patterns.";
+    }
+
+    if (msg.includes('answer') || msg.includes('solution')) {
+        return "I cannot provide direct answers. That would violate my core directive: *Empower Human Intelligence*. \n\nHowever, I can verify your logic if you describe it.";
+    }
+
+    if (currentLesson.includes("Hardware")) {
+        if (msg.includes("hardware") || msg.includes("soft")) {
+            return "Remember: Hardware = Physical (Touch). Software = Logical (Code). If you can kick it, it's hardware. If you can only curse at it, it's software.";
+        }
+    }
+
+    return "Processing query... \n\nMy neural database is vast, but my current context window is limited. Could you rephrase that related to the current lesson?";
 }
 
 // Init

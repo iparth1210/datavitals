@@ -29,6 +29,33 @@
             <p>Loading your journey...</p>
         </div>
     </div>
+    <!-- Neural Assistant (Chatbot) -->
+    <div id="neural-assistant">
+        <div class="chat-window hidden" id="chat-window">
+            <div class="chat-header">
+                <div class="bot-identity">
+                    <div class="bot-avatar"></div>
+                    <span>Aura // System Architect</span>
+                </div>
+                <button class="close-chat" onclick="toggleChat()">×</button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message bot-message">
+                    Initializing... <br> Greetings. I am Aura. How can I assist your learning journey today?
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Query the system..."
+                    onkeypress="handleChatInput(event)">
+                <button class="send-btn" onclick="sendMessage()">→</button>
+            </div>
+        </div>
+        <div class="chat-orb" onclick="toggleChat()">
+            <div class="orb-core"></div>
+            <div class="orb-ring"></div>
+        </div>
+    </div>
+
     <script src="modules.js"></script>
     <script src="roadmap.js"></script>
     <script src="script.js"></script>
