@@ -6,36 +6,6 @@ const app = document.getElementById('app');
 let currentModuleIndex = 0;
 let isLandingPage = true;
 
-// --- PROGRESS SYSTEM ---
-function loadProgress() {
-    // Default single-user persistence key
-    const saved = localStorage.getItem('datavitals_progress_default');
-    if (saved) {
-        try {
-            return JSON.parse(saved);
-        } catch (e) {
-            console.error("Error parsing progress:", e);
-            return ['week-1-d1'];
-        }
-    }
-    // Default: Week 1, Day 1 is unlocked
-    return ['week-1-d1'];
-}
-
-function saveProgress(dayId) {
-    let unlocked = loadProgress();
-    if (!unlocked.includes(dayId)) {
-        unlocked.push(dayId);
-        localStorage.setItem('datavitals_progress_default', JSON.stringify(unlocked));
-    }
-}
-
-function isWeekUnlocked(weekId) {
-    const unlocked = loadProgress();
-    // A week is unlocked if its first day is unlocked
-    const firstDayId = window.roadmap.find(w => w.id === weekId)?.days[0]?.id;
-    return unlocked.includes(firstDayId);
-}
 
 function unlockNextDay(currentDayId) {
     // Find current week and day index
@@ -109,7 +79,7 @@ function renderWeekView(weekId) {
     if (!week) return;
 
     const unlocked = loadProgress();
-    // Check if week is locked (Day 1 locked)
+    // Check if week is unlocked
     if (!unlocked.includes(week.days[0].id)) {
         alert("🔒 Complete the previous weeks to unlock this!");
         return;
@@ -253,6 +223,12 @@ function attachLessonListeners(lesson, currentDayId) {
 
                 if (isCorrect) {
                     feedback.className = 'feedback-box success';
+
+                    // --- GAMIFICATION HOOK ---
+                    if (window.Gamification) {
+                        Gamification.addXP(50); // Reward for correct answer
+                    }
+
                     const unlockMsg = unlockNextDay(currentDayId);
                     feedback.innerHTML = `✅ ${lesson.task.successMessage} <br><strong>${unlockMsg}</strong>`;
                     triggerConfetti();
