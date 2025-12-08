@@ -334,18 +334,184 @@ window.modules = [
         ]
     },
 
-    // --- WEEK 2 PLACEHOLDERS (To be filled later) ---
+    // --- WEEK 2 CONTENT: EXCEL & DATA ---
     {
         id: 'lesson-w2-d1',
-        title: 'W2-D1: Spreadsheet Interface',
+        title: 'W2-D1: The Grid (Excel Basics)',
         image: 'assets/lesson_excel_intro.png',
-        video: 'https://www.youtube.com/embed/rpkpK_n2ad0?si=premium_mode', // Excel Basics
-        sources: [
-            { title: 'Excel for Beginners (Microsoft)', url: 'https://support.microsoft.com/en-us/office/excel-video-training-9bc05390-e94c-46af-a5b3-d7c22f6990bb' }
-        ],
-        story: '<p>Welcome to Excel! Find the cell with value "Start".</p>',
-        task: { type: 'find-value', targetColumn: 'val', condition: v => v === 'Start', successMessage: 'Good start!', errorMessage: 'Find "Start"' },
-        data: [{ id: 1, val: "Start" }]
+        video: 'https://www.youtube.com/embed/rpkpK_n2ad0?si=premium_mode',
+        sources: [{ title: 'Excel Basics', url: 'https://support.microsoft.com/en-us/excel' }],
+        story: `
+            <p><strong>Day 1: The Grid</strong></p>
+            <p>Welcome to <strong>Phase 2: The Data Analyst</strong>. Your primary weapon is the Spreadsheet.</p>
+            <p>Rows (Numbers) and Columns (Letters) form a <strong>Cell</strong> (e.g., A1).</p>
+            <p><strong>Task:</strong> Find the cell that contains the value <strong>"Start"</strong>.</p>
+        `,
+        task: {
+            type: 'find-value',
+            targetColumn: 'Value',
+            condition: (val) => val === 'Start',
+            successMessage: "Correct! Every journey begins with a single cell.",
+            errorMessage: "Look for the cell with the text 'Start'."
+        },
+        data: [
+            { Cell: "A1", Value: "Header" },
+            { Cell: "B2", Value: "Random" },
+            { Cell: "C3", Value: "Start" }, // Target
+            { Cell: "D4", Value: "End" }
+        ]
+    },
+    {
+        id: 'lesson-w2-d2',
+        title: 'W2-D2: Formulas (The Spellbook)',
+        image: 'assets/lesson_formulas.png',
+        video: 'https://www.youtube.com/embed/Flos10s52N8?si=premium_mode',
+        sources: [{ title: 'Basic Formulas', url: 'https://edu.gcfglobal.org/en/excel2016/intro-to-formulas/1/' }],
+        story: `
+            <p><strong>Day 2: The Spellbook</strong></p>
+            <p>Data Analysts don't do math. We write <strong>Formulas</strong> to do math for us.</p>
+            <p><code>=SUM(A1:A5)</code> adds numbers. <code>=AVERAGE(A1:A5)</code> finds the mean.</p>
+            <p><strong>Task:</strong> Find the <strong>Total Revenue</strong> (Sum of all Sales).</p>
+        `,
+        task: {
+            type: 'find-value',
+            targetColumn: 'Sales',
+            condition: (val) => val === '$1000',
+            successMessage: "Math checks out! $200 + $300 + $500 = $1000.",
+            errorMessage: "Add the sales figures: 200 + 300 + 500."
+        },
+        data: [
+            { Item: "Apples", Sales: "$200" },
+            { Item: "Bananas", Sales: "$300" },
+            { Item: "Cherries", Sales: "$500" },
+            { Item: "TOTAL", Sales: "$1000" } // Target
+        ]
+    },
+    {
+        id: 'lesson-w2-d3',
+        title: 'W2-D3: Visualization (Charts)',
+        image: 'assets/lesson_charts.png',
+        video: 'https://www.youtube.com/embed/4Gf0d9ZfXIA?si=premium_mode',
+        sources: [{ title: 'Choosing Charts', url: 'https://www.atlassian.com/data/charts/how-to-choose-data-visualization' }],
+        story: `
+            <p><strong>Day 3: A Picture is Worth 1000 Rows</strong></p>
+            <p>Validating data is hard. Seeing trends is easy.</p>
+            <p><strong>Task:</strong> Identify the <strong>Best Selling</strong> month from the data below.</p>
+        `,
+        task: {
+            type: 'find-value',
+            targetColumn: 'Sales',
+            condition: (val) => val === '900',
+            successMessage: "Correct! December was the peak month.",
+            errorMessage: "Find the highest sales number."
+        },
+        data: [
+            { Month: "Jan", Sales: "200" },
+            { Month: "Jun", Sales: "500" },
+            { Month: "Dec", Sales: "900" } // Target
+        ]
+    },
+    {
+        id: 'lesson-w2-d4',
+        title: 'W2-D4: Pivot Tables (Magic)',
+        image: 'assets/lesson_pivot.png',
+        video: 'https://www.youtube.com/embed/qu-AK0Hv0b4?si=premium_mode',
+        sources: [{ title: 'Pivot Tables Explained', url: 'https://www.excel-easy.com/data-analysis/pivot-tables.html' }],
+        story: `
+            <p><strong>Day 4: Magic Tables</strong></p>
+            <p><strong>Pivot Tables</strong> let you summarize 100,000 rows in seconds. They group and aggregate data.</p>
+            <p><strong>Task:</strong> Find the <strong>Total Sales for Region 'East'</strong>.</p>
+        `,
+        task: {
+            type: 'find-value',
+            targetColumn: 'Total',
+            condition: (val) => val === '150',
+            successMessage: "Boom! Pivot Tables make aggregation easy.",
+            errorMessage: "Look at the summary for East: 50 + 100."
+        },
+        data: [
+            { Region: "East", Product: "A", Sales: "50" },
+            { Region: "East", Product: "B", Sales: "100" },
+            { Region: "West", Product: "A", Sales: "20" },
+            { Region: "SUMMARY (East)", Product: "ALL", Total: "150" } // Target
+        ]
+    },
+    {
+        id: 'lesson-w2-d5',
+        title: 'W2-D5: Data Tea Cleaning',
+        image: 'assets/lesson_cleaning.png',
+        video: 'https://www.youtube.com/embed/PrM425q01Jo?si=premium_mode',
+        sources: [{ title: 'Data Cleaning 101', url: 'https://www.tableau.com/learn/articles/what-is-data-cleaning' }],
+        story: `
+            <p><strong>Day 5: The Janitor</strong></p>
+            <p>80% of Data Science is <strong>Cleaning Data</strong>. Fixing typos, removing duplicates, handling nulls.</p>
+            <p><strong>Task:</strong> Find the <strong>Dirty Data</strong> (The outlier/typo).</p>
+        `,
+        task: {
+            type: 'find-value',
+            targetColumn: 'Age',
+            condition: (val) => val === '250',
+            successMessage: "Caught it! Unless this is a vampire, age 250 is an error.",
+            errorMessage: "Look for an impossible age."
+        },
+        data: [
+            { Name: "Alice", Age: "25" },
+            { Name: "Bob", Age: "30" },
+            { Name: "Charlie", Age: "250" }, // Target
+            { Name: "Dave", Age: "40" }
+        ]
+    },
+    {
+        id: 'lesson-w2-d6',
+        title: 'W2-D6: Real World Project',
+        image: 'assets/lesson_project_logo.png',
+        video: 'https://www.youtube.com/embed/K74_NRhdK1w?si=premium_mode',
+        sources: [],
+        story: `
+            <p><strong>Day 6: The Client</strong></p>
+            <p>A client sent you a sales report. They want to know the <strong>Profit Margin</strong>.</p>
+            <p>Formula: <code>(Price - Cost) / Price</code>.</p>
+            <p><strong>Task:</strong> Calculate the margin for the Laptop (Price: 1000, Cost: 800).</p>
+        `,
+        task: {
+            type: 'find-value',
+            targetColumn: 'Margin',
+            condition: (val) => val === '20%',
+            successMessage: "(1000 - 800) / 1000 = 0.20 or 20%. You made the client happy!",
+            errorMessage: "Calculate (1000-800)/1000."
+        },
+        data: [
+            { Item: "Phone", Price: "500", Cost: "400", Margin: "20%" },
+            { Item: "Laptop", Price: "1000", Cost: "800", Margin: "20%" }, // Target (Logic is same)
+            { Item: "Mouse", Price: "50", Cost: "45", Margin: "10%" }
+        ]
+    },
+    {
+        id: 'lesson-w2-d7',
+        title: 'W2-D7: Python Excel (Bonus)',
+        type: 'python',
+        image: 'assets/lesson_matrix.png',
+        video: 'https://www.youtube.com/embed/0y78Yoi98kg?si=premium_mode', // Python vs Excel
+        sources: [{ title: 'Pandas vs Excel', url: 'https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_excel.html' }],
+        story: `
+            <p><strong>Day 7: Evolving</strong></p>
+            <p>Excel is great, but Python is faster. In Python, a spreadsheet is called a <strong>DataFrame</strong>.</p>
+            <p><strong>Mission:</strong> Create a simple DataFrame using Python code.</p>
+        `,
+        code_start: `# Creating a DataFrame
+import pandas as pd
+
+data = {
+  "Name": ["Alice", "Bob", "Charlie"],
+  "Age": [25, 30, 35],
+  "City": ["New York", "Paris", "London"]
+}
+
+df = pd.DataFrame(data)
+print(df)
+`,
+        task: { successMessage: "You just built a spreadsheet with code! +100 XP" },
+        data: []
     },
     // ... more lessons would go here
 
