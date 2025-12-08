@@ -308,11 +308,22 @@ nav {
 
 .feedback-box.success {
     background: rgba(16, 185, 129, 0.1);
+}
+
+.feedback-box.success {
+    background: rgba(16, 185, 129, 0.1);
     color: var(--success);
     border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
 .feedback-box.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* --- TERMINAL & MODALS --- */
+.terminal-modal {
     position: fixed;
     top: 50%;
     left: 50%;
