@@ -420,6 +420,29 @@ function generateBotResponse(userMsg) {
     return "Processing query... \n\nMy neural database is vast, but my current context window is limited. Could you rephrase that related to the current lesson?";
 }
 
+// --- PERSISTENCE HELPERS ---
+
+function saveProgress(dayId) {
+    let unlocked = loadProgress();
+    if (!unlocked.includes(dayId)) {
+        unlocked.push(dayId);
+        localStorage.setItem('datavitals_progress_default', JSON.stringify(unlocked));
+    }
+}
+
+function loadProgress() {
+    const stored = localStorage.getItem('datavitals_progress_default');
+    return stored ? JSON.parse(stored) : ['week-1-d1'];
+}
+
+function handleLogout() {
+    if (confirm("Are you sure you want to reset your journey?")) {
+        localStorage.removeItem('datavitals_progress_default');
+        localStorage.removeItem('datavitals_stats'); // Clear Gamification too
+        window.location.reload();
+    }
+}
+
 // Init
 try {
     console.log("System Initializing...");
@@ -432,8 +455,15 @@ try {
             // Remove from DOM after fade out to save resources
             setTimeout(() => splash.remove(), 800);
         }
-        renderRoadmap();
-        console.log("Neural Link Established.");
+
+        try {
+            renderRoadmap();
+            console.log("Neural Link Established.");
+        } catch (renderError) {
+            console.error("Render Failed:", renderError);
+            alert("Render Error: " + renderError.message);
+        }
+
     }, 3500); // 3.5s delay to match typing animation
 
 } catch (e) {
