@@ -95,50 +95,6 @@ const Gamification = {
         this.state.level++;
         this.state.xp = 0; // Reset XP for next level (or keep accumulating, design choice. Reset is simpler visually)
         this.showNotification(`🎉 LEVEL UP! You are now Level ${this.state.level}!`);
-        // Play sound or big animation here later
-    },
-
-    /**
-     * Update the visible HUD in the Navbar
-     */
-    updateHUD() {
-        const hud = document.getElementById('user-hud');
-        if (hud) {
-            if (hud) {
-                hud.innerHTML = `
-                <div class="hud-item" title="Current Level">
-                    <div class="hud-icon">🚀</div>
-                    <div class="hud-col">
-                        <span class="hud-label">Level</span>
-                        <span class="hud-value val-level">${this.state.level}</span>
-                    </div>
-                </div>
-                
-                <div class="hud-item" title="Experience Points">
-                    <div class="hud-icon">⚡</div>
-                    <div class="hud-col">
-                        <span class="hud-label">XP</span>
-                        <span class="hud-value val-xp">${this.state.xp}</span>
-                    </div>
-                </div>
-                
-                <div class="hud-item" title="Daily Streak">
-                    <div class="hud-icon">🔥</div>
-                    <div class="hud-col">
-                        <span class="hud-label">Streak</span>
-                        <span class="hud-value val-streak">${this.state.streak}</span>
-                    </div>
-                </div>
-            `;
-            }
-        }
-    },
-
-    /**
-     * Show a temporary toast notification
-     */
-    showNotification(msg) {
-        // Simple console log for now, can be upgraded to UI toast
         console.log(`[GAME] ${msg}`);
 
         // If we have a toast container, verify it exists or create it
