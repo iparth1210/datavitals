@@ -447,12 +447,17 @@ function handleLogout() {
 try {
     console.log("System Initializing...");
 
+    // DEPENDENCY CHECK
+    if (!window.roadmap) throw new Error("Critical: roadmap.js failed to load.");
+    if (!window.modules) throw new Error("Critical: modules.js failed to load. Check for syntax errors.");
+
     // Simulate boot sequence
+    const bootTime = 1000; // Reduced from 3500 for faster debugging
+
     setTimeout(() => {
         const splash = document.getElementById('splash-screen');
         if (splash) {
             splash.classList.add('hidden');
-            // Remove from DOM after fade out to save resources
             setTimeout(() => splash.remove(), 800);
         }
 
@@ -464,9 +469,14 @@ try {
             alert("Render Error: " + renderError.message);
         }
 
-    }, 3500); // 3.5s delay to match typing animation
+    }, bootTime);
 
 } catch (e) {
     console.error("Critical System Failure:", e);
+    // Force remove splash to show error
+    const splash = document.getElementById('splash-screen');
+    if (splash) splash.style.display = 'none';
+
     alert("System Error: " + e.message);
+    document.getElementById('app').innerHTML = `<h1 style="color:red; padding:20px;">System Error: ${e.message}</h1>`;
 }
