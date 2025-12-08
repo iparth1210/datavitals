@@ -123,6 +123,11 @@ window.modules = [
     {
         id: 'lesson-w1-d5',
         title: 'W1-D5: Data Units',
+        image: 'assets/lesson_data_units.png',
+        video: 'https://www.youtube.com/embed/5i_loW3eK3w?si=premium_mode', // Techquickie or similar (Bits & Bytes)
+        sources: [
+            { title: 'Bits and Bytes (Stanford)', url: 'https://web.stanford.edu/class/cs101/bits-bytes.html' }
+        ],
         story: `
             <p><strong>Day 5: Bits & Bytes</strong></p>
             <p>Computers count in 0s and 1s (Bits). 8 Bits = 1 Byte.</p>
@@ -146,6 +151,11 @@ window.modules = [
     {
         id: 'lesson-w1-d6',
         title: 'W1-D6: Security (HIPAA)',
+        image: 'assets/lesson_security.png',
+        video: 'https://www.youtube.com/embed/inWWhr5tnEA?si=premium_mode', // Cyber Security basics
+        sources: [
+            { title: 'Password Security (CISA)', url: 'https://www.cisa.gov/secure-our-world/secure-your-accounts' }
+        ],
         story: `
             <p><strong>Day 6: Keep it Secret</strong></p>
             <p>In healthcare, <strong>HIPAA</strong> rules mean we must protect patient data.</p>
@@ -169,6 +179,11 @@ window.modules = [
     {
         id: 'lesson-w1-d7',
         title: 'W1-D7: Weekly Review',
+        image: 'assets/lesson_review.png',
+        video: 'https://www.youtube.com/embed/AkFi90lZmXA?si=premium_mode', // Review/Summary
+        sources: [
+            { title: 'Week 1 Recap (Interactive)', url: '#' }
+        ],
         story: `
             <p><strong>Day 7: The Review</strong></p>
             <p>You made it through Week 1! Let's review.</p>
