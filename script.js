@@ -447,20 +447,32 @@ function handleLogout() {
 try {
     console.log("System Initializing...");
 
+    // DEPENDENCY CHECK
+    if (!window.roadmap) throw new Error("Critical: roadmap.js failed to load.");
+    if (!window.modules) throw new Error("Critical: modules.js failed to load.");
 
-    try {
-        renderRoadmap();
-        console.log("Neural Link Established.");
-    } catch (renderError) {
-        console.error("Render Failed:", renderError);
-        alert("Render Error: " + renderError.message);
-    }
+    // Simulate boot sequence
+    const bootTime = 3000; // 3s delay for splash
 
-}, bootTime);
+    setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        if (splash) {
+            splash.classList.add('hidden');
+            setTimeout(() => splash.remove(), 800);
+        }
+
+        try {
+            renderRoadmap();
+            console.log("Neural Link Established.");
+        } catch (renderError) {
+            console.error("Render Failed:", renderError);
+            alert("Render Error: " + renderError.message);
+        }
+
+    }, bootTime);
 
 } catch (e) {
     console.error("Critical System Failure:", e);
-    // Force remove splash to show error
     const splash = document.getElementById('splash-screen');
     if (splash) splash.style.display = 'none';
 
