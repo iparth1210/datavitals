@@ -104,20 +104,33 @@ const Gamification = {
     updateHUD() {
         const hud = document.getElementById('user-hud');
         if (hud) {
-            hud.innerHTML = `
-                <div class="hud-stat" title="Current Level">
-                    <span class="hud-icon">⭐</span>
-                    <span class="hud-value">LVL ${this.state.level}</span>
+            if (hud) {
+                hud.innerHTML = `
+                <div class="hud-item" title="Current Level">
+                    <div class="hud-icon">🚀</div>
+                    <div class="hud-col">
+                        <span class="hud-label">Level</span>
+                        <span class="hud-value val-level">${this.state.level}</span>
+                    </div>
                 </div>
-                <div class="hud-stat" title="Experience Points">
-                    <span class="hud-icon">⚡</span>
-                    <span class="hud-value">${this.state.xp} XP</span>
+                
+                <div class="hud-item" title="Experience Points">
+                    <div class="hud-icon">⚡</div>
+                    <div class="hud-col">
+                        <span class="hud-label">XP</span>
+                        <span class="hud-value val-xp">${this.state.xp}</span>
+                    </div>
                 </div>
-                <div class="hud-stat streak-stat" title="Daily Streak">
-                    <span class="hud-icon">🔥</span>
-                    <span class="hud-value">${this.state.streak}</span>
+                
+                <div class="hud-item" title="Daily Streak">
+                    <div class="hud-icon">🔥</div>
+                    <div class="hud-col">
+                        <span class="hud-label">Streak</span>
+                        <span class="hud-value val-streak">${this.state.streak}</span>
+                    </div>
                 </div>
             `;
+            }
         }
     },
 
