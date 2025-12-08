@@ -204,33 +204,7 @@ window.modules = [
             { id: 4, check: "Final Exam", status: "All Clear" } // Target
         ]
     },
-    sources: [
-        { title: 'Computer Basics (GCFGlobal)', url: 'https://edu.gcfglobal.org/en/computerbasics/what-is-a-computer/1/' },
-        { title: 'Hardware vs Software (Diffen)', url: 'https://www.diffen.com/difference/Hardware_vs_Software' }
-    ],
-    story: `
-            <p><strong>Day 1: The Body and The Mind</strong></p>
-            <p>Think of a computer like a human:</p>
-            <ul>
-                <li><strong>Hardware</strong> is the Body (The screen, the keyboard, the chips). You can touch it.</li>
-                <li><strong>Software</strong> is the Mind (The apps, the OS, the logic). You can't touch it, but it controls the body.</li>
-            </ul>
-            <p><strong>Task:</strong> In the list below, find the item that is <strong>Hardware</strong> (something you can physically touch) but is labeled incorrectly as Software.</p>
-        `,
-    task: {
-        type: 'find-value',
-        targetColumn: 'type',
-        condition: (val, row) => row.item === 'Keyboard' && val === 'Software',
-        successMessage: "Correct! A Keyboard is Hardware. You can throw it out a window (but please don't).",
-        errorMessage: "Look for a physical object that is mislabeled as Software."
-    },
-    data: [
-        { id: 1, item: "Excel", type: "Software", category: "App" },
-        { id: 2, item: "Windows", type: "Software", category: "OS" },
-        { id: 3, item: "Keyboard", type: "Software", category: "Input" }, // Error
-        { id: 4, item: "Monitor", type: "Hardware", category: "Output" }
-    ]
-    },
+    // --- WEEK 2 PLACEHOLDERS (To be filled later) ---
     {
         id: 'lesson-w1-d2',
         title: 'W1-D2: The Operating System',
