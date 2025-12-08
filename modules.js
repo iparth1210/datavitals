@@ -152,7 +152,7 @@ window.modules = [
         id: 'lesson-w1-d6',
         title: 'W1-D6: Security (HIPAA)',
         image: 'assets/lesson_security.png',
-        video: 'https://www.youtube.com/embed/inWWhr5tnEA?si=premium_mode', // Cyber Security basics
+        video: 'https://www.youtube.com/embed/inWWhr5tnEA?si=premium_mode',
         sources: [
             { title: 'Password Security (CISA)', url: 'https://www.cisa.gov/secure-our-world/secure-your-accounts' }
         ],
@@ -164,137 +164,8 @@ window.modules = [
         `,
         task: {
             type: 'find-value',
-            targetColumn: 'password',
-            condition: (val) => val === '123456',
-            successMessage: "Yikes! '123456' is the worst password ever. Hackers love it.",
-            errorMessage: "Look for the simplest, easiest to guess password."
-        },
-        data: [
-            { id: 1, user: "Dr. Smith", password: "Xy9#mK2$p", strength: "Strong" },
-            { title: 'What is an OS? (Microsoft)', url: 'https://support.microsoft.com/en-us/windows/what-is-an-operating-system-8bc2f5bc-9f55-4c03-8d62-0959f6c77006' },
-            { title: 'History of Operating Systems', url: 'https://en.wikipedia.org/wiki/History_of_operating_systems' }
-        ],
-        story: `
-            <p><strong>Day 2: The Manager</strong></p>
-            <p>The <strong>Operating System (OS)</strong> is the boss. It manages all the hardware and software. Examples: Windows, macOS, Linux.</p>
-            <p>Without an OS, your computer is just a pile of expensive metal.</p>
-            <p><strong>Task:</strong> Find the computer that is missing an OS (It says "None").</p>
-        `,
-        task: {
-            type: 'find-value',
-            targetColumn: 'os',
-            condition: (val) => val === 'None',
-            successMessage: "Found it! A computer without an OS can't run any apps.",
-            errorMessage: "Look for the computer with 'None' listed for OS."
-        },
-        data: [
-            { id: 1, device: "Laptop A", os: "Windows 11", status: "Online" },
-            { id: 2, device: "Server B", os: "Linux", status: "Online" },
-            { id: 3, device: "Old PC", os: "None", status: "Dead" }, // Target
-            { id: 4, device: "MacBook", os: "macOS", status: "Online" }
-        ]
-    },
-    {
-        id: 'lesson-w1-d3',
-        title: 'W1-D3: Files & Folders',
-        image: 'assets/lesson_files.png',
-        video: 'https://www.youtube.com/embed/Q5K3jR9a3pM?si=premium_mode', // GCFGlobal
-        sources: [
-            { title: 'Managing Files (Computers 101)', url: 'https://www.computerhope.com/issues/ch001732.htm' }
-        ],
-        story: `
-            <p><strong>Day 3: The Filing Cabinet</strong></p>
-            <p>Data is stored in <strong>Files</strong>. Files live in <strong>Folders</strong>.</p>
-            <p>Extensions tell you what a file is: <code>.docx</code> (Word), <code>.xlsx</code> (Excel), <code>.exe</code> (App).</p>
-            <p><strong>Task:</strong> Find the file that is an <strong>Image</strong> (usually <code>.jpg</code> or <code>.png</code>).</p>
-        `,
-        task: {
-            type: 'find-value',
-            targetColumn: 'file',
-            condition: (val) => val.endsWith('.jpg') || val.endsWith('.png'),
-            successMessage: "Nice! .jpg is a common image format.",
-            errorMessage: "Look for a file ending in .jpg or .png"
-        },
-        data: [
-            { id: 1, file: "report.docx", type: "Document", size: "1MB" },
-            { id: 2, file: "budget.xlsx", type: "Spreadsheet", size: "2MB" },
-            { id: 3, file: "patient_scan.jpg", type: "Image", size: "5MB" }, // Target
-            { id: 4, file: "game.exe", type: "Application", size: "10GB" }
-        ]
-    },
-    {
-        id: 'lesson-w1-d4',
-        title: 'W1-D4: The Internet & Cloud',
-        image: 'assets/lesson_cloud_network.png',
-        video: 'https://www.youtube.com/embed/M988_fsOSWo?si=premium_mode', // Code.org
-        sources: [
-            { title: 'What is the Cloud? (Azure)', url: 'https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/what-is-the-cloud/' }
-        ],
-        story: `
-            <p><strong>Day 4: The Network</strong></p>
-            <p>"The Cloud" is just someone else's computer that you access over the internet.</p>
-            <p><strong>Task:</strong> Find the server that is <strong>Offline</strong>.</p>
-        `,
-        task: {
-            type: 'find-value',
-            targetColumn: 'status',
-            condition: (val) => val === 'Offline',
-            successMessage: "You found the broken link! Time to reboot it.",
-            errorMessage: "Look for the status 'Offline'."
-        },
-        data: [
-            { id: 1, server: "AWS-East", status: "Online", load: "45%" },
-            { id: 2, server: "Azure-West", status: "Online", load: "60%" },
-            { id: 3, server: "Local-Backup", status: "Offline", load: "0%" }, // Target
-            { id: 4, server: "Google-Cloud", status: "Online", load: "30%" }
-        ]
-    },
-    {
-        id: 'lesson-w1-d5',
-        title: 'W1-D5: Data Units',
-        image: 'assets/lesson_data_units.png',
-        video: 'https://www.youtube.com/embed/5i_loW3eK3w?si=premium_mode', // Techquickie or similar (Bits & Bytes)
-        sources: [
-            { title: 'Bits and Bytes (Stanford)', url: 'https://web.stanford.edu/class/cs101/bits-bytes.html' }
-        ],
-        story: `
-            <p><strong>Day 5: Bits & Bytes</strong></p>
-            <p>Computers count in 0s and 1s (Bits). 8 Bits = 1 Byte.</p>
-            <p>KB (Kilo) < MB (Mega) < GB (Giga) < TB (Tera).</p>
-            <p><strong>Task:</strong> Find the <strong>Largest</strong> file size in this list.</p>
-        `,
-        task: {
-            type: 'find-value',
-            targetColumn: 'size',
-            condition: (val) => val === '1TB',
-            successMessage: "Whoa! 1TB is 1,000 GB. That's a huge file!",
-            errorMessage: "Which is bigger: 500MB, 2GB, or 1TB?"
-        },
-        data: [
-            { id: 1, file: "Note.txt", size: "1KB" },
-            { id: 2, file: "Song.mp3", size: "5MB" },
-            { id: 3, file: "Movie.mp4", size: "2GB" },
-            { id: 4, file: "Hospital_Backup.db", size: "1TB" } // Target
-        ]
-    },
-    {
-        id: 'lesson-w1-d6',
-        title: 'W1-D6: Security (HIPAA)',
-        image: 'assets/lesson_security.png',
-        video: 'https://www.youtube.com/embed/inWWhr5tnEA?si=premium_mode', // Cyber Security basics
-        sources: [
-            { title: 'Password Security (CISA)', url: 'https://www.cisa.gov/secure-our-world/secure-your-accounts' }
-        ],
-        story: `
-            <p><strong>Day 6: Keep it Secret</strong></p>
-            <p>In healthcare, <strong>HIPAA</strong> rules mean we must protect patient data.</p>
-            <p>Never share passwords. Never leave screens unlocked.</p>
-            <p><strong>Task:</strong> Find the password that is <strong>Weak</strong>.</p>
-        `,
-        task: {
-            type: 'find-value',
-            targetColumn: 'password',
-            condition: (val) => val === '123456',
+            targetColumn: 'strength',
+            condition: (val) => val === 'Weak',
             successMessage: "Yikes! '123456' is the worst password ever. Hackers love it.",
             errorMessage: "Look for the simplest, easiest to guess password."
         },
