@@ -1,0 +1,123 @@
+/* --- PYTHON TERMINAL (RESTORED) --- */
+.terminal-btn {
+    color: #10b981 !important;
+    font-family: 'Fira Code', monospace;
+    font-weight: 700;
+    border: 1px solid #10b981;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 20px;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.terminal-btn:hover {
+    background: rgba(16, 185, 129, 0.2);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+.terminal-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    height: 80vh;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease;
+}
+
+.terminal-modal.hidden {
+    display: none;
+}
+
+.terminal-header {
+    background: #1e293b;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #334155;
+}
+
+.term-title {
+    color: #cbd5e1;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+}
+
+.term-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.run-btn {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.run-btn:hover {
+    background: #059669;
+}
+
+.close-term {
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.terminal-body {
+    flex: 1;
+    display: flex;
+    height: 100%;
+}
+
+.editor-pane {
+    flex: 1;
+    border-right: 1px solid #334155;
+    background: #1e1e1e;
+    /* Monaco bg */
+}
+
+.console-pane {
+    width: 40%;
+    background: #000;
+    color: #10b981;
+    font-family: 'Fira Code', monospace;
+    padding: 15px;
+    overflow-y: auto;
+    font-size: 0.9rem;
+}
+
+.term-line {
+    margin-bottom: 5px;
+    word-break: break-all;
+}
+
+.term-line.error {
+    color: #ef4444;
+}
+
+.term-line.warn {
+    color: #f59e0b;
+}
+
+.term-line.info {
+    color: #3b82f6;
+}
