@@ -319,6 +319,171 @@ nav {
     border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
+/* --- CINEMATIC SPLASH SCREEN (Micro & Epic) --- */
+#splash-screen {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s ease-out, visibility 0.8s;
+}
+
+#splash-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.splash-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+/* Micro Logo (40px) with Zoom-Rotate Entrance */
+.splash-logo-img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 2rem;
+    filter: drop-shadow(0 0 25px rgba(99, 102, 241, 0.9));
+    border-radius: 50%;
+    animation: epicEntrance 1.2s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.splash-logo-text {
+    font-family: var(--font-sans);
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: textCleanReveal 1s 0.3s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.splash-slogan {
+    font-family: var(--font-mono);
+    color: var(--accent);
+    font-size: 0.85rem;
+    overflow: hidden;
+    border-right: .15em solid var(--primary);
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    animation: glitchType 2s steps(40, end) 0.8s both, blink-caret 0.75s step-end infinite;
+}
+
+/* Glowing Line Effect */
+.splash-slogan::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    margin-top: 15px;
+    animation: centerExpand 0.8s 2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+.background-matrix {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(24, 24, 27, 0) 0%, #000 100%), repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(99, 102, 241, 0.03) 2px, rgba(99, 102, 241, 0.03) 4px);
+    z-index: 1;
+    pointer-events: none;
+    animation: subtlePan 20s linear infinite;
+}
+
+/* --- ANIMATIONS (Epic) --- */
+@keyframes epicEntrance {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(-180deg);
+    }
+
+    60% {
+        transform: scale(1.2) rotate(10deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@keyframes textCleanReveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+        filter: blur(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes glitchType {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes centerExpand {
+    from {
+        width: 0;
+        opacity: 0;
+    }
+
+    to {
+        width: 100px;
+        opacity: 1;
+    }
+
+    margin: 15px auto 0;
+}
+
+@keyframes subtlePan {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 0 100px;
+    }
+}
+
+@keyframes blink-caret {
+    50% {
+        border-color: transparent
+    }
+}
+
+/* --- LESSON HERO IMAGE (Prevent Scroll) --- */
+.lesson-hero-image {
+    width: 100%;
+    max-height: 180px;
+    /* Reduced specific height */
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
 /* --- TERMINAL & MODALS --- */
 .terminal-modal {
     position: fixed;
