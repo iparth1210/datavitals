@@ -306,10 +306,7 @@ nav {
     justify-content: center;
 }
 
-.feedback-box.success {
-    background: rgba(16, 185, 129, 0.1);
-}
-
+/* Cleaned Duplicate */
 .feedback-box.success {
     background: rgba(16, 185, 129, 0.1);
     color: var(--success);
