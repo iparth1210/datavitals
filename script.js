@@ -100,7 +100,7 @@ function getLessonById(lessonId) {
         id: lessonId,
         title: `W${weekNum}-D${dayNum}: ${topic} Mastery`,
         image: 'assets/lesson_matrix.png',
-        video: 'https://www.youtube.com/embed/5i_loW3eK3w?si=premium_mode', // Generic Tech placeholder
+        video: 'https://www.youtube.com/embed/S9e9i81e1Lg?autoplay=1&mute=1&loop=1&playlist=S9e9i81e1Lg', // Reliable Abstract Tech Loop
         sources: [{ title: `${topic} Documentation`, url: '#' }],
         story: `
             <p><strong>${phase} // Week ${weekNum} Day ${dayNum}</strong></p>
