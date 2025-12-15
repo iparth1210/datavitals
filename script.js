@@ -596,7 +596,16 @@ try {
     if (!window.modules) throw new Error("Critical: modules.js failed to load.");
 
     // Simulate boot sequence
-    const bootTime = 500; // 0.5s delay (FAST BOOT)
+    const bootTime = 4000; // 4s delay (USER REQUEST)
+
+    // Add Loading Bar
+    const splash = document.getElementById('splash-screen');
+    if (splash) {
+        const barContainer = document.createElement('div');
+        barContainer.className = 'splash-loader-container';
+        barContainer.innerHTML = '<div class="splash-loader-bar"></div>';
+        splash.querySelector('.splash-content').appendChild(barContainer);
+    }
 
     setTimeout(() => {
         const splash = document.getElementById('splash-screen');
