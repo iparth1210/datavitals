@@ -74,6 +74,57 @@ function renderRoadmap() {
     `;
 }
 
+// --- LESSON FETCHER ---
+function getLessonById(lessonId) {
+    // 1. Try to find manually authored content
+    const manualLesson = window.modules.find(m => m.id === lessonId);
+    if (manualLesson) return manualLesson;
+
+    // 2. Procedural Fallback (The Infinite Engine)
+    // Extract Week and Day from ID: "lesson-w22-d3"
+    const match = lessonId.match(/w(\d+)-d(\d+)/);
+    if (!match) return null;
+
+    const weekNum = parseInt(match[1]);
+    const dayNum = parseInt(match[2]);
+    let phase = "Foundation";
+    let topic = "General Data Science";
+
+    // Detect Topic based on roadmap
+    if (weekNum <= 8) { phase = "Phase 1: Foundation"; topic = "Excel & Logic"; }
+    else if (weekNum <= 20) { phase = "Phase 2: Analyst"; topic = "SQL & Data Viz"; }
+    else if (weekNum <= 32) { phase = "Phase 3: Python Dev"; topic = "Python Programming"; }
+    else { phase = "Phase 4: AI Architect"; topic = "Neural Networks & ML"; }
+
+    return {
+        id: lessonId,
+        title: `W${weekNum}-D${dayNum}: ${topic} Mastery`,
+        image: 'assets/lesson_matrix.png',
+        video: 'https://www.youtube.com/embed/5i_loW3eK3w?si=premium_mode', // Generic Tech placeholder
+        sources: [{ title: `${topic} Documentation`, url: '#' }],
+        story: `
+            <p><strong>${phase} // Week ${weekNum} Day ${dayNum}</strong></p>
+            <p>You are deep in the simulation. Today's focus is <strong>${topic}</strong>.</p>
+            <p>As an advanced agent, you must verify system integrity to proceed.</p>
+            <p><strong>Task:</strong> Locate the <strong>"System Ready"</strong> signal.</p>
+        `,
+        task: {
+            type: 'find-value',
+            targetColumn: 'Status',
+            condition: (val) => val === 'System Ready',
+            successMessage: "Signal verified. Neural link stable. Proceeding...",
+            errorMessage: "Find the 'System Ready' status."
+        },
+        data: [
+            { Check: "Power", Status: "Online", Zone: "Core" },
+            { Check: "Uplink", Status: "Stable", Zone: "Net" },
+            { Check: "Verify", Status: "System Ready", Zone: "Admin" }, // Target
+            { Check: "Aux", Status: "Standby", Zone: "Backup" }
+        ]
+    };
+}
+
+
 function renderWeekView(weekId) {
     const week = window.roadmap.find(w => w.id === weekId);
     if (!week) return;
@@ -121,8 +172,59 @@ function handleDayClick(dayId, lessonId) {
 }
 
 
+
+// --- LESSON FETCHER ---
+function getLessonById(lessonId) {
+    // 1. Try to find manually authored content
+    const manualLesson = window.modules.find(m => m.id === lessonId);
+    if (manualLesson) return manualLesson;
+
+    // 2. Procedural Fallback (The Infinite Engine)
+    const match = lessonId.match(/w(\d+)-d(\d+)/);
+    if (!match) return null;
+
+    const weekNum = parseInt(match[1]);
+    const dayNum = parseInt(match[2]);
+    let phase = "Foundation";
+    let topic = "General Data Science";
+
+    // Detect Topic based on roadmap
+    if (weekNum <= 8) { phase = "Phase 1: Foundation"; topic = "Excel & Logic"; }
+    else if (weekNum <= 20) { phase = "Phase 2: Analyst"; topic = "SQL & Data Viz"; }
+    else if (weekNum <= 32) { phase = "Phase 3: Python Dev"; topic = "Python Programming"; }
+    else { phase = "Phase 4: AI Architect"; topic = "Neural Networks & ML"; }
+
+    return {
+        id: lessonId,
+        title: `W${weekNum}-D${dayNum}: ${topic} Mastery`,
+        image: 'assets/lesson_matrix.png',
+        video: 'https://www.youtube.com/embed/5i_loW3eK3w?si=premium_mode',
+        sources: [{ title: `${topic} Documentation`, url: '#' }],
+        story: `
+            <p><strong>${phase} // Week ${weekNum} Day ${dayNum}</strong></p>
+            <p>You are deep in the simulation. Today's focus is <strong>${topic}</strong>.</p>
+            <p>As an advanced agent, you must verify system integrity to proceed.</p>
+            <p><strong>Task:</strong> Locate the <strong>"System Ready"</strong> signal.</p>
+        `,
+        task: {
+            type: 'find-value',
+            targetColumn: 'Status',
+            condition: (val) => val === 'System Ready',
+            successMessage: "Signal verified. Neural link stable. Proceeding...",
+            errorMessage: "Find the 'System Ready' status."
+        },
+        data: [
+            { Check: "Power", Status: "Online", Zone: "Core" },
+            { Check: "Uplink", Status: "Stable", Zone: "Net" },
+            { Check: "Verify", Status: "System Ready", Zone: "Admin" }, // Target
+            { Check: "Aux", Status: "Standby", Zone: "Backup" }
+        ]
+    };
+}
+
+
 function renderLesson(lessonId, dayId) {
-    const lesson = window.modules.find(m => m.id === lessonId) || window.modules.find(m => m.id === 'placeholder-lesson');
+    const lesson = getLessonById(lessonId);
 
     if (!lesson) {
         alert("Error: Lesson not found!");
@@ -252,6 +354,8 @@ function attachLessonListeners(lesson, currentDayId) {
 
     cells.forEach(cell => {
         cell.addEventListener('click', () => {
+            console.log("Cell Clicked:", cell.dataset.val); // Debug Log
+
             cells.forEach(c => c.classList.remove('selected-cell'));
             cell.classList.add('selected-cell');
 
@@ -264,50 +368,75 @@ function attachLessonListeners(lesson, currentDayId) {
 
             const rowData = lesson.data[cell.dataset.row];
 
+            // Re-query feedback element to ensure we have the live one
+            const feedbackEl = document.getElementById('feedback');
+            if (!feedbackEl) {
+                console.error("Critical: Feedback element not found in DOM");
+                return;
+            }
+
             if (col === lesson.task.targetColumn) {
                 const isCorrect = lesson.task.condition(val, rowData);
 
                 if (isCorrect) {
-                    feedback.className = 'feedback-box success';
+                    try {
+                        // Logic: Mark Success -> Gamify -> Unlock -> Next Button
+                        feedbackEl.className = 'feedback-box success';
 
-                    // --- GAMIFICATION HOOK ---
-                    if (window.Gamification) {
-                        Gamification.addXP(50); // Reward for correct answer
-                    }
+                        if (window.Gamification) {
+                            Gamification.addXP(50);
+                        }
 
-                    const unlockMsg = unlockNextDay(currentDayId);
+                        const unlockMsg = unlockNextDay(currentDayId);
 
-                    // Generate Next Lesson Button
-                    const nextLesson = getNextLesson(currentDayId);
-                    let nextBtnHtml = '';
-                    if (nextLesson) {
-                        nextBtnHtml = `
-                            <button onclick="renderLesson('${nextLesson.lessonId}', '${nextLesson.id}')" 
-                                    class="btn btn-primary" 
-                                    style="margin-left: 15px; padding: 5px 15px; font-size: 0.9rem; animation: pulseGlow 2s infinite;">
-                                Next Lesson →
-                            </button>
-                        `;
-                    }
+                        let nextBtnHtml = '';
+                        try {
+                            const nextLesson = getNextLesson(currentDayId);
+                            if (nextLesson) {
+                                nextBtnHtml = `
+                                <button onclick="renderLesson('${nextLesson.lessonId}', '${nextLesson.id}')" 
+                                        class="btn btn-primary" 
+                                        id="btn-next-lesson"
+                                        style="margin-left: 15px; padding: 6px 18px; font-size: 0.95rem; animation: pulseGlow 2s infinite; display: inline-flex; align-items: center; gap: 8px;">
+                                    Next Lesson <span style="font-size: 1.1em">→</span>
+                                </button>
+                            `;
+                            }
+                        } catch (innerErr) {
+                            console.error("Navigation Error:", innerErr);
+                        }
 
-                    feedback.innerHTML = `
-                        <div style="display:flex; align-items:center; justify-content:center; gap:10px;">
-                            <span>✅ ${lesson.task.successMessage} <br><strong>${unlockMsg}</strong></span>
+                        feedbackEl.innerHTML = `
+                        <div style="display:flex; flex-direction: column; align-items:center; justify-content:center; gap:12px;">
+                            <div style="font-size: 1.1rem; font-weight: 600;">✅ Correct Analysis</div>
+                            <div style="font-size:0.9rem; opacity:0.8; color: var(--text-muted);">${lesson.task.successMessage}</div>
+                            <div style="font-size:0.8rem; color: var(--accent-cyan);">${unlockMsg}</div>
                             ${nextBtnHtml}
                         </div>
                     `;
-                    triggerConfetti();
+                        triggerConfetti();
+                    } catch (e) {
+                        console.error("Runtime Error:", e);
+                        feedbackEl.innerHTML = `
+                        <div style="color: var(--error);">
+                            ✅ Correct Answer recorded.<br>
+                            <span style="font-size:0.8em; opacity:0.8">System Warning: Module transition failed (${e.message}). Please refresh.</span>
+                        </div>`;
+                    }
                 } else {
-                    feedback.className = 'feedback-box error';
-                    feedback.innerHTML = `❌ ${lesson.task.errorMessage}`;
+                    feedbackEl.className = 'feedback-box error';
+                    feedbackEl.innerHTML = `❌ ${lesson.task.errorMessage}`;
+                    if (window.Gamification) {
+                        Gamification.takeDamage(10);
+                    }
                 }
             } else {
-                feedback.className = 'feedback-box error';
-                feedback.innerHTML = `❌ ${lesson.task.errorMessage}`;
+                console.log("Wrong Column Clicked");
             }
         });
     });
 }
+
 
 function resetProgress() {
     if (confirm("Are you sure you want to reset your journey?")) {
@@ -339,20 +468,33 @@ function triggerConfetti() {
 }
 
 
-// --- PYTHON TERMINAL ---
+// --- UI UTILS ---
+
 function toggleTerminal() {
-    const term = document.getElementById('terminal-modal');
-    if (!term) return;
-
-    term.classList.toggle('hidden');
-
-    // Lazy Load on first open
-    if (!term.classList.contains('hidden') && window.PythonEngine) {
-        PythonEngine.init();
+    const modal = document.getElementById('terminal-modal');
+    if (modal) {
+        modal.classList.toggle('hidden');
+        if (!modal.classList.contains('hidden')) {
+            // Re-init engine if needed when opening
+            if (window.PythonEngine && !PythonEngine.editor) {
+                setTimeout(() => PythonEngine.init(), 100);
+            }
+        }
+    } else {
+        console.error("Terminal Modal not found!");
     }
 }
 
-// --- Neural Assistant Logic ---
+function showRoadmap() {
+    renderRoadmap();
+    const splash = document.getElementById('splash-screen');
+    if (splash) splash.classList.add('hidden');
+}
+
+function handleLogout() {
+    resetProgress();
+}
+
 function toggleChat() {
     const chatWindow = document.getElementById('chat-window');
     chatWindow.classList.toggle('hidden');
@@ -446,19 +588,22 @@ function handleLogout() {
 // Init
 try {
     console.log("System Initializing...");
+    // alert("DEBUG: System Init");
+
 
     // DEPENDENCY CHECK
     if (!window.roadmap) throw new Error("Critical: roadmap.js failed to load.");
     if (!window.modules) throw new Error("Critical: modules.js failed to load.");
 
     // Simulate boot sequence
-    const bootTime = 3000; // 3s delay for splash
+    const bootTime = 500; // 0.5s delay (FAST BOOT)
 
     setTimeout(() => {
         const splash = document.getElementById('splash-screen');
         if (splash) {
-            splash.classList.add('hidden');
-            setTimeout(() => splash.remove(), 800);
+            splash.style.opacity = '0';
+            splash.style.display = 'none'; // FORCE REMOVAL
+            splash.remove();
         }
 
         try {

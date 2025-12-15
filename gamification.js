@@ -93,11 +93,39 @@ const Gamification = {
      */
     levelUp() {
         this.state.level++;
-        this.state.xp = 0; // Reset XP for next level (or keep accumulating, design choice. Reset is simpler visually)
-        this.showNotification(`🎉 LEVEL UP! You are now Level ${this.state.level}!`);
+        this.state.xp = 0;
+        const msg = `🎉 LEVEL UP! You are now Level ${this.state.level}!`;
+        this.showNotification(msg);
         console.log(`[GAME] ${msg}`);
+    },
 
-        // If we have a toast container, verify it exists or create it
+    /**
+     * Update the UI HUD
+     */
+    updateHUD() {
+        const hud = document.getElementById('user-hud');
+        if (!hud) return;
+
+        hud.innerHTML = `
+            <div class="hud-pill">
+                <span class="hud-icon">⚡</span>
+                <span class="hud-value">${this.state.streak}</span>
+            </div>
+            <div class="hud-pill">
+                <span class="hud-icon">⭐</span>
+                <span class="hud-value">Lvl ${this.state.level}</span>
+            </div>
+            <div class="hud-pill xp-pill">
+                <div class="xp-bar" style="width: ${(this.state.xp / (this.state.level * 1000)) * 100}%"></div>
+                <span class="hud-value" style="position:relative; z-index:2">${this.state.xp} XP</span>
+            </div>
+        `;
+    },
+
+    /**
+     * Show Toast Notification
+     */
+    showNotification(msg) {
         let toast = document.createElement('div');
         toast.className = 'game-toast';
         toast.innerText = msg;
@@ -109,6 +137,10 @@ const Gamification = {
             toast.classList.remove('show');
             setTimeout(() => toast.remove(), 300);
         }, 3000);
+    },
+
+    takeDamage(amount) {
+        this.showNotification(`💔 Took ${amount} Damage!`);
     }
 };
 

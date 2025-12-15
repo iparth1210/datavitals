@@ -30,6 +30,7 @@ const PythonEngine = {
         if (this.isLoading) return;
 
         this.isLoading = true;
+        this.updateButtonState(true, "⏳ Loading Engine...");
         this.log("Initializing Neural Python Runtime...");
 
         try {
@@ -44,6 +45,7 @@ const PythonEngine = {
             }
 
             this.isLoading = false;
+            this.updateButtonState(false, "▶ Run Code");
             this.log("✅ Python Engine Online. Version 3.11");
             if (!this.pyodide) { // Only run hello if fresh load
                 this.runCode(`print("Welcome to the Neural Terminal.")\nimport sys\nprint(f"Python {sys.version}")`);
@@ -51,6 +53,17 @@ const PythonEngine = {
         } catch (e) {
             this.log(`❌ Critical Error: ${e.message}`, 'error');
             this.isLoading = false;
+            this.updateButtonState(false, "⚠️ Error");
+        }
+    },
+
+    updateButtonState(disabled, text) {
+        const btn = document.getElementById('term-run-btn');
+        if (btn) {
+            btn.disabled = disabled;
+            btn.innerText = text;
+            btn.style.opacity = disabled ? '0.5' : '1';
+            btn.style.cursor = disabled ? 'not-allowed' : 'pointer';
         }
     },
     /**

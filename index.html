@@ -28,7 +28,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600&family=Outfit:wght@300;400;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -74,10 +74,15 @@
     <!-- PYTHON TERMINAL MODAL -->
     <div id="terminal-modal" class="terminal-modal hidden">
         <div class="terminal-header">
-            <span class="term-title">🐍 Neural Python Kernel (v3.11)</span>
-            <div class="term-controls">
-                <button onclick="PythonEngine.run()" class="run-btn">▶ Run Code</button>
-                <button onclick="toggleTerminal()" class="close-term">×</button>
+            <span class="term-title"
+                style="font-family: var(--font-mono); color: var(--text-muted); font-size: 0.9rem;">
+                <span style="color:var(--success)">●</span> Neural Python Kernel (v3.11)
+            </span>
+            <div class="term-controls" style="display:flex; gap:10px;">
+                <button id="term-run-btn" onclick="PythonEngine.run()" class="btn btn-primary"
+                    style="font-size:0.8rem; padding: 6px 12px;">▶ Run Code</button>
+                <button onclick="toggleTerminal()" class="close-term"
+                    style="background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer; line-height:1;">×</button>
             </div>
         </div>
         <div class="terminal-body">
