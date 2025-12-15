@@ -341,10 +341,21 @@ function renderLesson(lessonId, dayId) {
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                             allowfullscreen>
                     </iframe>
-                    <!-- Video will be loaded here dynamically -->
                 </div>
-                
-                ${lesson.sources ? `
+                <div style="margin-top: -1rem; margin-bottom: 2rem; text-align: right;">
+                    <!-- Robust Link Generator -->
+                    ${(() => {
+                const vidMatch = lesson.video.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+                const videoId = vidMatch ? vidMatch[1] : null;
+                const watchUrl = videoId ? `https://www.youtube.com/watch?v=${videoId}` : lesson.video;
+                return `
+                        <a href="${watchUrl}" target="_blank" style="color: var(--accent-cyan); font-size: 0.9rem; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border: 1px solid rgba(94, 234, 212, 0.2); border-radius: 4px; background: rgba(94, 234, 212, 0.05);">
+                            <span>📺 Open Full Video in New Tab</span>
+                            <span style="opacity: 0.7; font-size: 0.8em;">↗</span>
+                        </a>`;
+            })()}
+                </div>
+                ` : ''}
                 <div class="knowledge-base">
                     <h4>🧠 Neural Knowledge Base</h4>
                     <ul class="source-list">
@@ -353,13 +364,14 @@ function renderLesson(lessonId, dayId) {
                         `).join('')}
                     </ul>
                 </div>
-                ` : ''}
-            </div>
-            <div class="pane pane-right">
-                <div class="interactive-area" style="height:100%; display:flex; flex-direction:column;">
-                    <h3>${isPythonLesson ? '🐍 Python Terminal' : 'Interactive Task'}</h3>
-                    
-                    ${isPythonLesson ? `
+                ` : ''
+}
+            </div >
+    <div class="pane pane-right">
+        <div class="interactive-area" style="height:100%; display:flex; flex-direction:column;">
+            <h3>${isPythonLesson ? '🐍 Python Terminal' : 'Interactive Task'}</h3>
+
+            ${isPythonLesson ? `
                         <div id="monaco-container" class="editor-pane" style="flex:1; min-height:300px; border:1px solid #334155; border-radius:8px;"></div>
                         <div class="term-controls" style="margin-top:10px;">
                             <button onclick="PythonEngine.run()" class="run-btn">▶ Run Code</button>
@@ -374,9 +386,9 @@ function renderLesson(lessonId, dayId) {
                             Select a cell to analyze it...
                         </div>
                     `}
-                </div>
-            </div>
         </div>
+    </div>
+        </div >
     `;
 
     if (isPythonLesson) {
@@ -408,14 +420,14 @@ function renderTable(data) {
 
     let html = '<table class="data-table"><thead><tr>';
     headers.forEach(h => {
-        html += `<th>${h.charAt(0).toUpperCase() + h.slice(1)}</th>`;
+        html += `< th > ${ h.charAt(0).toUpperCase() + h.slice(1) }</th > `;
     });
     html += '</tr></thead><tbody>';
 
     data.forEach((row, rowIndex) => {
         html += '<tr>';
         headers.forEach(key => {
-            html += `<td class="clickable-cell" data-row="${rowIndex}" data-col="${key}" data-val="${row[key]}">${row[key]}</td>`;
+            html += `< td class="clickable-cell" data - row="${rowIndex}" data - col="${key}" data - val="${row[key]}" > ${ row[key] }</td > `;
         });
         html += '</tr>';
     });
@@ -487,38 +499,38 @@ function attachLessonListeners(lesson, currentDayId) {
                             const nextLesson = getNextLesson(currentDayId);
                             if (nextLesson) {
                                 nextBtnHtml = `
-                                <button onclick="renderLesson('${nextLesson.lessonId}', '${nextLesson.id}')" 
-                                        class="btn btn-primary" 
-                                        id="btn-next-lesson"
-                                        style="margin-left: 15px; padding: 6px 18px; font-size: 0.95rem; animation: pulseGlow 2s infinite; display: inline-flex; align-items: center; gap: 8px;">
-                                    Next Lesson <span style="font-size: 1.1em">→</span>
-                                </button>
-                            `;
+    < button onclick = "renderLesson('${nextLesson.lessonId}', '${nextLesson.id}')"
+class="btn btn-primary"
+id = "btn-next-lesson"
+style = "margin-left: 15px; padding: 6px 18px; font-size: 0.95rem; animation: pulseGlow 2s infinite; display: inline-flex; align-items: center; gap: 8px;" >
+    Next Lesson < span style = "font-size: 1.1em" >→</span >
+                                </button >
+    `;
                             }
                         } catch (innerErr) {
                             console.error("Navigation Error:", innerErr);
                         }
 
                         feedbackEl.innerHTML = `
-                        <div style="display:flex; flex-direction: column; align-items:center; justify-content:center; gap:12px;">
+    < div style = "display:flex; flex-direction: column; align-items:center; justify-content:center; gap:12px;" >
                             <div style="font-size: 1.1rem; font-weight: 600;">✅ Correct Analysis</div>
                             <div style="font-size:0.9rem; opacity:0.8; color: var(--text-muted);">${lesson.task.successMessage}</div>
                             <div style="font-size:0.8rem; color: var(--accent-cyan);">${unlockMsg}</div>
-                            ${nextBtnHtml}
-                        </div>
-                    `;
+                            ${ nextBtnHtml }
+                        </div >
+    `;
                         triggerConfetti();
                     } catch (e) {
                         console.error("Runtime Error:", e);
                         feedbackEl.innerHTML = `
-                        <div style="color: var(--error);">
-                            ✅ Correct Answer recorded.<br>
-                            <span style="font-size:0.8em; opacity:0.8">System Warning: Module transition failed (${e.message}). Please refresh.</span>
-                        </div>`;
+    < div style = "color: var(--error);" >
+                            ✅ Correct Answer recorded.< br >
+    <span style="font-size:0.8em; opacity:0.8">System Warning: Module transition failed (${e.message}). Please refresh.</span>
+                        </div > `;
                     }
                 } else {
                     feedbackEl.className = 'feedback-box error';
-                    feedbackEl.innerHTML = `❌ ${lesson.task.errorMessage}`;
+                    feedbackEl.innerHTML = `❌ ${ lesson.task.errorMessage } `;
                     if (window.Gamification) {
                         Gamification.takeDamage(10);
                     }
@@ -621,7 +633,7 @@ function sendMessage() {
 function addMessage(text, sender) {
     const messagesContainer = document.getElementById('chat-messages');
     const msgDiv = document.createElement('div');
-    msgDiv.className = `message ${sender}-message`;
+    msgDiv.className = `message ${ sender } -message`;
     msgDiv.innerHTML = text.replace(/\n/g, '<br>');
     messagesContainer.appendChild(msgDiv);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -635,7 +647,7 @@ function generateBotResponse(userMsg) {
     const currentLesson = titleEl ? titleEl.innerText : "the Roadmap";
 
     if (msg.includes('hello') || msg.includes('hi')) {
-        return `Greetings. I see you are currently focusing on **${currentLesson}**. How can I clarify this topic?`;
+        return `Greetings.I see you are currently focusing on ** ${ currentLesson }**.How can I clarify this topic ? `;
     }
 
     if (msg.includes('help') || msg.includes('stuck')) {
@@ -724,5 +736,5 @@ try {
     if (splash) splash.style.display = 'none';
 
     alert("System Error: " + e.message);
-    document.getElementById('app').innerHTML = `<h1 style="color:red; padding:20px;">System Error: ${e.message}</h1>`;
+    document.getElementById('app').innerHTML = `< h1 style = "color:red; padding:20px;" > System Error: ${ e.message }</h1 > `;
 }
