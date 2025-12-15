@@ -1,3 +1,4 @@
+console.log("Booting DataVitals v4.1...");
 // Modules are loaded globally
 
 const app = document.getElementById('app');
