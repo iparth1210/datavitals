@@ -341,13 +341,8 @@ function renderLesson(lessonId, dayId) {
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                             allowfullscreen>
                     </iframe>
+                    <!-- Video will be loaded here dynamically -->
                 </div>
-                <div style="margin-top: -1rem; margin-bottom: 2rem; text-align: right;">
-                    <a href="${lesson.video.replace('embed/', 'watch?v=').split('?')[0]}" target="_blank" style="color: var(--accent-cyan); font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
-                        <span>🔗 Open Video in New Tab</span>
-                    </a>
-                </div>
-                ` : ''}
                 
                 ${lesson.sources ? `
                 <div class="knowledge-base">
