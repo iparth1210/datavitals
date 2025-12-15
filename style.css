@@ -702,3 +702,61 @@ nav {
 .btn-secondary:hover {
     background: rgba(255, 255, 255, 0.15);
 }
+
+/* Quad-Track Lesson Layout */
+.quad-track {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 10px;
+}
+
+.track-section {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 16px;
+    transition: all 0.2s ease;
+}
+
+.track-section:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--primary);
+    transform: translateX(4px);
+}
+
+.track-section h4 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.track-section.tech h4 {
+    color: var(--accent-cyan);
+}
+
+.track-section.health h4 {
+    color: var(--accent-green);
+}
+
+.track-section.bio h4 {
+    color: #f472b6;
+}
+
+.track-section.lab h4 {
+    color: var(--accent-purple);
+}
+
+.track-section p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.track-section strong {
+    color: var(--text-main);
+}
