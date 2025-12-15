@@ -3,94 +3,133 @@
  */
 
 window.modules = [
-    // --- WEEK 1 CONTENT ---
+    // --- WEEK 1: INFRASTRUCTURE & FOUNDATIONS ---
     {
         id: 'lesson-w1-d1',
-        title: 'W1-D1: Hardware vs Software',
+        title: 'W1-D1: Hardware & Medical Devices',
         image: 'assets/lesson_hardware_software.png',
-        video: 'https://www.youtube.com/embed/xnyFYiK2rSY?si=premium_mode', // Code.org
+        video: 'https://www.youtube.com/embed/xnyFYiK2rSY?si=premium_mode', // Code.org: Hardware Basics
         sources: [
-            { title: 'Computer Basics (GCFGlobal)', url: 'https://edu.gcfglobal.org/en/computerbasics/what-is-a-computer/1/' },
-            { title: 'Hardware vs Software (Diffen)', url: 'https://www.diffen.com/difference/Hardware_vs_Software' }
+            { title: 'MRI Machine Physics (RadiologyKey)', url: '#' },
+            { title: 'PACS & DICOM Overview', url: '#' }
         ],
         story: `
-            <p><strong>Day 1: The Body and The Mind</strong></p>
-            <p>Think of a computer like a human:</p>
-            <ul>
-                <li><strong>Hardware</strong> is the Body (The screen, the keyboard, the chips). You can touch it.</li>
-                <li><strong>Software</strong> is the Mind (The apps, the OS, the logic). You can't touch it, but it controls the body.</li>
-            </ul>
-            <p><strong>Task:</strong> In the list below, find the item that is <strong>Hardware</strong> (something you can physically touch) but is labeled incorrectly as Software.</p>
+            <div class="quad-track">
+                <div class="track-section tech">
+                    <h4>💻 1. Tech Core: Hardware vs Software</h4>
+                    <p><strong>Hardware</strong> is the physical machinery (CPU, RAM, Sensors). <strong>Software</strong> is the instruction set that controls it. Without software, hardware is just expensive metal.</p>
+                </div>
+                <div class="track-section health">
+                    <h4>🏥 2. Health Systems: The MRI Suite</h4>
+                    <p>In a hospital, the <strong>MRI Scanner</strong> is the ultimate Hardware—a giant magnet. The <strong>PACS (Picture Archiving and Communication System)</strong> is the Software doctors use to view the scans.</p>
+                </div>
+                <div class="track-section bio">
+                    <h4>🧬 3. Bio-Science: The Body as Hardware</h4>
+                    <p>Think of the human body as Hardware (Organs, Nerves) and the Brain's electrical signals as the "Software" driving the operation.</p>
+                </div>
+                <div class="track-section lab">
+                    <h4>🧪 4. Project Lab: Asset Audit</h4>
+                    <p><strong>Mission:</strong> You are auditing the Radiology Dept. Identify the items that are <strong>Physical Medical Hardware</strong> but are mislabeled.</p>
+                </div>
+            </div>
         `,
         task: {
             type: 'find-value',
             targetColumn: 'type',
-            condition: (val, row) => row.item === 'Keyboard' && val === 'Software',
-            successMessage: "Correct! A Keyboard is Hardware. You can throw it out a window (but please don't).",
-            errorMessage: "Look for a physical object that is mislabeled as Software."
+            condition: (val, row) => row.item === 'MRI Scanner' && val === 'Software',
+            successMessage: "Correct! An MRI Scanner is massive Hardware. It runs Software, but it IS Hardware.",
+            errorMessage: "Find the physical medical machine (Hardware) labeled as Software."
         },
         data: [
-            { id: 1, item: "Excel", type: "Software", category: "App" },
-            { id: 2, item: "Windows", type: "Software", category: "OS" },
-            { id: 3, item: "Keyboard", type: "Software", category: "Input" }, // Error
-            { id: 4, item: "Monitor", type: "Hardware", category: "Output" }
+            { id: 1, item: "Epic EHR", type: "Software", dept: "Admin" },
+            { id: 2, item: "MRI Scanner", type: "Software", dept: "Radiology" }, // Error
+            { id: 3, item: "Pacemaker", type: "Hardware", dept: "Cardiology" },
+            { id: 4, item: "Windows 11", type: "Software", dept: "IT" }
         ]
     },
     {
         id: 'lesson-w1-d2',
-        title: 'W1-D2: The Operating System',
+        title: 'W1-D2: OS & Hospital Systems',
         image: 'assets/lesson_os_brain.png',
-        video: 'https://www.youtube.com/embed/p1q34_D2kKQ?si=premium_mode', // GCFLearnFree
+        video: 'https://www.youtube.com/embed/p1q34_D2kKQ?si=premium_mode', // OS Basics
         sources: [
-            { title: 'What is an OS? (Microsoft)', url: 'https://support.microsoft.com/en-us/windows/what-is-an-operating-system-8bc2f5bc-9f55-4c03-8d62-0959f6c77006' },
-            { title: 'History of Operating Systems', url: 'https://en.wikipedia.org/wiki/History_of_operating_systems' }
+            { title: 'Hospital Information Systems (HIS)', url: '#' }
         ],
         story: `
-            <p><strong>Day 2: The Manager</strong></p>
-            <p>The <strong>Operating System (OS)</strong> is the boss. It manages all the hardware and software. Examples: Windows, macOS, Linux.</p>
-            <p>Without an OS, your computer is just a pile of expensive metal.</p>
-            <p><strong>Task:</strong> Find the computer that is missing an OS (It says "None").</p>
+            <div class="quad-track">
+                <div class="track-section tech">
+                    <h4>💻 1. Tech Core: The Operating System</h4>
+                    <p>The <strong>OS (Operating System)</strong> manages resources (Memory, CPU). Examples: Windows, Linux, macOS.</p>
+                </div>
+                <div class="track-section health">
+                    <h4>🏥 2. Health Systems: Critical Stability</h4>
+                    <p>Hospitals use <strong>Linux</strong> for Life Support systems (high stability) but often use <strong>Windows</strong> for Admin/Billing (ease of use).</p>
+                </div>
+                <div class="track-section bio">
+                    <h4>🧬 3. Bio-Science: The Autonomic Nervous System</h4>
+                    <p>Your Autonomic Nervous System is your body's OS—managing heart rate and breathing without you thinking about it.</p>
+                </div>
+                <div class="track-section lab">
+                    <h4>🧪 4. Project Lab: System Crash</h4>
+                    <p><strong>Mission:</strong> Locate the critical Life Support server that has <strong>No OS</strong> installed.</p>
+                </div>
+            </div>
         `,
         task: {
             type: 'find-value',
             targetColumn: 'os',
             condition: (val) => val === 'None',
-            successMessage: "Found it! A computer without an OS can't run any apps.",
-            errorMessage: "Look for the computer with 'None' listed for OS."
+            successMessage: "Critical Error Found! A Life Support system must have a stable OS (Linux/RTOS).",
+            errorMessage: "Find the Critical server with 'None' for OS."
         },
         data: [
-            { id: 1, device: "Laptop A", os: "Windows 11", status: "Online" },
-            { id: 2, device: "Server B", os: "Linux", status: "Online" },
-            { id: 3, device: "Old PC", os: "None", status: "Dead" }, // Target
-            { id: 4, device: "MacBook", os: "macOS", status: "Online" }
+            { id: 101, device: "Nurse Station PC", os: "Windows 10", status: "Active" },
+            { id: 102, device: "MRI Control", os: "Linux", status: "Active" },
+            { id: 103, device: "ICU Ventilator", os: "None", status: "CRITICAL" }, // Target
+            { id: 104, device: "Billing Server", os: "Windows Server", status: "Active" }
         ]
     },
     {
         id: 'lesson-w1-d3',
-        title: 'W1-D3: Files & Folders',
+        title: 'W1-D3: Files, EHR & DICOM',
         image: 'assets/lesson_files.png',
-        video: 'https://www.youtube.com/embed/Q5K3jR9a3pM?si=premium_mode', // GCFGlobal
+        video: 'https://www.youtube.com/embed/Q5K3jR9a3pM?si=premium_mode', // Files
         sources: [
-            { title: 'Managing Files (Computers 101)', url: 'https://www.computerhope.com/issues/ch001732.htm' }
+            { title: 'What is DICOM?', url: '#' },
+            { title: 'EHR Standards', url: '#' }
         ],
         story: `
-            <p><strong>Day 3: The Filing Cabinet</strong></p>
-            <p>Data is stored in <strong>Files</strong>. Files live in <strong>Folders</strong>.</p>
-            <p>Extensions tell you what a file is: <code>.docx</code> (Word), <code>.xlsx</code> (Excel), <code>.exe</code> (App).</p>
-            <p><strong>Task:</strong> Find the file that is an <strong>Image</strong> (usually <code>.jpg</code> or <code>.png</code>).</p>
+            <div class="quad-track">
+                <div class="track-section tech">
+                    <h4>💻 1. Tech Core: File Extensions</h4>
+                    <p>Extensions tell the computer how to read data: <code>.txt</code> (Text), <code>.jpg</code> (Image), <code>.csv</code> (Data).</p>
+                </div>
+                <div class="track-section health">
+                    <h4>🏥 2. Health Systems: DICOM & HL7</h4>
+                    <p>Medical Imaging uses <strong>.dcm (DICOM)</strong> files. Patient records often move as <strong>HL7</strong> messages or JSON.</p>
+                </div>
+                <div class="track-section bio">
+                    <h4>🧬 3. Bio-Science: DNA Coding</h4>
+                    <p>DNA is the ultimate file format, using 4 characters (A, C, T, G) to encode the entire human operating system.</p>
+                </div>
+                <div class="track-section lab">
+                    <h4>🧪 4. Project Lab: Data Triage</h4>
+                    <p><strong>Mission:</strong> Find the **Medical Imagine** file (DICOM format) hidden among the admin documents.</p>
+                </div>
+            </div>
         `,
         task: {
             type: 'find-value',
             targetColumn: 'file',
-            condition: (val) => val.endsWith('.jpg') || val.endsWith('.png'),
-            successMessage: "Nice! .jpg is a common image format.",
-            errorMessage: "Look for a file ending in .jpg or .png"
+            condition: (val) => val.endsWith('.dcm'),
+            successMessage: "Excellent. .dcm files contain high-resolution X-Rays or MRI scans plus patient metadata.",
+            errorMessage: "Look for the file ending in .dcm (Digital Imaging and Communications in Medicine)."
         },
         data: [
-            { id: 1, file: "report.docx", type: "Document", size: "1MB" },
-            { id: 2, file: "budget.xlsx", type: "Spreadsheet", size: "2MB" },
-            { id: 3, file: "patient_scan.jpg", type: "Image", size: "5MB" }, // Target
-            { id: 4, file: "game.exe", type: "Application", size: "10GB" }
+            { id: 1, file: "budget_report.xlsx", type: "Admin", size: "2MB" },
+            { id: 2, file: "patient_notes.txt", type: "Clinical", size: "5KB" },
+            { id: 3, file: "chest_xray_scan.dcm", type: "Imaging", size: "45MB" }, // Target
+            { id: 4, file: "hospital_logo.png", type: "Marketing", size: "1MB" }
         ]
     },
     {
