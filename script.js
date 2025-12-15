@@ -472,20 +472,21 @@ style = "margin-left: 15px; padding: 6px 18px; font-size: 0.95rem; animation: pu
 
                         feedbackEl.innerHTML = `
     < div style = "display:flex; flex-direction: column; align-items:center; justify-content:center; gap:12px;" >
-                            <div style="font-size: 1.1rem; font-weight: 600;">✅ Correct Analysis</div>
-                            <div style="font-size:0.9rem; opacity:0.8; color: var(--text-muted);">${lesson.task.successMessage}</div>
-                            <div style="font-size:0.8rem; color: var(--accent-cyan);">${unlockMsg}</div>
-                            ${ nextBtnHtml }
-                        </div >
+                                <div style="font-size: 1.1rem; font-weight: 600;">✅ Correct Analysis</div>
+                                <div style="font-size:0.9rem; opacity:0.8; color: var(--text-muted);">${lesson.task.successMessage}</div>
+                                <div style="font-size:0.8rem; color: var(--accent-cyan);">${unlockMsg}</div>
+                                ${ nextBtnHtml }
+                            </div >
     `;
                         triggerConfetti();
                     } catch (e) {
                         console.error("Runtime Error:", e);
                         feedbackEl.innerHTML = `
     < div style = "color: var(--error);" >
-                            ✅ Correct Answer recorded.< br >
+                                ✅ Correct Answer recorded.< br >
     <span style="font-size:0.8em; opacity:0.8">System Warning: Module transition failed (${e.message}). Please refresh.</span>
-                        </div > `;
+                            </div >
+    `;
                     }
                 } else {
                     feedbackEl.className = 'feedback-box error';
