@@ -90,17 +90,35 @@ function getLessonById(lessonId) {
     let phase = "Foundation";
     let topic = "General Data Science";
 
-    // Detect Topic based on roadmap
-    if (weekNum <= 8) { phase = "Phase 1: Foundation"; topic = "Excel & Logic"; }
-    else if (weekNum <= 20) { phase = "Phase 2: Analyst"; topic = "SQL & Data Viz"; }
-    else if (weekNum <= 32) { phase = "Phase 3: Python Dev"; topic = "Python Programming"; }
-    else { phase = "Phase 4: AI Architect"; topic = "Neural Networks & ML"; }
+    // Detect Topic & Video based on roadmap
+    let videoUrl = 'https://www.youtube.com/embed/jfKfPfyJRdk?si=premium_mode'; // Default Fallback
+
+    if (weekNum <= 8) {
+        phase = "Phase 1: Foundation";
+        topic = "Excel & Logic";
+        videoUrl = "https://www.youtube.com/embed/Vl0H-qTclOg?si=premium_mode"; // FreeCodeCamp Excel
+    }
+    else if (weekNum <= 20) {
+        phase = "Phase 2: Analyst";
+        topic = "SQL & Data Viz";
+        videoUrl = "https://www.youtube.com/embed/5bF55FKAOqI?si=premium_mode"; // FreeCodeCamp SQL
+    }
+    else if (weekNum <= 32) {
+        phase = "Phase 3: Python Dev";
+        topic = "Python Programming";
+        videoUrl = "https://www.youtube.com/embed/LHBE6Q9XlzI?si=premium_mode"; // FreeCodeCamp Python
+    }
+    else {
+        phase = "Phase 4: AI Architect";
+        topic = "Neural Networks & ML";
+        videoUrl = "https://www.youtube.com/embed/aircAruvnKk?si=premium_mode"; // 3Blue1Brown Neural Networks
+    }
 
     return {
         id: lessonId,
         title: `W${weekNum}-D${dayNum}: ${topic} Mastery`,
         image: 'assets/lesson_matrix.png',
-        video: 'https://www.youtube.com/embed/jfKfPfyJRdk?si=premium_mode', // Lofi Girl / Coding Radio (Very Reliable)
+        video: videoUrl,
         sources: [{ title: `${topic} Documentation`, url: '#' }],
         story: `
             <p><strong>${phase} // Week ${weekNum} Day ${dayNum}</strong></p>
