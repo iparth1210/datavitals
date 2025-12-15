@@ -143,6 +143,61 @@ function getLessonById(lessonId) {
 }
 
 
+function renderRoadmap() {
+    const unlocked = loadProgress();
+
+    app.innerHTML = `
+        <div class="roadmap-container">
+            <header class="roadmap-header">
+                <div>
+                    <h1 class="brand-title">DATAVITALS <span style="font-size:0.5em; opacity:0.7; vertical-align:middle;">v4.0</span></h1>
+                    <p class="brand-subtitle">Healthcare Data Intelligence Curriculum (CS + Clinical + Bio)</p>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-pill">
+                        <span class="stat-icon">🔥</span>
+                        <span class="stat-value">0</span>
+                    </div>
+                    <div class="stat-pill">
+                        <span class="stat-icon">⭐</span>
+                        <span class="stat-value" id="xp-display">0 XP</span>
+                    </div>
+                    <button onclick="document.getElementById('terminal-modal').classList.remove('hidden')" class="btn btn-primary" style="font-size: 0.8rem;">
+                        >_ Terminal
+                    </button>
+                    <button onclick="handleLogout()" class="btn btn-secondary" style="font-size: 0.8rem;">
+                        Reset
+                    </button>
+                </div>
+            </header>
+
+            <div class="roadmap-grid">
+                ${window.roadmap.map((week, index) => {
+        const isAvailable = unlocked.includes(week.days[0].id);
+
+        return `
+                    <div class="week-card ${isAvailable ? 'unlocked' : 'locked'}" 
+                         onclick="${isAvailable ? `renderWeekView('${week.id}')` : ''}">
+                        <div class="week-header">
+                            <span class="week-number">WEEK ${week.week}</span>
+                            ${!isAvailable ? '🔒' : ''}
+                        </div>
+                        <h3 class="week-title">${week.title}</h3>
+                        <div class="week-desc">${week.desc}</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${isAvailable ? '0%' : '0%'}"></div> 
+                        </div>
+                    </div>
+                    `;
+    }).join('')}
+            </div>
+        </div>
+    `;
+
+    if (window.updateGamificationUI) window.updateGamificationUI();
+}
+
+
 function renderWeekView(weekId) {
     const week = window.roadmap.find(w => w.id === weekId);
     if (!week) return;
