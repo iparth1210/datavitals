@@ -100,7 +100,7 @@ function getLessonById(lessonId) {
         id: lessonId,
         title: `W${weekNum}-D${dayNum}: ${topic} Mastery`,
         image: 'assets/lesson_matrix.png',
-        video: 'https://www.youtube.com/embed/S9e9i81e1Lg?autoplay=1&mute=1&loop=1&playlist=S9e9i81e1Lg', // Reliable Abstract Tech Loop
+        video: 'https://www.youtube.com/embed/jfKfPfyJRdk?si=premium_mode', // Lofi Girl / Coding Radio (Very Reliable)
         sources: [{ title: `${topic} Documentation`, url: '#' }],
         story: `
             <p><strong>${phase} // Week ${weekNum} Day ${dayNum}</strong></p>
@@ -246,8 +246,18 @@ function renderLesson(lessonId, dayId) {
                 </div>
 
                 ${lesson.video ? `
-                <div class="video-container" style="margin-bottom: 2rem;">
-                    <iframe width="100%" height="315" src="${lesson.video}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.1);"></iframe>
+                <div class="lesson-video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px; border: 1px solid var(--border-subtle); margin-bottom: 1.5rem;">
+                    <iframe src="${lesson.video}" 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                    </iframe>
+                </div>
+                <div style="margin-top: -1rem; margin-bottom: 2rem; text-align: right;">
+                    <a href="${lesson.video.replace('embed/', 'watch?v=').split('?')[0]}" target="_blank" style="color: var(--accent-cyan); font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                        <span>🔗 Open Video in New Tab</span>
+                    </a>
                 </div>
                 ` : ''}
                 
