@@ -79,16 +79,17 @@ function renderRoadmap() {
             <div class="roadmap-grid">
                 ${window.roadmap.map((week, index) => {
         const isAvailable = unlocked.includes(week.days[0].id);
+        const weekNum = index + 1;
 
         return `
                     <div class="week-card ${isAvailable ? 'unlocked' : 'locked'}" 
                          onclick="${isAvailable ? `renderWeekView('${week.id}')` : ''}">
                         <div class="week-header">
-                            <span class="week-number">WEEK ${week.week}</span>
+                            <span class="week-number">WEEK ${weekNum}</span>
                             ${!isAvailable ? '🔒' : ''}
                         </div>
                         <h3 class="week-title">${week.title}</h3>
-                        <div class="week-desc">${week.desc}</div>
+                        <div class="week-desc">${week.description}</div>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: ${isAvailable ? '0%' : '0%'}"></div> 
                         </div>
