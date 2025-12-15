@@ -205,31 +205,101 @@ function getLessonById(lessonId) {
     const dayNum = parseInt(match[2]);
     let phase = "Foundation";
     let topic = "General Data Science";
+    let videoUrl = 'https://www.youtube.com/embed/Vl0H-qTclOg'; // Fallback
 
-    // Detect Topic based on roadmap
-    if (weekNum <= 8) { phase = "Phase 1: Foundation"; topic = "Excel & Logic"; }
-    else if (weekNum <= 20) { phase = "Phase 2: Analyst"; topic = "SQL & Data Viz"; }
-    else if (weekNum <= 32) { phase = "Phase 3: Python Dev"; topic = "Python Programming"; }
-    else { phase = "Phase 4: AI Architect"; topic = "Neural Networks & ML"; }
+    // Quad-Track Content Generator
+    let techContent = "";
+    let healthContent = "";
+    let bioContent = "";
+    let labContent = "";
+    let taskInstruction = "";
+    let taskTarget = "";
+
+    // PHASE 1: WEEKS 1-8 (Excel & Logic)
+    if (weekNum <= 8) {
+        phase = "Phase 1: Foundation";
+        topic = "Excel & Logic";
+        videoUrl = "https://www.youtube.com/embed/Vl0H-qTclOg"; // FreeCodeCamp Excel
+
+        techContent = "<strong>Excel & Logic:</strong> Mastering spreadsheets, filters, and conditional logic (IF/AND/OR).";
+        healthContent = "<strong>Hospital Admin:</strong> Managing patient admission logs, shift schedules, and inventory.";
+        bioContent = "<strong>Vital Signs:</strong> Understanding HR, BP, and SpO2 data ranges.";
+        labContent = "<strong>Mission:</strong> Find the patient with <strong>Critical Vitals</strong> in the log.";
+        taskInstruction = "Locate the patient with 'Critical' status.";
+        taskTarget = "Critical";
+    }
+    // PHASE 2: WEEKS 9-20 (SQL & Analysis)
+    else if (weekNum <= 20) {
+        phase = "Phase 2: Analyst";
+        topic = "SQL & Data Viz";
+        videoUrl = "https://www.youtube.com/embed/5bF55FKAOqI"; // FreeCodeCamp SQL
+
+        techContent = "<strong>SQL & Databases:</strong> SELECT, WHERE, JOIN, and Aggregations.";
+        healthContent = "<strong>EHR Systems:</strong> Querying Epic/Cerner databases for patient cohorts.";
+        bioContent = "<strong>Pathology:</strong> Lab results, blood panels, and disease markers.";
+        labContent = "<strong>Mission:</strong> Query the database for <strong>Type 2 Diabetes</strong> patients.";
+        taskInstruction = "Find the 'Type 2 Diabetes' diagnosis.";
+        taskTarget = "Type 2 Diabetes";
+    }
+    // PHASE 3: WEEKS 21-32 (Python Dev)
+    else if (weekNum <= 32) {
+        phase = "Phase 3: Python Dev";
+        topic = "Python Programming";
+        videoUrl = "https://www.youtube.com/embed/LHBE6Q9XlzI"; // FreeCodeCamp Python
+
+        techContent = "<strong>Python Programming:</strong> Variables, Lists, Loops, Pandas DataFrames.";
+        healthContent = "<strong>Bioinformatics:</strong> Processing raw DNA sequences and large clinical datasets.";
+        bioContent = "<strong>Genomics:</strong> A, C, T, G sequences and protein synthesis.";
+        labContent = "<strong>Mission:</strong> Identify the <strong>Mutated</strong> gene sequence.";
+        taskInstruction = "Find the 'Mutated' status.";
+        taskTarget = "Mutated";
+    }
+    // PHASE 4: WEEKS 33-52 (AI Architect)
+    else {
+        phase = "Phase 4: AI Architect";
+        topic = "Neural Networks & ML";
+        videoUrl = "https://www.youtube.com/embed/aircAruvnKk"; // 3Blue1Brown Neural Networks
+
+        techContent = "<strong>Neural Networks:</strong> Nodes, Layers, Weights, Biases, Backprop.";
+        healthContent = "<strong>Medical AI:</strong> Computer Vision for Tumor Detection in X-Rays.";
+        bioContent = "<strong>Oncology:</strong> Identifying malignant vs benign cell structures.";
+        labContent = "<strong>Mission:</strong> Verify the model's prediction of <strong>High Risk</strong>.";
+        taskInstruction = "Find the 'High Risk' prediction.";
+        taskTarget = "High Risk";
+    }
 
     return {
         id: lessonId,
         title: `W${weekNum}-D${dayNum}: ${topic} Mastery`,
         image: 'assets/lesson_matrix.png',
-        video: 'https://www.youtube.com/embed/5i_loW3eK3w?si=premium_mode',
+        video: videoUrl,
         sources: [{ title: `${topic} Documentation`, url: '#' }],
         story: `
-            <p><strong>${phase} // Week ${weekNum} Day ${dayNum}</strong></p>
-            <p>You are deep in the simulation. Today's focus is <strong>${topic}</strong>.</p>
-            <p>As an advanced agent, you must verify system integrity to proceed.</p>
-            <p><strong>Task:</strong> Locate the <strong>"System Ready"</strong> signal.</p>
+            <div class="quad-track">
+                <div class="track-section tech">
+                    <h4>💻 1. Tech Core</h4>
+                    <p>${techContent}</p>
+                </div>
+                <div class="track-section health">
+                    <h4>🏥 2. Health Systems</h4>
+                    <p>${healthContent}</p>
+                </div>
+                <div class="track-section bio">
+                    <h4>🧬 3. Bio-Science</h4>
+                    <p>${bioContent}</p>
+                </div>
+                <div class="track-section lab">
+                    <h4>🧪 4. Project Lab</h4>
+                    <p>${labContent}</p>
+                </div>
+            </div>
         `,
         task: {
             type: 'find-value',
             targetColumn: 'Status',
-            condition: (val) => val === 'System Ready',
-            successMessage: "Signal verified. Neural link stable. Proceeding...",
-            errorMessage: "Find the 'System Ready' status."
+            condition: (val) => val === taskTarget,
+            successMessage: "Analysis Complete. Clinical Insight Generated.",
+            errorMessage: taskInstruction
         },
         data: [
             { Check: "Power", Status: "Online", Zone: "Core" },
