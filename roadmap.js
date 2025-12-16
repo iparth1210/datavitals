@@ -11,7 +11,7 @@ const phases = {
 };
 
 const weekTitles = [
-    "Hardware & OS Basics", "Excel: The Grid", "Excel: Formulas 101", "Excel: Charts & Viz",
+    "Computer Basics & Setup", "Excel: The Grid", "Excel: Formulas 101", "Excel: Charts & Viz",
     "Excel: Pivot Tables", "Excel: Cleaning Data", "Excel: Real World Project", "Phase 1 Capstone Exam",
     "SQL: Hello Database", "SQL: SELECT & WHERE", "SQL: Aggregates (COUNT/SUM)", "SQL: GROUP BY",
     "SQL: JOINS (Left/Right)", "SQL: Advanced JOINS", "SQL: Subqueries", "SQL: Data Modeling",
