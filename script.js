@@ -1,4 +1,4 @@
-console.log("Booting DataVitals v5.3 Refined...");
+console.log("Booting DataVitals v5.4 Polish...");
 // Modules are loaded globally
 
 const app = document.getElementById('app');
@@ -53,28 +53,9 @@ function renderRoadmap() {
 
     app.innerHTML = `
         <div class="roadmap-container">
-            <header class="roadmap-header">
-                <div>
-                    <h1 class="brand-title">DATAVITALS <span style="font-size:0.5em; opacity:0.7; vertical-align:middle;">v4.0</span></h1>
-                    <p class="brand-subtitle">Healthcare Data Intelligence Curriculum (CS + Clinical + Bio)</p>
-                </div>
-                <div class="header-stats">
-                    <div class="stat-pill">
-                        <span class="stat-icon">🔥</span>
-                        <span class="stat-value">0</span>
-                    </div>
-                    <div class="stat-pill">
-                        <span class="stat-icon">⭐</span>
-                        <span class="stat-value" id="xp-display">0 XP</span>
-                    </div>
-                    <button onclick="document.getElementById('terminal-modal').classList.remove('hidden')" class="btn btn-primary" style="font-size: 0.8rem;">
-                        >_ Terminal
-                    </button>
-                    <button onclick="handleLogout()" class="btn btn-secondary" style="font-size: 0.8rem;">
-                        Reset
-                    </button>
-                </div>
-            </header>
+        <div class="roadmap-container">
+            <!-- Header Removed per user request (moved to sidebar/layout) -->
+            <div style="margin-bottom: 24px;"></div>
 
             <div class="roadmap-grid">
                 ${window.roadmap.map((week, index) => {
