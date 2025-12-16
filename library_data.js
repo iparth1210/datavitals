@@ -1,95 +1,83 @@
 /**
- * 📚 LIBRARY RESOURCES 📚
- * Comprehensive learning materials for the DataVitals curriculum.
+ * 📚 LIBRARY RESOURCES v5.5 📚
+ * Organized Day-by-Day with Deep Dive Materials
  */
 
 window.libraryResources = [
     {
-        category: "Computer Science Core",
-        icon: "💻",
-        chapters: [
+        weekTitle: "Week 1: Computer Basics & Setup",
+        days: [
             {
-                title: "1. Hardware & Architecture",
-                items: [
-                    { title: "Von Neumann Architecture (Video)", type: "video", url: "https://www.youtube.com/watch?v=4rXZSnyD_U8" },
-                    { title: "CPU vs GPU vs TPU Architecture", type: "article", url: "https://cloud.google.com/blog/products/ai-machine-learning/what-is-a-tpu" },
-                    { title: "Logic Gates & Circuits Interactive", type: "tool", url: "https://logic.ly/demo" }
+                dayTitle: "Day 1: Hardware Logic & Architecture",
+                resources: [
+                    { title: "📖 Book: Code - The Hidden Language (Petzold)", type: "book", url: "https://www.amazon.com/Code-Language-Computer-Hardware-Software/dp/0735611319" },
+                    { title: "📺 Video: Exploring How Computers Work (SebLague)", type: "video", url: "https://www.youtube.com/watch?v=QVueHCDyPKQ" },
+                    { title: "📝 Article: The Von Neumann Architecture", type: "article", url: "https://www.geeksforgeeks.org/computer-organization-von-neumann-architecture/" }
                 ]
             },
             {
-                title: "2. Operating Systems",
-                items: [
-                    { title: "Linux Kernel Map", type: "article", url: "https://makelinux.github.io/kernel/map/" },
-                    { title: "Process Scheduling Algorithms", type: "article", url: "https://www.geeksforgeeks.org/process-schedulers-in-operating-system/" },
-                    { title: "Memory Management Deep Dive", type: "video", url: "https://www.youtube.com/watch?v=5OJQ23rHeGc" }
+                dayTitle: "Day 2: Operating Systems (Linux/Unix)",
+                resources: [
+                    { title: "📖 Book: Modern Operating Systems (Tanenbaum)", type: "book", url: "https://www.amazon.com/Modern-Operating-Systems-Andrew-Tanenbaum/dp/013359162X" },
+                    { title: "📺 Video: History of Unix (AT&T Archives)", type: "video", url: "https://www.youtube.com/watch?v=tc4ROCJYbm0" },
+                    { title: "🛠️ Tool: DistroChooser - Find your Linux", type: "tool", url: "https://distrochooser.de/" }
                 ]
             },
             {
-                title: "3. Algorithms & Data Structures",
-                items: [
-                    { title: "Big O Notation Cheat Sheet", type: "cheatsheet", url: "https://www.bigocheatsheet.com/" },
-                    { title: "Visualgo: Visualizing Data Structures", type: "tool", url: "https://visualgo.net/en" },
-                    { title: "LeetCode: Top 100 Interview Questions", type: "practice", url: "https://leetcode.com/problem-list/top-100-liked-questions/" }
+                dayTitle: "Day 3: File Systems & Databases",
+                resources: [
+                    { title: "📖 Book: Database Design for Mere Mortals", type: "book", url: "https://www.amazon.com/Database-Design-Mere-Mortals-Hands/dp/0321884493" },
+                    { title: "📺 Video: How Hard Drives Work", type: "video", url: "https://www.youtube.com/watch?v=wvdZFjZ8teE" },
+                    { title: "📝 Doc: DICOM Standard Overview (Medical)", type: "doc", url: "https://www.dicomstandard.org/" }
+                ]
+            },
+            {
+                dayTitle: "Day 4: Networking & The Cloud",
+                resources: [
+                    { title: "📖 Book: Computer Networking: A Top-Down Approach", type: "book", url: "https://www.amazon.com/Computer-Networking-Top-Down-Approach-7th/dp/0133594149" },
+                    { title: "📺 Video: The Internet: Wires, Cables & Wifi", type: "video", url: "https://www.youtube.com/watch?v=ZhEf7e4kopM" },
+                    { title: "📝 Guide: AWS Cloud Practitioner Essentials", type: "course", url: "https://aws.amazon.com/training/digital/aws-cloud-practitioner-essentials/" }
                 ]
             }
         ]
     },
     {
-        category: "Data Science & Analysis",
-        icon: "📊",
-        chapters: [
+        weekTitle: "Week 2: Data Science Foundations (Excel/SQL)",
+        days: [
             {
-                title: "1. Python for Data Science",
-                items: [
-                    { title: "NumPy Visual Guide", type: "article", url: "https://jalammar.github.io/visual-numpy/" },
-                    { title: "Pandas User Guide (Official)", type: "doc", url: "https://pandas.pydata.org/docs/user_guide/index.html" },
-                    { title: "Real Python: Data Science Path", type: "course", url: "https://realpython.com/learning-paths/data-science-python-core/" }
+                dayTitle: "Day 1: The Spreadsheet Paradigm",
+                resources: [
+                    { title: "📖 Book: Excel 2019 Bible", type: "book", url: "https://www.amazon.com/Excel-2019-Bible-Michael-Alexander/dp/1119514789" },
+                    { title: "📺 Channel: Leila Gharani (Excel Tips)", type: "video", url: "https://www.youtube.com/c/LeilaGharani" }
                 ]
             },
             {
-                title: "2. SQL & Databases",
-                items: [
-                    { title: "SQLZOO: Interactive SQL Tutorial", type: "practice", url: "https://sqlzoo.net/" },
-                    { title: "Use The Index, Luke!", type: "article", url: "https://use-the-index-luke.com/" },
-                    { title: "PostgreSQL Documentation", type: "doc", url: "https://www.postgresql.org/docs/" }
-                ]
-            },
-            {
-                title: "3. Data Visualization",
-                items: [
-                    { title: "From Data to Viz (Chart Picker)", type: "tool", url: "https://www.data-to-viz.com/" },
-                    { title: "Seaborn Gallery", type: "gallery", url: "https://seaborn.pydata.org/examples/index.html" },
-                    { title: "Storytelling with Data", type: "book", url: "https://www.storytellingwithdata.com/" }
+                dayTitle: "Day 3: Relational Databases (SQL)",
+                resources: [
+                    { title: "📖 Book: Learning SQL (O'Reilly)", type: "book", url: "https://www.amazon.com/Learning-SQL-Generate-Manipulate-Retrofit/dp/1492057614" },
+                    { title: "📺 Video: SQL Tutorial for Beginners", type: "video", url: "https://www.youtube.com/watch?v=HXV3zeQKqGY" },
+                    { title: "🛠️ Tool: SQL Fiddle (Practice Online)", type: "tool", url: "http://sqlfiddle.com/" }
                 ]
             }
         ]
     },
     {
-        category: "Artificial Intelligence",
-        icon: "🧠",
-        chapters: [
+        weekTitle: "Week 3: Programming with Python",
+        days: [
             {
-                title: "1. Machine Learning Basics",
-                items: [
-                    { title: "Google ML Crash Course", type: "course", url: "https://developers.google.com/machine-learning/crash-course" },
-                    { title: "Scikit-Learn Flowchart", type: "cheatsheet", url: "https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html" },
-                    { title: "Distill.pub: Visual ML Explanations", type: "article", url: "https://distill.pub/" }
+                dayTitle: "Day 1: Python Syntax & Logic",
+                resources: [
+                    { title: "📖 Book: Python Crash Course", type: "book", url: "https://ehmatthes.github.io/pcc_3e/" },
+                    { title: "📺 Video: Python for Everybody (Dr. Severance)", type: "video", url: "https://www.youtube.com/watch?v=8DvywoWv6fI" },
+                    { title: "📝 Doc: PEP 8 -- Style Guide", type: "doc", url: "https://peps.python.org/pep-0008/" }
                 ]
             },
             {
-                title: "2. Deep Learning",
-                items: [
-                    { title: "Neural Networks & Deep Learning (Book)", type: "book", url: "http://neuralnetworksanddeeplearning.com/" },
-                    { title: "Fast.ai: Practical Deep Learning", type: "course", url: "https://course.fast.ai/" },
-                    { title: "PyTorch Blitz", type: "doc", url: "https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html" }
-                ]
-            },
-            {
-                title: "3. Large Language Models",
-                items: [
-                    { title: "The Illustrated Transformer", type: "article", url: "https://jalammar.github.io/illustrated-transformer/" },
-                    { title: "LangChain Documentation", type: "doc", url: "https://python.langchain.com/docs/get_started/introduction" },
-                    { title: "Hugging Face Course", type: "course", url: "https://huggingface.co/learn/nlp-course" }
+                dayTitle: "Day 4: Data Analysis (Pandas)",
+                resources: [
+                    { title: "📖 Book: Python for Data Analysis (McKinney)", type: "book", url: "https://wesmckinney.com/book/" },
+                    { title: "📺 Video: Pandas Tutorial (Corey Schafer)", type: "video", url: "https://www.youtube.com/watch?v=ZyhVh-qRZPA" },
+                    { title: "🛠️ Tool: Jupyter Notebooks", type: "tool", url: "https://jupyter.org/" }
                 ]
             }
         ]

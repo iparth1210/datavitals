@@ -1,4 +1,4 @@
-console.log("Booting DataVitals v5.4 Polish...");
+console.log("Booting DataVitals v5.5 Library+Layout...");
 // Modules are loaded globally
 
 const app = document.getElementById('app');
@@ -103,7 +103,7 @@ function renderWeekView(weekId) {
                 <h2 style="margin-left: 2rem; color: var(--text-main);">${week.title}</h2>
             </div>
             
-            <div class="roadmap-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+            <div class="week-detail-grid">
                 ${week.days.map((day, index) => {
         const isUnlocked = unlocked.includes(day.id);
         const statusClass = isUnlocked ? 'unlocked' : 'locked';
