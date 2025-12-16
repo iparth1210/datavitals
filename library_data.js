@@ -1,173 +1,165 @@
 /**
- * 📚 LIBRARY RESOURCES v5.6 📚
- * Comprehensive Day-by-Day Curriculum Resources
- * Covering Weeks 1-12 Detailed + Phase 2-4 Support
+ * 📚 LIBRARY RESOURCES v5.7 📚
+ * Detailed Day-by-Day with Chapter-Level Granularity
  */
 
-const commonResources = {
-    excel: [
-        { title: "📖 Excel 2019 Bible", type: "book", url: "https://www.amazon.com/Excel-2019-Bible-Michael-Alexander/dp/1119514789" },
-        { title: "📺 ExcelIsFun (YouTube)", type: "video", url: "https://www.youtube.com/user/ExcelIsFun" },
-        { title: "📝 MS Excel Documentation", type: "doc", url: "https://support.microsoft.com/en-us/excel" },
-        { title: "🛠️ Excel Formula Beautifier", type: "tool", url: "https://www.excelformulabeautifier.com/" }
-    ],
-    sql: [
-        { title: "📖 Learning SQL (O'Reilly)", type: "book", url: "https://www.amazon.com/Learning-SQL-Generate-Manipulate-Retrofit/dp/1492057614" },
-        { title: "📺 SqLZoo Interactive", type: "practice", url: "https://sqlzoo.net/" },
-        { title: "📝 PostgreSQL Docs", type: "doc", url: "https://www.postgresql.org/docs/" },
-        { title: "🛠️ DB Fiddle", type: "tool", url: "https://www.db-fiddle.com/" }
-    ],
-    python: [
-        { title: "📖 Python Crash Course", type: "book", url: "https://ehmatthes.github.io/pcc_3e/" },
-        { title: "📺 Corey Schafer Python", type: "video", url: "https://www.youtube.com/user/schafer5" },
-        { title: "📝 Python 3.11 Docs", type: "doc", url: "https://docs.python.org/3/" },
-        { title: "🛠️ Replit Online IDE", type: "tool", url: "https://replit.com/" }
-    ],
-    ml: [
-        { title: "📖 Hands-On ML with Scikit-Learn", type: "book", url: "https://www.amazon.com/Hands-Machine-Learning-Scikit-Learn-TensorFlow/dp/1492032646" },
-        { title: "📺 StatQuest with Josh Starmer", type: "video", url: "https://www.youtube.com/c/joshstarmer" },
-        { title: "📝 Scikit-Learn User Guide", type: "doc", url: "https://scikit-learn.org/stable/user_guide.html" },
-        { title: "🛠️ Google Colab", type: "tool", url: "https://colab.research.google.com/" }
-    ]
+// --- DYNAMIC CONTENT GENERATORS ---
+
+const excelTopics = [
+    { ch: "1", title: "Getting Started", doc: "https://support.microsoft.com/en-us/office/excel-video-training-9bc05390-e94c-46af-a5b3-d7c22f6990bb" },
+    { ch: "2", title: "Entering Data", doc: "https://support.microsoft.com/en-us/office/enter-data-manually-in-worksheet-cells-c6199342-83b5-4b53-8f0a-d8302f37e42d" },
+    { ch: "3", title: "Formulas & Functions", doc: "https://support.microsoft.com/en-us/office/overview-of-formulas-in-excel-ecfdc708-9162-49e8-b993-c311f47ca173" },
+    { ch: "4", title: "Formatting", doc: "https://support.microsoft.com/en-us/office/format-cells-90a61253-1579-4a00-9856-78ccabfc516f" },
+    { ch: "5", title: "Charts & Graphs", doc: "https://support.microsoft.com/en-us/office/create-a-chart-from-start-to-finish-0bafdc58-466d-441d-9c3f-c7c936c5o88" },
+    { ch: "6", title: "Pivot Tables", doc: "https://support.microsoft.com/en-us/office/create-a-pivottable-to-analyze-worksheet-data-a9a84538-bfe9-40a9-a8e9-f991344565bc" },
+    { ch: "7", title: "Data Analysis", doc: "https://support.microsoft.com/en-us/office/load-the-analysis-toolpak-in-excel-6a63e598-cd6d-42e3-9317-6b40ba1a66b4" }
+];
+
+const sqlTopics = [
+    { ch: "1", title: "Relational Concepts", doc: "https://www.postgresql.org/docs/current/tutorial-concepts.html" },
+    { ch: "2", title: "Basic SELECT", doc: "https://www.postgresql.org/docs/current/queries-table-expressions.html" },
+    { ch: "3", title: "Filtering (WHERE)", doc: "https://www.w3schools.com/sql/sql_where.asp" },
+    { ch: "4", title: "Aggregates (SUM/COUNT)", doc: "https://www.postgresql.org/docs/current/tutorial-agg.html" },
+    { ch: "5", title: "GROUP BY & HAVING", doc: "https://www.w3schools.com/sql/sql_groupby.asp" },
+    { ch: "6", title: "JOINS (Inner/Outer)", doc: "https://www.postgresql.org/docs/current/tutorial-join.html" },
+    { ch: "7", title: "Database Design", doc: "https://www.postgresql.org/docs/current/ddl.html" }
+];
+
+const getExcelResources = (dayNum) => {
+    const topic = excelTopics[(dayNum - 1) % excelTopics.length];
+    return [
+        { title: `📖 Excel Bible: Ch.${topic.ch} "${topic.title}"`, type: "book", url: "https://www.amazon.com/Excel-2019-Bible-Michael-Alexander/dp/1119514789" },
+        { title: `📝 MS Docs: ${topic.title}`, type: "doc", url: topic.doc },
+        { title: `🛠️ Practice Sheet: ${topic.title}`, type: "tool", url: "https://sheets.new" }
+    ];
 };
 
-// Helper to generate generic daily resources based on topic
-function getDailyResources(weekTitle, dayNum) {
-    let base = [];
+const getSqlResources = (dayNum) => {
+    const topic = sqlTopics[(dayNum - 1) % sqlTopics.length];
+    return [
+        { title: `📖 Learning SQL: Ch.${topic.ch} "${topic.title}"`, type: "book", url: "https://www.amazon.com/Learning-SQL-Generate-Manipulate-Retrofit/dp/1492057614" },
+        { title: `📺 Video: SQL ${topic.title} Guide`, type: "video", url: "https://www.youtube.com/results?search_query=sql+" + topic.title.replace(' ', '+') },
+        { title: `📝 Postgres Docs: ${topic.title}`, type: "doc", url: topic.doc }
+    ];
+};
 
-    if (weekTitle.includes("Excel")) base = [...commonResources.excel];
-    else if (weekTitle.includes("SQL")) base = [...commonResources.sql];
-    else if (weekTitle.includes("Python")) base = [...commonResources.python];
-    else if (weekTitle.includes("ML") || weekTitle.includes("AI") || weekTitle.includes("Neural")) base = [...commonResources.ml];
-    else base = [{ title: "Search Topic on Google", type: "tool", url: `https://www.google.com/search?q=${weekTitle}` }];
+const getPythonResources = (dayNum) => {
+    return [
+        { title: `📖 Python Crash Course: Chapter ${dayNum}`, type: "book", url: "#" },
+        { title: `📺 Python Tutorial Part ${dayNum}`, type: "video", url: "https://www.youtube.com/watch?v=_uQrJ0TkZlc" },
+        { title: `🛠️ Replit IDE (New Repl)`, type: "tool", url: "https://replit.com/new/python3" }
+    ];
+};
 
-    // Add variety per day
-    return base.map(b => ({ ...b, title: `${b.title} (Part ${dayNum})` })).slice(0, 3);
-}
+const getAIResources = (dayNum) => {
+    return [
+        { title: `📖 Hands-On ML: Chapter ${dayNum}`, type: "book", url: "#" },
+        { title: `📺 StatQuest: ML Concept ${dayNum}`, type: "video", url: "https://www.youtube.com/c/joshstarmer" },
+        { title: `📝 Scikit-Learn Guide: Section ${dayNum}`, type: "doc", url: "https://scikit-learn.org/stable/" }
+    ];
+};
+
+
+// --- MAIN DATA ---
 
 window.libraryResources = [
-    // --- WEEK 1: COMPUTER BASICS ---
+    // --- WEEK 1: COMPUTER BASICS (Detailed) ---
     {
         weekTitle: "Week 1: Computer Basics & Setup",
         days: [
             {
                 dayTitle: "Day 1: Hardware vs Software",
                 resources: [
-                    { title: "📖 Code: The Hidden Language", type: "book", url: "https://www.amazon.com/Code-Language-Computer-Hardware-Software/dp/0735611319" },
-                    { title: "📺 Computer Science S1: Hardware", type: "video", url: "https://www.youtube.com/watch?v=tpIctyqH29Q" },
-                    { title: "📝 Von Neumann Architecture", type: "article", url: "https://en.wikipedia.org/wiki/Von_Neumann_architecture" }
+                    { title: "📖 Code (Petzold): Ch.1 \"Best Friends\"", type: "book", url: "https://www.amazon.com/Code-Language-Computer-Hardware-Software/dp/0735611319" },
+                    { title: "📺 CrashCourse CS: Hardware", type: "video", url: "https://www.youtube.com/watch?v=tpIctyqH29Q" },
+                    { title: "🛠️ Logic.ly Gates Demo", type: "tool", url: "https://logic.ly/demo" }
                 ]
             },
             {
                 dayTitle: "Day 2: The Operating System",
                 resources: [
-                    { title: "📖 Modern Operating Systems", type: "book", url: "https://www.amazon.com/Modern-Operating-Systems-Andrew-Tanenbaum/dp/013359162X" },
-                    { title: "📺 History of Unix", type: "video", url: "https://www.youtube.com/watch?v=tc4ROCJYbm0" },
-                    { title: "🛠️ Ubuntu Online Tour", type: "tool", url: "https://tour.ubuntu.com/" }
+                    { title: "📖 Modern OS: Ch.1 \"Introduction\"", type: "book", url: "#" },
+                    { title: "📺 How OS Works (Code.org)", type: "video", url: "https://www.youtube.com/watch?v=26QPDBe-TK8" },
+                    { title: "🛠️ JSLinux (Run Linux in Browser)", type: "tool", url: "https://bellard.org/jslinux/" }
                 ]
             },
             {
                 dayTitle: "Day 3: Files & Folders",
                 resources: [
-                    { title: "📝 File Systems Explained", type: "article", url: "https://www.howtogeek.com/school/windows-network-sharing/lesson1/" },
-                    { title: "📺 Tree Data Structures", type: "video", url: "https://www.youtube.com/watch?v=oSWTXtMglKE" },
-                    { title: "🛠️ WinDirStat (Disk Analyzer)", type: "tool", url: "https://windirstat.net/" }
+                    { title: "📖 Windows Internals: Ch.12 \"File Systems\"", type: "book", url: "#" },
+                    { title: "📺 Files & File Systems", type: "video", url: "https://www.youtube.com/watch?v=KN8YgBkVEOM" },
+                    { title: "📝 NTFS vs FAT32 Guide", type: "doc", url: "https://www.howtogeek.com/177078/htg-explains-what-file-system-should-i-use-for-my-usb-drive/" }
                 ]
             },
             {
                 dayTitle: "Day 4: The Internet & Cloud",
                 resources: [
-                    { title: "📖 Tubes: A Journey to the Center of the Internet", type: "book", url: "https://www.amazon.com/Tubes-Journey-Center-Internet-Andrew/dp/0061996430" },
-                    { title: "📺 How the Internet Works", type: "video", url: "https://www.youtube.com/watch?v=TNQsmPf24go" },
-                    { title: "📝 AWS Global Infrastructure", type: "doc", url: "https://aws.amazon.com/about-aws/global-infrastructure/" }
+                    { title: "📖 Tubes: Ch.2 \"The Map\"", type: "book", url: "#" },
+                    { title: "📺 How the Internet Works in 5 mins", type: "video", url: "https://www.youtube.com/watch?v=7_LPdttKXPc" },
+                    { title: "📝 AWS Cloud Concepts", type: "doc", url: "https://aws.amazon.com/what-is-cloud-computing/" }
                 ]
             },
             {
                 dayTitle: "Day 5: Data Units (Bits/Bytes)",
                 resources: [
-                    { title: "📝 Bits, Bytes, and Binary", type: "article", url: "https://www.mathsisfun.com/binary-number-system.html" },
-                    { title: "📺 8-Bit Computer Build", type: "video", url: "https://www.youtube.com/watch?v=HyznrdDSSGM" },
-                    { title: "🛠️ Binary Converter", type: "tool", url: "https://www.rapidtables.com/convert/number/binary-to-decimal.html" }
+                    { title: "📖 Code (Petzold): Ch.6 \"Logic Gates\"", type: "book", url: "#" },
+                    { title: "📺 Bits and Bytes Explained", type: "video", url: "https://www.youtube.com/watch?v=5i_loW3eK3w" },
+                    { title: "🛠️ RapidTables Binary Converter", type: "tool", url: "https://www.rapidtables.com/convert/number/binary-to-decimal.html" }
                 ]
             },
             {
-                dayTitle: "Day 6: Security & Privacy",
+                dayTitle: "Day 6: Security (HIPAA)",
                 resources: [
-                    { title: "📖 The Art of Invisibility", type: "book", url: "https://www.amazon.com/Art-Invisibility-Worlds-Famous-Hacker/dp/0316380504" },
-                    { title: "📝 HIPAA Survival Guide", type: "doc", url: "https://www.hipaasurvivalguide.com/" },
-                    { title: "🛠️ Have I Been Pwned?", type: "tool", url: "https://haveibeenpwned.com/" }
+                    { title: "📖 Ghost in the Wires: Ch.1", type: "book", url: "#" },
+                    { title: "📺 Cyber Security 101", type: "video", url: "https://www.youtube.com/watch?v=inWWhr5tnEA" },
+                    { title: "📝 HIPAA Official Summary", type: "doc", url: "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html" }
                 ]
             },
             {
                 dayTitle: "Day 7: Weekly Review",
                 resources: [
-                    { title: "📝 Week 1 Recap Quiz", type: "practice", url: "#" },
-                    { title: "📺 Crash Course Computer Science", type: "video", url: "https://www.youtube.com/playlist?list=PL8dPuuaLjXtNlUrcyKGWxoyJipZnJpCrn" }
+                    { title: "📝 Week 1 Flashcards", type: "tool", url: "https://quizlet.com/latest" },
+                    { title: "📺 CS50: Lecture 0", type: "video", url: "https://www.youtube.com/watch?v=y62mj9tT5rE" }
                 ]
             }
         ]
     },
-    // --- WEEK 2: EXCEL THE GRID ---
-    {
-        weekTitle: "Week 2: Excel: The Grid",
+    // --- WEEK 2-8: EXCEL (Dynamic) ---
+    ...[2, 3, 4, 5, 6, 7, 8].map(w => ({
+        weekTitle: `Week ${w}: Excel Mastery`,
         days: Array.from({ length: 7 }, (_, i) => ({
-            dayTitle: `Day ${i + 1}: Interface & Entry`,
-            resources: [
-                { title: "📖 Excel Bible: Chapter 1", type: "book", url: "#" },
-                { title: `📺 Excel Basics Part ${i + 1}`, type: "video", url: "https://www.youtube.com/watch?v=k1VUZEVuDJ8" },
-                { title: "📝 Shortcut Keys Cheat Sheet", type: "cheatsheet", url: "https://support.microsoft.com/en-us/office/keyboard-shortcuts-in-excel-1798d9d5-842a-42b8-9c99-9b7213f0040f" }
-            ]
-        }))
-    },
-    // --- WEEK 3: EXCEL FORMULAS ---
-    {
-        weekTitle: "Week 3: Excel: Formulas 101",
-        days: Array.from({ length: 7 }, (_, i) => ({
-            dayTitle: `Day ${i + 1}: Logic & Math`,
-            resources: [
-                { title: "📺 Master IF Functions", type: "video", url: "https://www.youtube.com/watch?v=KkIGWZzpGkU" },
-                { title: "📝 VLOOKUP vs INDEX/MATCH", type: "article", url: "https://exceljet.net/index-match-vs-vlookup" },
-                { title: "🛠️ Excel Practice Sheet", type: "tool", url: "#" }
-            ]
-        }))
-    },
-    // --- WEEK 4: EXCEL CHARTS ---
-    {
-        weekTitle: "Week 4: Excel: Charts & Viz",
-        days: Array.from({ length: 7 }, (_, i) => ({
-            dayTitle: `Day ${i + 1}: Visual Storytelling`,
-            resources: [
-                { title: "📖 Storytelling with Data", type: "book", url: "https://www.storytellingwithdata.com/" },
-                { title: "📺 Advanced Excel Charts", type: "video", url: "https://www.youtube.com/watch?v=4X58Yy0Vl6c" },
-                { title: "📝 Color Theory for Data", type: "article", url: "https://blog.hubspot.com/marketing/color-theory-design" }
-            ]
-        }))
-    },
-    // --- WEEK 5-8: ADVANCED EXCEL ---
-    ...[5, 6, 7, 8].map(w => ({
-        weekTitle: `Week ${w}: Advanced Excel`,
-        days: Array.from({ length: 7 }, (_, i) => ({
-            dayTitle: `Day ${i + 1}: Advanced Usage`,
-            resources: [...commonResources.excel].slice(0, 3)
+            dayTitle: `Day ${i + 1}: Excel Topic ${i + 1}`,
+            resources: getExcelResources(i + 1)
         }))
     })),
-    // --- WEEK 9-16: SQL ---
+    // --- WEEK 9-16: SQL (Dynamic) ---
     ...[9, 10, 11, 12, 13, 14, 15, 16].map(w => ({
         weekTitle: `Week ${w}: SQL Mastery`,
         days: Array.from({ length: 7 }, (_, i) => ({
-            dayTitle: `Day ${i + 1}: Database Concepts`,
-            resources: [...commonResources.sql].slice(0, 3)
+            dayTitle: `Day ${i + 1}: SQL Patterns ${i + 1}`,
+            resources: getSqlResources(i + 1)
         }))
     })),
-    // --- WEEK 17-52: PYTHON & AI ---
-    ...Array.from({ length: 36 }, (_, i) => i + 17).map(w => {
-        let topic = "Python";
-        if (w >= 33) topic = "AI & ML";
+    // --- WEEK 17-20: POWERBI ---
+    ...[17, 18, 19, 20].map(w => ({
+        weekTitle: `Week ${w}: Power BI & Viz`,
+        days: Array.from({ length: 7 }, (_, i) => ({
+            dayTitle: `Day ${i + 1}: Visualization`,
+            resources: [
+                { title: "📖 Storytelling with Data: Ch.1", type: "book", url: "#" },
+                { title: "📺 PowerBI for Beginners", type: "video", url: "https://www.youtube.com/watch?v=T7487qaXh2Y" },
+                { title: "🛠️ PowerBI Service Login", type: "tool", url: "https://app.powerbi.com/" }
+            ]
+        }))
+    })),
+    // --- REST: PYTHON & AI ---
+    ...Array.from({ length: 32 }, (_, i) => i + 21).map(w => {
+        const isAI = w > 32;
         return {
-            weekTitle: `Week ${w}: ${topic} Phase`,
-            days: Array.from({ length: 7 }, (_, d) => ({
-                dayTitle: `Day ${d + 1}: ${topic} Daily`,
-                resources: getDailyResources(topic, d + 1)
+            weekTitle: `Week ${w}: ${isAI ? 'AI Specialization' : 'Python Development'}`,
+            days: Array.from({ length: 7 }, (_, i) => ({
+                dayTitle: `Day ${i + 1}: Concept Deep Dive`,
+                resources: isAI ? getAIResources(i + 1) : getPythonResources(i + 1)
             }))
         };
     })
