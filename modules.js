@@ -6,72 +6,73 @@ window.modules = [
     // --- WEEK 1: INFRASTRUCTURE & FOUNDATIONS ---
     {
         id: 'lesson-w1-d1',
-        title: 'W1-D1: Hardware & Medical Devices',
+        title: 'W1-D1: Hardware Architecture',
         image: 'assets/lesson_hardware_software.png',
         video: 'https://www.youtube.com/embed/xnyFYiK2rSY?si=premium_mode', // Code.org: Hardware Basics
         sources: [
-            { title: 'MRI Machine Physics (RadiologyKey)', url: '#' },
-            { title: 'PACS & DICOM Overview', url: '#' }
+            { title: 'Von Neumann Architecture', url: '#' },
+            { title: 'CPU vs GPU vs TPU', url: '#' }
         ],
         story: `
             <div class="quad-track">
                 <div class="track-section tech">
-                    <h4>💻 1. Tech Core: Hardware vs Software</h4>
-                    <p><strong>Hardware</strong> is the physical machinery (CPU, RAM, Sensors). <strong>Software</strong> is the instruction set that controls it. Without software, hardware is just expensive metal.</p>
+                    <h4>💻 1. Tech Core: Silicon & Logic</h4>
+                    <p><strong>Hardware</strong> is the physical substrate of computing. The <strong>CPU</strong> executes instructions, while <strong>RAM</strong> provides fast, temporary storage for active tasks.</p>
                 </div>
                 <div class="track-section health">
-                    <h4>🏥 2. Health Systems: The MRI Suite</h4>
-                    <p>In a hospital, the <strong>MRI Scanner</strong> is the ultimate Hardware—a giant magnet. The <strong>PACS (Picture Archiving and Communication System)</strong> is the Software doctors use to view the scans.</p>
+                    <h4>🏥 2. Systems Engineering: Reliability</h4>
+                    <p>In enterprise systems, hardware redundancy (RAID, Failover Clusters) is critical to ensure 99.999% uptime for mission-critical services.</p>
                 </div>
                 <div class="track-section bio">
-                    <h4>🧬 3. Bio-Science: The Body as Hardware</h4>
-                    <p>Think of the human body as Hardware (Organs, Nerves) and the Brain's electrical signals as the "Software" driving the operation.</p>
+                    <h4>🧬 3. Biological Analog: The Brain</h4>
+                    <p>The brain acts as a massively parallel processor. Neurons fire signals similar to binary logic gates, but with analog variability.</p>
                 </div>
                 <div class="track-section lab">
-                    <h4>🧪 4. Project Lab: Asset Audit</h4>
-                    <p><strong>Mission:</strong> You are auditing the Radiology Dept. Identify the items that are <strong>Physical Medical Hardware</strong> but are mislabeled.</p>
+                    <h4>🧪 4. Project Lab: Component Audit</h4>
+                    <p><strong>Mission:</strong> You are auditing a server rack. Identify the components that are categorized incorrectly in the inventory system.</p>
                 </div>
             </div>
         `,
         task: {
             type: 'find-value',
-            targetColumn: 'type',
-            condition: (val, row) => row.item === 'MRI Scanner' && val === 'Software',
-            successMessage: "Correct! An MRI Scanner is massive Hardware. It runs Software, but it IS Hardware.",
-            errorMessage: "Find the physical medical machine (Hardware) labeled as Software."
+            targetColumn: 'category',
+            condition: (val, row) => row.item === 'NVIDIA H100 GPU' && val === 'Software',
+            successMessage: "Correct! The H100 is physical hardware (a GPU), not software.",
+            errorMessage: "Find the physical hardware component mislabeled as Software."
         },
         data: [
-            { id: 1, item: "Epic EHR", type: "Software", dept: "Admin" },
-            { id: 2, item: "MRI Scanner", type: "Software", dept: "Radiology" }, // Error
-            { id: 3, item: "Pacemaker", type: "Hardware", dept: "Cardiology" },
-            { id: 4, item: "Windows 11", type: "Software", dept: "IT" }
+            { id: 1, item: "Ubuntu 22.04", category: "Software", type: "OS" },
+            { id: 2, item: "NVIDIA H100 GPU", category: "Software", type: "Accelerator" }, // Error
+            { id: 3, item: "Intel Xeon CPU", category: "Hardware", type: "Processor" },
+            { id: 4, item: "PostgreSQL", category: "Software", type: "Database" }
         ]
     },
     {
         id: 'lesson-w1-d2',
-        title: 'W1-D2: OS & Hospital Systems',
+        title: 'W1-D2: Operating Systems 101',
         image: 'assets/lesson_os_brain.png',
         video: 'https://www.youtube.com/embed/p1q34_D2kKQ?si=premium_mode', // OS Basics
         sources: [
-            { title: 'Hospital Information Systems (HIS)', url: '#' }
+            { title: 'Linux Kernel Basics', url: '#' },
+            { title: 'Process Scheduling', url: '#' }
         ],
         story: `
             <div class="quad-track">
                 <div class="track-section tech">
-                    <h4>💻 1. Tech Core: The Operating System</h4>
-                    <p>The <strong>OS (Operating System)</strong> manages resources (Memory, CPU). Examples: Windows, Linux, macOS.</p>
+                    <h4>💻 1. Tech Core: The Kernel</h4>
+                    <p>The <strong>OS Kernel</strong> sits between hardware and software, managing memory, CPU scheduling, and I/O requests. It is the traffic controller.</p>
                 </div>
                 <div class="track-section health">
-                    <h4>🏥 2. Health Systems: Critical Stability</h4>
-                    <p>Hospitals use <strong>Linux</strong> for Life Support systems (high stability) but often use <strong>Windows</strong> for Admin/Billing (ease of use).</p>
+                    <h4>🏥 2. Systems Engineering: Stability</h4>
+                    <p>Servers typically run <strong>Linux</strong> due to its stability and efficiency. Desktop workstations often run <strong>Windows</strong> or <strong>macOS</strong> for user compatibility.</p>
                 </div>
                 <div class="track-section bio">
-                    <h4>🧬 3. Bio-Science: The Autonomic Nervous System</h4>
-                    <p>Your Autonomic Nervous System is your body's OS—managing heart rate and breathing without you thinking about it.</p>
+                    <h4>🧬 3. Biological Analog: Autonomic System</h4>
+                    <p>Just as an OS manages background processes, your autonomic nervous system handles breathing and heart rate without conscious input.</p>
                 </div>
                 <div class="track-section lab">
-                    <h4>🧪 4. Project Lab: System Crash</h4>
-                    <p><strong>Mission:</strong> Locate the critical Life Support server that has <strong>No OS</strong> installed.</p>
+                    <h4>🧪 4. Project Lab: Server Status</h4>
+                    <p><strong>Mission:</strong> Locate the critical production server that is missing an installed Operating System.</p>
                 </div>
             </div>
         `,
@@ -79,24 +80,24 @@ window.modules = [
             type: 'find-value',
             targetColumn: 'os',
             condition: (val) => val === 'None',
-            successMessage: "Critical Error Found! A Life Support system must have a stable OS (Linux/RTOS).",
+            successMessage: "Critical Error Found! A server cannot function without an OS.",
             errorMessage: "Find the Critical server with 'None' for OS."
         },
         data: [
-            { id: 101, device: "Nurse Station PC", os: "Windows 10", status: "Active" },
-            { id: 102, device: "MRI Control", os: "Linux", status: "Active" },
-            { id: 103, device: "ICU Ventilator", os: "None", status: "CRITICAL" }, // Target
-            { id: 104, device: "Billing Server", os: "Windows Server", status: "Active" }
+            { id: 101, hostname: "web-01", os: "Ubuntu Linux", status: "Active" },
+            { id: 102, hostname: "db-primary", os: "RedHat Enterprise", status: "Active" },
+            { id: 103, hostname: "cache-03", os: "None", status: "CRITICAL" }, // Target
+            { id: 104, hostname: "win-auth", os: "Windows Server", status: "Active" }
         ]
     },
     {
         id: 'lesson-w1-d3',
-        title: 'W1-D3: Files, EHR & DICOM',
+        title: 'W1-D3: File Systems & Storage',
         image: 'assets/lesson_files.png',
         video: 'https://www.youtube.com/embed/Q5K3jR9a3pM?si=premium_mode', // Files
         sources: [
-            { title: 'What is DICOM?', url: '#' },
-            { title: 'EHR Standards', url: '#' }
+            { title: 'NTFS vs EXT4', url: '#' },
+            { title: 'Block Storage vs Object Storage', url: '#' }
         ],
         story: `
             <div class="quad-track">

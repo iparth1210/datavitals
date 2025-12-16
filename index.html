@@ -45,31 +45,85 @@
         </div>
     </div>
 
-    <!-- Persistent Navbar with HUD -->
-    <nav class="glass-panel"
-        style="position: fixed; top: 0; left: 0; right: 0; z-index: 100; margin: 1rem; border-radius: 20px;">
-        <div class="nav-container"
-            style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 2rem;">
-            <div class="brand">
-                <span class="logo-text" style="color:white; font-weight:700;">DATA<span class="highlight"
-                        style="color:#3b82f6;">VITALS</span></span>
-                <span class="beta-tag"
-                    style="background:#10b981; color:black; padding:2px 6px; border-radius:4px; font-size:0.7em; margin-left:5px;">PRO</span>
+    <!-- APP LAYOUT WRAPPER -->
+    <div class="app-layout">
+
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-row">
+                    <img src="logo.png" alt="Logo" class="sidebar-logo">
+                    <span class="brand-name">DataVitals</span>
+                </div>
+                <span class="app-version">v5.2 PRO</span>
             </div>
 
-            <div id="user-hud" class="hud-container">
-                <!-- HUD Injected by gamification.js -->
-            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <span class="nav-label">General</span>
+                    <a href="#" class="nav-item active" onclick="showDashboard()">
+                        <span class="nav-icon">📊</span> Dashboard
+                    </a>
+                    <a href="#" class="nav-item" onclick="showRoadmap()">
+                        <span class="nav-icon">🗺️</span> Roadmap
+                    </a>
+                    <a href="#" class="nav-item" onclick="toggleTerminal()">
+                        <span class="nav-icon">💻</span> Terminal
+                    </a>
+                </div>
 
-            <div class="nav-links">
-                <a href="#" onclick="toggleTerminal()" class="terminal-btn"> >_ Terminal</a>
-                <a href="#" onclick="showRoadmap()"
-                    style="color:white; text-decoration:none; margin-right:20px;">Roadmap</a>
-                <a href="#" onclick="handleLogout()" class="logout-btn"
-                    style="color:#ef4444; text-decoration:none;">Reset</a>
+                <div class="nav-group">
+                    <span class="nav-label">Learning</span>
+                    <a href="#" class="nav-item" onclick="showMyProgress()">
+                        <span class="nav-icon">📈</span> Progress
+                    </a>
+                    <a href="#" class="nav-item" onclick="showResources()">
+                        <span class="nav-icon">📚</span> Library
+                    </a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">DV</div>
+                    <div class="user-info">
+                        <span class="user-name">Student</span>
+                        <span class="user-role">Pro Member</span>
+                    </div>
+                </div>
+                <button onclick="handleLogout()" class="logout-icon-btn" title="Reset">⏻</button>
             </div>
-        </div>
-    </nav>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content">
+
+            <!-- TOP HEADER -->
+            <header class="top-header">
+                <div class="header-left">
+                    <h2 id="page-title">Dashboard</h2>
+                </div>
+                <div class="header-right">
+                    <div class="search-bar">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" placeholder="Search modules..." />
+                        <span class="cmd-k">⌘K</span>
+                    </div>
+                    <div id="user-hud" class="hud-widget"></div>
+                    <button class="settings-btn">⚙️</button>
+                </div>
+            </header>
+
+            <!-- DYNAMIC SCROLLABLE CONTENT -->
+            <div id="app" class="content-scrollable">
+                <div class="loading-screen">
+                    <div class="loader-spinner"></div>
+                    <p>Initializing System...</p>
+                </div>
+            </div>
+        </main>
+
+    </div>
 
     <!-- PYTHON TERMINAL MODAL -->
     <div id="terminal-modal" class="terminal-modal hidden">
@@ -90,15 +144,6 @@
             <div id="term-output" class="console-pane">
                 <div class="term-line info">Click 'Run' to execute. Pyodide loading...</div>
             </div>
-        </div>
-    </div>
-
-    <!-- Main App Container -->
-    <div id="app" style="margin-top: 80px;">
-        <!-- Content will be injected here by script.js -->
-        <div class="loading-screen">
-            <h1>DataVitals 🏥</h1>
-            <p>Loading your journey...</p>
         </div>
     </div>
 
