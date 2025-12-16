@@ -1,4 +1,4 @@
-console.log("Booting DataVitals v4.2 PRO...");
+console.log("Booting DataVitals v5.0 Ultra Premium...");
 // Modules are loaded globally
 
 const app = document.getElementById('app');
