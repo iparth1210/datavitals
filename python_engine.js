@@ -109,6 +109,17 @@ const PythonEngine = {
                         fontSize: 14,
                         fontFamily: "'Fira Code', 'Consolas', monospace"
                     });
+
+                    // Force layout recalc to fill container
+                    setTimeout(() => {
+                        this.editor.layout();
+                    }, 100);
+
+                    // Respond to window resize
+                    window.addEventListener('resize', () => {
+                        if (this.editor) this.editor.layout();
+                    });
+
                     resolve();
                 });
             };
