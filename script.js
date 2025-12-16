@@ -1,4 +1,4 @@
-console.log("Booting DataVitals v5.8 Pro Terminal...");
+console.log("Booting DataVitals v5.9 Grid Layout...");
 // Modules are loaded globally
 
 const app = document.getElementById('app');
@@ -103,13 +103,31 @@ function renderWeekView(weekId) {
                 <h2 style="margin-left: 2rem; color: var(--text-main);">${week.title}</h2>
             </div>
             
-            <div class="week-detail-grid">
+            <div class="week-grid-square">
                 ${week.days.map((day, index) => {
         const isUnlocked = unlocked.includes(day.id);
         const statusClass = isUnlocked ? 'unlocked' : 'locked';
+        // Generate a fun abstract pattern/icon based on day index
+        const icons = ['💻', '💿', '📂', '☁️', '📊', '🔒', '✅'];
+        const dayIcon = icons[index % icons.length];
 
         return `
-                    <div class="roadmap-node ${statusClass}" onclick="handleDayClick('${day.id}', '${day.lessonId}')">
+                    <div class="day-card-square ${statusClass}" onclick="handleDayClick('${day.id}', '${day.lessonId}')">
+                        <div class="day-header">
+                            <span class="day-num">DAY ${index + 1}</span>
+                            ${!isUnlocked ? '<span class="lock-state">🔒</span>' : ''}
+                        </div>
+                        <div class="day-body">
+                            <div class="day-icon-large">${dayIcon}</div>
+                            <h3 class="day-title-text">${day.title}</h3>
+                        </div>
+                        <div class="day-footer">
+                            <span class="status-indicator"></span>
+                            ${isUnlocked ? 'Completed' : 'Locked'}
+                        </div>
+                    </div>
+                `}).join('')}
+            </div>
                         <div class="node-number" style="background: var(--secondary);">${index + 1}</div>
                         <div class="node-content">
                             <h3>${day.title}</h3>
@@ -117,8 +135,8 @@ function renderWeekView(weekId) {
                         ${!isUnlocked ? '<div class="lock-icon">🔒</div>' : ''}
                     </div>
                 `}).join('')}
-            </div>
-        </div>
+            </div >
+        </div >
     `;
 }
 
@@ -212,12 +230,12 @@ function getLessonById(lessonId) {
 
     return {
         id: lessonId,
-        title: `W${weekNum}-D${dayNum}: ${topic} Mastery`,
+        title: `W${ weekNum } -D${ dayNum }: ${ topic } Mastery`,
         image: 'assets/lesson_matrix.png',
         video: videoUrl,
-        sources: [{ title: `${topic} Documentation`, url: '#' }],
+        sources: [{ title: `${ topic } Documentation`, url: '#' }],
         story: `
-            <div class="quad-track">
+    < div class="quad-track" >
                 <div class="track-section tech">
                     <h4>💻 1. Tech Core</h4>
                     <p>${techContent}</p>
@@ -234,8 +252,8 @@ function getLessonById(lessonId) {
                     <h4>🧪 4. Project Lab</h4>
                     <p>${labContent}</p>
                 </div>
-            </div>
-        `,
+            </div >
+    `,
         task: {
             type: 'find-value',
             targetColumn: 'Status',
@@ -264,7 +282,7 @@ function renderLesson(lessonId, dayId) {
     const isPythonLesson = lesson.type === 'python';
 
     app.innerHTML = `
-        <div class="split-screen">
+    < div class="split-screen" >
             <div class="pane pane-left">
                 <div class="module-header">
                     <button onclick="renderWeekView('${getWeekIdForDay(dayId)}')" class="btn btn-secondary" style="margin-bottom: 1rem; padding: 8px 16px; font-size: 0.9rem;">📅 Back to Week</button>
@@ -328,7 +346,7 @@ function renderLesson(lessonId, dayId) {
                     `}
                 </div>
             </div>
-        </div>
+        </div >
     `;
 
     if (isPythonLesson) {
@@ -360,14 +378,14 @@ function renderTable(data) {
 
     let html = '<table class="data-table"><thead><tr>';
     headers.forEach(h => {
-        html += `<th>${h.charAt(0).toUpperCase() + h.slice(1)}</th>`;
+        html += `< th > ${ h.charAt(0).toUpperCase() + h.slice(1) }</th > `;
     });
     html += '</tr></thead><tbody>';
 
     data.forEach((row, rowIndex) => {
         html += '<tr>';
         headers.forEach(key => {
-            html += `<td class="clickable-cell" data-row="${rowIndex}" data-col="${key}" data-val="${row[key]}">${row[key]}</td>`;
+            html += `< td class="clickable-cell" data - row="${rowIndex}" data - col="${key}" data - val="${row[key]}" > ${ row[key] }</td > `;
         });
         html += '</tr>';
     });
@@ -439,39 +457,39 @@ function attachLessonListeners(lesson, currentDayId) {
                             const nextLesson = getNextLesson(currentDayId);
                             if (nextLesson) {
                                 nextBtnHtml = `
-                                <button onclick="renderLesson('${nextLesson.lessonId}', '${nextLesson.id}')"
-                                    class="btn btn-primary"
-                                    id="btn-next-lesson"
-                                    style="margin-left: 15px; padding: 6px 18px; font-size: 0.95rem; animation: pulseGlow 2s infinite; display: inline-flex; align-items: center; gap: 8px;">
-                                    Next Lesson <span style="font-size: 1.1em">→</span>
-                                </button>
-                                `;
+    < button onclick = "renderLesson('${nextLesson.lessonId}', '${nextLesson.id}')"
+class="btn btn-primary"
+id = "btn-next-lesson"
+style = "margin-left: 15px; padding: 6px 18px; font-size: 0.95rem; animation: pulseGlow 2s infinite; display: inline-flex; align-items: center; gap: 8px;" >
+    Next Lesson < span style = "font-size: 1.1em" >→</span >
+                                </button >
+    `;
                             }
                         } catch (innerErr) {
                             console.error("Navigation Error:", innerErr);
                         }
 
                         feedbackEl.innerHTML = `
-                            <div style="display:flex; flex-direction: column; align-items:center; justify-content:center; gap:12px;">
+    < div style = "display:flex; flex-direction: column; align-items:center; justify-content:center; gap:12px;" >
                                 <div style="font-size: 1.1rem; font-weight: 600;">✅ Correct Analysis</div>
                                 <div style="font-size:0.9rem; opacity:0.8; color: var(--text-muted);">${lesson.task.successMessage}</div>
                                 <div style="font-size:0.8rem; color: var(--accent-cyan);">${unlockMsg}</div>
-                                ${nextBtnHtml}
-                            </div>
-                        `;
+                                ${ nextBtnHtml }
+                            </div >
+    `;
                         triggerConfetti();
                     } catch (e) {
                         console.error("Runtime Error:", e);
                         feedbackEl.innerHTML = `
-                            <div style="color: var(--error);">
-                                ✅ Correct Answer recorded.<br>
-                                <span style="font-size:0.8em; opacity:0.8">System Warning: Module transition failed (${e.message}). Please refresh.</span>
-                            </div>
-                        `;
+    < div style = "color: var(--error);" >
+                                ✅ Correct Answer recorded.< br >
+    <span style="font-size:0.8em; opacity:0.8">System Warning: Module transition failed (${e.message}). Please refresh.</span>
+                            </div >
+    `;
                     }
                 } else {
                     feedbackEl.className = 'feedback-box error';
-                    feedbackEl.innerHTML = `❌ ${lesson.task.errorMessage}`;
+                    feedbackEl.innerHTML = `❌ ${ lesson.task.errorMessage } `;
                     if (window.Gamification) {
                         Gamification.takeDamage(10);
                     }
@@ -533,11 +551,11 @@ window.showResources = () => {
         return;
     }
 
-    let html = `<div class="library-container" style="max-width: 1000px; margin: 0 auto; padding-bottom: 50px;">`;
+    let html = `< div class="library-container" style = "max-width: 1000px; margin: 0 auto; padding-bottom: 50px;" > `;
 
     window.libraryResources.forEach(week => {
         html += `
-            <div class="lib-week-block" style="margin-bottom: 40px;">
+    < div class="lib-week-block" style = "margin-bottom: 40px;" >
                 <h2 style="font-size: 1.4rem; color: var(--accent-primary); border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px; margin-bottom: 20px;">
                     ${week.weekTitle}
                 </h2>
@@ -576,13 +594,13 @@ window.showResources = () => {
                 `;
             });
 
-            html += `</div></div>`;
+            html += `</div></div > `;
         });
 
-        html += `</div></div>`;
+        html += `</div ></div > `;
     });
 
-    html += `</div>`;
+    html += `</div > `;
 
     // Inject Custom Styles for Hover Effects
     const styleId = 'library-styles';
@@ -590,13 +608,13 @@ window.showResources = () => {
         const style = document.createElement('style');
         style.id = styleId;
         style.innerHTML = `
-            .resource-link:hover {
-                background: rgba(255,255,255,0.08) !important;
-                border-color: var(--accent-primary) !important;
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            }
-        `;
+    .resource - link:hover {
+    background: rgba(255, 255, 255, 0.08)!important;
+    border - color: var(--accent - primary)!important;
+    transform: translateY(-2px);
+    box - shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+`;
         document.head.appendChild(style);
     }
 
@@ -616,27 +634,27 @@ window.showMyProgress = () => {
     const level = window.Gamification ? window.Gamification.state.level : 1;
 
     app.innerHTML = `
-        <div style="max-width:800px; margin:0 auto; text-align:center;">
-             <div style="background:var(--bg-card); padding:40px; border-radius:16px; border:1px solid var(--border-subtle);">
-                <div style="font-size:4rem; margin-bottom:10px;">🏆</div>
-                <h2 style="margin-bottom:20px;">Your Journey</h2>
-                <div style="display:flex; justify-content:center; gap:40px; margin-bottom:30px;">
-                    <div>
-                        <div style="font-size:2rem; font-weight:800; color:var(--accent-primary);">${percent}%</div>
-                        <div style="color:var(--text-muted);">Completed</div>
-                    </div>
-                    <div>
-                        <div style="font-size:2rem; font-weight:800; color:var(--accent-cyan);">${xp}</div>
-                        <div style="color:var(--text-muted);">Total XP</div>
-                    </div>
-                    <div>
-                        <div style="font-size:2rem; font-weight:800; color:var(--warning);">${level}</div>
-                        <div style="color:var(--text-muted);">Level</div>
-                    </div>
+    < div style = "max-width:800px; margin:0 auto; text-align:center;" >
+        <div style="background:var(--bg-card); padding:40px; border-radius:16px; border:1px solid var(--border-subtle);">
+            <div style="font-size:4rem; margin-bottom:10px;">🏆</div>
+            <h2 style="margin-bottom:20px;">Your Journey</h2>
+            <div style="display:flex; justify-content:center; gap:40px; margin-bottom:30px;">
+                <div>
+                    <div style="font-size:2rem; font-weight:800; color:var(--accent-primary);">${percent}%</div>
+                    <div style="color:var(--text-muted);">Completed</div>
                 </div>
-                <button onclick="renderRoadmap()" class="btn btn-primary">Continue Learning</button>
-             </div>
+                <div>
+                    <div style="font-size:2rem; font-weight:800; color:var(--accent-cyan);">${xp}</div>
+                    <div style="color:var(--text-muted);">Total XP</div>
+                </div>
+                <div>
+                    <div style="font-size:2rem; font-weight:800; color:var(--warning);">${level}</div>
+                    <div style="color:var(--text-muted);">Level</div>
+                </div>
+            </div>
+            <button onclick="renderRoadmap()" class="btn btn-primary">Continue Learning</button>
         </div>
+        </div >
     `;
 };
 
@@ -698,7 +716,7 @@ function sendMessage() {
 function addMessage(text, sender) {
     const messagesContainer = document.getElementById('chat-messages');
     const msgDiv = document.createElement('div');
-    msgDiv.className = `message ${sender}-message`;
+    msgDiv.className = `message ${ sender } -message`;
     msgDiv.innerHTML = text.replace(/\n/g, '<br>');
     messagesContainer.appendChild(msgDiv);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -712,7 +730,7 @@ function generateBotResponse(userMsg) {
     const currentLesson = titleEl ? titleEl.innerText : "the Roadmap";
 
     if (msg.includes('hello') || msg.includes('hi')) {
-        return `Greetings. I see you are currently focusing on **${currentLesson}**. How can I clarify this topic?`;
+        return `Greetings.I see you are currently focusing on ** ${ currentLesson }**.How can I clarify this topic ? `;
     }
 
     if (msg.includes('help') || msg.includes('stuck')) {
@@ -801,5 +819,5 @@ try {
     if (splash) splash.style.display = 'none';
 
     alert("System Error: " + e.message);
-    document.getElementById('app').innerHTML = `<h1 style="color:red; padding:20px;">System Error: ${e.message}</h1>`;
+    document.getElementById('app').innerHTML = `< h1 style = "color:red; padding:20px;" > System Error: ${ e.message }</h1 > `;
 }

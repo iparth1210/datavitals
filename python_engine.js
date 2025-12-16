@@ -19,41 +19,39 @@ const PythonEngine = {
      * Initialize the Engine (lazy load)
      */
     async init() {
-        // If pyodide is loaded but editor element is missing/new, we might need to re-init Monaco
         const container = document.getElementById('monaco-container');
+        if (!container) return;
 
-        if (this.pyodide && this.editor && container && container.childElementCount > 0) {
-            return; // Already fully ready
+        // 1. Init Monaco (UI First)
+        if (!this.editor && container) {
+            this.log("Initializing Editor Interface...");
+            try {
+                await this.initMonaco();
+                this.log("✨ Editor Interface Ready.");
+                // Setup resize observer
+                new ResizeObserver(() => {
+                    if (this.editor) this.editor.layout();
+                }).observe(container);
+            } catch (e) {
+                this.log("Editor Init Failed: " + e.message, 'error');
+            }
         }
 
-        // If loading, wait
-        if (this.isLoading) return;
-
-        this.isLoading = true;
-        this.updateButtonState(true, "⏳ Loading Engine...");
-        this.log("Initializing Neural Python Runtime...");
-
-        try {
-            if (!this.pyodide) {
+        // 2. Init Pyodide (Backend Second)
+        if (!this.pyodide && !this.isLoading) {
+            this.isLoading = true;
+            this.updateButtonState(true, "⏳ Loading Kernel...");
+            try {
                 await this.loadScript(this.config.pyodideUrl);
                 await this.initPyodide();
+                this.isLoading = false;
+                this.updateButtonState(false, "▶ Run Code");
+                this.log("✅ Neural Python Kernel (v3.11) Online.");
+            } catch (e) {
+                this.isLoading = false;
+                this.log("Kernel Error: " + e.message, 'error');
+                this.updateButtonState(false, "⚠️ Kernel Failed");
             }
-
-            // Always init monaco if container exists and is empty
-            if (container && container.childElementCount === 0) {
-                await this.initMonaco();
-            }
-
-            this.isLoading = false;
-            this.updateButtonState(false, "▶ Run Code");
-            this.log("✅ Python Engine Online. Version 3.11");
-            if (!this.pyodide) { // Only run hello if fresh load
-                this.runCode(`print("Welcome to the Neural Terminal.")\nimport sys\nprint(f"Python {sys.version}")`);
-            }
-        } catch (e) {
-            this.log(`❌ Critical Error: ${e.message}`, 'error');
-            this.isLoading = false;
-            this.updateButtonState(false, "⚠️ Error");
         }
     },
 
