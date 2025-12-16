@@ -516,6 +516,130 @@ function triggerConfetti() {
 
 // --- UI UTILS ---
 
+// Show Library Resources v5.5 (Day-by-Day)
+window.showResources = () => {
+    const app = document.getElementById('app');
+    const title = document.getElementById('page-title');
+    if (title) title.innerText = "Library";
+
+    // Highlight sidebar
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    // Find library link heuristic
+    const navItems = document.querySelectorAll('.nav-item');
+    if (navItems.length > 5) navItems[5].classList.add('active');
+
+    if (!window.libraryResources) {
+        app.innerHTML = '<p style="padding:20px;">Library data loading...</p>';
+        return;
+    }
+
+    let html = `<div class="library-container" style="max-width: 1000px; margin: 0 auto; padding-bottom: 50px;">`;
+
+    window.libraryResources.forEach(week => {
+        html += `
+            <div class="lib-week-block" style="margin-bottom: 40px;">
+                <h2 style="font-size: 1.4rem; color: var(--accent-primary); border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px; margin-bottom: 20px;">
+                    ${week.weekTitle}
+                </h2>
+                <div class="lib-days-grid" style="display: grid; gap: 20px;">
+        `;
+
+        week.days.forEach(day => {
+            html += `
+                <div class="lib-day-card" style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 20px;">
+                    <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 15px; display:flex; align-items:center; gap:10px;">
+                        <span style="opacity:0.6;">📅</span> ${day.dayTitle}
+                    </h3>
+                    <div class="resources-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px;">
+            `;
+
+            day.resources.forEach(res => {
+                let icon = '📄';
+                if (res.type === 'book') icon = '📖';
+                if (res.type === 'video') icon = '📺';
+                if (res.type === 'tool') icon = '🛠️';
+                if (res.type === 'course') icon = '🎓';
+
+                html += `
+                    <a href="${res.url}" target="_blank" class="resource-link" style="
+                        display: flex; align-items: center; gap: 10px; 
+                        padding: 10px; background: rgba(255,255,255,0.03); 
+                        border-radius: 6px; text-decoration: none; 
+                        color: var(--text-secondary); transition: all 0.2s; border: 1px solid transparent;">
+                        <span style="font-size: 1.2rem;">${icon}</span>
+                        <div style="flex:1;">
+                            <div style="font-size: 0.9rem; font-weight: 500; color: var(--text-primary);">${res.title}</div>
+                            <div style="font-size: 0.75rem; opacity: 0.6; text-transform: uppercase;">${res.type}</div>
+                        </div>
+                        <span style="opacity:0.3;">↗</span>
+                    </a>
+                `;
+            });
+
+            html += `</div></div>`;
+        });
+
+        html += `</div></div>`;
+    });
+
+    html += `</div>`;
+
+    // Inject Custom Styles for Hover Effects
+    const styleId = 'library-styles';
+    if (!document.getElementById(styleId)) {
+        const style = document.createElement('style');
+        style.id = styleId;
+        style.innerHTML = `
+            .resource-link:hover {
+                background: rgba(255,255,255,0.08) !important;
+                border-color: var(--accent-primary) !important;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    app.innerHTML = html;
+};
+
+// Show Progress Stats
+window.showMyProgress = () => {
+    const app = document.getElementById('app');
+    const title = document.getElementById('page-title');
+    if (title) title.innerText = "My Progress";
+
+    const unlocked = loadProgress().length;
+    const total = window.roadmap.reduce((acc, week) => acc + week.days.length, 0);
+    const percent = Math.round((unlocked / total) * 100);
+    const xp = window.Gamification ? window.Gamification.state.xp : 0;
+    const level = window.Gamification ? window.Gamification.state.level : 1;
+
+    app.innerHTML = `
+        <div style="max-width:800px; margin:0 auto; text-align:center;">
+             <div style="background:var(--bg-card); padding:40px; border-radius:16px; border:1px solid var(--border-subtle);">
+                <div style="font-size:4rem; margin-bottom:10px;">🏆</div>
+                <h2 style="margin-bottom:20px;">Your Journey</h2>
+                <div style="display:flex; justify-content:center; gap:40px; margin-bottom:30px;">
+                    <div>
+                        <div style="font-size:2rem; font-weight:800; color:var(--accent-primary);">${percent}%</div>
+                        <div style="color:var(--text-muted);">Completed</div>
+                    </div>
+                    <div>
+                        <div style="font-size:2rem; font-weight:800; color:var(--accent-cyan);">${xp}</div>
+                        <div style="color:var(--text-muted);">Total XP</div>
+                    </div>
+                    <div>
+                        <div style="font-size:2rem; font-weight:800; color:var(--warning);">${level}</div>
+                        <div style="color:var(--text-muted);">Level</div>
+                    </div>
+                </div>
+                <button onclick="renderRoadmap()" class="btn btn-primary">Continue Learning</button>
+             </div>
+        </div>
+    `;
+};
+
 function toggleTerminal() {
     const modal = document.getElementById('terminal-modal');
     if (modal) {
