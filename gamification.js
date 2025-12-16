@@ -103,49 +103,39 @@ const Gamification = {
      * Update the UI HUD
      */
     updateHUD() {
-        const hud = document.getElementById('user-hud');
-        if (!hud) return;
-
-        hud.innerHTML = `
-            <div class="hud-pill">
-                <span class="hud-icon">⚡</span>
-                <span class="hud-value">${this.state.streak}</span>
-            </div>
-            <div class="hud-pill">
-                <span class="hud-icon">⭐</span>
-                <span class="hud-value">Lvl ${this.state.level}</span>
-            </div>
-            <div class="hud-pill xp-pill">
-                <div class="xp-bar" style="width: ${(this.state.xp / (this.state.level * 1000)) * 100}%"></div>
+        // Inject HUD
+        const hud = document.getElementById('sidebar-hud');
+        if (hud) {
+            hud.innerHTML = `
                 <span class="hud-value" style="position:relative; z-index:2">${this.state.xp} XP</span>
             </div>
         `;
-    },
+        },
 
-    /**
-     * Show Toast Notification
-     */
-    showNotification(msg) {
-        let toast = document.createElement('div');
-        toast.className = 'game-toast';
-        toast.innerText = msg;
-        document.body.appendChild(toast);
+        /**
+         * Show Toast Notification
+         */
+        showNotification(msg) {
+            let toast = document.createElement('div');
+            toast.className = 'game-toast';
+            toast.innerText = msg;
+            document.body.appendChild(toast);
 
-        // Animate
-        setTimeout(() => toast.classList.add('show'), 100);
-        setTimeout(() => {
-            toast.classList.remove('show');
-            setTimeout(() => toast.remove(), 300);
-        }, 3000);
-    },
+            // Animate
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        },
 
-    takeDamage(amount) {
-        this.showNotification(`💔 Took ${amount} Damage!`);
-    }
-};
+        takeDamage(amount) {
+            this.showNotification(`💔 Took ${amount} Damage!`);
+        }
+    };
 
-// Auto-init on load if script is deferred
-window.Gamification = Gamification;
-document.addEventListener('DOMContentLoaded', () => {
-    Gamification.init();
-});
+    // Auto-init on load if script is deferred
+    window.Gamification = Gamification;
+    document.addEventListener('DOMContentLoaded', () => {
+        Gamification.init();
+    });

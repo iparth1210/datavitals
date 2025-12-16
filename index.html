@@ -30,7 +30,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=5.1">
+    <link rel="stylesheet" href="style.css?v=5.3">
 </head>
 
 <body>
@@ -53,22 +53,16 @@
             <div class="sidebar-header">
                 <div class="brand-row">
                     <img src="logo.png" alt="Logo" class="sidebar-logo">
-                    <span class="brand-name">DataVitals</span>
+                    <!-- Brand Name Removed per user request -->
                 </div>
-                <span class="app-version">v5.2 PRO</span>
             </div>
 
             <nav class="sidebar-nav">
                 <div class="nav-group">
-                    <span class="nav-label">General</span>
-                    <a href="#" class="nav-item active" onclick="showDashboard()">
-                        <span class="nav-icon">📊</span> Dashboard
-                    </a>
+                    <span class="nav-label">Menu</span>
+                    <!-- Dashboard Link Removed -->
                     <a href="#" class="nav-item" onclick="showRoadmap()">
                         <span class="nav-icon">🗺️</span> Roadmap
-                    </a>
-                    <a href="#" class="nav-item" onclick="toggleTerminal()">
-                        <span class="nav-icon">💻</span> Terminal
                     </a>
                 </div>
 
@@ -81,17 +75,23 @@
                         <span class="nav-icon">📚</span> Library
                     </a>
                 </div>
+
+                <div class="nav-group">
+                    <span class="nav-label">Tools</span>
+                    <a href="#" class="nav-item" onclick="toggleTerminal()">
+                        <span class="nav-icon">💻</span> Terminal
+                    </a>
+                    <a href="#" class="nav-item" onclick="handleLogout()" style="color: #ef4444;">
+                        <span class="nav-icon">⏻</span> Reset
+                    </a>
+                </div>
             </nav>
 
             <div class="sidebar-footer">
-                <div class="user-profile">
-                    <div class="user-avatar">DV</div>
-                    <div class="user-info">
-                        <span class="user-name">Student</span>
-                        <span class="user-role">Pro Member</span>
-                    </div>
+                <!-- User HUD moved here? User said remove lines/streak from top. Let's make it minimal here -->
+                <div id="sidebar-hud" style="width: 100%; font-size: 11px; color: #666;">
+                    <!-- Gamification stats injected here refined -->
                 </div>
-                <button onclick="handleLogout()" class="logout-icon-btn" title="Reset">⏻</button>
             </div>
         </aside>
 
@@ -107,11 +107,14 @@
                     <div class="search-bar">
                         <span class="search-icon">🔍</span>
                         <input type="text" placeholder="Search modules..." />
-                        <span class="cmd-k">⌘K</span>
+                        <div class="search-bar">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" placeholder="Search modules..." />
+                            <span class="cmd-k">⌘K</span>
+                        </div>
+                        <!-- User HUD Removed from Header -->
+                        <button class="settings-btn">⚙️</button>
                     </div>
-                    <div id="user-hud" class="hud-widget"></div>
-                    <button class="settings-btn">⚙️</button>
-                </div>
             </header>
 
             <!-- DYNAMIC SCROLLABLE CONTENT -->
@@ -176,10 +179,11 @@
 
     <!-- Scripts -->
     <script src="roadmap.js"></script>
+    <script src="library_data.js"></script>
     <script src="modules.js"></script>
-    <script src="gamification.js?v=5.1"></script>
+    <script src="gamification.js?v=5.3"></script>
     <script src="python_engine.js"></script>
-    <script src="script.js?v=5.1"></script>
+    <script src="script.js?v=5.3"></script>
 </body>
 
 </html>
