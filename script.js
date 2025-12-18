@@ -448,13 +448,13 @@ function attachLessonListeners(lesson, currentDayId) {
                             const nextLesson = getNextLesson(currentDayId);
                             if (nextLesson) {
                                 nextBtnHtml = `
-    < button onclick = "renderLesson('${nextLesson.lessonId}', '${nextLesson.id}')"
-class="btn btn-primary"
-id = "btn-next-lesson"
-style = "margin-left: 15px; padding: 6px 18px; font-size: 0.95rem; animation: pulseGlow 2s infinite; display: inline-flex; align-items: center; gap: 8px;" >
-    Next Lesson < span style = "font-size: 1.1em" >→</span >
-                                </button >
-    `;
+                                    <button onclick="renderLesson('${nextLesson.lessonId}', '${nextLesson.id}')" 
+                                            class="btn btn-primary" 
+                                            id="btn-next-lesson" 
+                                            style="margin-left: 15px; padding: 6px 18px; font-size: 0.95rem; animation: pulseGlow 2s infinite; display: inline-flex; align-items: center; gap: 8px;">
+                                        Next Lesson <span style="font-size: 1.1em">→</span>
+                                    </button>
+                                `;
                             }
                         } catch (innerErr) {
                             console.error("Navigation Error:", innerErr);
@@ -542,11 +542,11 @@ window.showResources = () => {
         return;
     }
 
-    let html = `< div class="library-container" style = "max-width: 1000px; margin: 0 auto; padding-bottom: 50px;" > `;
+    let html = `<div class="library-container" style="max-width: 1000px; margin: 0 auto; padding-bottom: 50px;">`;
 
     window.libraryResources.forEach(week => {
         html += `
-    < div class="lib-week-block" style = "margin-bottom: 40px;" >
+            <div class="lib-week-block" style="margin-bottom: 40px;">
                 <h2 style="font-size: 1.4rem; color: var(--accent-primary); border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px; margin-bottom: 20px;">
                     ${week.weekTitle}
                 </h2>
@@ -585,13 +585,13 @@ window.showResources = () => {
                 `;
             });
 
-            html += `</div></div > `;
+            html += `</div></div>`;
         });
 
-        html += `</div ></div > `;
+        html += `</div></div>`;
     });
 
-    html += `</div > `;
+    html += `</div>`;
 
     // Inject Custom Styles for Hover Effects
     const styleId = 'library-styles';
@@ -707,7 +707,7 @@ function sendMessage() {
 function addMessage(text, sender) {
     const messagesContainer = document.getElementById('chat-messages');
     const msgDiv = document.createElement('div');
-    msgDiv.className = `message ${sender} -message`;
+    msgDiv.className = `message ${sender}-message`;
     msgDiv.innerHTML = text.replace(/\n/g, '<br>');
     messagesContainer.appendChild(msgDiv);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -721,7 +721,7 @@ function generateBotResponse(userMsg) {
     const currentLesson = titleEl ? titleEl.innerText : "the Roadmap";
 
     if (msg.includes('hello') || msg.includes('hi')) {
-        return `Greetings.I see you are currently focusing on ** ${currentLesson}**.How can I clarify this topic ? `;
+        return `Greetings. I see you are currently focusing on **${currentLesson}**. How can I clarify this topic?`;
     }
 
     if (msg.includes('help') || msg.includes('stuck')) {
