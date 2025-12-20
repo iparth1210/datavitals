@@ -1,4 +1,4 @@
-console.log("Booting DataVitals v5.9 Grid Layout...");
+console.log("Booting DataVitals v6.1 (QA Release)...");
 // Modules are loaded globally
 
 const app = document.getElementById('app');
