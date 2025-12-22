@@ -32,6 +32,8 @@
         rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=6.1">
     <link rel="stylesheet" href="style_terminal_modern.css?v=6.1">
+    <link rel="stylesheet" href="style_landing_v7.css?v=7.0">
+    <link rel="stylesheet" href="style_aura_v7.css?v=7.0">
 </head>
 
 <body>
@@ -60,30 +62,29 @@
 
             <nav class="sidebar-nav">
                 <div class="nav-group">
-                    <span class="nav-label">Menu</span>
-                    <!-- Dashboard Link Removed -->
-                    <a href="#" class="nav-item" onclick="showRoadmap()">
+                    <span class="nav-label">Curriculum</span>
+                    <a href="#" class="nav-item active" id="nav-roadmap" onclick="showRoadmap()">
                         <span class="nav-icon">🗺️</span> Roadmap
                     </a>
-                </div>
-
-                <div class="nav-group">
-                    <span class="nav-label">Learning</span>
-                    <a href="#" class="nav-item" onclick="showMyProgress()">
-                        <span class="nav-icon">📈</span> Progress
-                    </a>
-                    <a href="#" class="nav-item" onclick="showResources()">
-                        <span class="nav-icon">📚</span> Library
+                    <a href="#" class="nav-item" id="nav-progress" onclick="showMyProgress()">
+                        <span class="nav-icon">📈</span> Your Journey
                     </a>
                 </div>
 
                 <div class="nav-group">
-                    <span class="nav-label">Tools</span>
-                    <a href="#" class="nav-item" onclick="toggleTerminal()">
-                        <span class="nav-icon">💻</span> Terminal
+                    <span class="nav-label">Resources</span>
+                    <a href="#" class="nav-item" id="nav-library" onclick="showResources()">
+                        <span class="nav-icon">📚</span> Archive / Library
                     </a>
-                    <a href="#" class="nav-item" onclick="handleLogout()" style="color: #ef4444;">
-                        <span class="nav-icon">⏻</span> Reset
+                </div>
+
+                <div class="nav-group">
+                    <span class="nav-label">Tooling</span>
+                    <a href="#" class="nav-item" id="nav-terminal" onclick="toggleTerminal()">
+                        <span class="nav-icon" style="color:var(--hero-accent)">💻</span> Sandbox Console
+                    </a>
+                    <a href="#" class="nav-item" onclick="showPrivacy()" style="opacity:0.6;">
+                        <span class="nav-icon">🛡️</span> Data Privacy
                     </a>
                 </div>
             </nav>
@@ -114,11 +115,32 @@
                     <button class="settings-btn">⚙️</button>
             </header>
 
-            <!-- DYNAMIC SCROLLABLE CONTENT -->
+            <!-- DYNAMIC CONTENT AREA -->
             <div id="app" class="content-scrollable">
-                <div class="loading-screen">
-                    <div class="loader-spinner"></div>
-                    <p>Initializing System...</p>
+                <div id="landing-page" class="landing-hero">
+                    <div class="hero-content">
+                        <div class="hero-badge">v7.0 Professional Release</div>
+                        <h1 class="hero-title">Mastering <span class="text-gradient">Healthcare Data Intelligence</span>
+                        </h1>
+                        <p class="hero-subtitle">The only Quad-Track curriculum designed to bridge the gap between
+                            Computer Science, Clinical Systems, and Biomedical Science.</p>
+                        <div class="hero-actions">
+                            <button onclick="startJourney()" class="btn btn-hero-primary">Start Your 52-Week
+                                Journey</button>
+                            <button onclick="showHowItWorks()" class="btn btn-hero-secondary">Explore
+                                Curriculum</button>
+                        </div>
+                        <div class="hero-trust-bar">
+                            <span class="trust-item">🔒 100% Local Execution</span>
+                            <span class="trust-item">🧬 Bioinformatics Ready</span>
+                            <span class="trust-item">🎓 Industry Standard</span>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="visual-glow"></div>
+                        <img src="assets/platform_preview.png" alt="DataVitals Platform Preview"
+                            class="hero-preview-img">
+                    </div>
                 </div>
             </div>
         </main>
@@ -127,17 +149,29 @@
 
     <!-- PYTHON TERMINAL MODAL -->
     <div id="terminal-modal" class="terminal-modal hidden">
-        <div class="terminal-header">
-            <span class="term-title"
-                style="font-family: var(--font-mono); color: var(--text-muted); font-size: 0.9rem;">
-                <span style="color:var(--success)">●</span> Neural Python Kernel (v3.11)
-            </span>
-            <div class="term-controls" style="display:flex; gap:10px;">
+        <div class="terminal-header"
+            style="background: var(--bg-sidebar); border-bottom: 1px solid var(--border-subtle);">
+            <div class="term-title" style="display:flex; align-items:center; gap:12px;">
+                <span class="nav-icon" style="font-size:1.2rem;">🐍</span>
+                <span style="font-weight:600; color:white;">Python Sandbox</span>
+                <span class="badge-pill"
+                    style="font-size:10px; padding:2px 6px; background:rgba(39, 201, 110, 0.1); color:var(--accent-success); border:1px solid rgba(39, 201, 110, 0.2); border-radius:4px;">Secure</span>
+            </div>
+            <div class="term-controls" style="display:flex; gap:10px; align-items:center;">
+                <div id="kernel-status" style="font-size:11px; color:var(--text-muted); display:none;">
+                    <span style="color:var(--accent-success)">●</span> Kernel v3.11
+                </div>
                 <button id="term-run-btn" onclick="PythonEngine.run()" class="btn btn-primary"
-                    style="font-size:0.8rem; padding: 6px 12px;">▶ Run Code</button>
+                    style="font-size:0.8rem; padding: 6px 12px; background:var(--accent-primary) !important;">▶
+                    Run</button>
                 <button onclick="toggleTerminal()" class="close-term"
                     style="background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer; line-height:1;">×</button>
             </div>
+        </div>
+        <div class="terminal-privacy-note"
+            style="padding: 10px 15px; background: rgba(94, 106, 210, 0.05); font-size: 11px; color: var(--text-secondary); border-bottom: 1px solid var(--border-subtle);">
+            🛡️ <b>Privacy First:</b> All code execution is isolated within your browser's memory. No data is sent to
+            external servers.
         </div>
         <div class="terminal-body">
             <div id="monaco-container" class="editor-pane"></div>
@@ -180,7 +214,7 @@
     <script src="modules.js"></script>
     <script src="gamification.js?v=5.5"></script>
     <script src="python_engine.js"></script>
-    <script src="script.js?v=6.0"></script>
+    <script src="script.js?v=7.0"></script>
 </body>
 
 </html>

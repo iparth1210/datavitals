@@ -22,13 +22,18 @@ const PythonEngine = {
         const container = document.getElementById('monaco-container');
         if (!container) return;
 
+        // If already loading or ready, skip
+        if (this.isLoading) return;
+        if (this.pyodide && this.editor) return;
+
+        this.isLoading = true;
+        this.log("Initializing Secure Sandbox...", 'info');
+
         // 1. Init Monaco (UI First)
-        if (!this.editor && container) {
-            this.log("Initializing Editor Interface...");
+        if (!this.editor) {
             try {
                 await this.initMonaco();
-                this.log("✨ Editor Interface Ready.");
-                // Setup resize observer
+                this.log("✨ Code Editor Ready.");
                 new ResizeObserver(() => {
                     if (this.editor) this.editor.layout();
                 }).observe(container);
@@ -38,8 +43,7 @@ const PythonEngine = {
         }
 
         // 2. Init Pyodide (Backend Second)
-        if (!this.pyodide && !this.isLoading) {
-            this.isLoading = true;
+        if (!this.pyodide) {
             this.updateButtonState(true, "⏳ Loading Kernel...");
             try {
                 await this.loadScript(this.config.pyodideUrl);
@@ -47,6 +51,7 @@ const PythonEngine = {
                 this.isLoading = false;
                 this.updateButtonState(false, "▶ Run Code");
                 this.log("✅ Neural Python Kernel (v3.11) Online.");
+                this.log("Info: All processing occurs locally on this device.", 'success');
             } catch (e) {
                 this.isLoading = false;
                 this.log("Kernel Error: " + e.message, 'error');
