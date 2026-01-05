@@ -620,6 +620,10 @@ window.showResources = () => {
             .resource-link:hover {
                 background: rgba(255,255,255,0.08) !important;
                 border-color: var(--accent-primary) !important;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            }
+        `;
         document.head.appendChild(style);
     }
 
@@ -632,25 +636,25 @@ window.showTrust = () => {
     if (title) title.innerText = "Security & Trust";
 
     app.innerHTML = `
-            < div style = "max-width:800px; margin:0 auto; text-align:center;" >
-                <div style="background:var(--bg-card); padding:40px; border-radius:16px; border:1px solid var(--border-subtle); box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
-                    <div style="font-size:4rem; margin-bottom:10px;">🛡️</div>
-                    <h2 style="margin-bottom:20px; color:white;">Data Handling & Trust</h2>
-                    <div style="text-align:left; color: var(--text-secondary); line-height:1.7; font-size: 0.95rem;">
-                        <p>At DataVitals, we prioritize your data sovereignty. Here is how we handle information:</p>
-                        <ul style="margin-top: 15px; margin-bottom: 20px;">
-                            <li><b>100% Local Processing:</b> All Python code execution and diagnostic simulations run locally in your browser's dedicated WebAssembly (WASM) sandbox. No data is sent to a backend server.</li>
-                            <li><b>Privacy by Design:</b> We do not track personal identifying information (PII). Your progress is stored locally in your browser (LocalStorage).</li>
-                            <li><b>Clinical Integrity:</b> All patient data used in curriculum simulations are programmatically generated and entirely fictional. No real PHI (Protected Health Information) is ever involved.</li>
-                        </ul>
-                        <div style="padding:15px; background: rgba(94, 106, 210, 0.1); border-radius:8px; border:1px solid rgba(94, 106, 210, 0.2);">
-                            💡 <b>Tip:</b> Since progress is stored locally, clearing your browser cache will reset your journey. Use the "Reset" button in the sidebar footer if you wish to start over manually.
-                        </div>
+        <div style="max-width:800px; margin:0 auto; text-align:center;">
+            <div style="background:var(--bg-card); padding:40px; border-radius:16px; border:1px solid var(--border-subtle); box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                <div style="font-size:4rem; margin-bottom:10px;">🛡️</div>
+                <h2 style="margin-bottom:20px; color:white;">Data Handling & Trust</h2>
+                <div style="text-align:left; color: var(--text-secondary); line-height:1.7; font-size: 0.95rem;">
+                    <p>At DataVitals, we prioritize your data sovereignty. Here is how we handle information:</p>
+                    <ul style="margin-top: 15px; margin-bottom: 20px;">
+                        <li><b>100% Local Processing:</b> All Python code execution and diagnostic simulations run locally in your browser's dedicated WebAssembly (WASM) sandbox. No data is sent to a backend server.</li>
+                        <li><b>Privacy by Design:</b> We do not track personal identifying information (PII). Your progress is stored locally in your browser (LocalStorage).</li>
+                        <li><b>Clinical Integrity:</b> All patient data used in curriculum simulations are programmatically generated and entirely fictional. No real PHI (Protected Health Information) is ever involved.</li>
+                    </ul>
+                    <div style="padding:15px; background: rgba(94, 106, 210, 0.1); border-radius:8px; border:1px solid rgba(94, 106, 210, 0.2);">
+                        💡 <b>Tip:</b> Since progress is stored locally, clearing your browser cache will reset your journey. Use the "Reset" button in the sidebar footer if you wish to start over manually.
                     </div>
-                    <button onclick="showRoadmap()" class="btn btn-primary" style="margin-top:30px;">Return to Roadmap</button>
                 </div>
-        </div >
-            `;
+                <button onclick="showRoadmap()" class="btn btn-primary" style="margin-top:30px;">Return to Roadmap</button>
+            </div>
+        </div>
+    `;
 };
 
 window.showPrivacy = window.showTrust; // Alias
@@ -758,7 +762,7 @@ function sendMessage() {
 function addMessage(text, sender) {
     const messagesContainer = document.getElementById('chat-messages');
     const msgDiv = document.createElement('div');
-    msgDiv.className = `message ${ sender } -message`;
+    msgDiv.className = `message ${sender} -message`;
     msgDiv.innerHTML = text.replace(/\n/g, '<br>');
     messagesContainer.appendChild(msgDiv);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -772,7 +776,7 @@ function generateBotResponse(userMsg) {
     const currentLesson = titleEl ? titleEl.innerText : "the Roadmap";
 
     if (msg.includes('hello') || msg.includes('hi')) {
-        return `Greetings.I see you are currently focusing on ** ${ currentLesson }**.How can I clarify this topic ? `;
+        return `Greetings.I see you are currently focusing on ** ${currentLesson}**.How can I clarify this topic ? `;
     }
 
     if (msg.includes('help') || msg.includes('stuck')) {
@@ -882,5 +886,5 @@ try {
     if (splash) splash.style.display = 'none';
 
     alert("System Error: " + e.message);
-    document.getElementById('app').innerHTML = `< h1 style = "color:red; padding:20px;" > System Error: ${ e.message }</h1 > `;
+    document.getElementById('app').innerHTML = `< h1 style = "color:red; padding:20px;" > System Error: ${e.message}</h1 > `;
 }
