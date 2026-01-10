@@ -711,11 +711,7 @@ function toggleTerminal() {
     }
 }
 
-function showRoadmap() {
-    renderRoadmap();
-    const splash = document.getElementById('splash-screen');
-    if (splash) splash.classList.add('hidden');
-}
+
 
 function handleLogout() {
     resetProgress();
@@ -762,7 +758,7 @@ function sendMessage() {
 function addMessage(text, sender) {
     const messagesContainer = document.getElementById('chat-messages');
     const msgDiv = document.createElement('div');
-    msgDiv.className = `message ${sender} -message`;
+    msgDiv.className = `message ${sender}-message`;
     msgDiv.innerHTML = text.replace(/\n/g, '<br>');
     messagesContainer.appendChild(msgDiv);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;

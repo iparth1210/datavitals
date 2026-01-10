@@ -193,7 +193,18 @@
             </div>
             <div class="chat-messages" id="chat-messages">
                 <div class="message bot-message">
-                    Initializing... <br> Greetings. I am Aura. How can I assist your learning journey today?
+                    Greetings. I am Aura, your System Architect. <br><br>
+                    I can assist with:
+                    <ul style="margin-top:10px; font-size:0.85rem; opacity:0.8;">
+                        <li>• Interpreting clinical datasets</li>
+                        <li>• Troubleshooting Python Sandbox errors</li>
+                        <li>• Explaining Quad-Track milestones</li>
+                    </ul>
+                </div>
+                <div class="suggested-prompts">
+                    <button class="chip" onclick="sendPrompt('How do I query patient vitals?')">Find Vitals</button>
+                    <button class="chip" onclick="sendPrompt('Explain Quad-Track')">Quad-Track?</button>
+                    <button class="chip" onclick="sendPrompt('How to use Python here?')">Using Sandbox</button>
                 </div>
             </div>
             <div class="chat-input-area">
