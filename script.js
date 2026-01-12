@@ -105,7 +105,7 @@ function handleSearch(query) {
     const q = query.toLowerCase();
     const cards = document.querySelectorAll('.week-card');
     if (!cards.length) return; // Not on roadmap view
-    
+
     cards.forEach(card => {
         const title = card.querySelector('.week-title').innerText.toLowerCase();
         const desc = card.querySelector('.week-desc').innerText.toLowerCase();
@@ -688,7 +688,7 @@ window.showMyProgress = () => {
     const level = window.Gamification ? window.Gamification.state.level : 1;
 
     app.innerHTML = `
-            < div style = "max-width:800px; margin:0 auto; text-align:center;" >
+        <div style="max-width:800px; margin:0 auto; text-align:center;">
                 <div style="background:var(--bg-card); padding:40px; border-radius:16px; border:1px solid var(--border-subtle);">
                     <div style="font-size:4rem; margin-bottom:10px;">🏆</div>
                     <h2 style="margin-bottom:20px;">Your Journey</h2>
@@ -708,8 +708,8 @@ window.showMyProgress = () => {
                     </div>
                     <button onclick="renderRoadmap()" class="btn btn-primary">Continue Learning</button>
                 </div>
-        </div >
-            `;
+            </div>
+    `;
 };
 
 function toggleTerminal() {
@@ -850,7 +850,7 @@ try {
         const barContainer = document.createElement('div');
         barContainer.className = 'splash-loader-container';
         barContainer.innerHTML = `
-            < div class="splash-loader-bar" ></div >
+            <div class="splash-loader-bar"></div>
                 <div id="splash-tip" style="color:#9B9C9D; font-size:12px; margin-top:15px; opacity:0.8; height: 30px;">
                     Tip: DataVitals runs 100% locally in your browser...
                 </div>
@@ -898,5 +898,5 @@ try {
     if (splash) splash.style.display = 'none';
 
     alert("System Error: " + e.message);
-    document.getElementById('app').innerHTML = `< h1 style = "color:red; padding:20px;" > System Error: ${e.message}</h1 > `;
+    document.getElementById('app').innerHTML = `<h1 style="color:red; padding:20px;">System Error: ${e.message}</h1>`;
 }
