@@ -101,6 +101,22 @@ function renderRoadmap() {
     if (window.updateGamificationUI) window.updateGamificationUI();
 }
 
+function handleSearch(query) {
+    const q = query.toLowerCase();
+    const cards = document.querySelectorAll('.week-card');
+    if (!cards.length) return; // Not on roadmap view
+    
+    cards.forEach(card => {
+        const title = card.querySelector('.week-title').innerText.toLowerCase();
+        const desc = card.querySelector('.week-desc').innerText.toLowerCase();
+        if (title.includes(q) || desc.includes(q)) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
 
 function renderWeekView(weekId) {
     const week = window.roadmap.find(w => w.id === weekId);
