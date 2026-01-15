@@ -13,7 +13,45 @@ window.startJourney = () => {
 };
 
 window.showHowItWorks = () => {
-    alert("DataVitals uses a 'Quad-Track' methodology:\n1. Tech Core (CS)\n2. Health Systems (EHR/DICOM)\n3. Bio-Science (Genomics)\n4. Project Lab (Simulated Clinics)");
+    const app = document.getElementById('app');
+    const title = document.getElementById('page-title');
+    if (title) title.innerText = "The Methodology";
+
+    app.innerHTML = `
+        <div style="max-width:900px; margin:0 auto; padding:40px 20px;">
+            <div style="text-align:center; margin-bottom:40px;">
+                <h2 style="font-size:2.5rem; color:white; margin-bottom:10px;">The Quad-Track Methodology</h2>
+                <p style="color:var(--text-secondary);">A multi-dimensional approach to mastering healthcare intelligence.</p>
+            </div>
+            
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:20px;">
+                <div style="background:var(--bg-card); padding:30px; border-radius:16px; border:1px solid rgba(94, 234, 212, 0.2); text-align:center;">
+                    <div style="font-size:3rem; margin-bottom:15px;">💻</div>
+                    <h3 style="color:white; margin-bottom:10px;">1. Tech Core</h3>
+                    <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.5;">Foundational Computer Science: Python, SQL, and Data Ethics.</p>
+                </div>
+                <div style="background:var(--bg-card); padding:30px; border-radius:16px; border:1px solid rgba(94, 106, 210, 0.2); text-align:center;">
+                    <div style="font-size:3rem; margin-bottom:15px;">🏥</div>
+                    <h3 style="color:white; margin-bottom:10px;">2. Health Systems</h3>
+                    <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.5;">Clinical workflows, EHR standards (HL7/FHIR), and DICOM.</p>
+                </div>
+                <div style="background:var(--bg-card); padding:30px; border-radius:16px; border:1px solid rgba(255, 118, 117, 0.2); text-align:center;">
+                    <div style="font-size:3rem; margin-bottom:15px;">🧬</div>
+                    <h3 style="color:white; margin-bottom:10px;">3. Bio-Science</h3>
+                    <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.5;">Genomics, pathology, and clinical diagnostic theory.</p>
+                </div>
+                <div style="background:var(--bg-card); padding:30px; border-radius:16px; border:1px solid rgba(253, 203, 110, 0.2); text-align:center;">
+                    <div style="font-size:3rem; margin-bottom:15px;">🧪</div>
+                    <h3 style="color:white; margin-bottom:10px;">4. Project Lab</h3>
+                    <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.5;">Simulated cases, clinical datasets, and AI model verification.</p>
+                </div>
+            </div>
+            
+            <div style="text-align:center; margin-top:50px;">
+                <button onclick="startJourney()" class="btn btn-hero-primary" style="padding: 15px 40px; font-size: 1.1rem;">Begin Your Journey</button>
+            </div>
+        </div>
+    `;
 };
 
 
@@ -125,7 +163,7 @@ function renderWeekView(weekId) {
     const unlocked = loadProgress();
     // Check if week is unlocked
     if (!unlocked.includes(week.days[0].id)) {
-        alert("🔒 Complete the previous weeks to unlock this!");
+        showToast("🔒 Complete the previous weeks to unlock this!", "warn");
         return;
     }
 
@@ -168,7 +206,7 @@ function renderWeekView(weekId) {
 function handleDayClick(dayId, lessonId) {
     const unlocked = loadProgress();
     if (!unlocked.includes(dayId)) {
-        alert("🔒 Complete the previous day to unlock this!");
+        showToast("🔒 Complete the previous day to unlock this!", "warn");
         return;
     }
     renderLesson(lessonId, dayId);
@@ -300,7 +338,7 @@ function renderLesson(lessonId, dayId) {
     const lesson = getLessonById(lessonId);
 
     if (!lesson) {
-        alert("Error: Lesson not found!");
+        showToast("Error: Lesson not found!", "error");
         return;
     }
 
@@ -528,9 +566,11 @@ function attachLessonListeners(lesson, currentDayId) {
 
 
 function resetProgress() {
-    if (confirm("Are you sure you want to reset your journey?")) {
+    // We'll keep the standard confirm for high-stakes actions like Reset
+    if (confirm("⚠️ Are you sure you want to reset your journey? All progress will be lost.")) {
         localStorage.removeItem('datavitals_progress_default');
-        renderRoadmap();
+        showToast("Journey Reset. Initializing fresh curriculum...", "info");
+        setTimeout(() => renderRoadmap(), 1000);
     }
 }
 
@@ -729,9 +769,7 @@ function toggleTerminal() {
 
 
 
-function handleLogout() {
-    resetProgress();
-}
+// [Removed Duplicate handleLogout]
 
 function toggleChat() {
     const chatWindow = document.getElementById('chat-window');
@@ -824,11 +862,46 @@ function loadProgress() {
 }
 
 function handleLogout() {
-    if (confirm("Are you sure you want to reset your journey?")) {
-        localStorage.removeItem('datavitals_progress_default');
-        localStorage.removeItem('datavitals_stats'); // Clear Gamification too
-        window.location.reload();
-    }
+    resetProgress();
+}
+
+/**
+ * Professional Notification System
+ */
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    // Inline styles for absolute reliability
+    toast.style.cssText = `
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: #1e293b;
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 16px 24px;
+        border-radius: 12px;
+        color: white;
+        font-size: 0.9rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        z-index: 9999;
+        transform: translateY(100px);
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border-left: 4px solid ${type === 'warn' ? '#fbbf24' : type === 'error' ? '#f87171' : '#22d3ee'};
+    `;
+
+    const icon = type === 'warn' ? '⚠️' : type === 'error' ? '❌' : 'ℹ️';
+    toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+
+    document.body.appendChild(toast);
+    setTimeout(() => toast.style.transform = 'translateY(0)', 10);
+
+    setTimeout(() => {
+        toast.style.transform = 'translateY(120px)';
+        setTimeout(() => toast.remove(), 500);
+    }, 4500);
 }
 
 // Init
@@ -897,6 +970,16 @@ try {
     const splash = document.getElementById('splash-screen');
     if (splash) splash.style.display = 'none';
 
-    alert("System Error: " + e.message);
-    document.getElementById('app').innerHTML = `<h1 style="color:red; padding:20px;">System Error: ${e.message}</h1>`;
+    // Replacing alert with immediate UI injection
+    const app = document.getElementById('app');
+    if (app) {
+        app.innerHTML = `
+            <div style="height:100vh; display:flex; align-items:center; justify-content:center; flex-direction:column; padding:20px; text-align:center;">
+                <div style="font-size:4rem; margin-bottom:20px;">🛡️</div>
+                <h1 style="color:white; margin-bottom:10px;">Security Lock / System Error</h1>
+                <p style="color:var(--text-secondary); max-width:500px;">The system encountered a critical failure: <b>${e.message}</b>. Please refresh the platform or contact your system architect.</p>
+                <button onclick="window.location.reload()" class="btn btn-primary" style="margin-top:20px;">Force Refresh</button>
+            </div>
+        `;
+    }
 }
