@@ -138,6 +138,12 @@ const Onboarding = {
         if (askName) askName.innerText = this.t('welcomeAskName');
         if (nameInput) nameInput.placeholder = this.t('namePlaceholder');
         if (btn) btn.innerText = this.t('continueBtn');
+
+        // Update Chatbot Label
+        const botNameLabel = document.getElementById('bot-name-label');
+        if (botNameLabel) {
+            botNameLabel.innerText = (lang === 'gu' ? "Aura (માર્ગદર્શક)" : lang === 'hi' ? "Aura (मार्गदर्शक)" : "Aura (Guide)");
+        }
     },
 
     saveName() {

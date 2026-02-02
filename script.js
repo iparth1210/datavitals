@@ -820,30 +820,57 @@ function addMessage(text, sender) {
 
 function generateBotResponse(userMsg) {
     const msg = userMsg.toLowerCase();
+    const lang = localStorage.getItem('datavitals_user_lang') || 'en';
 
     // Context: Which lesson is active?
     const titleEl = document.querySelector('.module-title');
-    const currentLesson = titleEl ? titleEl.innerText : "the Roadmap";
+    const currentLesson = titleEl ? titleEl.innerText : (lang === 'gu' ? "રોડમેપ" : lang === 'hi' ? "रोडमैप" : "the Roadmap");
 
-    if (msg.includes('hello') || msg.includes('hi')) {
-        return `Greetings.I see you are currently focusing on ** ${currentLesson}**.How can I clarify this topic ? `;
+    const replies = {
+        en: {
+            hello: `Greetings. I see you are currently focusing on **${currentLesson}**. How can I clarify this topic?`,
+            help: "Do not worry. Learning is an iterative process. \n\n1. Read the story text carefully.\n2. Check the 'Neural Knowledge Base' links.\n3. Analyze the data table for patterns.",
+            answer: "I cannot provide direct answers. That would violate my core directive: *Empower Human Intelligence*. \n\nHowever, I can verify your logic if you describe it.",
+            hardware: "Remember: Hardware = Physical (Touch). Software = Logical (Code). If you can kick it, it's hardware. If you can only curse at it, it's software.",
+            default: "Processing query... \n\nMy neural database is vast, but my current context window is limited. Could you rephrase that related to the current lesson?"
+        },
+        gu: {
+            hello: `નમસ્તે. હું જોઉં છું કે તમે અત્યારે **${currentLesson}** પર ધ્યાન કેન્દ્રિત કરી રહ્યા છો. હું આ વિષયને કેવી રીતે વધુ સ્પષ્ટ કરી શકું?`,
+            help: "ચિંતા કરશો નહીં. શીખવું એ એક સતત પ્રક્રિયા છે. \n\n1. વાર્તાનો પાઠ ધ્યાનથી વાંચો.\n2. 'ન્યુરલ નોલેજ બેઝ' લિંક્સ તપાસો.\n3. પેટર્ન માટે ડેટા ટેબલનું વિશ્લેષણ કરો.",
+            answer: "હું સીધા જવાબો આપી શકતો નથી. તે મારા મુખ્ય નિર્દેશનું ઉલ્લંઘન ગણાશે: *માનવ બુદ્ધિને સશક્ત બનાવવી*. \n\nજોકે, જો તમે તમારી તર્કશક્તિનું વર્ણન કરશો તો હું તેને ચકાસી શકું છું.",
+            hardware: "યાદ રાખો: હાર્ડવેર = ભૌતિક (સ્પર્શ). સોફ્ટવેર = તાાર્કિક (કોડ). જો તમે તેને લાત મારી શકો છો, તો તે હાર્ડવેર છે. જો તમે માત્ર તેના પર ગુસ્સો કરી શકો છો, તો તે સોફ્ટવેર છે.",
+            default: "તમારા પ્રશ્ન પર પ્રક્રિયા કરી રહ્યો છું... \n\nમારો ન્યુરલ ડેટાબેઝ વિશાળ છે, પરંતુ મારી વર્તમાન વિંડો મર્યાદિત છે. શું તમે વર્તમાન પાઠ સંબંધિત તે ફરીથી પૂછી શકો છો?"
+        },
+        hi: {
+            hello: `नमस्ते। मैं देख रहा हूँ कि आप वर्तमान में **${currentLesson}** पर ध्यान केंद्रित कर रहे हैं। मैं इस विषय को और कैसे स्पष्ट कर सकता हूँ?`,
+            help: "चिंता न करें। सीखना एक सतत प्रक्रिया है। \n\n1. कहानी के पाठ को ध्यान से पढ़ें।\n2. 'न्यूरल नॉलेज बेस' लिंक देखें।\n3. पैटर्न के लिए डेटा टेबल का विश्लेषण करें।",
+            answer: "मैं सीधे उत्तर नहीं दे सकता। यह मेरे मुख्य निर्देश का उल्लंघन होगा: *मानव बुद्धि को सशक्त बनाना*। \n\nहालाँकि, यदि आप अपने तर्क का वर्णन करते हैं तो मैं उसे सत्यापित कर सकता हूँ।",
+            hardware: "याद रखें: हार्डवेयर = भौतिक (स्पर्श)। सॉफ्टवेयर = तार्किक (कोड)। यदि आप इसे लात मार सकते हैं, तो यह हार्डवेयर है। यदि आप केवल उस पर गुस्सा कर सकते हैं, तो यह सॉफ्टवेयर है।",
+            default: "आपके प्रश्न पर प्रक्रिया की जा रही है... \n\nमेरा न्यूरल डेटाबेस विशाल है, लेकिन मेरी वर्तमान विंडो सीमित है। क्या आप वर्तमान पाठ से संबंधित इसे फिर से पूछ सकते हैं?"
+        }
+    };
+
+    const currentReplies = replies[lang] || replies['en'];
+
+    if (msg.includes('hello') || msg.includes('hi') || msg.includes('नमस्ते') || msg.includes('નમસ્તે')) {
+        return currentReplies.hello;
     }
 
-    if (msg.includes('help') || msg.includes('stuck')) {
-        return "Do not worry. Learning is an iterative process. \n\n1. Read the story text carefully.\n2. Check the 'Neural Knowledge Base' links.\n3. Analyze the data table for patterns.";
+    if (msg.includes('help') || msg.includes('stuck') || msg.includes('મદદ') || msg.includes('सहायता')) {
+        return currentReplies.help;
     }
 
-    if (msg.includes('answer') || msg.includes('solution')) {
-        return "I cannot provide direct answers. That would violate my core directive: *Empower Human Intelligence*. \n\nHowever, I can verify your logic if you describe it.";
+    if (msg.includes('answer') || msg.includes('solution') || msg.includes('જવાબ') || msg.includes('उत्तर')) {
+        return currentReplies.answer;
     }
 
-    if (currentLesson.includes("Hardware")) {
-        if (msg.includes("hardware") || msg.includes("soft")) {
-            return "Remember: Hardware = Physical (Touch). Software = Logical (Code). If you can kick it, it's hardware. If you can only curse at it, it's software.";
+    if (currentLesson.includes("Hardware") || currentLesson.includes("હાર્ડવેર") || currentLesson.includes("हार्डवेयर")) {
+        if (msg.includes("hardware") || msg.includes("soft") || msg.includes("મદદ") || msg.includes("हार्डवेयर")) {
+            return currentReplies.hardware;
         }
     }
 
-    return "Processing query... \n\nMy neural database is vast, but my current context window is limited. Could you rephrase that related to the current lesson?";
+    return currentReplies.default;
 }
 
 // --- PERSISTENCE HELPERS ---
