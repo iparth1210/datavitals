@@ -127,7 +127,7 @@ function renderRoadmap() {
                         <h3 class="week-title">${week.title}</h3>
                         <div class="week-desc">${week.description}</div>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${isAvailable ? '0%' : '0%'}"></div> 
+                            <div class="progress-fill" style="width: ${isAvailable ? '100%' : '0%'}"></div> 
                         </div>
                     </div>
                     `;
@@ -961,6 +961,7 @@ try {
         // Initially we show the landing page (which is now in index.html static)
         // No auto-render roadmap unless returning user? 
         // For now, let the Hero handle it.
+        if (window.Onboarding) Onboarding.init();
         console.log("Welcome to DataVitals.");
 
     }, bootTime);

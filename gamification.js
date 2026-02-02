@@ -108,34 +108,34 @@ const Gamification = {
         if (hud) {
             hud.innerHTML = `
                 <span class="hud-value" style="position:relative; z-index:2">${this.state.xp} XP</span>
-            </div>
-        `;
-        },
-
-        /**
-         * Show Toast Notification
-         */
-        showNotification(msg) {
-            let toast = document.createElement('div');
-            toast.className = 'game-toast';
-            toast.innerText = msg;
-            document.body.appendChild(toast);
-
-            // Animate
-            setTimeout(() => toast.classList.add('show'), 100);
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        },
-
-        takeDamage(amount) {
-            this.showNotification(`💔 Took ${amount} Damage!`);
+            `;
         }
-    };
+    },
 
-    // Auto-init on load if script is deferred
-    window.Gamification = Gamification;
-    document.addEventListener('DOMContentLoaded', () => {
-        Gamification.init();
-    });
+    /**
+     * Show Toast Notification
+     */
+    showNotification(msg) {
+        let toast = document.createElement('div');
+        toast.className = 'game-toast';
+        toast.innerText = msg;
+        document.body.appendChild(toast);
+
+        // Animate
+        setTimeout(() => toast.classList.add('show'), 100);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    },
+
+    takeDamage(amount) {
+        this.showNotification(`💔 Took ${amount} Damage!`);
+    }
+};
+
+// Auto-init on load if script is deferred
+window.Gamification = Gamification;
+document.addEventListener('DOMContentLoaded', () => {
+    Gamification.init();
+});
