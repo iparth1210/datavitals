@@ -865,6 +865,24 @@ try {
     if (!window.roadmap) throw new Error("Critical: roadmap.js failed to load.");
     if (!window.modules) throw new Error("Critical: modules.js failed to load.");
 
+    // Initial Render Bridge
+    window.bootApplication = () => {
+        console.log("System Ready. Initializing Neural Link...");
+        try {
+            renderRoadmap();
+            console.log("Welcome to DataVitals.");
+
+            // Trigger Phase 2.4: Strategic Spotlight
+            setTimeout(() => {
+                if (window.SpotlightTour) {
+                    window.SpotlightTour.init();
+                }
+            }, 1000);
+        } catch (renderError) {
+            console.error("Critical Render Error:", renderError);
+        }
+    };
+
     // Simulate boot sequence
     const bootTime = 4000; // 4s delay (USER REQUEST)
 
@@ -893,24 +911,12 @@ try {
             console.log("Login Verified. Starting System Synthesis...");
             if (window.GuidedLoading) {
                 window.GuidedLoading.init();
+            } else {
+                window.bootApplication();
             }
 
             window.onSystemReady = () => {
-                console.log("System Ready. Initializing Neural Link...");
-                try {
-                    renderRoadmap();
-                    console.log("Welcome to DataVitals.");
-
-                    // Trigger Phase 2.4: Strategic Spotlight
-                    setTimeout(() => {
-                        if (window.SpotlightTour) {
-                            window.SpotlightTour.init();
-                        }
-                    }, 1000); // Small pause for roadmap animation
-
-                } catch (renderError) {
-                    console.error("Critical Render Error:", renderError);
-                }
+                window.bootApplication();
             };
         };
         // --- CINEMATIC OVERHAUL END ---
