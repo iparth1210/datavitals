@@ -224,7 +224,7 @@ function getLessonById(lessonId) {
         title: `W${weekNum} -D${dayNum}: ${topic} Mastery`,
         image: 'assets/lesson_matrix.png',
         video: videoUrl,
-        sources: [{ title: `${topic} Documentation`, url: '#' }],
+        sources: [{ title: `${topic} Documentation`, url: `https://www.google.com/search?q=${topic.replace(/ /g, '+')}+documentation` }],
         story: `
     <div class="quad-track">
                 <div class="track-section tech">
@@ -593,23 +593,52 @@ window.showResources = () => {
 
     html += `</div>`;
 
-    // Inject Custom Styles for Hover Effects
-    const styleId = 'library-styles';
-    if (!document.getElementById(styleId)) {
-        const style = document.createElement('style');
-        style.id = styleId;
-        style.innerHTML = `
-            .resource-link:hover {
-                background: rgba(255,255,255,0.08) !important;
-                border-color: var(--accent-primary) !important;
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            }
-`;
-        document.head.appendChild(style);
+    // --- BENTO GRID COMPATIBILITY ---
+    function filterModules(query) {
+        const q = query.toLowerCase();
+        const cards = document.querySelectorAll('.week-card');
+        cards.forEach(card => {
+            const text = card.innerText.toLowerCase();
+            card.style.display = text.includes(q) ? 'block' : 'none';
+            card.style.animation = 'fadeIn 0.5s forwards';
+        });
     }
 
-    app.innerHTML = html;
+    // Adding custom styles for HUD items
+    const horizonStyles = document.createElement('style');
+    horizonStyles.innerHTML = `
+    .vital-item { margin-bottom: 16px; font-family: 'JetBrains Mono'; font-size: 0.7rem; }
+    .vital-item .label { color: var(--text-muted); display: block; margin-bottom: 4px; }
+    .vital-item .value { font-size: 1.1rem; font-weight: 700; }
+    .vital-bar { width: 100%; height: 2px; background: rgba(255,255,255,0.05); margin-top: 8px; border-radius: 1px; }
+    .vital-bar .fill { height: 100%; background: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan); }
+    .lab-line { font-family: 'JetBrains Mono'; font-size: 0.7rem; padding: 4px 0; opacity: 0.8; }
+    .quick-link { padding: 8px 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 8px; font-family: 'JetBrains Mono'; font-size: 0.65rem; color: var(--text-secondary); cursor: pointer; transition: 0.3s; margin-bottom: 4px; }
+    .quick-link:hover { border-color: var(--accent-cyan); color: white; transform: translateX(5px); }
+`;
+    document.head.appendChild(horizonStyles);
+
+    // --- UI UTILS ---
+    function injectCustomStyles(id, css) {
+        if (!document.getElementById(id)) {
+            const style = document.createElement('style');
+            style.id = id;
+            style.innerHTML = css;
+            document.head.appendChild(style);
+        }
+    }
+
+    injectCustomStyles('library-styles', `
+    .resource-link:hover {
+        background: rgba(255,255,255,0.08) !important;
+        border-color: var(--accent-cyan) !important;
+        transform: translateX(5px);
+        color: white !important;
+    }
+`);
+}
+
+app.innerHTML = html;
 };
 
 // Show Progress Stats
@@ -759,16 +788,78 @@ function loadProgress() {
 function handleLogout() {
     if (confirm("Are you sure you want to reset your journey?")) {
         localStorage.removeItem('datavitals_progress_default');
-        localStorage.removeItem('datavitals_stats'); // Clear Gamification too
+        localStorage.removeItem('datavitals_stats'); // Clear Gamification
         window.location.reload();
+    }
+}
+
+const VERSION = "7.0-KILLER";
+
+window.addEventListener('DOMContentLoaded', () => {
+    console.log("Horizon OS Initialized.");
+    // Pre-inject high-end assets
+    injectUniversalAssets();
+});
+
+function injectUniversalAssets() {
+    // Ensuring the Bento Grid is visible if login is bypassed or successful
+    if (localStorage.getItem('nn_link_established')) {
+        document.body.classList.add('authorized');
+    }
+}
+
+// --- NEW "KILLER" HUD LOGIC ---
+function updateNeuralHUD() {
+    const vitalsCard = document.getElementById('sidebar-hud');
+    const labsCard = document.getElementById('labs-status');
+    const quickResources = document.getElementById('quick-resources');
+
+    if (vitalsCard) {
+        vitalsCard.innerHTML = `
+            <div class="vital-item">
+                <span class="label">NEURAL_XP</span>
+                <span class="value text-gradient">${localStorage.getItem('datavitals_xp') || 1250}</span>
+                <div class="vital-bar"><div class="fill" style="width: 65%;"></div></div>
+            </div>
+            <div class="vital-item">
+                <span class="label">CLINICAL_STREAK</span>
+                <span class="value" style="color: var(--accent-pink);">8 DAYS</span>
+            </div>
+            <div class="vital-item">
+                <span class="label">BIO_SYNC</span>
+                <span class="value" style="color: var(--accent-cyan);">OPTIMAL</span>
+            </div>
+        `;
+    }
+
+    if (labsCard) {
+        labsCard.innerHTML = `
+            <div class="lab-line">> KERNEL: V3.11_ACTIVE</div>
+            <div class="lab-line">> UPTIME: 02:44:12</div>
+            <div class="lab-line">> LATEST_ANALYSIS: COMPLETE</div>
+            <button class="btn-neural" onclick="toggleTerminal()" style="width: 100%; margin-top: auto; padding: 10px; font-size: 0.7rem;">OPEN_NEURAL_KERNEL</button>
+        `;
+    }
+
+    if (quickResources) {
+        quickResources.innerHTML = `
+            <div class="quick-link" onclick="window.open('https://python.org', '_blank')">🔗 PYTHON_DOCS</div>
+            <div class="quick-link" onclick="window.open('https://hl7.org', '_blank')">🔗 HL7_STANDARDS</div>
+            <div class="quick-link" onclick="showResources()">🔗 VIEW_LIBRARY_OVR</div>
+        `;
     }
 }
 
 // Init
 try {
     console.log("System Initializing...");
-    // alert("DEBUG: System Init");
+    updateNeuralHUD();
 
+
+    // Initialize Aura Visual
+    if (window.AuraVisualEngine) {
+        window.auraVisual = new AuraVisualEngine('aura-waveform-container');
+    }
 
     // DEPENDENCY CHECK
     if (!window.roadmap) throw new Error("Critical: roadmap.js failed to load.");
@@ -787,22 +878,44 @@ try {
     }
 
     setTimeout(() => {
+        // --- CINEMATIC OVERHAUL START ---
+        // Hide legacy splash immediately
         const splash = document.getElementById('splash-screen');
-        if (splash) {
-            splash.style.opacity = '0';
-            splash.style.display = 'none'; // FORCE REMOVAL
-            splash.remove();
+        if (splash) splash.remove();
+
+        // Start Cinematic Narrative
+        if (window.NarrativeEngine) {
+            window.NarrativeEngine.init();
         }
 
-        try {
-            renderRoadmap();
-            console.log("Neural Link Established.");
-        } catch (renderError) {
-            console.error("Render Failed:", renderError);
-            alert("Render Error: " + renderError.message);
-        }
+        // Hook Login Success -> System Synthesis -> Application Boot
+        window.onLoginSuccess = () => {
+            console.log("Login Verified. Starting System Synthesis...");
+            if (window.GuidedLoading) {
+                window.GuidedLoading.init();
+            }
 
-    }, bootTime);
+            window.onSystemReady = () => {
+                console.log("System Ready. Initializing Neural Link...");
+                try {
+                    renderRoadmap();
+                    console.log("Welcome to DataVitals.");
+
+                    // Trigger Phase 2.4: Strategic Spotlight
+                    setTimeout(() => {
+                        if (window.SpotlightTour) {
+                            window.SpotlightTour.init();
+                        }
+                    }, 1000); // Small pause for roadmap animation
+
+                } catch (renderError) {
+                    console.error("Critical Render Error:", renderError);
+                }
+            };
+        };
+        // --- CINEMATIC OVERHAUL END ---
+
+    }, 500); // Quick handoff to Narrative
 
 } catch (e) {
     console.error("Critical System Failure:", e);

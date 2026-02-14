@@ -1,0 +1,115 @@
+/* 
+   🏗️ THE HORIZON ARCHITECTURE v1.0
+   Bento Grid & Immersive Layout Suite
+*/
+
+:root {
+    --bento-gap: 20px;
+    --bento-radius: 24px;
+}
+
+/* --- FULL PAGE OVERHAUL --- */
+body {
+    background: var(--bg-depth);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* --- BENTO GRID SYSTEM --- */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    gap: var(--bento-gap);
+    width: 100%;
+    max-width: 1600px;
+    height: 100%;
+    max-height: 900px;
+}
+
+/* Base Bento Card */
+.bento-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--bento-radius);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: all 0.5s var(--spring-ease);
+}
+
+.bento-card:hover {
+    transform: translateY(-5px) scale(1.01);
+    border-color: rgba(6, 182, 212, 0.4);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Specific Positions */
+.card-nav {
+    grid-area: 1 / 1 / 9 / 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.card-hero {
+    grid-area: 1 / 2 / 5 / 8;
+}
+
+.card-vitals {
+    grid-area: 1 / 8 / 4 / 13;
+}
+
+.card-labs {
+    grid-area: 4 / 8 / 9 / 13;
+}
+
+.card-quick-access {
+    grid-area: 5 / 2 / 9 / 5;
+}
+
+.card-aura {
+    grid-area: 5 / 5 / 9 / 8;
+}
+
+/* REPLACING LEGACY SIDEBAR */
+.sidebar-killer {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.nav-item-killer {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    margin: 8px 0;
+    transition: all 0.3s;
+    font-size: 1.2rem;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-item-killer:hover {
+    background: var(--accent-cyan);
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Hiding legacy layout elements */
+.app-layout,
+.sidebar,
+.top-header {
+    display: none !important;
+}

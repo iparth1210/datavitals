@@ -694,3 +694,48 @@ a {
     z-index: 1000 !important; /* Reduced from 99999 to allow interaction with Aura */
 }
 
+
+/* --- WORLD-CLASS STAGGERED REVEALS --- */
+@keyframes revealUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.roadmap-card {
+    opacity: 0;
+    animation: revealUp 0.6s var(--ease-smooth) forwards;
+}
+
+/* Calculate delays for up to 31 days */
+.roadmap-card:nth-child(1) { animation-delay: 0.1s; }
+.roadmap-card:nth-child(2) { animation-delay: 0.2s; }
+.roadmap-card:nth-child(3) { animation-delay: 0.3s; }
+.roadmap-card:nth-child(4) { animation-delay: 0.4s; }
+.roadmap-card:nth-child(5) { animation-delay: 0.5s; }
+.roadmap-card:nth-child(6) { animation-delay: 0.6s; }
+.roadmap-card:nth-child(7) { animation-delay: 0.7s; }
+.roadmap-card:nth-child(8) { animation-delay: 0.8s; }
+.roadmap-card:nth-child(9) { animation-delay: 0.9s; }
+.roadmap-card:nth-child(10) { animation-delay: 1.0s; }
+
+/* Dashboard Glassmorphism Upgrades */
+.module-content {
+    background: rgba(20, 21, 22, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.lesson-image {
+    border-radius: 12px;
+    filter: saturate(1.1) brightness(1.1);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    transition: transform 0.3s var(--ease-smooth);
+}
+
+.lesson-image:hover {
+    transform: scale(1.02);
+}
+

@@ -10,8 +10,8 @@ window.modules = [
         image: 'assets/lesson_hardware_software.png',
         video: 'https://www.youtube.com/embed/xnyFYiK2rSY?si=premium_mode', // Code.org: Hardware Basics
         sources: [
-            { title: 'Von Neumann Architecture', url: '#' },
-            { title: 'CPU vs GPU vs TPU', url: '#' }
+            { title: 'Von Neumann Architecture', url: 'https://en.wikipedia.org/wiki/Von_Neumann_architecture' },
+            { title: 'CPU vs GPU vs TPU', url: 'https://cloud.google.com/tpu/docs/intro-to-tpu' }
         ],
         story: `
             <div class="quad-track">
@@ -53,8 +53,8 @@ window.modules = [
         image: 'assets/lesson_os_brain.png',
         video: 'https://www.youtube.com/embed/p1q34_D2kKQ?si=premium_mode', // OS Basics
         sources: [
-            { title: 'Linux Kernel Basics', url: '#' },
-            { title: 'Process Scheduling', url: '#' }
+            { title: 'Linux Kernel Basics', url: 'https://www.kernel.org/doc/html/latest/admin-guide/index.html' },
+            { title: 'Process Scheduling', url: 'https://en.wikipedia.org/wiki/Scheduling_(computing)' }
         ],
         story: `
             <div class="quad-track">
@@ -96,8 +96,8 @@ window.modules = [
         image: 'assets/lesson_files.png',
         video: 'https://www.youtube.com/embed/Q5K3jR9a3pM?si=premium_mode', // Files
         sources: [
-            { title: 'NTFS vs EXT4', url: '#' },
-            { title: 'Block Storage vs Object Storage', url: '#' }
+            { title: 'NTFS vs EXT4', url: 'https://www.howtogeek.com/177078/htg-explains-what-file-system-should-i-use-for-my-usb-drive/' },
+            { title: 'Block Storage vs Object Storage', url: 'https://cloud.google.com/storage/docs/concepts' }
         ],
         story: `
             <div class="quad-track">
@@ -222,7 +222,7 @@ window.modules = [
         image: 'assets/lesson_review.png',
         video: 'https://www.youtube.com/embed/AkFi90lZmXA?si=premium_mode', // Review/Summary
         sources: [
-            { title: 'Week 1 Recap (Interactive)', url: '#' }
+            { title: 'Week 1 Recap (Quizlet)', url: 'https://quizlet.com/latest' }
         ],
         story: `
             <p><strong>Day 7: The Review</strong></p>

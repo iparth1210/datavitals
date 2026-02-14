@@ -45,7 +45,7 @@ const getSqlResources = (dayNum) => {
 
 const getPythonResources = (dayNum) => {
     return [
-        { title: `📖 Python Crash Course: Chapter ${dayNum}`, type: "book", url: "#" },
+        { title: `📖 Python.org: Chapter ${dayNum}`, type: "doc", url: "https://docs.python.org/3/tutorial/index.html" },
         { title: `📺 Python Tutorial Part ${dayNum}`, type: "video", url: "https://www.youtube.com/watch?v=_uQrJ0TkZlc" },
         { title: `🛠️ Replit IDE (New Repl)`, type: "tool", url: "https://replit.com/new/python3" }
     ];
@@ -53,7 +53,7 @@ const getPythonResources = (dayNum) => {
 
 const getAIResources = (dayNum) => {
     return [
-        { title: `📖 Hands-On ML: Chapter ${dayNum}`, type: "book", url: "#" },
+        { title: `📖 Hands-On ML (Geron): Chapter ${dayNum}`, type: "book", url: "https://github.com/ageron/handson-ml3" },
         { title: `📺 StatQuest: ML Concept ${dayNum}`, type: "video", url: "https://www.youtube.com/c/joshstarmer" },
         { title: `📝 Scikit-Learn Guide: Section ${dayNum}`, type: "doc", url: "https://scikit-learn.org/stable/" }
     ];
@@ -78,7 +78,7 @@ window.libraryResources = [
             {
                 dayTitle: "Day 2: The Operating System",
                 resources: [
-                    { title: "📖 Modern OS: Ch.1 \"Introduction\"", type: "book", url: "#" },
+                    { title: "📖 Modern OS (Tanenbaum): Ch.1", type: "book", url: "https://www.amazon.com/Modern-Operating-Systems-Andrew-Tanenbaum/dp/013359162X" },
                     { title: "📺 How OS Works (Code.org)", type: "video", url: "https://www.youtube.com/watch?v=26QPDBe-TK8" },
                     { title: "🛠️ JSLinux (Run Linux in Browser)", type: "tool", url: "https://bellard.org/jslinux/" }
                 ]
@@ -86,7 +86,7 @@ window.libraryResources = [
             {
                 dayTitle: "Day 3: Files & Folders",
                 resources: [
-                    { title: "📖 Windows Internals: Ch.12 \"File Systems\"", type: "book", url: "#" },
+                    { title: "📖 Windows Internals: Ch.12", type: "book", url: "https://docs.microsoft.com/en-us/sysinternals/learn/windows-internals" },
                     { title: "📺 Files & File Systems", type: "video", url: "https://www.youtube.com/watch?v=KN8YgBkVEOM" },
                     { title: "📝 NTFS vs FAT32 Guide", type: "doc", url: "https://www.howtogeek.com/177078/htg-explains-what-file-system-should-i-use-for-my-usb-drive/" }
                 ]
@@ -94,7 +94,7 @@ window.libraryResources = [
             {
                 dayTitle: "Day 4: The Internet & Cloud",
                 resources: [
-                    { title: "📖 Tubes: Ch.2 \"The Map\"", type: "book", url: "#" },
+                    { title: "📖 Tubes (Andrew Blum): Ch.2", type: "book", url: "https://www.amazon.com/Tubes-Journey-Internet-Andrew-Blum/dp/0061994937" },
                     { title: "📺 How the Internet Works in 5 mins", type: "video", url: "https://www.youtube.com/watch?v=7_LPdttKXPc" },
                     { title: "📝 AWS Cloud Concepts", type: "doc", url: "https://aws.amazon.com/what-is-cloud-computing/" }
                 ]
@@ -102,7 +102,7 @@ window.libraryResources = [
             {
                 dayTitle: "Day 5: Data Units (Bits/Bytes)",
                 resources: [
-                    { title: "📖 Code (Petzold): Ch.6 \"Logic Gates\"", type: "book", url: "#" },
+                    { title: "📖 Code (Petzold): Ch.6 \"Logic Gates\"", type: "book", url: "https://www.amazon.com/Code-Language-Hardware-Software-Paperback/dp/B007IKRBA0" },
                     { title: "📺 Bits and Bytes Explained", type: "video", url: "https://www.youtube.com/watch?v=5i_loW3eK3w" },
                     { title: "🛠️ RapidTables Binary Converter", type: "tool", url: "https://www.rapidtables.com/convert/number/binary-to-decimal.html" }
                 ]
@@ -110,7 +110,7 @@ window.libraryResources = [
             {
                 dayTitle: "Day 6: Security (HIPAA)",
                 resources: [
-                    { title: "📖 Ghost in the Wires: Ch.1", type: "book", url: "#" },
+                    { title: "📖 Ghost in the Wires (Mitnick): Ch.1", type: "book", url: "https://www.amazon.com/Ghost-Wires-Adventures-Worlds-Wanted/dp/0316037729" },
                     { title: "📺 Cyber Security 101", type: "video", url: "https://www.youtube.com/watch?v=inWWhr5tnEA" },
                     { title: "📝 HIPAA Official Summary", type: "doc", url: "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html" }
                 ]
@@ -146,7 +146,7 @@ window.libraryResources = [
         days: Array.from({ length: 7 }, (_, i) => ({
             dayTitle: `Day ${i + 1}: Visualization`,
             resources: [
-                { title: "📖 Storytelling with Data: Ch.1", type: "book", url: "#" },
+                { title: "📖 Storytelling with Data (Knaflic): Ch.1", type: "book", url: "https://www.storytellingwithdata.com/books" },
                 { title: "📺 PowerBI for Beginners", type: "video", url: "https://www.youtube.com/watch?v=T7487qaXh2Y" },
                 { title: "🛠️ PowerBI Service Login", type: "tool", url: "https://app.powerbi.com/" }
             ]

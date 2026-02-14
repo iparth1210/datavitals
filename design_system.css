@@ -1,0 +1,116 @@
+/* 
+   🌌 NEURAL DESIGN SYSTEM v4.0 (THE "KILLER" STANDARD)
+   Centralized Design Tokens for the Immersive OS ecosystem.
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    /* Neural Palette (OLED Optimized) */
+    --bg-depth: #020617;
+    --accent-cyan: #06b6d4;
+    --accent-violet: #8b5cf6;
+    --accent-pink: #ec4899;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --border-glass: rgba(255, 255, 255, 0.08);
+    
+    /* Refractive Glassmorphism */
+    --glass-blur: blur(40px);
+    --glass-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    --glass-bg: rgba(15, 23, 42, 0.6);
+    --glass-shimmer: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 50%, rgba(255,255,255,0.05) 100%);
+    
+    /* Animation Tokens */
+    --spring-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --smooth-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    background: var(--bg-depth);
+    font-family: 'Inter', sans-serif;
+    color: var(--text-primary);
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+}
+
+/* --- KILLER GLASS UTILITIES --- */
+.killer-glass {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.6s var(--spring-ease), box-shadow 0.6s var(--smooth-ease);
+}
+
+.killer-glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--glass-shimmer);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.killer-glass::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--glass-grain);
+    opacity: 0.03;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.killer-glass:hover {
+    box-shadow: 0 0 30px rgba(6, 182, 212, 0.15);
+}
+
+/* --- RADIANT ACCENTS --- */
+.text-gradient {
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet), var(--accent-pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.btn-neural {
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: none;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s var(--spring-ease);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+}
+
+.btn-neural:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(6, 182, 212, 0.5);
+}
+
+/* --- QUANTUM BACKGROUND CONTAINER --- */
+#quantum-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}

@@ -1,30 +1,24 @@
 /**
- * 🎮 GAMIFICATION ENGINE 🎮
- * Manages User Stats, XP, Levels, and Streaks.
+ * 🎮 GAMIFICATION ENGINE v2.0 (THE "HORIZON" EDITION)
+ * Manages User Stats, XP, Levels, and Streaks within the Bento Grid.
  */
 
 const Gamification = {
-    // Default Initial State
     state: {
         xp: 0,
         level: 1,
         streak: 0,
-        lastLogin: null, // "YYYY-MM-DD"
+        lastLogin: null,
         badges: []
     },
 
-    /**
-     * Initialize the system
-     */
     init() {
         this.loadState();
         this.checkStreak();
         this.updateHUD();
+        console.log("[Aura]: Gamification Subsystems Active.");
     },
 
-    /**
-     * Load stats from LocalStorage
-     */
     loadState() {
         const stored = localStorage.getItem('datavitals_stats');
         if (stored) {
@@ -32,110 +26,95 @@ const Gamification = {
         }
     },
 
-    /**
-     * Save stats to LocalStorage
-     */
     saveState() {
         localStorage.setItem('datavitals_stats', JSON.stringify(this.state));
         this.updateHUD();
     },
 
-    /**
-     * Calculate and Update Streak Logic
-     */
     checkStreak() {
         const today = new Date().toISOString().split('T')[0];
-
         if (this.state.lastLogin !== today) {
-            // It's a new day
             const yesterday = new Date();
             yesterday.setDate(yesterday.getDate() - 1);
             const yesterdayStr = yesterday.toISOString().split('T')[0];
 
             if (this.state.lastLogin === yesterdayStr) {
-                // Continued streak
                 this.state.streak++;
-                this.showNotification(`🔥 Streak Ignited: ${this.state.streak} Days!`);
+                this.showNotification(`🔥 NEURAL STREAK: ${this.state.streak} DAYS`);
             } else if (this.state.lastLogin && this.state.lastLogin < yesterdayStr) {
-                // Streak broken
                 this.state.streak = 1;
-                this.showNotification(`🔥 Streak Reset. Let's build it back!`);
+                this.showNotification(`🔥 STREAK RESET`);
             } else {
-                // First login ever or new streak start
                 if (this.state.streak === 0) this.state.streak = 1;
             }
-
             this.state.lastLogin = today;
             this.saveState();
         }
     },
 
-    /**
-     * Add XP to user and check for Level Up
-     * @param {number} amount - Amount of XP to add
-     */
     addXP(amount) {
         this.state.xp += amount;
-
-        // Level Formula: Level * 1000 XP required
         const nextLevelXP = this.state.level * 1000;
-
         if (this.state.xp >= nextLevelXP) {
             this.levelUp();
         }
-
+        localStorage.setItem('datavitals_xp', this.state.xp); // Sync with script.js HUD
         this.saveState();
-        this.showNotification(`+${amount} XP`);
+        this.showNotification(`+${amount} XP SYNTHESIZED`);
     },
 
-    /**
-     * Level Up Logic
-     */
     levelUp() {
         this.state.level++;
-        this.state.xp = 0;
-        const msg = `🎉 LEVEL UP! You are now Level ${this.state.level}!`;
-        this.showNotification(msg);
-        console.log(`[GAME] ${msg}`);
+        this.state.xp = this.state.xp % 1000;
+        this.showNotification(`🎉 NEURAL ASCENSION: LEVEL ${this.state.level}`);
     },
 
-    /**
-     * Update the UI HUD
-     */
     updateHUD() {
-        // Inject HUD
         const hud = document.getElementById('sidebar-hud');
         if (hud) {
+            const xpPercent = (this.state.xp % 1000) / 10;
             hud.innerHTML = `
-                <span class="hud-value" style="position:relative; z-index:2">${this.state.xp} XP</span>
-            </div>
-        `;
-        },
-
-        /**
-         * Show Toast Notification
-         */
-        showNotification(msg) {
-            let toast = document.createElement('div');
-            toast.className = 'game-toast';
-            toast.innerText = msg;
-            document.body.appendChild(toast);
-
-            // Animate
-            setTimeout(() => toast.classList.add('show'), 100);
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        },
-
-        takeDamage(amount) {
-            this.showNotification(`💔 Took ${amount} Damage!`);
+                <div class="vital-item">
+                    <span class="label">NEURAL_XP [LVL ${this.state.level}]</span>
+                    <span class="value text-gradient">${this.state.xp}</span>
+                    <div class="vital-bar"><div class="fill" style="width: ${xpPercent}%;"></div></div>
+                </div>
+                <div class="vital-item">
+                    <span class="label">CLINICAL_STREAK</span>
+                    <span class="value" style="color: var(--accent-pink);">${this.state.streak} DAYS</span>
+                </div>
+                <div class="vital-item">
+                    <span class="label">BIO_SYNC</span>
+                    <span class="value" style="color: var(--accent-cyan);">OPTIMAL</span>
+                </div>
+            `;
         }
-    };
+    },
 
-    // Auto-init on load if script is deferred
-    window.Gamification = Gamification;
-    document.addEventListener('DOMContentLoaded', () => {
-        Gamification.init();
-    });
+    showNotification(msg) {
+        const toast = document.createElement('div');
+        toast.className = 'killer-glass';
+        toast.style.cssText = `
+            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(100px);
+            padding: 16px 32px; z-index: 20000; color: white; font-family: 'Space Grotesk';
+            font-weight: 700; font-size: 1rem; letter-spacing: 1px;
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.4); transition: all 0.6s var(--spring-ease);
+        `;
+        toast.innerText = msg;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.style.transform = 'translateX(-50%) translateY(0)', 100);
+        setTimeout(() => {
+            toast.style.transform = 'translateX(-50%) translateY(100px)';
+            setTimeout(() => toast.remove(), 600);
+        }, 3000);
+    },
+
+    takeDamage(amount) {
+        this.showNotification(`⚠️ NEURAL FRAGMENTATION: -${amount}`);
+    }
+};
+
+window.Gamification = Gamification;
+document.addEventListener('DOMContentLoaded', () => {
+    Gamification.init();
+});
