@@ -1,0 +1,480 @@
+/* 
+   🏗️ THE HORIZON ARCHITECTURE v1.0
+   Bento Grid & Immersive Layout Suite
+*/
+
+:root {
+    --bento-gap: 20px;
+    --bento-radius: 24px;
+}
+
+/* --- FULL PAGE OVERHAUL (GOD-MODE) --- */
+body {
+    background: var(--bg-depth) !important;
+    height: 100vh !important;
+    width: 100vw !important;
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}
+
+#quantum-canvas {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* --- THE MASTER SaaS GRID --- */
+.bento-grid {
+    display: grid !important;
+    grid-template-columns: 80px 1fr 360px !important;
+    height: 100vh !important;
+    width: 100vw !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 5 !important;
+    visibility: visible !important;
+    transition: grid-template-columns 0.4s var(--spring-ease) !important;
+}
+
+/* AI Minimized State */
+.bento-grid.aura-minimized {
+    grid-template-columns: 80px 1fr 0px !important;
+}
+
+.bento-grid.aura-minimized .card-aura {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateX(100px) !important;
+}
+
+/* Visibility Typography (OLED Focus) */
+body {
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Base Bento Card */
+.bento-card {
+    background: var(--bg-surface);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.6s var(--spring-ease), box-shadow 0.6s var(--smooth-ease);
+    border-radius: 24px;
+    overflow: hidden;
+    /* For neon trail */
+}
+
+.neon-trail {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.05), transparent);
+    transform: skewX(-15deg);
+    pointer-events: none;
+    animation: neon-flow 4s infinite linear;
+}
+
+@keyframes neon-flow {
+    from {
+        left: -100%;
+    }
+
+    to {
+        left: 100%;
+    }
+}
+
+@keyframes spring-up {
+    0% {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* --- NANO-NAV (Left Column) --- */
+.card-nav {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 24px 0 !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    backdrop-filter: none !important;
+    transform: none !important;
+}
+
+.card-nav:hover {
+    box-shadow: none !important;
+    border-right: 1px solid rgba(6, 182, 212, 0.3) !important;
+}
+
+/* --- INFINITE WORKSPACE (Center Column) --- */
+.card-hero {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 40px !important;
+    max-width: 1600px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    backdrop-filter: none !important;
+    border: none !important;
+    transform: none !important;
+}
+
+.card-hero:hover {
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* --- AURA AI SIDEBAR (Right Column) --- */
+.card-aura {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 24px !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.05) !important;
+    background: rgba(5, 5, 5, 0.9) !important;
+    backdrop-filter: blur(20px) !important;
+    border-radius: 0 !important;
+    transform: translateX(0) !important;
+    transition: all 0.4s var(--spring-ease) !important;
+    overflow: hidden !important;
+    min-width: 0 !important;
+    /* Prevents grid blowout */
+}
+
+.card-aura:hover {
+    box-shadow: none !important;
+    border-left: 1px solid rgba(6, 182, 212, 0.3) !important;
+}
+
+/* HIDE REDUNDANT BENTO PANELS */
+.card-vitals,
+.card-labs,
+.card-quick-access {
+    display: none !important;
+}
+
+/* Nav Item Tweaks */
+.nav-item-killer {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    margin: 12px 0;
+    transition: all 0.3s var(--spring-ease);
+    font-size: 1.2rem;
+    cursor: pointer;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.nav-item-killer:hover {
+    background: rgba(6, 182, 212, 0.1);
+    color: var(--accent-cyan);
+    transform: translateY(-2px);
+}
+
+/* --- BENTO WEEK GRID --- */
+.bento-week-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    padding: 24px;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.day-card-bento {
+    height: 320px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.day-card-bento .day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.day-card-bento .day-num {
+    font-family: 'JetBrains Mono';
+    font-size: 0.7rem;
+    color: var(--accent-cyan);
+    letter-spacing: 2px;
+}
+
+.day-card-bento .day-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+.day-card-bento .day-icon {
+    font-size: 3rem;
+    filter: drop-shadow(0 0 15px rgba(6, 182, 212, 0.3));
+}
+
+.day-card-bento .day-title {
+    font-family: 'Space Grotesk';
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+/* --- HOLOGRAPHIC LESSON VIEW --- */
+.lesson-mission-control {
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    overflow-y: auto;
+}
+
+.lesson-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lesson-main-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 32px;
+    flex: 1;
+}
+
+.video-refractive-frame {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #000;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid var(--border-glass);
+}
+
+.video-refractive-frame iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.holographic-quad-track {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.track-node {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.track-node h4 {
+    font-family: 'JetBrains Mono';
+    font-size: 0.65rem;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.track-node p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+/* Back button upgrade */
+.btn-back-neural {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-glass);
+    color: var(--text-secondary);
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-family: 'JetBrains Mono';
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-back-neural:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    transform: translateX(-5px);
+}
+
+/* Hiding legacy layout elements */
+.app-layout,
+.sidebar,
+.top-header,
+.week-grid-square {
+    display: none !important;
+}
+
+/* --- NEURAL VITALS & HUD (v5.0) --- */
+.vital-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.4s var(--spring-ease);
+}
+
+.vital-card:hover {
+    border-color: var(--accent-cyan);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(6, 182, 212, 0.2);
+}
+
+.vital-label {
+    font-family: 'JetBrains Mono';
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.vital-value {
+    font-family: 'Space Grotesk';
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Liquid Progress Bar */
+.liquid-bar-container {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.liquid-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-violet));
+    border-radius: 4px;
+    position: relative;
+    transition: width 1s var(--spring-ease);
+}
+
+.liquid-fill::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: liquid-surge 2s infinite linear;
+}
+
+@keyframes liquid-surge {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+.aura-insight-bubble {
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--accent-cyan);
+    margin-top: 8px;
+    opacity: 0.9;
+}
+
+/* --- NEURAL HANDSHAKE (LOGIN) OVERHAUL --- */
+#auth-video-bg {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    object-fit: cover !important;
+    z-index: 0 !important;
+    opacity: 0.3 !important;
+    filter: saturate(0) contrast(1.2) !important;
+}
+
+.auth-card-godmode {
+    padding: 60px 48px !important;
+    border-radius: 24px !important;
+    text-align: center !important;
+    max-width: 460px !important;
+    width: 90% !important;
+    z-index: 10 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 32px !important;
+    background: rgba(5, 5, 5, 0.85) !important;
+    backdrop-filter: blur(40px) saturate(150%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+@keyframes auth-slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+        filter: blur(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+.stagger-1 {
+    animation: auth-slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.stagger-2 {
+    animation: auth-slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+    opacity: 0;
+}
+
+.stagger-3 {
+    animation: auth-slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    opacity: 0;
+}

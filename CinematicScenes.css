@@ -1,0 +1,777 @@
+/* 
+   🎬 DATAVITALS CINEMATIC NARRATIVE & LOGIN v1.0
+   World-Class SVG & CSS Animation Suite
+*/
+
+:root {
+    --narrative-bg: #030712;
+    --logic-accent: #60a5fa;
+    --pulse-accent: #f472b6;
+    --synthesis-accent: #5e6ad2;
+    --accent-glow: rgba(94, 106, 210, 0.4);
+    --text-primary: #EDEDED;
+    --text-secondary: #9B9C9D;
+    --text-muted: #666768;
+    --ease-smooth: cubic-bezier(0.2, 0.0, 0, 1.0);
+}
+
+#narrative-container {
+    position: fixed;
+    inset: 0;
+    background: var(--narrative-bg);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Scene Wrapper */
+.narrative-scene {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 1.5s var(--ease-smooth);
+    pointer-events: none;
+}
+
+.narrative-scene.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* --- SCENE 1: NEURAL LOGIC --- */
+.binary-rain {
+    position: absolute;
+    inset: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--logic-accent);
+    opacity: 0.15;
+    mask-image: linear-gradient(to bottom, black, transparent);
+    user-select: none;
+}
+
+.logic-core {
+    width: 300px;
+    height: 300px;
+    filter: drop-shadow(0 0 30px var(--logic-accent));
+}
+
+.pulse-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: dash 3s ease-in-out infinite alternate;
+}
+
+/* --- "GOD-MODE" NEURAL HANDSHAKE v7.0 --- */
+
+#quantum-login-terminal {
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    overflow: hidden;
+    transition: opacity 1s var(--smooth-ease);
+}
+
+.neural-parallax-container {
+    position: absolute;
+    inset: -100px;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.parallax-layer {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.1s linear;
+}
+
+.layer-back {
+    filter: blur(4px) brightness(0.4);
+    opacity: 0.6;
+    background: radial-gradient(circle at center, #1e293b 0%, #000000 100%);
+    background-image: url('neural_nexus_background_v2.png');
+    background-size: cover;
+}
+
+.layer-mid {
+    background-image: radial-gradient(circle at center, rgba(6, 182, 212, 0.05) 0%, transparent 70%);
+    mix-blend-mode: screen;
+}
+
+.layer-front {
+    background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+}
+
+.holographic-container {
+    position: relative;
+    z-index: 10;
+    perspective: 2000px;
+}
+
+.terminal-frame {
+    width: 460px;
+    padding: 0;
+    transform-style: preserve-3d;
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8), 0 0 50px rgba(6, 182, 212, 0.1);
+}
+
+.terminal-header-line {
+    padding: 16px 24px;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255, 255, 255, 0.02);
+    position: relative;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--accent-cyan);
+    animation: blink 2s infinite;
+}
+
+.terminal-id {
+    font-family: 'JetBrains Mono';
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 3px;
+}
+
+.header-scanline {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 60%;
+    height: 1px;
+    background: var(--accent-cyan);
+    box-shadow: 0 0 15px var(--accent-cyan);
+    animation: scan 4s infinite ease-in-out;
+}
+
+.terminal-body-flow {
+    padding: 40px;
+}
+
+.brand-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.auth-section {
+    position: relative;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Boot Sequence HUD */
+.boot-sequence {
+    text-align: center;
+}
+
+.boot-loader {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 99px;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.boot-bar-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--accent-cyan);
+    box-shadow: 0 0 15px var(--accent-cyan);
+    transition: width 0.1s linear;
+}
+
+.boot-data {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: 'JetBrains Mono';
+}
+
+#boot-percent {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: white;
+}
+
+#boot-text {
+    font-size: 0.65rem;
+    color: var(--accent-cyan);
+    letter-spacing: 2px;
+}
+
+/* White-Out Surge */
+.white-out-surge {
+    position: fixed;
+    inset: 0;
+    z-index: 10002;
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    transition: opacity 0.5s var(--smooth-ease);
+}
+
+.white-out-surge.active {
+    opacity: 1;
+    mix-blend-mode: normal;
+}
+
+.btn-google-neural {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.02);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 16px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-family: 'Plus Jakarta Sans';
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.4s var(--spring-ease);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-google-neural:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--accent-cyan);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(6, 182, 212, 0.2);
+}
+
+.terminal-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 32px 0;
+    font-family: 'JetBrains Mono';
+    font-size: 0.55rem;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+}
+
+.terminal-divider::before,
+.terminal-divider::after {
+    content: "";
+    flex: 1;
+    height: 0.5px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.terminal-input-group {
+    margin-bottom: 24px;
+}
+
+.terminal-input-group label {
+    display: block;
+    font-family: 'JetBrains Mono';
+    font-size: 0.6rem;
+    color: var(--accent-cyan);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.terminal-input-group input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    padding: 14px;
+    border-radius: 8px;
+    color: white;
+    font-family: 'JetBrains Mono';
+    font-size: 0.85rem;
+    transition: all 0.3s;
+}
+
+.terminal-input-group input:focus {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);
+}
+
+.terminal-footer-data {
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.scrolling-data {
+    display: inline-block;
+    font-family: 'JetBrains Mono';
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    animation: marquee 20s linear infinite;
+}
+
+@keyframes scan {
+    from {
+        left: -40%;
+    }
+
+    to {
+        left: 100%;
+    }
+}
+
+@keyframes marquee {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0.4;
+    }
+}
+
+@keyframes dash {
+    from {
+        stroke-dashoffset: 1000;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* --- SCENE 2: BIO PULSE --- */
+.dna-container {
+    perspective: 1000px;
+}
+
+.dna-helix {
+    width: 120px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    animation: rotate-dna 10s linear infinite;
+}
+
+@keyframes rotate-dna {
+    from {
+        transform: rotateY(0deg);
+    }
+
+    to {
+        transform: rotateY(360deg);
+    }
+}
+
+.dna-strand {
+    height: 4px;
+    background: linear-gradient(90deg, var(--pulse-accent), transparent, var(--pulse-accent));
+    border-radius: 99px;
+    box-shadow: 0 0 15px var(--pulse-accent);
+}
+
+/* --- SCENE 3: SYNTHESIS --- */
+.synthesis-web {
+    width: 400px;
+    height: 400px;
+    opacity: 0.4;
+    animation: scale-up 20s ease-out infinite alternate;
+}
+
+@keyframes scale-up {
+    from {
+        transform: scale(1);
+        opacity: 0.2;
+    }
+
+    to {
+        transform: scale(1.2);
+        opacity: 0.5;
+    }
+}
+
+/* Narrative Text */
+.narrative-text-box {
+    position: absolute;
+    bottom: 15%;
+    text-align: center;
+    max-width: 600px;
+    padding: 0 20px;
+}
+
+.narrative-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.5) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.narrative-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.active .narrative-title {
+    animation: slide-up-fade 0.8s var(--ease-smooth) forwards 0.5s;
+}
+
+.active .narrative-subtitle {
+    animation: slide-up-fade 0.8s var(--ease-smooth) forwards 0.8s;
+}
+
+@keyframes slide-up-fade {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- NEURAL COMMAND BAR --- */
+.neural-command-container {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    z-index: 1000;
+}
+
+.command-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 24px;
+    background: rgba(5, 5, 5, 0.8);
+}
+
+.command-prompt {
+    font-family: 'JetBrains Mono';
+    color: var(--accent-cyan);
+    font-weight: 700;
+}
+
+#neural-command-input {
+    background: none;
+    border: none;
+    flex: 1;
+    color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+/* Haptic Pulse */
+.haptic-pulse {
+    animation: pulse-haptic 0.2s ease-out;
+}
+
+@keyframes pulse-haptic {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* --- AI OBSERVER HUD --- */
+.ai-observer-hud {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 20px;
+}
+
+.ai-core-container {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#ai-observer-core {
+    width: 20px;
+    height: 20px;
+    background: var(--accent-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--accent-cyan);
+    transition: background 0.5s ease;
+}
+
+.ai-core-ring {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: 50%;
+    animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* --- ZEN FOCUS MODE --- */
+body.zen-focus .bento-card:not(:hover):not(.selected-focus) {
+    opacity: 0.1;
+    filter: grayscale(1) blur(4px);
+    pointer-events: none;
+    transition: all 0.8s var(--smooth-ease);
+}
+
+body.zen-focus .bento-card:hover,
+body.zen-focus .selected-focus {
+    opacity: 1;
+    filter: none;
+    box-shadow: 0 0 50px rgba(6, 182, 212, 0.3);
+    transform: scale(1.05);
+}
+
+.focus-spotlight {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, rgba(0, 0, 0, 0.95) 400px);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 999;
+    transition: opacity 0.5s;
+}
+
+body.zen-focus .focus-spotlight {
+    opacity: 1;
+}
+
+/* --- LOGIN OVERLAY --- */
+#login-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1002;
+    background: radial-gradient(circle at center, rgba(94, 106, 210, 0.1) 0%, transparent 70%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease;
+}
+
+#login-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.login-card {
+    background: rgba(20, 21, 22, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 3rem;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    transform: translateY(20px);
+    transition: transform 0.8s var(--ease-smooth);
+}
+
+#login-overlay.active .login-card {
+    transform: translateY(0);
+}
+
+.login-logo {
+    width: 64px;
+    height: 64px;
+    background: var(--synthesis-accent);
+    border-radius: 16px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 0 30px var(--accent-glow);
+}
+
+.login-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.login-subtitle {
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+    font-size: 0.95rem;
+}
+
+/* Neural Google Button */
+.btn-google {
+    width: 100%;
+    background: white;
+    color: #1a1b1c;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 1.5rem;
+}
+
+.btn-google:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-muted);
+    font-size: 11px;
+    margin-bottom: 1.5rem;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 1.25rem;
+}
+
+.input-group label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+}
+
+.input-group input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: white;
+    transition: all 0.2s;
+}
+
+.input-group input:focus {
+    border-color: var(--synthesis-accent);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.btn-login-submit {
+    width: 100%;
+    background: var(--synthesis-accent);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 1rem;
+}
+
+.btn-login-submit:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+
+/* --- NEURAL SURGE EFFECT --- */
+.neural-surge-overlay {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, var(--accent-cyan), transparent 70%);
+    z-index: 10005;
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    transition: opacity 0.4s var(--smooth-ease), transform 0.6s var(--spring-ease);
+    transform: scale(0.8);
+}
+
+.neural-surge-overlay.active {
+    opacity: 0.2;
+    transform: scale(1.2);
+}
+
+.ai-status span {
+    transition: opacity 0.5s;
+    display: inline-block;
+}
+
+/* Back button glow */
+.btn-back-neural:hover {
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+    border-color: var(--accent-cyan);
+}
