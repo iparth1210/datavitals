@@ -30,7 +30,7 @@ body {
 /* --- THE MASTER SaaS GRID --- */
 .bento-grid {
     display: grid !important;
-    grid-template-columns: 80px 1fr 360px !important;
+    grid-template-columns: 240px 1fr 0px !important;
     height: 100vh !important;
     width: 100vw !important;
     padding: 0 !important;
@@ -107,23 +107,40 @@ body {
     }
 }
 
-/* --- NANO-NAV (Left Column) --- */
-.card-nav {
+/* --- CURRICULUM SIDEBAR (Left Column) --- */
+.card-sidebar {
     display: flex !important;
     flex-direction: column !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    padding: 24px 0 !important;
     border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
-    background: transparent !important;
+    background: rgba(10, 10, 10, 0.95) !important;
     border-radius: 0 !important;
-    backdrop-filter: none !important;
+    backdrop-filter: blur(20px) !important;
     transform: none !important;
+    z-index: 10 !important;
 }
 
-.card-nav:hover {
+.card-sidebar:hover {
     box-shadow: none !important;
     border-right: 1px solid rgba(6, 182, 212, 0.3) !important;
+}
+
+/* Sidebar item styling */
+.sidebar-module-item {
+    padding: 16px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    cursor: pointer;
+    transition: all 0.2s var(--spring-ease);
+}
+.sidebar-module-item:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(6, 182, 212, 0.3);
+    transform: translateX(4px);
+}
+.sidebar-module-item.active-module {
+    background: rgba(6, 182, 212, 0.1);
+    border-color: var(--accent-cyan);
 }
 
 /* --- INFINITE WORKSPACE (Center Column) --- */
@@ -131,7 +148,7 @@ body {
     display: flex !important;
     flex-direction: column !important;
     padding: 40px !important;
-    max-width: 1600px !important;
+    max-width: 1800px !important;
     margin: 0 auto !important;
     width: 100% !important;
     background: transparent !important;

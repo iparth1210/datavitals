@@ -49,7 +49,8 @@ window.bootApplication = () => {
         const legacySplash = document.getElementById('splash-screen');
         if (legacySplash) legacySplash.classList.add('hidden');
 
-        renderRoadmap();
+        renderSidebarCurriculum();
+        loadDashboardCore();
         console.log("[Neural_Link]: Welcome back, Architect.");
 
         // Staggered HUD Reveal
@@ -241,38 +242,62 @@ document.addEventListener('mousemove', (e) => {
 
 // --- RENDER FUNCTIONS ---
 
-function renderRoadmap() {
+/* Replaced renderRoadmap with renderSidebarCurriculum to load items on the left */
+function renderSidebarCurriculum() {
+    const sidebar = document.getElementById('sidebar-curriculum');
+    if(!sidebar) return;
+    
     const unlocked = loadProgress();
-
-    app.innerHTML = `
-        <div class="roadmap-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; padding-bottom: 60px;">
-            ${window.roadmap.map((week, index) => {
-        const isAvailable = unlocked[week.days[0].id];
-        const weekNum = index + 1;
-
-        return `
-                <div class="bento-card glass-refractive week-card ${isAvailable ? 'unlocked' : 'locked'}" 
-                     style="transition: transform 0.3s; transform: translateY(0);"
-                     onmouseover="this.style.transform='translateY(-4px)'"
-                     onmouseout="this.style.transform='translateY(0)'"
-                     onclick="${isAvailable ? `renderWeekView('${week.id}')` : ''}">
-                    <div class="week-header">
-                        <span class="week-number" style="font-family: 'JetBrains Mono'; color: var(--accent-cyan); font-size: 0.8rem;">MODULE_${weekNum.toString().padStart(2, '0')}</span>
-                        ${!isAvailable ? '<span class="lock-icon" style="opacity: 0.5;">🔒</span>' : '<span style="color: var(--success); font-family: JetBrains Mono; font-size: 0.7rem;">[ACTIVE]</span>'}
-                    </div>
-                    <div class="neon-trail"></div>
-                    <h3 class="week-title" style="font-family: 'Space Grotesk'; font-size: 1.3rem; margin: 16px 0 8px 0; font-weight: 700;">${week.title}</h3>
-                    <div class="week-desc" style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin-bottom: 24px;">${week.description}</div>
-                    <div class="vital-bar" style="margin-top: auto;">
-                        <div class="fill" style="width: ${isAvailable ? '100%' : '0%'}"></div> 
-                    </div>
+    
+    sidebar.innerHTML = `
+        <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; letter-spacing: 1px;">// CURRICULUM_MODULES</div>
+        ${window.roadmap.map((week, index) => {
+            const isAvailable = unlocked[week.days[0].id];
+            const weekNum = index + 1;
+            
+            return `
+            <div class="sidebar-module-item ${isAvailable ? '' : 'locked'}" style="opacity: ${isAvailable ? 1 : 0.5}" onclick="${isAvailable ? `handleSidebarClick('${week.id}', '${week.days[0].id}', '${week.days[0].lessonId}', event)` : ''}">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <span style="font-family: 'JetBrains Mono'; color: var(--accent-cyan); font-size: 0.7rem;">MODULE_${weekNum.toString().padStart(2, '0')}</span>
+                    <span>${isAvailable ? '⚡' : '🔒'}</span>
                 </div>
-                `;
-    }).join('')}
-        </div>
+                <div style="font-family: 'Space Grotesk'; font-weight: 700; color: white; font-size: 0.95rem;">${week.title}</div>
+            </div>
+            `;
+        }).join('')}
     `;
-
+    
     if (window.updateGamificationUI) window.updateGamificationUI();
+}
+
+function handleSidebarClick(weekId, dayId, lessonId, e) {
+    const sidebarItems = document.querySelectorAll('.sidebar-module-item');
+    sidebarItems.forEach(item => item.classList.remove('active-module'));
+    
+    // Safely apply active state
+    if(e && e.currentTarget) {
+        e.currentTarget.classList.add('active-module');
+    } else if (typeof window !== 'undefined' && window.event && window.event.currentTarget) {
+        window.event.currentTarget.classList.add('active-module');
+    }
+
+    renderLesson(lessonId, dayId);
+}
+
+function loadDashboardCore() {
+    const unlocked = loadProgress();
+    // Find the latest unlocked day to show
+    let latestDay = window.roadmap[0].days[0];
+    let latestWeek = window.roadmap[0];
+    
+    // Very simple fallback: just load week 1 day 1 initially.
+    handleSidebarClick(window.roadmap[0].id, window.roadmap[0].days[0].id, window.roadmap[0].days[0].lessonId);
+}
+
+// Keep renderRoadmap as an alias so anything broken calling it just resets the sidebar and core.
+function renderRoadmap() {
+    renderSidebarCurriculum();
+    loadDashboardCore();
 }
 
 function renderWeekView(weekId) {
