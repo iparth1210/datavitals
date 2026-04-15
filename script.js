@@ -304,8 +304,8 @@ function renderWeekView(weekId) {
     const week = window.roadmap.find(w => w.id === weekId);
     if (!week) return;
 
-    const unlocked = loadProgress();
-
+    const app = document.getElementById('app');
+    if (!app) return;
     app.innerHTML = `
         <div class="roadmap-container mission-mission-control" style="padding-bottom: 60px; max-width: 1000px; margin: 0 auto;">
             <div class="lesson-header-row" style="display: flex; align-items: center; margin-bottom: 40px; gap: 24px;">
@@ -501,6 +501,8 @@ function renderLesson(lessonId, dayId) {
         parentWeekId = getWeekIdForDay(dayId); // Robust resolution of the parent Week
     }
 
+    const app = document.getElementById('app');
+    if (!app) return;
     app.innerHTML = `
         <div class="lesson-mission-control" style="padding-bottom: 60px;">
             <div class="lesson-header-row" style="display: flex; align-items: center; margin-bottom: 32px; gap: 24px;">
@@ -883,9 +885,8 @@ window.showResources = () => {
         color: white !important;
     }
 `);
+    app.innerHTML = html;
 }
-
-app.innerHTML = html;
 
 // Show Progress Stats
 window.showMyProgress = () => {
