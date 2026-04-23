@@ -269,12 +269,22 @@ function renderSidebarCurriculum() {
             const weekNum = index + 1;
             
             return `
-            <div class="sidebar-module-item ${isAvailable ? '' : 'locked'}" style="opacity: ${isAvailable ? 1 : 0.5}" onclick="${isAvailable ? `handleSidebarClick('${week.id}', '${week.days[0].id}', '${week.days[0].lessonId}', event)` : ''}">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                    <span class="module-subtitle-text" style="font-family: 'JetBrains Mono'; color: var(--accent-cyan); font-size: 0.7rem;">MODULE_${weekNum.toString().padStart(2, '0')}</span>
-                    <span>${isAvailable ? '⚡' : '🔒'}</span>
+            <div class="sidebar-module-group" style="margin-bottom: 8px;">
+                <div class="sidebar-module-item ${isAvailable ? '' : 'locked'}" id="sidebar-mod-${week.id}" style="opacity: ${isAvailable ? 1 : 0.5}" onclick="${isAvailable ? `toggleAccordion('${week.id}', event)` : ''}">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                        <span class="module-subtitle-text" style="font-family: 'JetBrains Mono'; color: var(--accent-cyan); font-size: 0.7rem;">MODULE_${weekNum.toString().padStart(2, '0')}</span>
+                        <span id="accordion-icon-${week.id}" style="transition: transform 0.3s;">${isAvailable ? '▼' : '🔒'}</span>
+                    </div>
+                    <div class="module-title-text" style="font-family: 'Space Grotesk'; font-weight: 700; color: white; font-size: 0.95rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">${week.title}</div>
                 </div>
-                <div class="module-title-text" style="font-family: 'Space Grotesk'; font-weight: 700; color: white; font-size: 0.95rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">${week.title}</div>
+                <div class="sidebar-days-container" id="days-${week.id}">
+                    ${week.days.map((day, dayIndex) => {
+                        const isDayAvail = unlocked[day.id];
+                        return \`<div class="sidebar-day-item ${isDayAvail ? '' : 'locked-day'}" onclick="\${isDayAvail ? \`handleSidebarClick('\${week.id}', '\${day.id}', '\${day.lessonId}', event)\` : ''}">
+                                    DAY_0\${dayIndex+1}: \${day.title}
+                                </div>\`;
+                    }).join('')}
+                </div>
             </div>
             `;
         }).join('')}
@@ -283,15 +293,48 @@ function renderSidebarCurriculum() {
     if (window.updateGamificationUI) window.updateGamificationUI();
 }
 
+window.toggleAccordion = (weekId, e) => {
+    // If sidebar is minimized, touching an accordion expands the sidebar
+    const grid = document.querySelector('.bento-grid');
+    if (grid && grid.classList.contains('sidebar-minimized')) {
+        window.toggleSidebar();
+    }
+    
+    const container = document.getElementById(`days-${weekId}`);
+    const icon = document.getElementById(`accordion-icon-${weekId}`);
+    
+    // Close other open accordions optionally to keep view clean
+    document.querySelectorAll('.sidebar-days-container.expanded').forEach(c => {
+        if (c.id !== `days-${weekId}`) {
+            c.classList.remove('expanded');
+            const parentId = c.id.replace('days-', '');
+            const otherIcon = document.getElementById(`accordion-icon-${parentId}`);
+            if(otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+        }
+    });
+
+    if (container) {
+        container.classList.toggle('expanded');
+        if (icon) {
+            icon.style.transform = container.classList.contains('expanded') ? 'rotate(-180deg)' : 'rotate(0deg)';
+        }
+    }
+};
+
 function handleSidebarClick(weekId, dayId, lessonId, e) {
+    if(e) e.stopPropagation();
+
     const sidebarItems = document.querySelectorAll('.sidebar-module-item');
     sidebarItems.forEach(item => item.classList.remove('active-module'));
+    document.querySelectorAll('.sidebar-day-item').forEach(item => item.classList.remove('active-day'));
     
-    // Safely apply active state
-    if(e && e.currentTarget) {
-        e.currentTarget.classList.add('active-module');
-    } else if (typeof window !== 'undefined' && window.event && window.event.currentTarget) {
-        window.event.currentTarget.classList.add('active-module');
+    // Parent active state
+    const parentWeek = document.getElementById(`sidebar-mod-${weekId}`);
+    if (parentWeek) parentWeek.classList.add('active-module');
+    
+    // Child active state
+    if(e && e.currentTarget && e.currentTarget.classList.contains('sidebar-day-item')) {
+        e.currentTarget.classList.add('active-day');
     }
 
     renderLesson(lessonId, dayId);
@@ -299,12 +342,20 @@ function handleSidebarClick(weekId, dayId, lessonId, e) {
 
 function loadDashboardCore() {
     const unlocked = loadProgress();
-    // Find the latest unlocked day to show
-    let latestDay = window.roadmap[0].days[0];
-    let latestWeek = window.roadmap[0];
-    
     // Very simple fallback: just load week 1 day 1 initially.
     handleSidebarClick(window.roadmap[0].id, window.roadmap[0].days[0].id, window.roadmap[0].days[0].lessonId);
+    
+    setTimeout(() => {
+        const firstWeek = window.roadmap[0].id;
+        const container = document.getElementById(`days-${firstWeek}`);
+        const icon = document.getElementById(`accordion-icon-${firstWeek}`);
+        if(container) container.classList.add('expanded');
+        if(icon) icon.style.transform = 'rotate(-180deg)';
+        
+        // Highlight first day
+        const firstDayElem = document.querySelector('.sidebar-day-item');
+        if(firstDayElem) firstDayElem.classList.add('active-day');
+    }, 100);
 }
 
 // Keep renderRoadmap as an alias so anything broken calling it just resets the sidebar and core.
