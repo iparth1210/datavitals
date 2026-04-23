@@ -45,13 +45,52 @@ body {
 
 /* AI Minimized State */
 .bento-grid.aura-minimized {
-    grid-template-columns: 80px 1fr 0px !important;
+    grid-template-columns: 240px 1fr 0px !important;
 }
 
 .bento-grid.aura-minimized .card-aura {
     opacity: 0 !important;
     pointer-events: none !important;
     transform: translateX(100px) !important;
+}
+
+/* Sidebar Minimized State */
+.bento-grid.sidebar-minimized {
+    grid-template-columns: 80px 1fr 240px !important;
+}
+
+.bento-grid.sidebar-minimized.aura-minimized {
+    grid-template-columns: 80px 1fr 0px !important;
+}
+
+.bento-grid.sidebar-minimized .sidebar-title-text,
+.bento-grid.sidebar-minimized .module-title-text,
+.bento-grid.sidebar-minimized .module-subtitle-text {
+    display: none !important;
+}
+
+.bento-grid.sidebar-minimized .sidebar-header {
+    justify-content: center !important;
+    padding: 24px 0 !important;
+}
+
+.bento-grid.sidebar-minimized #toggle-sidebar-btn {
+    margin-left: 0 !important;
+    margin-top: 16px !important;
+}
+
+.bento-grid.sidebar-minimized .sidebar-header {
+    flex-direction: column !important;
+    gap: 8px !important;
+}
+
+.bento-grid.sidebar-minimized .sidebar-module-item > div:first-child {
+    justify-content: center !important;
+    margin-bottom: 0 !important;
+}
+
+.bento-grid.sidebar-minimized .sidebar-module-item {
+    text-align: center;
 }
 
 /* Visibility Typography (OLED Focus) */

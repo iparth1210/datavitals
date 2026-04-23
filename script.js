@@ -100,6 +100,19 @@ function toggleFocusMode() {
     console.log(`[Neural_Link]: Focus Mode ${isFocusMode ? 'Engaged' : 'Disengaged'}`);
 }
 
+// --- SIDEBAR TOGGLE ---
+window.toggleSidebar = () => {
+    const grid = document.querySelector('.bento-grid');
+    if(grid) {
+        grid.classList.toggle('sidebar-minimized');
+        const btn = document.getElementById('toggle-sidebar-btn');
+        if (btn) {
+            btn.innerHTML = grid.classList.contains('sidebar-minimized') ? '▷' : '◁';
+        }
+        triggerHaptic('light');
+    }
+};
+
 // --- AI OBSERVER HUD ---
 function initAIObserver() {
     const observer = document.getElementById('ai-observer-core');
@@ -258,10 +271,10 @@ function renderSidebarCurriculum() {
             return `
             <div class="sidebar-module-item ${isAvailable ? '' : 'locked'}" style="opacity: ${isAvailable ? 1 : 0.5}" onclick="${isAvailable ? `handleSidebarClick('${week.id}', '${week.days[0].id}', '${week.days[0].lessonId}', event)` : ''}">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                    <span style="font-family: 'JetBrains Mono'; color: var(--accent-cyan); font-size: 0.7rem;">MODULE_${weekNum.toString().padStart(2, '0')}</span>
+                    <span class="module-subtitle-text" style="font-family: 'JetBrains Mono'; color: var(--accent-cyan); font-size: 0.7rem;">MODULE_${weekNum.toString().padStart(2, '0')}</span>
                     <span>${isAvailable ? '⚡' : '🔒'}</span>
                 </div>
-                <div style="font-family: 'Space Grotesk'; font-weight: 700; color: white; font-size: 0.95rem;">${week.title}</div>
+                <div class="module-title-text" style="font-family: 'Space Grotesk'; font-weight: 700; color: white; font-size: 0.95rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">${week.title}</div>
             </div>
             `;
         }).join('')}
