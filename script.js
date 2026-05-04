@@ -113,6 +113,35 @@ window.toggleSidebar = () => {
     }
 };
 
+// --- AI OVERLAY TOGGLE ---
+window.toggleAuraSidebar = () => {
+    const grid = document.querySelector('.bento-grid');
+    if(grid) {
+        grid.classList.toggle('aura-visible');
+        triggerHaptic('light');
+    }
+};
+
+// --- TERMINAL TOGGLE ---
+window.toggleTerminal = () => {
+    const terminal = document.getElementById('terminal-modal');
+    if(terminal) {
+        terminal.classList.toggle('hidden');
+        triggerHaptic('medium');
+    } else {
+        alert("Neural Command Terminal is compiling...");
+    }
+};
+
+// --- LOGOUT / RESET ---
+window.handleLogout = () => {
+    triggerHaptic('heavy');
+    if(confirm("Are you sure you want to sever the Neural Link and log out?")) {
+        localStorage.removeItem('nn_link_established');
+        location.reload();
+    }
+};
+
 // --- AI OBSERVER HUD ---
 function initAIObserver() {
     const observer = document.getElementById('ai-observer-core');
@@ -219,18 +248,18 @@ function triggerNeuralSurge() {
     }, 10);
 }
 
-function filterModules(query) {
-    const cards = document.querySelectorAll('.week-card');
-    cards.forEach(card => {
-        const text = card.innerText.toLowerCase();
-        if (text.includes(query)) {
-            card.style.display = 'flex';
-            card.classList.add('selected-focus');
+window.filterModules = (query) => {
+    query = query.toLowerCase().trim();
+    const groups = document.querySelectorAll('.sidebar-module-group');
+    groups.forEach(group => {
+        const text = group.innerText.toLowerCase();
+        if (text.includes(query) || query === '') {
+            group.style.display = 'block';
         } else {
-            card.style.display = 'none';
+            group.style.display = 'none';
         }
     });
-}
+};
 
 // --- HAPTIC INTERFACE ---
 function triggerHaptic(type = 'light') {
@@ -280,9 +309,9 @@ function renderSidebarCurriculum() {
                 <div class="sidebar-days-container" id="days-${week.id}">
                     ${week.days.map((day, dayIndex) => {
                         const isDayAvail = unlocked[day.id];
-                        return \`<div class="sidebar-day-item ${isDayAvail ? '' : 'locked-day'}" onclick="\${isDayAvail ? \`handleSidebarClick('\${week.id}', '\${day.id}', '\${day.lessonId}', event)\` : ''}">
-                                    DAY_0\${dayIndex+1}: \${day.title}
-                                </div>\`;
+                        return `<div class="sidebar-day-item ${isDayAvail ? '' : 'locked-day'}" onclick="${isDayAvail ? `handleSidebarClick('${week.id}', '${day.id}', '${day.lessonId}', event)` : ''}">
+                                    DAY_0${dayIndex+1}: ${day.title}
+                                </div>`;
                     }).join('')}
                 </div>
             </div>
@@ -332,10 +361,23 @@ function handleSidebarClick(weekId, dayId, lessonId, e) {
     const parentWeek = document.getElementById(`sidebar-mod-${weekId}`);
     if (parentWeek) parentWeek.classList.add('active-module');
     
-    // Child active state
-    if(e && e.currentTarget && e.currentTarget.classList.contains('sidebar-day-item')) {
-        e.currentTarget.classList.add('active-day');
+    // Expand accordion if not expanded
+    const container = document.getElementById(`days-${weekId}`);
+    const icon = document.getElementById(`accordion-icon-${weekId}`);
+    if (container && !container.classList.contains('expanded')) {
+        container.classList.add('expanded');
+        if (icon) icon.style.transform = 'rotate(-180deg)';
     }
+
+    // Child active state
+    // We can find the specific day item by its onclick attribute or by adding data-day-id earlier,
+    // but since we render days with day.id, let's search for the onclick string matching the dayId.
+    const allDays = document.querySelectorAll('.sidebar-day-item');
+    allDays.forEach(item => {
+        if(item.getAttribute('onclick') && item.getAttribute('onclick').includes(`'${dayId}'`)) {
+            item.classList.add('active-day');
+        }
+    });
 
     renderLesson(lessonId, dayId);
 }
@@ -426,7 +468,8 @@ function handleDayClick(dayId, lessonId) {
         alert("🔒 Complete the previous day to unlock this!");
         return;
     }
-    renderLesson(lessonId, dayId);
+    const weekId = getWeekIdForDay(dayId);
+    handleSidebarClick(weekId, dayId, lessonId, null);
 }
 
 

@@ -43,24 +43,28 @@ body {
     transition: grid-template-columns 0.4s var(--spring-ease) !important;
 }
 
-/* AI Minimized State */
-.bento-grid.aura-minimized {
-    grid-template-columns: 240px 1fr 0px !important;
+/* AI Visible State */
+.bento-grid.aura-visible {
+    grid-template-columns: 240px 1fr 300px !important;
 }
 
-.bento-grid.aura-minimized .card-aura {
+.bento-grid:not(.aura-visible) .card-aura {
     opacity: 0 !important;
     pointer-events: none !important;
     transform: translateX(100px) !important;
+    width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
 }
 
 /* Sidebar Minimized State */
 .bento-grid.sidebar-minimized {
-    grid-template-columns: 80px 1fr 240px !important;
+    grid-template-columns: 80px 1fr 0px !important;
 }
 
-.bento-grid.sidebar-minimized.aura-minimized {
-    grid-template-columns: 80px 1fr 0px !important;
+.bento-grid.sidebar-minimized.aura-visible {
+    grid-template-columns: 80px 1fr 300px !important;
 }
 
 .bento-grid.sidebar-minimized .sidebar-title-text,
@@ -206,15 +210,17 @@ body {
     margin-bottom: 4px;
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-left: 2px solid transparent;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    background: transparent;
 }
 .sidebar-day-item:hover {
-    background: rgba(255,255,255,0.05);
+    background: rgba(255,255,255,0.03);
     color: white;
+    transform: translateX(4px);
 }
 .sidebar-day-item.active-day {
     background: rgba(6, 182, 212, 0.15);
