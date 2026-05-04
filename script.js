@@ -50,8 +50,29 @@ window.bootApplication = () => {
         if (legacySplash) legacySplash.classList.add('hidden');
 
         renderSidebarCurriculum();
+        initCommandPalette();
         loadDashboardCore();
         console.log("[Neural_Link]: Welcome back, Architect.");
+
+        // Smart Boot Aura
+        setTimeout(() => {
+            const level = window.Gamification ? window.Gamification.state.level : 1;
+            const xp = window.Gamification ? window.Gamification.state.xp : 0;
+            const msgs = [
+                `Welcome back, Architect. You are currently Level ${level} with ${xp} XP. Systems are optimal.`,
+                `Neural link established. Your current cognitive load is Level ${level}.`,
+                `Good to see you again. The data streams have been waiting.`
+            ];
+            const botMsg = msgs[Math.floor(Math.random() * msgs.length)];
+            const chatBox = document.getElementById('chat-box');
+            if (chatBox) {
+                const msgEl = document.createElement('div');
+                msgEl.className = 'chat-message bot';
+                msgEl.style.cssText = 'color: var(--accent-cyan); margin-bottom: 16px; font-family: "Space Grotesk"; background: rgba(6,182,212,0.1); padding: 12px; border-radius: 8px; border-left: 2px solid var(--accent-cyan); font-size: 0.85rem;';
+                msgEl.innerText = botMsg;
+                chatBox.appendChild(msgEl);
+            }
+        }, 2000);
 
         // Staggered HUD Reveal
         setTimeout(() => initAIObserver(), 1000);
@@ -261,14 +282,64 @@ window.filterModules = (query) => {
     });
 };
 
+// --- AUDIO HAPTIC ENGINE ---
+const AudioEngine = {
+    ctx: null,
+    init() {
+        if (!this.ctx) {
+            this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (this.ctx.state === 'suspended') {
+            this.ctx.resume();
+        }
+    },
+    playClick(type = 'light') {
+        this.init();
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        
+        const now = this.ctx.currentTime;
+        if (type === 'light') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(800, now);
+            osc.frequency.exponentialRampToValueAtTime(300, now + 0.02);
+            gain.gain.setValueAtTime(0.05, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.02);
+            osc.start(now);
+            osc.stop(now + 0.02);
+        } else if (type === 'medium') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(600, now);
+            osc.frequency.exponentialRampToValueAtTime(150, now + 0.05);
+            gain.gain.setValueAtTime(0.1, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+            osc.start(now);
+            osc.stop(now + 0.05);
+        } else if (type === 'heavy') {
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(150, now);
+            osc.frequency.exponentialRampToValueAtTime(40, now + 0.1);
+            gain.gain.setValueAtTime(0.15, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+            osc.start(now);
+            osc.stop(now + 0.1);
+        }
+    }
+};
+
 // --- HAPTIC INTERFACE ---
 function triggerHaptic(type = 'light') {
     // UI Feedback
     document.body.classList.add('haptic-pulse');
     setTimeout(() => document.body.classList.remove('haptic-pulse'), 200);
 
+    // Subtle UI Audio
+    try { AudioEngine.playClick(type); } catch(e) {}
+
     // Browser Vibration API
-    if (window.navigator.vibrate) {
+    if (window.navigator && window.navigator.vibrate) {
         if (type === 'light') window.navigator.vibrate(10);
         else if (type === 'medium') window.navigator.vibrate(50);
         else window.navigator.vibrate([50, 30, 50]);
@@ -472,7 +543,189 @@ function handleDayClick(dayId, lessonId) {
     handleSidebarClick(weekId, dayId, lessonId, null);
 }
 
+// --- COMMAND PALETTE (Ctrl+K) & GLOBAL KEYBINDS ---
+function initCommandPalette() {
+    document.addEventListener('keydown', (e) => {
+        // Cmd/Ctrl + K (Palette)
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            toggleCommandPalette();
+        }
+        // Cmd/Ctrl + B (Sidebar)
+        if ((e.metaKey || e.ctrlKey) && e.key === 'b') {
+            e.preventDefault();
+            window.toggleSidebar();
+        }
+        // Cmd/Ctrl + J (Terminal)
+        if ((e.metaKey || e.ctrlKey) && e.key === 'j') {
+            e.preventDefault();
+            window.toggleTerminal();
+        }
+        // Escape to close palette
+        if (e.key === 'Escape') {
+            const overlay = document.getElementById('cmd-palette-overlay');
+            if (overlay && !overlay.classList.contains('hidden')) {
+                toggleCommandPalette();
+            }
+        }
+    });
 
+    const input = document.getElementById('cmd-palette-input');
+    if (input) {
+        input.addEventListener('input', (e) => {
+            renderCommandPaletteResults(e.target.value);
+        });
+    }
+}
+
+function toggleCommandPalette() {
+    const overlay = document.getElementById('cmd-palette-overlay');
+    const input = document.getElementById('cmd-palette-input');
+    if (!overlay) return;
+
+    if (overlay.classList.contains('hidden')) {
+        overlay.classList.remove('hidden');
+        input.value = '';
+        renderCommandPaletteResults('');
+        setTimeout(() => input.focus(), 50);
+        triggerHaptic('medium');
+    } else {
+        overlay.classList.add('hidden');
+        triggerHaptic('light');
+    }
+}
+
+function renderCommandPaletteResults(query) {
+    const container = document.getElementById('cmd-palette-results');
+    if (!container) return;
+    
+    query = query.toLowerCase().trim();
+    let resultsHTML = '';
+    
+    // Commands
+    const commands = [
+        { title: 'Toggle Terminal', action: 'window.toggleTerminal()', icon: '💻' },
+        { title: 'Toggle AI Overlay', action: 'window.toggleAuraSidebar()', icon: '◨' },
+        { title: 'View Progress Dashboard', action: 'window.showMyProgress()', icon: '📈' },
+        { title: 'View Data Library', action: 'window.showResources()', icon: '📚' }
+    ];
+
+    commands.forEach(cmd => {
+        if (cmd.title.toLowerCase().includes(query)) {
+            resultsHTML += `
+            <div class="palette-item" onclick="${cmd.action}; toggleCommandPalette();" style="padding: 12px 24px; cursor: pointer; display: flex; align-items: center; color: white; border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.2s;">
+                <span style="margin-right: 16px; font-size: 1.2rem;">${cmd.icon}</span>
+                <span style="font-family: 'Space Grotesk';">${cmd.title}</span>
+            </div>`;
+        }
+    });
+
+    // Lessons
+    if (window.roadmap) {
+        window.roadmap.forEach(week => {
+            week.days.forEach((day, index) => {
+                if (day.title.toLowerCase().includes(query) || query === '') {
+                    resultsHTML += `
+                    <div class="palette-item" onclick="handleDayClick('${day.id}', '${day.lessonId}'); toggleCommandPalette();" style="padding: 12px 24px; cursor: pointer; display: flex; align-items: center; color: var(--text-secondary); border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.2s;">
+                        <span style="margin-right: 16px; font-size: 1.2rem; color: var(--accent-cyan);">→</span>
+                        <div style="display: flex; flex-direction: column;">
+                            <span style="font-family: 'Space Grotesk'; color: white;">${day.title}</span>
+                            <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--accent-cyan);">MODULE_${(window.roadmap.indexOf(week)+1).toString().padStart(2, '0')} // DAY_0${index+1}</span>
+                        </div>
+                    </div>`;
+                }
+            });
+        });
+    }
+
+    container.innerHTML = resultsHTML || `<div style="padding: 24px; text-align: center; color: var(--text-muted); font-family: 'Space Grotesk';">No results found for '${query}'</div>`;
+
+    // Add hover states manually since it's injected
+    container.querySelectorAll('.palette-item').forEach(item => {
+        item.addEventListener('mouseenter', () => item.style.background = 'rgba(255,255,255,0.05)');
+        item.addEventListener('mouseleave', () => item.style.background = 'transparent');
+    });
+}
+
+// --- HOLOGRAPHIC PROGRESS DASHBOARD ---
+window.showMyProgress = () => {
+    const app = document.getElementById('app');
+    if (!app) return;
+    
+    const state = window.Gamification ? window.Gamification.state : { level: 1, xp: 0, badges: [] };
+    const xpNeeded = state.level * 100;
+    const progressPercent = (state.xp / xpNeeded) * 100;
+
+    app.innerHTML = `
+        <div class="holographic-dashboard" style="padding: 40px; animation: fadeIn 0.5s;">
+            <h2 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: 2.5rem; margin-bottom: 30px;">HOLOGRAPHIC_PROFILE</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <!-- STAT CORE -->
+                <div class="glass-refractive" style="padding: 40px; border-radius: 20px; border: 1px solid rgba(6,182,212,0.3); position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: radial-gradient(circle, var(--accent-cyan) 0%, transparent 70%); opacity: 0.1; filter: blur(20px);"></div>
+                    <div style="font-family: 'JetBrains Mono'; color: var(--accent-cyan); margin-bottom: 10px;">CURRENT_STATUS</div>
+                    <div style="font-size: 4rem; font-family: 'Space Grotesk'; font-weight: 700; color: white; line-height: 1;">LVL ${state.level}</div>
+                    
+                    <div style="margin-top: 30px;">
+                        <div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono'; font-size: 0.8rem; margin-bottom: 8px;">
+                            <span>XP_SYNC</span>
+                            <span style="color: var(--accent-cyan);">${state.xp} / ${xpNeeded}</span>
+                        </div>
+                        <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                            <div style="width: ${progressPercent}%; height: 100%; background: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan);"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BADGES -->
+                <div class="glass-refractive" style="padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
+                    <div style="font-family: 'JetBrains Mono'; color: var(--text-muted); margin-bottom: 20px;">ACHIEVEMENTS_UNLOCKED</div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 16px;">
+                        ${state.badges && state.badges.length > 0 
+                            ? state.badges.map(b => `<div style="text-align: center; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"><div style="font-size: 2rem; margin-bottom: 8px;">🏅</div><div style="font-size: 0.6rem; font-family: 'JetBrains Mono';">${b}</div></div>`).join('') 
+                            : `<div style="color: var(--text-muted); font-size: 0.8rem; grid-column: 1/-1;">No achievements unlocked yet. Initiate a learning sequence.</div>`}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    triggerHaptic('medium');
+};
+
+// --- DATA LIBRARY ---
+window.showResources = () => {
+    const app = document.getElementById('app');
+    if (!app) return;
+
+    app.innerHTML = `
+        <div class="data-library" style="padding: 40px; animation: fadeIn 0.5s;">
+            <h2 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: 2.5rem; margin-bottom: 30px;">DATA_LIBRARY</h2>
+            <div style="font-family: 'JetBrains Mono'; color: var(--text-muted); margin-bottom: 40px;">// Essential reference documents and cheat sheets.</div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
+                <div class="glass-refractive" style="padding: 24px; border-radius: 16px; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--accent-cyan)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🐍</div>
+                    <h3 style="font-family: 'Space Grotesk'; margin-bottom: 8px;">Python Syntax Matrix</h3>
+                    <p style="color: var(--text-muted); font-size: 0.8rem;">Core syntax, data structures, and standard libraries.</p>
+                </div>
+                
+                <div class="glass-refractive" style="padding: 24px; border-radius: 16px; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--accent-pink)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🗃️</div>
+                    <h3 style="font-family: 'Space Grotesk'; margin-bottom: 8px;">SQL Query Protocols</h3>
+                    <p style="color: var(--text-muted); font-size: 0.8rem;">Joins, aggregations, window functions, and CTEs.</p>
+                </div>
+                
+                <div class="glass-refractive" style="padding: 24px; border-radius: 16px; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--success)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">📊</div>
+                    <h3 style="font-family: 'Space Grotesk'; margin-bottom: 8px;">Excel Function Architecture</h3>
+                    <p style="color: var(--text-muted); font-size: 0.8rem;">VLOOKUP, INDEX/MATCH, and pivot table automation.</p>
+                </div>
+            </div>
+        </div>
+    `;
+    triggerHaptic('light');
+};
 
 // --- LESSON FETCHER ---
 function getLessonById(lessonId) {
