@@ -866,6 +866,8 @@ window.speakAura = (text) => {
     auraSynthesis.speak(utterance);
 };
 
+let activeRecognition = null;
+
 window.toggleAuraListening = () => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
@@ -873,21 +875,28 @@ window.toggleAuraListening = () => {
         return;
     }
 
+    if (activeRecognition) {
+        // If already listening, stop it manually
+        activeRecognition.stop();
+        activeRecognition = null;
+        return;
+    }
+
     const micBtn = document.getElementById('aura-mic-btn');
     const inputField = document.getElementById('user-input');
 
-    const recognition = new SpeechRecognition();
-    recognition.continuous = false;
-    recognition.interimResults = true;
+    activeRecognition = new SpeechRecognition();
+    activeRecognition.continuous = false;
+    activeRecognition.interimResults = true;
 
-    recognition.onstart = () => {
+    activeRecognition.onstart = () => {
         micBtn.style.color = 'var(--accent-pink)';
         micBtn.style.animation = 'blink 1s infinite';
         if (inputField) inputField.placeholder = "Listening...";
         triggerHaptic('light');
     };
 
-    recognition.onresult = (event) => {
+    activeRecognition.onresult = (event) => {
         let transcript = '';
         for (let i = event.resultIndex; i < event.results.length; ++i) {
             transcript += event.results[i][0].transcript;
@@ -895,17 +904,19 @@ window.toggleAuraListening = () => {
         if (inputField) inputField.value = transcript;
     };
 
-    recognition.onerror = (event) => {
+    activeRecognition.onerror = (event) => {
         console.error("Speech recognition error", event.error);
         resetMicUI();
+        activeRecognition = null;
     };
 
-    recognition.onend = () => {
+    activeRecognition.onend = () => {
         resetMicUI();
-        if (inputField && inputField.value.trim().length > 0) {
-            // Auto send after dictation finishes
+        if (inputField && inputField.value.trim().length > 0 && activeRecognition !== null) {
+            // Auto send after dictation finishes, but only if not manually stopped
             sendMessage();
         }
+        activeRecognition = null;
     };
 
     function resetMicUI() {
@@ -916,7 +927,7 @@ window.toggleAuraListening = () => {
         if (inputField) inputField.placeholder = "Query Aura...";
     }
 
-    recognition.start();
+    activeRecognition.start();
 };
 
 function toggleCommandPalette() {
