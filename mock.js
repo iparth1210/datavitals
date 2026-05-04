@@ -1,3 +1,4 @@
+const window = { addEventListener: () => {}, navigator: {} }; const document = { addEventListener: () => {}, getElementById: () => null, querySelectorAll: () => [], createElement: () => ({ style: {} }), documentElement: { style: { setProperty: () => {} } } }; const localStorage = { getItem: () => null };
 // --- NEURAL CURSOR AURA ---
 const cursorAura = document.getElementById('cursor-aura');
 const cursorTrail = document.getElementById('cursor-trail');
@@ -128,7 +129,7 @@ window.toggleSidebar = () => {
         grid.classList.toggle('sidebar-minimized');
         const btn = document.getElementById('toggle-sidebar-btn');
         if (btn) {
-            btn.innerHTML = grid.classList.contains('sidebar-minimized') ? '▷' : '◁';
+            btn.innerHTML = grid.classList.contains('sidebar-minimized') ? '???' : '???';
         }
         triggerHaptic('light');
     }
@@ -373,7 +374,7 @@ function renderSidebarCurriculum() {
                 <div class="sidebar-module-item ${isAvailable ? '' : 'locked'}" id="sidebar-mod-${week.id}" style="opacity: ${isAvailable ? 1 : 0.5}" onclick="${isAvailable ? `toggleAccordion('${week.id}', event)` : ''}">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                         <span class="module-subtitle-text" style="font-family: 'JetBrains Mono'; color: var(--accent-cyan); font-size: 0.7rem;">MODULE_${weekNum.toString().padStart(2, '0')}</span>
-                        <span id="accordion-icon-${week.id}" style="transition: transform 0.3s;">${isAvailable ? '▼' : '🔒'}</span>
+                        <span id="accordion-icon-${week.id}" style="transition: transform 0.3s;">${isAvailable ? '???' : '????'}</span>
                     </div>
                     <div class="module-title-text" style="font-family: 'Space Grotesk'; font-weight: 700; color: white; font-size: 0.95rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">${week.title}</div>
                 </div>
@@ -486,7 +487,7 @@ function renderWeekView(weekId) {
     app.innerHTML = `
         <div class="roadmap-container mission-mission-control" style="padding-bottom: 60px; max-width: 1000px; margin: 0 auto;">
             <div class="lesson-header-row" style="display: flex; align-items: center; margin-bottom: 40px; gap: 24px;">
-                <button onclick="renderRoadmap()" class="btn-neural" style="font-size: 0.8rem; padding: 10px 20px; border-radius: 8px;">← ESC_TO_ROADMAP</button>
+                <button onclick="renderRoadmap()" class="btn-neural" style="font-size: 0.8rem; padding: 10px 20px; border-radius: 8px;">??? ESC_TO_ROADMAP</button>
                 <div style="flex: 1;">
                     <h2 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: 2.2rem; margin: 0; font-weight: 700;">${week.title}</h2>
                     <span style="font-family: 'JetBrains Mono'; font-size: 0.85rem; color: var(--accent-cyan); letter-spacing: 1px;">// CURRICULUM_PATHWAY</span>
@@ -499,7 +500,7 @@ function renderWeekView(weekId) {
 
                 ${week.days.map((day, index) => {
         const isUnlocked = unlocked[day.id];
-        const icons = ['💻', '💿', '📂', '☁️', '📊', '🔒', '✅'];
+        const icons = ['????', '????', '????', '??????', '????', '????', '???'];
         const dayIcon = icons[index % icons.length];
 
         return `
@@ -511,7 +512,7 @@ function renderWeekView(weekId) {
                          
                         <!-- Node Marker -->
                         <div class="node-marker" style="width: 32px; height: 32px; border-radius: 50%; background: ${isUnlocked ? 'var(--bg-surface)' : 'rgba(0,0,0,0.5)'}; border: 2px solid ${isUnlocked ? 'var(--accent-cyan)' : 'rgba(255,255,255,0.1)'}; display: flex; align-items: center; justify-content: center; z-index: 2; flex-shrink: 0; box-shadow: ${isUnlocked ? '0 0 15px rgba(6,182,212,0.4)' : 'none'};">
-                            <span style="font-size: 0.8rem;">${isUnlocked ? '⚡' : '🔒'}</span>
+                            <span style="font-size: 0.8rem;">${isUnlocked ? '???' : '????'}</span>
                         </div>
 
                         <!-- Content -->
@@ -523,7 +524,7 @@ function renderWeekView(weekId) {
                             
                             <!-- Status -->
                             <div style="display: flex; align-items: center; gap: 16px;">
-                                ${!isUnlocked ? '<span style="color: var(--text-muted); font-size: 0.8rem; font-family: JetBrains Mono;">[LOCKED]</span>' : '<span style="color: var(--success); font-family: JetBrains Mono; font-size: 0.8rem;">[ENTER_NODE] ➔</span>'}
+                                ${!isUnlocked ? '<span style="color: var(--text-muted); font-size: 0.8rem; font-family: JetBrains Mono;">[LOCKED]</span>' : '<span style="color: var(--success); font-family: JetBrains Mono; font-size: 0.8rem;">[ENTER_NODE] ???</span>'}
                             </div>
                         </div>
                     </div>
@@ -536,7 +537,7 @@ function renderWeekView(weekId) {
 function handleDayClick(dayId, lessonId) {
     const unlocked = loadProgress();
     if (!unlocked[dayId]) {
-        alert("🔒 Complete the previous day to unlock this!");
+        alert("???? Complete the previous day to unlock this!");
         return;
     }
     const weekId = getWeekIdForDay(dayId);
@@ -561,25 +562,11 @@ function initCommandPalette() {
             e.preventDefault();
             window.toggleTerminal();
         }
-        // Cmd/Ctrl + Shift + F (Zen Mode)
-        if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase() === 'f') {
-            e.preventDefault();
-            window.toggleZenMode();
-        }
-        // ? (Keyboard Shortcuts Modal)
-        if (e.key === '?' && !['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
-            e.preventDefault();
-            window.toggleShortcutsModal();
-        }
-        // Escape to close palettes/modals
+        // Escape to close palette
         if (e.key === 'Escape') {
-            const cmdOverlay = document.getElementById('cmd-palette-overlay');
-            if (cmdOverlay && !cmdOverlay.classList.contains('hidden')) {
+            const overlay = document.getElementById('cmd-palette-overlay');
+            if (overlay && !overlay.classList.contains('hidden')) {
                 toggleCommandPalette();
-            }
-            const shortcutModal = document.getElementById('shortcuts-modal-overlay');
-            if (shortcutModal && !shortcutModal.classList.contains('hidden')) {
-                window.toggleShortcutsModal();
             }
         }
     });
@@ -591,74 +578,6 @@ function initCommandPalette() {
         });
     }
 }
-
-// --- ZEN MODE ---
-window.toggleZenMode = () => {
-    const grid = document.querySelector('.bento-grid');
-    if (!grid) return;
-    
-    const isZen = grid.classList.toggle('zen-mode-active');
-    triggerHaptic('heavy');
-    
-    if (isZen) {
-        addMessage("Zen Mode activated. Distractions eliminated.", "bot");
-    } else {
-        addMessage("Zen Mode deactivated. Workspace restored.", "bot");
-    }
-};
-
-// --- SHORTCUTS MODAL ---
-window.toggleShortcutsModal = () => {
-    let overlay = document.getElementById('shortcuts-modal-overlay');
-    
-    // Create it if it doesn't exist
-    if (!overlay) {
-        overlay = document.createElement('div');
-        overlay.id = 'shortcuts-modal-overlay';
-        overlay.className = 'hidden';
-        overlay.style.cssText = 'position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100001; backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center;';
-        
-        overlay.innerHTML = `
-            <div class="glass-refractive" style="width: 500px; max-width: 90%; border-radius: 16px; padding: 40px; position: relative;">
-                <div onclick="window.toggleShortcutsModal()" style="position: absolute; top: 20px; right: 20px; cursor: pointer; color: var(--text-muted); font-size: 1.2rem;">✕</div>
-                <h2 style="font-family: 'Space Grotesk'; font-size: 1.8rem; margin-bottom: 8px; color: white;">Keyboard Shortcuts</h2>
-                <p style="font-family: 'JetBrains Mono'; color: var(--accent-cyan); font-size: 0.8rem; margin-bottom: 30px;">// NAVIGATE AT THE SPEED OF THOUGHT</p>
-                
-                <div style="display: grid; gap: 16px; font-family: 'Space Grotesk';">
-                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
-                        <span style="color: var(--text-secondary);">Command Palette</span>
-                        <span style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-family: 'JetBrains Mono'; font-size: 0.8rem;">Ctrl + K</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
-                        <span style="color: var(--text-secondary);">Toggle Sidebar</span>
-                        <span style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-family: 'JetBrains Mono'; font-size: 0.8rem;">Ctrl + B</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
-                        <span style="color: var(--text-secondary);">Toggle AI Terminal</span>
-                        <span style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-family: 'JetBrains Mono'; font-size: 0.8rem;">Ctrl + J</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
-                        <span style="color: var(--text-secondary);">Zen Mode (Focus)</span>
-                        <span style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-family: 'JetBrains Mono'; font-size: 0.8rem;">Ctrl + Shift + F</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
-                        <span style="color: var(--text-secondary);">Show Shortcuts</span>
-                        <span style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-family: 'JetBrains Mono'; font-size: 0.8rem;">?</span>
-                    </div>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(overlay);
-    }
-    
-    if (overlay.classList.contains('hidden')) {
-        overlay.classList.remove('hidden');
-        triggerHaptic('medium');
-    } else {
-        overlay.classList.add('hidden');
-        triggerHaptic('light');
-    }
-};
 
 function toggleCommandPalette() {
     const overlay = document.getElementById('cmd-palette-overlay');
@@ -686,10 +605,10 @@ function renderCommandPaletteResults(query) {
     
     // Commands
     const commands = [
-        { title: 'Toggle Terminal', action: 'window.toggleTerminal()', icon: '💻' },
-        { title: 'Toggle AI Overlay', action: 'window.toggleAuraSidebar()', icon: '◨' },
-        { title: 'View Progress Dashboard', action: 'window.showMyProgress()', icon: '📈' },
-        { title: 'View Data Library', action: 'window.showResources()', icon: '📚' }
+        { title: 'Toggle Terminal', action: 'window.toggleTerminal()', icon: '????' },
+        { title: 'Toggle AI Overlay', action: 'window.toggleAuraSidebar()', icon: '???' },
+        { title: 'View Progress Dashboard', action: 'window.showMyProgress()', icon: '????' },
+        { title: 'View Data Library', action: 'window.showResources()', icon: '????' }
     ];
 
     commands.forEach(cmd => {
@@ -709,7 +628,7 @@ function renderCommandPaletteResults(query) {
                 if (day.title.toLowerCase().includes(query) || query === '') {
                     resultsHTML += `
                     <div class="palette-item" onclick="handleDayClick('${day.id}', '${day.lessonId}'); toggleCommandPalette();" style="padding: 12px 24px; cursor: pointer; display: flex; align-items: center; color: var(--text-secondary); border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.2s;">
-                        <span style="margin-right: 16px; font-size: 1.2rem; color: var(--accent-cyan);">→</span>
+                        <span style="margin-right: 16px; font-size: 1.2rem; color: var(--accent-cyan);">???</span>
                         <div style="display: flex; flex-direction: column;">
                             <span style="font-family: 'Space Grotesk'; color: white;">${day.title}</span>
                             <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--accent-cyan);">MODULE_${(window.roadmap.indexOf(week)+1).toString().padStart(2, '0')} // DAY_0${index+1}</span>
@@ -765,7 +684,7 @@ window.showMyProgress = () => {
                     <div style="font-family: 'JetBrains Mono'; color: var(--text-muted); margin-bottom: 20px;">ACHIEVEMENTS_UNLOCKED</div>
                     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 16px;">
                         ${state.badges && state.badges.length > 0 
-                            ? state.badges.map(b => `<div style="text-align: center; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"><div style="font-size: 2rem; margin-bottom: 8px;">🏅</div><div style="font-size: 0.6rem; font-family: 'JetBrains Mono';">${b}</div></div>`).join('') 
+                            ? state.badges.map(b => `<div style="text-align: center; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);"><div style="font-size: 2rem; margin-bottom: 8px;">????</div><div style="font-size: 0.6rem; font-family: 'JetBrains Mono';">${b}</div></div>`).join('') 
                             : `<div style="color: var(--text-muted); font-size: 0.8rem; grid-column: 1/-1;">No achievements unlocked yet. Initiate a learning sequence.</div>`}
                     </div>
                 </div>
@@ -787,19 +706,19 @@ window.showResources = () => {
             
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
                 <div class="glass-refractive" style="padding: 24px; border-radius: 16px; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--accent-cyan)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'">
-                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🐍</div>
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">????</div>
                     <h3 style="font-family: 'Space Grotesk'; margin-bottom: 8px;">Python Syntax Matrix</h3>
                     <p style="color: var(--text-muted); font-size: 0.8rem;">Core syntax, data structures, and standard libraries.</p>
                 </div>
                 
                 <div class="glass-refractive" style="padding: 24px; border-radius: 16px; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--accent-pink)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'">
-                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🗃️</div>
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">???????</div>
                     <h3 style="font-family: 'Space Grotesk'; margin-bottom: 8px;">SQL Query Protocols</h3>
                     <p style="color: var(--text-muted); font-size: 0.8rem;">Joins, aggregations, window functions, and CTEs.</p>
                 </div>
                 
                 <div class="glass-refractive" style="padding: 24px; border-radius: 16px; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--success)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'">
-                    <div style="font-size: 2.5rem; margin-bottom: 16px;">📊</div>
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">????</div>
                     <h3 style="font-family: 'Space Grotesk'; margin-bottom: 8px;">Excel Function Architecture</h3>
                     <p style="color: var(--text-muted); font-size: 0.8rem;">VLOOKUP, INDEX/MATCH, and pivot table automation.</p>
                 </div>
@@ -895,19 +814,19 @@ function getLessonById(lessonId) {
         story: `
     <div class="quad-track">
                 <div class="track-section tech">
-                    <h4>💻 1. Tech Core</h4>
+                    <h4>???? 1. Tech Core</h4>
                     <p>${techContent}</p>
                 </div>
                 <div class="track-section health">
-                    <h4>🏥 2. Health Systems</h4>
+                    <h4>???? 2. Health Systems</h4>
                     <p>${healthContent}</p>
                 </div>
                 <div class="track-section bio">
-                    <h4>🧬 3. Bio-Science</h4>
+                    <h4>???? 3. Bio-Science</h4>
                     <p>${bioContent}</p>
                 </div>
                 <div class="track-section lab">
-                    <h4>🧪 4. Project Lab</h4>
+                    <h4>???? 4. Project Lab</h4>
                     <p>${labContent}</p>
                 </div>
             </div>
@@ -948,7 +867,7 @@ function renderLesson(lessonId, dayId) {
     app.innerHTML = `
         <div class="lesson-mission-control" style="padding-bottom: 60px;">
             <div class="lesson-header-row" style="display: flex; align-items: center; margin-bottom: 32px; gap: 24px;">
-                <button onclick="renderWeekView('${parentWeekId}')" class="btn-neural" style="font-size: 0.8rem; padding: 10px 20px; border-radius: 8px;">← ESC_TO_NODE</button>
+                <button onclick="renderWeekView('${parentWeekId}')" class="btn-neural" style="font-size: 0.8rem; padding: 10px 20px; border-radius: 8px;">??? ESC_TO_NODE</button>
                 <div style="flex: 1;">
                     <h2 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: 1.8rem; margin: 0; font-weight: 700;">${lesson.title}</h2>
                     <span style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--accent-cyan);">NODE_ID: ${lesson.id} // MISSION_STATUS: ACTIVE</span>
@@ -967,19 +886,19 @@ function renderLesson(lessonId, dayId) {
                         <h3 style="color: var(--accent-cyan); margin-bottom: 24px; font-family: 'JetBrains Mono'; font-size: 0.9rem;">> MISSION_BRIEFING</h3>
                         <div class="holographic-quad-track" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
                             <div class="track-node">
-                                <h4 style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; margin-bottom: 8px;">💻 TECH_CORE</h4>
+                                <h4 style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; margin-bottom: 8px;">???? TECH_CORE</h4>
                                 <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary);">${extractTrackText(lesson.story, 'tech')}</p>
                             </div>
                             <div class="track-node">
-                                <h4 style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; margin-bottom: 8px;">🏥 CLINICAL_BASE</h4>
+                                <h4 style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; margin-bottom: 8px;">???? CLINICAL_BASE</h4>
                                 <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary);">${extractTrackText(lesson.story, 'health')}</p>
                             </div>
                             <div class="track-node">
-                                <h4 style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; margin-bottom: 8px;">🧬 BIO_SYNC</h4>
+                                <h4 style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; margin-bottom: 8px;">???? BIO_SYNC</h4>
                                 <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary);">${extractTrackText(lesson.story, 'bio')}</p>
                             </div>
                             <div class="track-node">
-                                <h4 style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; margin-bottom: 8px;">🧪 LAB_PROTOCOL</h4>
+                                <h4 style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; margin-bottom: 8px;">???? LAB_PROTOCOL</h4>
                                 <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary);">${extractTrackText(lesson.story, 'lab')}</p>
                             </div>
                         </div>
@@ -995,7 +914,7 @@ function renderLesson(lessonId, dayId) {
                             ${isPythonLesson ? `
                                 <div id="monaco-container" class="editor-pane" style="flex: 1; min-height: 250px; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; margin-bottom: 24px;"></div>
                                 <div class="lab-controls" style="display: flex; gap: 12px; margin-bottom: 24px;">
-                                    <button id="term-run-btn" onclick="PythonEngine.run()" class="btn-neural" style="font-size: 0.8rem; padding: 10px 20px; width: 100%;">▶ EXECUTE_CODE</button>
+                                    <button id="term-run-btn" onclick="PythonEngine.run()" class="btn-neural" style="font-size: 0.8rem; padding: 10px 20px; width: 100%;">??? EXECUTE_CODE</button>
                                 </div>
                                 <div id="term-output" class="console-pane glass-refractive" style="height: 160px; font-family: 'JetBrains Mono'; font-size: 0.75rem; padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
                                     <div class="term-line info">> Kernel linked. Awaiting input.</div>
@@ -1142,7 +1061,7 @@ function attachLessonListeners(lesson, currentDayId) {
                                             class="btn btn-primary" 
                                             id="btn-next-lesson" 
                                             style="margin-left: 15px; padding: 6px 18px; font-size: 0.95rem; animation: pulseGlow 2s infinite; display: inline-flex; align-items: center; gap: 8px;">
-                                        Next Lesson <span style="font-size: 1.1em">→</span>
+                                        Next Lesson <span style="font-size: 1.1em">???</span>
                                     </button>
                                 `;
                             }
@@ -1152,7 +1071,7 @@ function attachLessonListeners(lesson, currentDayId) {
 
                         feedbackEl.innerHTML = `
                             <div style="display:flex; flex-direction: column; align-items:center; justify-content:center; gap:12px;">
-                                <div style="font-size: 1.1rem; font-weight: 600;">✅ Correct Analysis</div>
+                                <div style="font-size: 1.1rem; font-weight: 600;">??? Correct Analysis</div>
                                 <div style="font-size:0.9rem; opacity:0.8; color: var(--text-muted);">${lesson.task.successMessage}</div>
                                 <div style="font-size:0.8rem; color: var(--accent-cyan);">${unlockMsg}</div>
                                 ${nextBtnHtml}
@@ -1163,14 +1082,14 @@ function attachLessonListeners(lesson, currentDayId) {
                         console.error("Runtime Error:", e);
                         feedbackEl.innerHTML = `
                             <div style="color: var(--error);">
-                                ✅ Correct Answer recorded.<br>
+                                ??? Correct Answer recorded.<br>
                                 <span style="font-size:0.8em; opacity:0.8">System Warning: Module transition failed (${e.message}). Please refresh.</span>
                             </div>
                         `;
                     }
                 } else {
                     feedbackEl.className = 'feedback-box error';
-                    feedbackEl.innerHTML = `❌ ${lesson.task.errorMessage} `;
+                    feedbackEl.innerHTML = `??? ${lesson.task.errorMessage} `;
                     if (window.Gamification) {
                         Gamification.takeDamage(10);
                     }
@@ -1191,7 +1110,7 @@ function resetProgress() {
     }
 }
 
-// Fun Confetti Effect! 🎉
+// Fun Confetti Effect! ????
 function triggerConfetti() {
     const container = document.createElement('div');
     container.id = 'confetti-container';
@@ -1248,17 +1167,17 @@ window.showResources = () => {
             html += `
                 <div class="lib-day-card" style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 20px;">
                     <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 15px; display:flex; align-items:center; gap:10px;">
-                        <span style="opacity:0.6;">📅</span> ${day.dayTitle}
+                        <span style="opacity:0.6;">????</span> ${day.dayTitle}
                     </h3>
                     <div class="resources-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px;">
             `;
 
             day.resources.forEach(res => {
-                let icon = '📄';
-                if (res.type === 'book') icon = '📖';
-                if (res.type === 'video') icon = '📺';
-                if (res.type === 'tool') icon = '🛠️';
-                if (res.type === 'course') icon = '🎓';
+                let icon = '????';
+                if (res.type === 'book') icon = '????';
+                if (res.type === 'video') icon = '????';
+                if (res.type === 'tool') icon = '???????';
+                if (res.type === 'course') icon = '????';
 
                 html += `
                     <a href="${res.url}" target="_blank" class="resource-link" style="
@@ -1271,7 +1190,7 @@ window.showResources = () => {
                             <div style="font-size: 0.9rem; font-weight: 500; color: var(--text-primary);">${res.title}</div>
                             <div style="font-size: 0.75rem; opacity: 0.6; text-transform: uppercase;">${res.type}</div>
                         </div>
-                        <span style="opacity:0.3;">↗</span>
+                        <span style="opacity:0.3;">???</span>
                     </a>
                 `;
             });
@@ -1345,7 +1264,7 @@ window.showMyProgress = () => {
     app.innerHTML = `
         <div style="max-width:800px; margin:0 auto; text-align:center;">
             <div style="background:var(--bg-card); padding:40px; border-radius:16px; border:1px solid var(--border-subtle);">
-                <div style="font-size:4rem; margin-bottom:10px;">🏆</div>
+                <div style="font-size:4rem; margin-bottom:10px;">????</div>
                 <h2 style="margin-bottom:20px;">Your Journey</h2>
                 <div style="display:flex; justify-content:center; gap:40px; margin-bottom:30px;">
                     <div>
@@ -1410,9 +1329,9 @@ function toggleAuraSidebar() {
     if (grid) {
         grid.classList.toggle('aura-minimized');
         if (grid.classList.contains('aura-minimized')) {
-            toggleIcon.innerText = '◧';
+            toggleIcon.innerText = '???';
         } else {
-            toggleIcon.innerText = '◨';
+            toggleIcon.innerText = '???';
         }
     }
 }
@@ -1601,9 +1520,9 @@ function updateNeuralHUD() {
 
     if (quickResources) {
         quickResources.innerHTML = `
-            <div class="quick-link" onclick="window.open('https://python.org', '_blank')">🔗 PYTHON_DOCS</div>
-            <div class="quick-link" onclick="window.open('https://hl7.org', '_blank')">🔗 HL7_STANDARDS</div>
-            <div class="quick-link" onclick="showResources()">🔗 VIEW_LIBRARY_OVR</div>
+            <div class="quick-link" onclick="window.open('https://python.org', '_blank')">???? PYTHON_DOCS</div>
+            <div class="quick-link" onclick="window.open('https://hl7.org', '_blank')">???? HL7_STANDARDS</div>
+            <div class="quick-link" onclick="showResources()">???? VIEW_LIBRARY_OVR</div>
         `;
     }
 }
@@ -1688,7 +1607,7 @@ function initNeuralIdentity() {
         `;
     } else {
         identityBlock.innerHTML = `
-            <div class="nav-item-killer" onclick="window.authService.loginWithGoogle()" title="Neural Login" style="color: var(--accent-cyan);">🔐</div>
+            <div class="nav-item-killer" onclick="window.authService.loginWithGoogle()" title="Neural Login" style="color: var(--accent-cyan);">????</div>
             <div style="font-family:'JetBrains Mono'; font-size:0.5rem; color:var(--text-muted); text-align:center;">GUEST_ACCESS</div>
         `;
     }
