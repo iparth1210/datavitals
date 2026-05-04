@@ -117,34 +117,56 @@
         <!-- COLUMN 3: AURA AI SIDEBAR (Hidden in Learning Mode) -->
         <aside class="bento-card card-aura">
             <div class="chat-header"
-                style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 16px; margin-bottom: 24px;">
-                <div class="bot-identity" style="display: flex; align-items: center;">
-                    <div id="aura-waveform-container"
-                        style="width: 32px; height: 32px; margin-right: 16px; border-radius: 50%; background: rgba(6, 182, 212, 0.2); box-shadow: 0 0 15px rgba(6,182,212,0.4);">
-                    </div>
-                    <div>
-                        <span
-                            style="font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.1rem; display: block;">Aura
-                            AI</span>
-                        <span
-                            style="font-family: 'JetBrains Mono'; font-size: 0.65rem; color: var(--accent-cyan);">SYSTEM_ARCHITECT</span>
+                style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 16px; margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <div class="bot-identity" style="display: flex; align-items: center;">
+                        <div id="aura-waveform-container"
+                            style="width: 32px; height: 32px; margin-right: 16px; border-radius: 50%; background: rgba(6, 182, 212, 0.2); box-shadow: 0 0 15px rgba(6,182,212,0.4);">
+                        </div>
+                        <div>
+                            <span
+                                style="font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.1rem; display: block;">Aura
+                                AI</span>
+                            <span
+                                style="font-family: 'JetBrains Mono'; font-size: 0.65rem; color: var(--accent-cyan);">SYSTEM_ARCHITECT</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="chat-messages" id="chat-messages"
-                style="flex: 1; margin-bottom: 24px; font-size: 0.9rem; line-height: 1.5; overflow-y: auto; padding-right: 8px;">
-                <div class="message bot-message"
-                    style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 16px; margin-bottom: 16px;">
-                    Neural link established. Awaiting instructions, Architect. I am ready to assist with your learning
-                    objectives.
+
+                <!-- DUAL VIEW TOGGLE -->
+                <div style="display: flex; background: rgba(0,0,0,0.4); border-radius: 8px; padding: 4px; border: 1px solid rgba(255,255,255,0.05);">
+                    <div id="tab-aura-chat" onclick="window.toggleAuraView('chat')" style="flex: 1; text-align: center; padding: 6px; border-radius: 6px; font-family: 'Space Grotesk'; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; background: rgba(255,255,255,0.1); color: white;">AI Chat</div>
+                    <div id="tab-aura-notes" onclick="window.toggleAuraView('notes')" style="flex: 1; text-align: center; padding: 6px; border-radius: 6px; font-family: 'Space Grotesk'; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; color: var(--text-muted);">Journal</div>
                 </div>
             </div>
-            <div class="chat-input-area"
-                style="background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 4px; display: flex;">
-                <input type="text" id="user-input" placeholder="Query Aura..." onkeypress="handleChatInput(event)"
-                    style="flex: 1; background: transparent; border: none; padding: 12px; color: white; outline: none; font-family: 'Plus Jakarta Sans'; font-size: 0.9rem;">
-                <button class="send-btn" onclick="sendMessage()"
-                    style="background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan); border: none; border-radius: 8px; width: 40px; height: 40px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center;">→</button>
+
+            <!-- CHAT VIEW -->
+            <div id="aura-chat-view" style="display: flex; flex-direction: column; flex: 1; overflow: hidden;">
+                <div class="chat-messages" id="chat-messages"
+                    style="flex: 1; margin-bottom: 24px; font-size: 0.9rem; line-height: 1.5; overflow-y: auto; padding-right: 8px;">
+                    <div class="message bot-message"
+                        style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+                        Neural link established. Awaiting instructions, Architect. I am ready to assist with your learning
+                        objectives.
+                    </div>
+                </div>
+                <div class="chat-input-area"
+                    style="background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 4px; display: flex;">
+                    <input type="text" id="user-input" placeholder="Query Aura..." onkeypress="handleChatInput(event)"
+                        style="flex: 1; background: transparent; border: none; padding: 12px; color: white; outline: none; font-family: 'Plus Jakarta Sans'; font-size: 0.9rem;">
+                    <button class="send-btn" onclick="sendMessage()"
+                        style="background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan); border: none; border-radius: 8px; width: 40px; height: 40px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center;">→</button>
+                </div>
+            </div>
+
+            <!-- NOTES VIEW -->
+            <div id="aura-notes-view" class="hidden" style="display: flex; flex-direction: column; flex: 1; overflow: hidden;">
+                <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 8px; display: flex; justify-content: space-between;">
+                    <span>// SYNCHRONIZED</span>
+                    <span id="journal-save-status" style="color: var(--success);">SAVED</span>
+                </div>
+                <textarea id="neural-journal" placeholder="Draft your notes for this module here..."
+                    style="flex: 1; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 16px; color: white; font-family: 'JetBrains Mono'; font-size: 0.85rem; line-height: 1.6; resize: none; outline: none;"></textarea>
             </div>
         </aside>
 

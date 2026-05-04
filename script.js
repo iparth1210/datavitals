@@ -143,6 +143,71 @@ window.toggleAuraSidebar = () => {
     }
 };
 
+window.toggleAuraView = (view) => {
+    const chatTab = document.getElementById('tab-aura-chat');
+    const notesTab = document.getElementById('tab-aura-notes');
+    const chatView = document.getElementById('aura-chat-view');
+    const notesView = document.getElementById('aura-notes-view');
+
+    if (!chatTab || !notesTab || !chatView || !notesView) return;
+
+    triggerHaptic('light');
+
+    if (view === 'chat') {
+        chatTab.style.background = 'rgba(255,255,255,0.1)';
+        chatTab.style.color = 'white';
+        notesTab.style.background = 'transparent';
+        notesTab.style.color = 'var(--text-muted)';
+        
+        chatView.classList.remove('hidden');
+        notesView.classList.add('hidden');
+    } else {
+        notesTab.style.background = 'rgba(255,255,255,0.1)';
+        notesTab.style.color = 'white';
+        chatTab.style.background = 'transparent';
+        chatTab.style.color = 'var(--text-muted)';
+        
+        notesView.classList.remove('hidden');
+        chatView.classList.add('hidden');
+    }
+};
+
+// --- NEURAL JOURNAL LOGIC ---
+let journalSaveTimeout = null;
+window.currentJournalDayId = null;
+
+function initNeuralJournal() {
+    const journal = document.getElementById('neural-journal');
+    if (!journal) return;
+
+    journal.addEventListener('input', () => {
+        const status = document.getElementById('journal-save-status');
+        if (status) {
+            status.innerText = 'SAVING...';
+            status.style.color = 'var(--accent-pink)';
+        }
+
+        clearTimeout(journalSaveTimeout);
+        journalSaveTimeout = setTimeout(() => {
+            if (window.currentJournalDayId) {
+                const notesDict = window.StorageHub ? window.StorageHub.load('datavitals_journal', {}) : {};
+                notesDict[window.currentJournalDayId] = journal.value;
+                if (window.StorageHub) window.StorageHub.save('datavitals_journal', notesDict);
+                
+                if (status) {
+                    status.innerText = 'SAVED';
+                    status.style.color = 'var(--success)';
+                }
+            }
+        }, 1000);
+    });
+}
+
+// Initialize journal on boot
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(initNeuralJournal, 100);
+});
+
 // --- TERMINAL TOGGLE ---
 window.toggleTerminal = () => {
     const terminal = document.getElementById('terminal-modal');
@@ -1025,6 +1090,21 @@ function renderLesson(lessonId, dayId) {
             });
         }, 300);
     }
+
+    // Load Journal Notes for this day
+    window.currentJournalDayId = dayId;
+    setTimeout(() => {
+        const journal = document.getElementById('neural-journal');
+        const status = document.getElementById('journal-save-status');
+        if (journal) {
+            const notesDict = window.StorageHub ? window.StorageHub.load('datavitals_journal', {}) : {};
+            journal.value = notesDict[dayId] || '';
+            if (status) {
+                status.innerText = 'LOADED';
+                status.style.color = 'var(--text-muted)';
+            }
+        }
+    }, 50);
 }
 
 // Utility to extract text from the procedural HTML strings
