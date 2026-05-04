@@ -152,9 +152,11 @@
                     </div>
                 </div>
                 <div class="chat-input-area"
-                    style="background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 4px; display: flex;">
+                    style="background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 4px; display: flex; align-items: center;">
+                    <button id="aura-mic-btn" onclick="window.toggleAuraListening()" title="Neural Dictation"
+                        style="background: transparent; color: var(--text-muted); border: none; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; border-radius: 8px;">🎤</button>
                     <input type="text" id="user-input" placeholder="Query Aura..." onkeypress="handleChatInput(event)"
-                        style="flex: 1; background: transparent; border: none; padding: 12px; color: white; outline: none; font-family: 'Plus Jakarta Sans'; font-size: 0.9rem;">
+                        style="flex: 1; background: transparent; border: none; padding: 12px 8px; color: white; outline: none; font-family: 'Plus Jakarta Sans'; font-size: 0.9rem;">
                     <button class="send-btn" onclick="sendMessage()"
                         style="background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan); border: none; border-radius: 8px; width: 40px; height: 40px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center;">→</button>
                 </div>

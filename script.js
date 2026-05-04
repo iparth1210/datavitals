@@ -771,6 +771,15 @@ window.showSettings = () => {
                             <span style="font-family: 'JetBrains Mono';">↓</span> Export Neural Journal (JSON)
                         </button>
                     </div>
+
+                    <!-- Voice Engine -->
+                    <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 24px; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3 style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">Aura Voice Synthesis</h3>
+                            <p style="font-family: 'JetBrains Mono'; color: var(--text-muted); font-size: 0.75rem;">Enable Web Speech API for AI responses.</p>
+                        </div>
+                        <button id="toggle-voice-btn" onclick="window.toggleVoiceEngine()" style="padding: 8px 16px; background: rgba(6, 182, 212, 0.2); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); border-radius: 8px; cursor: pointer; font-family: 'JetBrains Mono';">ENABLED</button>
+                    </div>
                 </div>
             </div>
         `;
@@ -802,6 +811,112 @@ window.exportJournalData = () => {
     URL.revokeObjectURL(url);
     triggerHaptic('heavy');
     addMessage("Journal data exported to your local device.", 'bot');
+};
+
+// --- AURA SPEECH & DICTATION ---
+window.auraVoiceEnabled = true;
+let auraSynthesis = window.speechSynthesis;
+let auraVoice = null;
+
+// Wait for voices to load
+if (auraSynthesis) {
+    auraSynthesis.onvoiceschanged = () => {
+        const voices = auraSynthesis.getVoices();
+        // Try to find a good female/AI voice
+        auraVoice = voices.find(v => v.name.includes('Google UK English Female')) || 
+                    voices.find(v => v.name.includes('Samantha')) ||
+                    voices.find(v => v.name.includes('Zira')) ||
+                    voices[0];
+    };
+}
+
+window.toggleVoiceEngine = () => {
+    window.auraVoiceEnabled = !window.auraVoiceEnabled;
+    const btn = document.getElementById('toggle-voice-btn');
+    if (btn) {
+        if (window.auraVoiceEnabled) {
+            btn.innerText = 'ENABLED';
+            btn.style.background = 'rgba(6, 182, 212, 0.2)';
+            btn.style.color = 'var(--accent-cyan)';
+            btn.style.borderColor = 'var(--accent-cyan)';
+        } else {
+            btn.innerText = 'DISABLED';
+            btn.style.background = 'rgba(255, 255, 255, 0.05)';
+            btn.style.color = 'var(--text-muted)';
+            btn.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+            if (auraSynthesis) auraSynthesis.cancel();
+        }
+    }
+    triggerHaptic('light');
+};
+
+window.speakAura = (text) => {
+    if (!window.auraVoiceEnabled || !auraSynthesis) return;
+    
+    // Strip HTML tags for speaking
+    const temp = document.createElement('div');
+    temp.innerHTML = text;
+    const cleanText = temp.textContent || temp.innerText || "";
+    
+    auraSynthesis.cancel(); // Stop any current speech
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    if (auraVoice) utterance.voice = auraVoice;
+    utterance.pitch = 1.1;
+    utterance.rate = 1.05;
+    auraSynthesis.speak(utterance);
+};
+
+window.toggleAuraListening = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+        addMessage("Speech Recognition API not supported in your browser.", 'bot');
+        return;
+    }
+
+    const micBtn = document.getElementById('aura-mic-btn');
+    const inputField = document.getElementById('user-input');
+
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+
+    recognition.onstart = () => {
+        micBtn.style.color = 'var(--accent-pink)';
+        micBtn.style.animation = 'blink 1s infinite';
+        if (inputField) inputField.placeholder = "Listening...";
+        triggerHaptic('light');
+    };
+
+    recognition.onresult = (event) => {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+            transcript += event.results[i][0].transcript;
+        }
+        if (inputField) inputField.value = transcript;
+    };
+
+    recognition.onerror = (event) => {
+        console.error("Speech recognition error", event.error);
+        resetMicUI();
+    };
+
+    recognition.onend = () => {
+        resetMicUI();
+        if (inputField && inputField.value.trim().length > 0) {
+            // Auto send after dictation finishes
+            sendMessage();
+        }
+    };
+
+    function resetMicUI() {
+        if (micBtn) {
+            micBtn.style.color = 'var(--text-muted)';
+            micBtn.style.animation = 'none';
+        }
+        if (inputField) inputField.placeholder = "Query Aura...";
+    }
+
+    recognition.start();
 };
 
 function toggleCommandPalette() {
@@ -1622,6 +1737,7 @@ function addMessage(text, sender) {
     msgDiv.innerHTML = text.replace(/\n/g, '<br>');
     if (sender === 'bot') {
         msgDiv.style.borderLeft = '2px solid var(--accent-cyan)';
+        window.speakAura(text);
     }
     messagesContainer.appendChild(msgDiv);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
