@@ -1,4 +1,40 @@
-﻿:root {
+
+/* --- DYNAMIC THEMES --- */
+body.theme-zenith {
+    --bg-body: #F4F6F8;
+    --bg-sidebar: #FFFFFF;
+    --bg-card: #FFFFFF;
+    --bg-card-hover: #F8FAFC;
+    --bg-input: #E2E8F0;
+    --border-subtle: #CBD5E1;
+    --border-active: #94A3B8;
+    --text-primary: #0F172A;
+    --text-secondary: #334155;
+    --text-muted: #64748B;
+    --accent-primary: #3B82F6;
+    --accent-glow: rgba(59, 130, 246, 0.4);
+    --accent-cyan: #0284C7;
+    --bg-depth: #F8FAFC;
+}
+
+body.theme-blood {
+    --bg-body: #050101;
+    --bg-sidebar: #0A0202;
+    --bg-card: #120303;
+    --bg-card-hover: #1A0505;
+    --bg-input: #1F0808;
+    --border-subtle: #2C0B0B;
+    --border-active: #4A1212;
+    --text-primary: #FFEAEA;
+    --text-secondary: #D4A1A1;
+    --text-muted: #8C5C5C;
+    --accent-primary: #E11D48;
+    --accent-cyan: #FB7185;
+    --accent-glow: rgba(225, 29, 72, 0.4);
+    --bg-depth: #050101;
+}
+
+:root {
     /* ULTRA PRO COLOR PALETTE - LINEAR STYLE */
     --bg-body: #08090A;
     /* Extremely dark grey, almost black */

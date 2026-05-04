@@ -646,6 +646,15 @@ function initCommandPalette() {
             if (shortcutModal && !shortcutModal.classList.contains('hidden')) {
                 window.toggleShortcutsModal();
             }
+            const settingsModal = document.getElementById('settings-modal-overlay');
+            if (settingsModal && !settingsModal.classList.contains('hidden')) {
+                settingsModal.classList.add('hidden');
+            }
+        }
+        // Cmd/Ctrl + , (Settings)
+        if ((e.metaKey || e.ctrlKey) && e.key === ',') {
+            e.preventDefault();
+            window.showSettings();
         }
     });
 
@@ -710,6 +719,10 @@ window.toggleShortcutsModal = () => {
                         <span style="color: var(--text-secondary);">Show Shortcuts</span>
                         <span style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-family: 'JetBrains Mono'; font-size: 0.8rem;">?</span>
                     </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
+                        <span style="color: var(--text-secondary);">Open Settings</span>
+                        <span style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-family: 'JetBrains Mono'; font-size: 0.8rem;">Ctrl + ,</span>
+                    </div>
                 </div>
             </div>
         `;
@@ -723,6 +736,72 @@ window.toggleShortcutsModal = () => {
         overlay.classList.add('hidden');
         triggerHaptic('light');
     }
+};
+
+// --- SETTINGS DASHBOARD ---
+window.showSettings = () => {
+    let overlay = document.getElementById('settings-modal-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'settings-modal-overlay';
+        overlay.className = 'hidden';
+        overlay.style.cssText = 'position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100001; backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center;';
+        
+        overlay.innerHTML = `
+            <div class="glass-refractive" style="width: 500px; max-width: 90%; border-radius: 16px; padding: 40px; position: relative;">
+                <div onclick="document.getElementById('settings-modal-overlay').classList.add('hidden')" style="position: absolute; top: 20px; right: 20px; cursor: pointer; color: var(--text-muted); font-size: 1.2rem;">✕</div>
+                <h2 style="font-family: 'Space Grotesk'; font-size: 1.8rem; margin-bottom: 8px; color: white;">Architect Control Panel</h2>
+                <p style="font-family: 'JetBrains Mono'; color: var(--accent-cyan); font-size: 0.8rem; margin-bottom: 30px;">// SYSTEM_CONFIGURATION</p>
+                
+                <div style="display: grid; gap: 24px; font-family: 'Space Grotesk';">
+                    <!-- Themes -->
+                    <div>
+                        <h3 style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">UI Theme</h3>
+                        <div style="display: flex; gap: 12px;">
+                            <button onclick="window.changeTheme('default')" style="flex: 1; padding: 12px; background: #0A0F19; border: 1px solid var(--accent-cyan); color: white; border-radius: 8px; cursor: pointer;">Horizon OS</button>
+                            <button onclick="window.changeTheme('zenith')" style="flex: 1; padding: 12px; background: #F4F6F8; border: 1px solid #CBD5E1; color: #0F172A; border-radius: 8px; cursor: pointer;">Zenith White</button>
+                            <button onclick="window.changeTheme('blood')" style="flex: 1; padding: 12px; background: #0A0202; border: 1px solid #E11D48; color: #FFEAEA; border-radius: 8px; cursor: pointer;">Blood Moon</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Data Export -->
+                    <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 24px;">
+                        <h3 style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">Data Management</h3>
+                        <button onclick="window.exportJournalData()" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <span style="font-family: 'JetBrains Mono';">↓</span> Export Neural Journal (JSON)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+    }
+    
+    overlay.classList.remove('hidden');
+    triggerHaptic('heavy');
+};
+
+window.changeTheme = (theme) => {
+    document.body.classList.remove('theme-zenith', 'theme-blood');
+    if (theme === 'zenith') document.body.classList.add('theme-zenith');
+    if (theme === 'blood') document.body.classList.add('theme-blood');
+    triggerHaptic('medium');
+    addMessage(`System theme updated to: ${theme.toUpperCase()}`, 'bot');
+};
+
+window.exportJournalData = () => {
+    const data = window.StorageHub ? window.StorageHub.load('datavitals_journal', {}) : {};
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'datavitals_neural_journal.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    triggerHaptic('heavy');
+    addMessage("Journal data exported to your local device.", 'bot');
 };
 
 function toggleCommandPalette() {
@@ -754,7 +833,8 @@ function renderCommandPaletteResults(query) {
         { title: 'Toggle Terminal', action: 'window.toggleTerminal()', icon: '💻' },
         { title: 'Toggle AI Overlay', action: 'window.toggleAuraSidebar()', icon: '◨' },
         { title: 'View Progress Dashboard', action: 'window.showMyProgress()', icon: '📈' },
-        { title: 'View Data Library', action: 'window.showResources()', icon: '📚' }
+        { title: 'View Data Library', action: 'window.showResources()', icon: '📚' },
+        { title: 'Open Settings & Themes', action: 'window.showSettings()', icon: '⚙️' }
     ];
 
     commands.forEach(cmd => {
