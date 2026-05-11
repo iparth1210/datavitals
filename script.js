@@ -430,7 +430,7 @@ function renderSidebarCurriculum() {
     sidebar.innerHTML = `
         <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; letter-spacing: 1px;">// CURRICULUM_MODULES</div>
         ${window.roadmap.map((week, index) => {
-            const isAvailable = unlocked[week.days[0].id];
+            const isAvailable = true; // Unlocked for full access
             const weekNum = index + 1;
             
             return `
@@ -444,7 +444,7 @@ function renderSidebarCurriculum() {
                 </div>
                 <div class="sidebar-days-container" id="days-${week.id}">
                     ${week.days.map((day, dayIndex) => {
-                        const isDayAvail = unlocked[day.id];
+                        const isDayAvail = true; // Unlocked for full access
                         return `<div class="sidebar-day-item ${isDayAvail ? '' : 'locked-day'}" onclick="${isDayAvail ? `handleSidebarClick('${week.id}', '${day.id}', '${day.lessonId}', event)` : ''}">
                                     DAY_0${dayIndex+1}: ${day.title}
                                 </div>`;
@@ -599,11 +599,7 @@ function renderWeekView(weekId) {
 }
 
 function handleDayClick(dayId, lessonId) {
-    const unlocked = loadProgress();
-    if (!unlocked[dayId]) {
-        alert("🔒 Complete the previous day to unlock this!");
-        return;
-    }
+    // Unlocking everything for the demo/testing phase
     const weekId = getWeekIdForDay(dayId);
     handleSidebarClick(weekId, dayId, lessonId, null);
 }
