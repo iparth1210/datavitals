@@ -250,7 +250,7 @@ window.modules = [
         id: 'lesson-w2-d1',
         title: 'W2-D1: The Grid (Excel Basics)',
         image: 'assets/lesson_excel_intro.png',
-        video: 'https://www.youtube.com/embed/rpkpK_n2ad0?si=premium_mode',
+        video: 'https://www.youtube.com/embed/Vl0H-qTclOg',
         sources: [{ title: 'Excel Basics', url: 'https://support.microsoft.com/en-us/excel' }],
         story: `
             <p><strong>Day 1: The Grid</strong></p>
@@ -276,7 +276,7 @@ window.modules = [
         id: 'lesson-w2-d2',
         title: 'W2-D2: Formulas (The Spellbook)',
         image: 'assets/lesson_formulas.png',
-        video: 'https://www.youtube.com/embed/Flos10s52N8?si=premium_mode',
+        video: 'https://www.youtube.com/embed/Vl0H-qTclOg',
         sources: [{ title: 'Basic Formulas', url: 'https://edu.gcfglobal.org/en/excel2016/intro-to-formulas/1/' }],
         story: `
             <p><strong>Day 2: The Spellbook</strong></p>
@@ -302,7 +302,7 @@ window.modules = [
         id: 'lesson-w2-d3',
         title: 'W2-D3: Visualization (Charts)',
         image: 'assets/lesson_charts.png',
-        video: 'https://www.youtube.com/embed/4Gf0d9ZfXIA?si=premium_mode',
+        video: 'https://www.youtube.com/embed/Vl0H-qTclOg',
         sources: [{ title: 'Choosing Charts', url: 'https://www.atlassian.com/data/charts/how-to-choose-data-visualization' }],
         story: `
             <p><strong>Day 3: A Picture is Worth 1000 Rows</strong></p>
@@ -326,7 +326,7 @@ window.modules = [
         id: 'lesson-w2-d4',
         title: 'W2-D4: Pivot Tables (Magic)',
         image: 'assets/lesson_pivot.png',
-        video: 'https://www.youtube.com/embed/qu-AK0Hv0b4?si=premium_mode',
+        video: 'https://www.youtube.com/embed/Vl0H-qTclOg',
         sources: [{ title: 'Pivot Tables Explained', url: 'https://www.excel-easy.com/data-analysis/pivot-tables.html' }],
         story: `
             <p><strong>Day 4: Magic Tables</strong></p>
@@ -351,7 +351,7 @@ window.modules = [
         id: 'lesson-w2-d5',
         title: 'W2-D5: Data Tea Cleaning',
         image: 'assets/lesson_cleaning.png',
-        video: 'https://www.youtube.com/embed/PrM425q01Jo?si=premium_mode',
+        video: 'https://www.youtube.com/embed/Vl0H-qTclOg',
         sources: [{ title: 'Data Cleaning 101', url: 'https://www.tableau.com/learn/articles/what-is-data-cleaning' }],
         story: `
             <p><strong>Day 5: The Janitor</strong></p>
@@ -376,7 +376,7 @@ window.modules = [
         id: 'lesson-w2-d6',
         title: 'W2-D6: Real World Project',
         image: 'assets/lesson_project_logo.png',
-        video: 'https://www.youtube.com/embed/K74_NRhdK1w?si=premium_mode',
+        video: 'https://www.youtube.com/embed/Vl0H-qTclOg',
         sources: [],
         story: `
             <p><strong>Day 6: The Client</strong></p>
@@ -402,7 +402,7 @@ window.modules = [
         title: 'W2-D7: Python Excel (Bonus)',
         type: 'python',
         image: 'assets/lesson_matrix.png',
-        video: 'https://www.youtube.com/embed/0y78Yoi98kg?si=premium_mode', // Python vs Excel
+        video: 'https://www.youtube.com/embed/Vl0H-qTclOg', // Python vs Excel
         sources: [{ title: 'Pandas vs Excel', url: 'https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_excel.html' }],
         story: `
             <p><strong>Day 7: Evolving</strong></p>

@@ -1117,7 +1117,7 @@ function getLessonById(lessonId) {
     else if (weekNum <= 20) {
         phase = "Phase 2: Analyst";
         topic = "SQL & Data Viz";
-        videoUrl = "https://www.youtube.com/embed/5bF55FKAOqI"; // FreeCodeCamp SQL
+        videoUrl = "https://www.youtube.com/embed/HXV3zeQKqGY"; // FreeCodeCamp SQL
 
         techContent = "<strong>SQL & Databases:</strong> SELECT, WHERE, JOIN, and Aggregations.";
         healthContent = "<strong>EHR Systems:</strong> Querying Epic/Cerner databases for patient cohorts.";
@@ -1229,7 +1229,12 @@ function renderLesson(lessonId, dayId) {
                     <div class="video-refractive-frame glass-refractive" style="border-radius: 16px; overflow: hidden; background: #000; aspect-ratio: 16/9; width: 100%;">
                         <iframe src="${lesson.video}" style="width: 100%; height: 100%;" frameborder="0" allowfullscreen></iframe>
                     </div>
-                    <div style="margin-top: 12px; display: flex; justify-content: flex-end;">
+                    <div style="margin-top: 12px; display: flex; justify-content: flex-end; gap: 12px;">
+                        ${lesson.sources ? lesson.sources.map(src => `
+                            <a href="${src.url}" target="_blank" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.8rem; text-decoration: none; padding: 6px 12px; border-radius: 6px; display: flex; align-items: center; gap: 8px; border-color: var(--accent-pink); color: var(--accent-pink);">
+                                <span>📚</span> ${src.title}
+                            </a>
+                        `).join('') : ''}
                         <a href="${lesson.video.replace('/embed/', '/watch?v=')}" target="_blank" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.8rem; text-decoration: none; padding: 6px 12px; border-radius: 6px; display: flex; align-items: center; gap: 8px;">
                             <span>🔗</span> Open Video in New Tab
                         </a>
