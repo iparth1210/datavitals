@@ -1233,6 +1233,11 @@ function renderLesson(lessonId, dayId) {
                     <div class="video-refractive-frame glass-refractive" style="border-radius: 16px; overflow: hidden; background: #000; aspect-ratio: 16/9; width: 100%;">
                         <iframe src="${lesson.video}" style="width: 100%; height: 100%;" frameborder="0" allowfullscreen></iframe>
                     </div>
+                    <div style="margin-top: 12px; display: flex; justify-content: flex-end;">
+                        <a href="${lesson.video.replace('/embed/', '/watch?v=')}" target="_blank" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.8rem; text-decoration: none; padding: 6px 12px; border-radius: 6px; display: flex; align-items: center; gap: 8px;">
+                            <span>🔗</span> Open Video in New Tab
+                        </a>
+                    </div>
                     
                     <div class="lesson-story-glass glass-refractive" style="margin-top: 32px; padding: 32px; border-radius: 16px;">
                         <h3 style="color: var(--accent-cyan); margin-bottom: 24px; font-family: 'JetBrains Mono'; font-size: 0.9rem;">> MISSION_BRIEFING</h3>
