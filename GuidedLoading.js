@@ -67,12 +67,12 @@ class GuidedLoading {
         // Cycle through stages
         for (let i = 0; i < this.stages.length; i++) {
             const stage = this.stages[i];
-            statusEl.innerText = stage.label;
-            tipEl.innerText = this.tips[i % this.tips.length];
+            if (statusEl) statusEl.innerText = stage.label;
+            if (tipEl) tipEl.innerText = this.tips[i % this.tips.length];
 
             // Advance bar
             const targetWidth = ((i + 1) / this.stages.length) * 100;
-            barEl.style.width = `${targetWidth}%`;
+            if (barEl) barEl.style.width = `${targetWidth}%`;
 
             await new Promise(r => setTimeout(r, 1500));
         }

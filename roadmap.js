@@ -1,35 +1,82 @@
 /**
- * 🗺️ ROADMAP DATA 🗺️
- * Defines the 52-week journey structure.
+ * 🗺️ ROADMAP DATA MASTER 🗺️
+ * 52-Week Master Curriculum: From Absolute Zero to Pro Pro Pro AI & Analytics Specialist
  */
 
 const phases = {
-    1: "Phase 1: The Foundation (Weeks 1-8)",
-    2: "Phase 2: The Data Analyst (Weeks 9-20)",
-    3: "Phase 3: The Python Developer (Weeks 21-32)",
-    4: "Phase 4: The AI Specialist (Weeks 33-52)"
+    1: "Phase 1: Foundations, Spreadsheets & Applied Statistics (Weeks 1-8)",
+    2: "Phase 2: Relational Databases, SQL & Analytics Engineering (Weeks 9-20)",
+    3: "Phase 3: Python Programming, Data Science & SciPy (Weeks 21-32)",
+    4: "Phase 4: Machine Learning, AI Architect & Technical Career Prep (Weeks 33-52)"
 };
 
 const weekTitles = [
-    "Computer Basics & Setup", "Excel: The Grid", "Excel: Formulas 101", "Excel: Charts & Viz",
-    "Excel: Pivot Tables", "Excel: Cleaning Data", "Excel: Real World Project", "Phase 1 Capstone Exam",
-    "SQL: Hello Database", "SQL: SELECT & WHERE", "SQL: Aggregates (COUNT/SUM)", "SQL: GROUP BY",
-    "SQL: JOINS (Left/Right)", "SQL: Advanced JOINS", "SQL: Subqueries", "SQL: Data Modeling",
-    "PowerBI: Intro", "PowerBI: DAX", "PowerBI: Dashboards", "Phase 2 Capstone Project",
-    "Python: Setup & Print", "Python: Variables & Types", "Python: Logic (If/Else)", "Python: Loops",
-    "Python: Functions", "Python: Data Structures", "Python: Pandas Intro", "Python: Data Cleaning",
-    "Python: Matplotlib/Seaborn", "Python: Sklearn Intro", "Python: Web Scraping", "Phase 3 Capstone",
-    "Math for AI (Stats)", "Math for AI (Linear Alg)", "ML: Linear Regression", "ML: Logistic Regression",
-    "ML: Decision Trees", "ML: Random Forests", "ML: Clustering", "Deep Learning: Concepts",
-    "Neural Networks 101", "TensorFlow/Keras", "CNNs (Images)", "RNNs (Text)",
-    "NLP Basics", "Transformers", "GenAI Overview", "Prompt Engineering",
-    "AI Ethics", "Final Project: Planning", "Final Project: Building", "Final Project: Graduation"
+    // --- PHASE 1: BASICS & SPREADSHEETS & STATS (WEEKS 1-8) ---
+    "Computer Basics & Infrastructure",
+    "Excel 101: The Grid & Data Types",
+    "Excel Formulas: IF, AND, OR & Math",
+    "Excel Lookups: VLOOKUP & XLOOKUP",
+    "Descriptive Statistics (Mean, Median, StdDev)",
+    "Inferential Statistics & Hypothesis Testing (T-Tests)",
+    "Excel Pivot Tables & Dashboard Viz",
+    "Phase 1 Capstone: Foundations Audit",
+
+    // --- PHASE 2: SQL & ANALYTICS ENGINEERING (WEEKS 9-20) ---
+    "SQL 101: Databases & SELECT",
+    "SQL Filtering: WHERE, LIKE, IN & BETWEEN",
+    "SQL Aggregations: COUNT, SUM, AVG & GROUP BY",
+    "SQL JOINS: INNER, LEFT, RIGHT & FULL",
+    "SQL Advanced: Subqueries & CTEs",
+    "SQL Window Functions & Analytical Partitioning",
+    "A/B Testing Experiments & Risk Metrics",
+    "Data Modeling: ERDs, Normalization & Schemas",
+    "PowerBI / Tableau: Data Ingestion",
+    "PowerBI: DAX Formulas & Calculated Columns",
+    "PowerBI: Executive Dashboard Design",
+    "Phase 2 Capstone: SQL & BI Project",
+
+    // --- PHASE 3: PYTHON DATA SCIENCE & ENGINEERING (WEEKS 21-32) ---
+    "Python 101: Setup, Print & Variables",
+    "Python Logic: If/Else & Boolean Math",
+    "Python Control Flow: For & While Loops",
+    "Python Data Structures: Lists, Dicts & Sets",
+    "Python Statistical Computing (SciPy & Statsmodels)",
+    "Python Functions, Modules & Scoping",
+    "Pandas 101: Series & DataFrames",
+    "Pandas Data Cleaning & Handling Missing Values",
+    "Pandas GroupBy, Pivot & Merging",
+    "Data Viz: Matplotlib & Seaborn Mastery",
+    "Web Scraping (BeautifulSoup) & REST APIs",
+    "Phase 3 Capstone: Python Data Pipeline",
+
+    // --- PHASE 4: PRO PRO PRO MACHINE LEARNING & AI ARCHITECT (WEEKS 33-52) ---
+    "Math for AI: Linear Algebra & Matrix Math",
+    "Math for AI: Calculus & Gradient Descent",
+    "ML 101: Supervised vs Unsupervised Learning",
+    "ML Regression: Linear & Polynomial Models",
+    "ML Classification: Logistic Regression & ROC/AUC",
+    "ML Decision Trees & Ensemble Random Forests",
+    "ML Model Evaluation: Cross-Validation & GridSearch",
+    "ML Unsupervised: K-Means & PCA Dimensionality",
+    "Deep Learning 101: Perceptrons & Activation Functions",
+    "Neural Networks: Backpropagation & Loss Functions",
+    "Frameworks: PyTorch & TensorFlow Fundamentals",
+    "Computer Vision: CNNs & Image Recognition",
+    "Natural Language Processing (NLP): Text Processing",
+    "Sequential AI: Recurrent Neural Networks (RNNs)",
+    "Transformers & Attention Mechanisms (Self-Attention)",
+    "Generative AI & Large Language Models (LLMs)",
+    "RAG (Retrieval-Augmented Generation) & Vector DBs",
+    "Prompt Engineering & Fine-Tuning Protocols",
+    "Career Prep 101: Technical SQL & Python Interviews",
+    "Career Prep 202: Portfolio Building & GitHub Showcase",
+    "Final Capstone Project: Architecture & Building",
+    "Final Graduation: Production Deployment & Career Ready"
 ];
 
 const generateRoadmap = () => {
     const roadmap = [];
 
-    // Generate 52 Weeks
     for (let i = 0; i < 52; i++) {
         const weekNum = i + 1;
         let phase = 1;
@@ -40,17 +87,15 @@ const generateRoadmap = () => {
         const days = [];
         for (let d = 1; d <= 7; d++) {
             let dayTitle = `Day ${d}`;
-            // Custom titles for Week 1 (matching modules.js)
             if (weekNum === 1) {
                 const titles = [
                     "Hardware vs Software", "The Operating System", "Files & Folders",
-                    "The Internet & Cloud", "Data Units", "Security (HIPAA)", "Weekly Review"
+                    "The Internet & Cloud", "Data Units & Bytes", "Security & Privacy", "Weekly Review"
                 ];
                 dayTitle = titles[d - 1];
             } else {
-                // Generic Day Titles based on Week Topic
                 const topic = weekTitles[i];
-                if (d === 7) dayTitle = "Weekly Concept Review";
+                if (d === 7) dayTitle = "Weekly Concept & Lab Review";
                 else dayTitle = `${topic} - Part ${d}`;
             }
 

@@ -110,15 +110,21 @@ class SpotlightTour {
         const padding = 10;
 
         // Move Mask Hole
-        this.maskHole.setAttribute('x', rect.left - padding);
-        this.maskHole.setAttribute('y', rect.top - padding);
-        this.maskHole.setAttribute('width', rect.width + padding * 2);
-        this.maskHole.setAttribute('height', rect.height + padding * 2);
+        if (this.maskHole) {
+            this.maskHole.setAttribute('x', rect.left - padding);
+            this.maskHole.setAttribute('y', rect.top - padding);
+            this.maskHole.setAttribute('width', rect.width + padding * 2);
+            this.maskHole.setAttribute('height', rect.height + padding * 2);
+        }
 
         // Update Card Content
-        document.getElementById('tour-title').innerText = step.title;
-        document.getElementById('tour-content').innerText = step.content;
-        document.getElementById('tour-progress').innerText = `Step ${idx + 1} of ${this.steps.length}`;
+        const titleEl = document.getElementById('tour-title');
+        const contentEl = document.getElementById('tour-content');
+        const progressEl = document.getElementById('tour-progress');
+
+        if (titleEl) titleEl.innerText = step.title;
+        if (contentEl) contentEl.innerText = step.content;
+        if (progressEl) progressEl.innerText = `Step ${idx + 1} of ${this.steps.length}`;
 
         // Position Card
         let cardTop = rect.bottom + 20;
@@ -129,8 +135,10 @@ class SpotlightTour {
         if (cardLeft < 20) cardLeft = 20;
         if (cardLeft + 300 > window.innerWidth) cardLeft = window.innerWidth - 300;
 
-        this.card.style.top = `${cardTop}px`;
-        this.card.style.left = `${cardLeft}px`;
+        if (this.card) {
+            this.card.style.top = `${cardTop}px`;
+            this.card.style.left = `${cardLeft}px`;
+        }
     }
 
     next() {

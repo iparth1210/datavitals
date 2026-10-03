@@ -1,3 +1,13 @@
+
+const statsTopics = [
+    { ch: "1", title: "Descriptive Stats (Mean/Median/StdDev)", doc: "https://www.khanacademy.org/math/statistics-probability/displaying-describing-data" },
+    { ch: "2", title: "Normal Distribution & Z-Scores", doc: "https://en.wikipedia.org/wiki/Standard_normal_table" },
+    { ch: "3", title: "Hypothesis Testing & p-values", doc: "https://www.khanacademy.org/math/statistics-probability/significance-tests-one-sample" },
+    { ch: "4", title: "Student's T-Test (1-sample/2-sample)", doc: "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ttest_ind.html" },
+    { ch: "5", title: "Chi-Square Test & Contingency Tables", doc: "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chi2_contingency.html" },
+    { ch: "6", title: "ANOVA (Analysis of Variance)", doc: "https://en.wikipedia.org/wiki/Analysis_of_variance" },
+    { ch: "7", title: "A/B Testing & Risk Ratios", doc: "https://en.wikipedia.org/wiki/A/B_testing" }
+];
 /**
  * 📚 LIBRARY RESOURCES v5.7 📚
  * Detailed Day-by-Day with Chapter-Level Granularity

@@ -1,3 +1,16 @@
+
+// 1-Click Maximize Learning Objective Workspace Mode
+window.toggleWorkspaceZenMode = () => {
+    document.body.classList.toggle('zen-mode-active');
+    const isZen = document.body.classList.contains('zen-mode-active');
+    triggerHaptic('medium');
+    
+    // Update button text if element exists
+    const btn = document.getElementById('zen-max-btn');
+    if (btn) {
+        btn.innerHTML = isZen ? '<span>↙</span> Exit Full Workspace' : '<span>🖥️</span> Maximize Workspace';
+    }
+};
 // --- NEURAL CURSOR AURA ---
 const cursorAura = document.getElementById('cursor-aura');
 const cursorTrail = document.getElementById('cursor-trail');
@@ -86,10 +99,6 @@ window.bootApplication = () => {
     } catch (renderError) {
         console.error("[Neural_Link]: Critical Render Error:", renderError);
     }
-};
-
-window.onLoginSuccess = () => {
-    window.bootApplication();
 };
 
 
@@ -253,7 +262,7 @@ function initAIObserver() {
         "KERNEL: STABLE", "UPLINK: ACTIVE", "LATENCY: 12ms",
         "BIO_SYNC: 100%", "PACKET_LOSS: 0%", "AURA_ENGINE: NOMINAL"
     ];
-    setInterval(() => {
+        setInterval(() => {
         if (statusText) {
             const diag = diagnostics[Math.floor(Math.random() * diagnostics.length)];
             statusText.innerText = `AURA_OS v7.4 // ${diag}`;
@@ -275,6 +284,7 @@ window.addEventListener('DOMContentLoaded', () => {
 function handleCommand(event) {
     if (event.key === 'Enter') {
         const input = document.getElementById('neural-command-input');
+        if (!input) return;
         const cmd = input.value.toLowerCase().trim();
         input.value = '';
 
@@ -317,21 +327,6 @@ function executeOpenCommand(query) {
     } else {
         addMessage(`Module matching '${query}' not found.`, "bot");
     }
-}
-
-function triggerNeuralSurge() {
-    const surge = document.createElement('div');
-    surge.className = 'neural-surge-overlay';
-    document.body.appendChild(surge);
-
-    triggerHaptic('medium');
-
-    setTimeout(() => {
-        surge.classList.add('active');
-        setTimeout(() => {
-            surge.remove();
-        }, 1000);
-    }, 10);
 }
 
 window.filterModules = (query) => {
@@ -435,7 +430,7 @@ function renderSidebarCurriculum() {
             
             return `
             <div class="sidebar-module-group" style="margin-bottom: 8px;">
-                <div class="sidebar-module-item ${isAvailable ? '' : 'locked'}" id="sidebar-mod-${week.id}" style="opacity: ${isAvailable ? 1 : 0.5}" onclick="${isAvailable ? `toggleAccordion('${week.id}', event)` : ''}">
+                <div class="sidebar-module-item ${isAvailable ? '' : 'locked'}" id="sidebar-mod-${week.id}" style="opacity: ${isAvailable ? 1 : 0.5}" onclick="${isAvailable ? "toggleAccordion('" + week.id + "', event)" : ''}">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                         <span class="module-subtitle-text" style="font-family: 'JetBrains Mono'; color: var(--accent-cyan); font-size: 0.7rem;">MODULE_${weekNum.toString().padStart(2, '0')}</span>
                         <span id="accordion-icon-${week.id}" style="transition: transform 0.3s;">${isAvailable ? '▼' : '🔒'}</span>
@@ -445,7 +440,7 @@ function renderSidebarCurriculum() {
                 <div class="sidebar-days-container" id="days-${week.id}">
                     ${week.days.map((day, dayIndex) => {
                         const isDayAvail = true; // Unlocked for full access
-                        return `<div class="sidebar-day-item ${isDayAvail ? '' : 'locked-day'}" onclick="${isDayAvail ? `handleSidebarClick('${week.id}', '${day.id}', '${day.lessonId}', event)` : ''}">
+                        return `<div class="sidebar-day-item ${isDayAvail ? '' : 'locked-day'}" onclick="${isDayAvail ? "handleSidebarClick('" + week.id + "', '" + day.id + "', '" + day.lessonId + "', event)" : ''}">
                                     DAY_0${dayIndex+1}: ${day.title}
                                 </div>`;
                     }).join('')}
@@ -757,6 +752,7 @@ window.showSettings = () => {
                             <button onclick="window.changeTheme('default')" style="flex: 1; padding: 12px; background: #0A0F19; border: 1px solid var(--accent-cyan); color: white; border-radius: 8px; cursor: pointer;">Horizon OS</button>
                             <button onclick="window.changeTheme('zenith')" style="flex: 1; padding: 12px; background: #F4F6F8; border: 1px solid #CBD5E1; color: #0F172A; border-radius: 8px; cursor: pointer;">Zenith White</button>
                             <button onclick="window.changeTheme('blood')" style="flex: 1; padding: 12px; background: #0A0202; border: 1px solid #E11D48; color: #FFEAEA; border-radius: 8px; cursor: pointer;">Blood Moon</button>
+                            
                         </div>
                     </div>
                     
@@ -886,8 +882,10 @@ window.toggleAuraListening = () => {
     activeRecognition.interimResults = true;
 
     activeRecognition.onstart = () => {
-        micBtn.style.color = 'var(--accent-pink)';
-        micBtn.style.animation = 'blink 1s infinite';
+        if (micBtn) {
+            micBtn.style.color = 'var(--accent-pink)';
+            micBtn.style.animation = 'blink 1s infinite';
+        }
         if (inputField) inputField.placeholder = "Listening...";
         triggerHaptic('light');
     };
@@ -933,9 +931,11 @@ function toggleCommandPalette() {
 
     if (overlay.classList.contains('hidden')) {
         overlay.classList.remove('hidden');
-        input.value = '';
+        if (input) {
+            input.value = '';
+            setTimeout(() => input.focus(), 50);
+        }
         renderCommandPaletteResults('');
-        setTimeout(() => input.focus(), 50);
         triggerHaptic('medium');
     } else {
         overlay.classList.add('hidden');
@@ -1045,156 +1045,392 @@ window.showMyProgress = () => {
 // --- DATA LIBRARY ---
 window.showResources = () => {
     const app = document.getElementById('app');
-    if (!app) return;
+    const title = document.getElementById('page-title');
+    if (title) title.innerText = "Library Database";
 
-    app.innerHTML = `
-        <div class="data-library" style="padding: 40px; animation: fadeIn 0.5s;">
-            <h2 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: 2.5rem; margin-bottom: 30px;">DATA_LIBRARY</h2>
-            <div style="font-family: 'JetBrains Mono'; color: var(--text-muted); margin-bottom: 40px;">// Essential reference documents and cheat sheets.</div>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
-                <div class="glass-refractive" style="padding: 24px; border-radius: 16px; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--accent-cyan)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'">
-                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🐍</div>
-                    <h3 style="font-family: 'Space Grotesk'; margin-bottom: 8px;">Python Syntax Matrix</h3>
-                    <p style="color: var(--text-muted); font-size: 0.8rem;">Core syntax, data structures, and standard libraries.</p>
+    // Highlight sidebar active state
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    const navItems = document.querySelectorAll('.nav-item');
+    if (navItems.length > 5) navItems[5].classList.add('active');
+
+    if (!window.libraryResources) {
+        app.innerHTML = '<p style="padding:20px;">Library data loading...</p>';
+        return;
+    }
+
+    // Main container
+    let html = `
+        <div class="library-container" style="max-width: 1000px; margin: 0 auto; padding-bottom: 50px; animation: fadeIn 0.5s;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px;">
+                <div>
+                    <h2 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: 2.5rem; margin: 0;">DATA_LIBRARY</h2>
+                    <div style="font-family: 'JetBrains Mono'; color: var(--text-muted); font-size: 0.8rem; margin-top: 5px;">// Essential reference documents and curriculum readings.</div>
                 </div>
-                
-                <div class="glass-refractive" style="padding: 24px; border-radius: 16px; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--accent-pink)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'">
-                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🗃️</div>
-                    <h3 style="font-family: 'Space Grotesk'; margin-bottom: 8px;">SQL Query Protocols</h3>
-                    <p style="color: var(--text-muted); font-size: 0.8rem;">Joins, aggregations, window functions, and CTEs.</p>
+                <!-- LIBRARY SUB-TABS -->
+                <div style="display: flex; background: rgba(0,0,0,0.4); border-radius: 8px; padding: 4px; border: 1px solid rgba(255,255,255,0.05); width: 320px;">
+                    <button id="lib-tab-core" onclick="window.toggleLibraryView('core')" style="flex: 1; border: none; text-align: center; padding: 8px; border-radius: 6px; font-family: 'Space Grotesk'; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; background: rgba(255,255,255,0.1); color: white;">Core References</button>
+                    <button id="lib-tab-daily" onclick="window.toggleLibraryView('daily')" style="flex: 1; border: none; text-align: center; padding: 8px; border-radius: 6px; font-family: 'Space Grotesk'; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--text-muted);">Daily Reading</button>
                 </div>
-                
-                <div class="glass-refractive" style="padding: 24px; border-radius: 16px; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--success)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'">
-                    <div style="font-size: 2.5rem; margin-bottom: 16px;">📊</div>
-                    <h3 style="font-family: 'Space Grotesk'; margin-bottom: 8px;">Excel Function Architecture</h3>
-                    <p style="color: var(--text-muted); font-size: 0.8rem;">VLOOKUP, INDEX/MATCH, and pivot table automation.</p>
+            </div>
+
+            <!-- CORE REFERENCES PANE -->
+            <div id="lib-pane-core" style="display: block;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
+                    <div class="glass-refractive resource-card" onclick="window.open('https://docs.python.org/3/', '_blank')" style="padding: 28px; border-radius: 20px; cursor: pointer; transition: all 0.3s; border: 1px solid rgba(255,255,255,0.08); background: rgba(10, 15, 25, 0.4); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-6px)'; this.style.borderColor='var(--accent-cyan)'; this.style.boxShadow='0 10px 30px rgba(6,182,212,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.08)'; this.style.boxShadow='none'">
+                        <div style="font-size: 3rem; margin-bottom: 20px;">🐍</div>
+                        <h3 style="font-family: 'Space Grotesk'; font-size: 1.3rem; margin-bottom: 8px; color: white;">Python Syntax Matrix</h3>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 0;">Core syntax, data structures, control flows, and standard library architectures.</p>
+                        <span style="position: absolute; bottom: 20px; right: 20px; color: var(--accent-cyan); font-size: 1rem; opacity: 0.5;">↗</span>
+                    </div>
+
+                    <div class="glass-refractive resource-card" onclick="window.open('https://www.postgresql.org/docs/', '_blank')" style="padding: 28px; border-radius: 20px; cursor: pointer; transition: all 0.3s; border: 1px solid rgba(255,255,255,0.08); background: rgba(10, 15, 25, 0.4); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-6px)'; this.style.borderColor='var(--accent-pink)'; this.style.boxShadow='0 10px 30px rgba(236,72,153,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.08)'; this.style.boxShadow='none'">
+                        <div style="font-size: 3rem; margin-bottom: 20px;">🗃️</div>
+                        <h3 style="font-family: 'Space Grotesk'; font-size: 1.3rem; margin-bottom: 8px; color: white;">SQL Query Protocols</h3>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 0;">Relational concepts, joins, complex aggregations, window functions, and CTEs.</p>
+                        <span style="position: absolute; bottom: 20px; right: 20px; color: var(--accent-pink); font-size: 1rem; opacity: 0.5;">↗</span>
+                    </div>
+
+                    <div class="glass-refractive resource-card" onclick="window.open('https://support.microsoft.com/excel', '_blank')" style="padding: 28px; border-radius: 20px; cursor: pointer; transition: all 0.3s; border: 1px solid rgba(255,255,255,0.08); background: rgba(10, 15, 25, 0.4); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-6px)'; this.style.borderColor='var(--success)'; this.style.boxShadow='0 10px 30px rgba(34,197,94,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.08)'; this.style.boxShadow='none'">
+                        <div style="font-size: 3rem; margin-bottom: 20px;">📊</div>
+                        <h3 style="font-family: 'Space Grotesk'; font-size: 1.3rem; margin-bottom: 8px; color: white;">Excel Function Architecture</h3>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 0;">Logical testing, advanced VLOOKUP, INDEX/MATCH structures, and Pivot Table automation.</p>
+                        <span style="position: absolute; bottom: 20px; right: 20px; color: var(--success); font-size: 1rem; opacity: 0.5;">↗</span>
+                    </div>
+
+                    <div class="glass-refractive resource-card" onclick="window.open('https://www.khanacademy.org/math/statistics-probability', '_blank')" style="padding: 28px; border-radius: 20px; cursor: pointer; transition: all 0.3s; border: 1px solid rgba(255,255,255,0.08); background: rgba(10, 15, 25, 0.4); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-6px)'; this.style.borderColor='var(--accent-violet)'; this.style.boxShadow='0 10px 30px rgba(139,92,246,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.08)'; this.style.boxShadow='none'">
+                        <div style="font-size: 3rem; margin-bottom: 20px;">📐</div>
+                        <h3 style="font-family: 'Space Grotesk'; font-size: 1.3rem; margin-bottom: 8px; color: white;">Applied Statistics & Math Matrix</h3>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 0;">Descriptive metrics, Z-Scores, Student's T-Tests, p-values, A/B testing lift & Bayes' Theorem.</p>
+                        <span style="position: absolute; bottom: 20px; right: 20px; color: var(--accent-violet); font-size: 1rem; opacity: 0.5;">↗</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAILY READING DATABASE PANE -->
+            <div id="lib-pane-daily" style="display: none;">
+                <div class="lib-week-grid" style="display: flex; flex-direction: column; gap: 30px;">
+    `;
+
+    window.libraryResources.forEach(week => {
+        html += `
+            <div class="lib-week-block" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 25px;">
+                <h2 style="font-size: 1.3rem; font-family: 'Space Grotesk'; color: var(--accent-cyan); border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; margin-top: 0; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+                    <span>\${week.weekTitle}</span>
+                    <span style="font-size: 0.7rem; font-family: 'JetBrains Mono'; color: var(--text-muted); font-weight: normal;">// ACTIVE_RESOURCES</span>
+                </h2>
+                <div class="lib-days-grid" style="display: grid; gap: 20px;">
+        `;
+
+        week.days.forEach(day => {
+            html += `
+                <div class="lib-day-card" style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 20px;">
+                    <h3 style="font-size: 1rem; font-family: 'Space Grotesk'; color: white; margin-top: 0; margin-bottom: 15px; display:flex; align-items:center; gap:10px;">
+                        <span style="opacity:0.6;">📅</span> \${day.dayTitle}
+                    </h3>
+                    <div class="resources-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;">
+            `;
+
+            day.resources.forEach(res => {
+                let icon = '📄';
+                if (res.type === 'book') icon = '📖';
+                if (res.type === 'video') icon = '📺';
+                if (res.type === 'tool') icon = '🛠️';
+                if (res.type === 'course') icon = '🎓';
+
+                html += `
+                    <a href="\${res.url}" target="_blank" class="resource-link" style="
+                        display: flex; align-items: center; gap: 12px;
+                        padding: 12px; background: rgba(255,255,255,0.03);
+                        border-radius: 8px; text-decoration: none;
+                        color: var(--text-secondary); transition: all 0.2s; border: 1px solid rgba(255,255,255,0.05);">
+                        <span style="font-size: 1.2rem;">\${icon}</span>
+                        <div style="flex:1;">
+                            <div style="font-size: 0.85rem; font-weight: 500; color: white;">\${res.title}</div>
+                            <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; margin-top: 2px;">\${res.type}</div>
+                        </div>
+                        <span style="opacity:0.3; transition: all 0.2s;">↗</span>
+                    </a>
+                `;
+            });
+
+            html += `</div></div>`;
+        });
+
+        html += `</div></div>`;
+    });
+
+    html += `
                 </div>
             </div>
         </div>
     `;
+
+    // Add custom helper function to switch panes dynamically
+    window.toggleLibraryView = (pane) => {
+        const tabCore = document.getElementById('lib-tab-core');
+        const tabDaily = document.getElementById('lib-tab-daily');
+        const paneCore = document.getElementById('lib-pane-core');
+        const paneDaily = document.getElementById('lib-pane-daily');
+
+        if (!tabCore || !tabDaily || !paneCore || !paneDaily) return;
+
+        triggerHaptic('light');
+
+        if (pane === 'core') {
+            tabCore.style.background = 'rgba(255,255,255,0.1)';
+            tabCore.style.color = 'white';
+            tabDaily.style.background = 'transparent';
+            tabDaily.style.color = 'var(--text-muted)';
+            paneCore.style.display = 'block';
+            paneDaily.style.display = 'none';
+        } else {
+            tabDaily.style.background = 'rgba(255,255,255,0.1)';
+            tabDaily.style.color = 'white';
+            tabCore.style.background = 'transparent';
+            tabCore.style.color = 'var(--text-muted)';
+            paneCore.style.display = 'none';
+            paneDaily.style.display = 'block';
+        }
+    };
+
+    // Custom CSS injection
+    if (!document.getElementById('library-custom-css')) {
+        const style = document.createElement('style');
+        style.id = 'library-custom-css';
+        style.innerHTML = `
+            .resource-link:hover {
+                background: rgba(255,255,255,0.08) !important;
+                border-color: var(--accent-cyan) !important;
+                transform: translateX(4px);
+                color: white !important;
+            }
+            .resource-link:hover span {
+                opacity: 1 !important;
+                color: var(--accent-cyan);
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    app.innerHTML = html;
     triggerHaptic('light');
 };
 
-// --- LESSON FETCHER ---
+// --- LESSON FETCHER & PROCEDURAL GENERATOR ---
 function getLessonById(lessonId) {
     // 1. Try to find manually authored content
     const manualLesson = window.modules.find(m => m.id === lessonId);
     if (manualLesson) return manualLesson;
 
-    // 2. Procedural Fallback (The Infinite Engine)
+    // 2. Procedural Fallback (The Infinite Zero-to-Pro Engine)
     const match = lessonId.match(/w(\d+)-d(\d+)/);
     if (!match) return null;
 
     const weekNum = parseInt(match[1]);
     const dayNum = parseInt(match[2]);
-    let phase = "Foundation";
-    let topic = "General Data Science";
-    let videoUrl = 'https://www.youtube.com/embed/Vl0H-qTclOg'; // Fallback
 
-    // Quad-Track Content Generator
+    let phase = "Foundation";
+    let topic = "Data Science";
+    let videoUrl = 'https://www.youtube.com/embed/Vl0H-qTclOg';
+    let lessonType = 'data';
+
     let techContent = "";
     let healthContent = "";
     let bioContent = "";
     let labContent = "";
     let taskInstruction = "";
     let taskTarget = "";
+    let docUrl = "https://docs.python.org/3/";
+    let starterCode = "";
 
-    // PHASE 1: WEEKS 1-8 (Excel & Logic)
+    // PHASE 1: WEEKS 1-8 (EXCEL & FOUNDATIONS)
     if (weekNum <= 8) {
-        phase = "Phase 1: Foundation";
-        topic = "Excel & Logic";
+        phase = "Phase 1: Foundations";
+        topic = "Excel & Logical Systems";
         videoUrl = "https://www.youtube.com/embed/Vl0H-qTclOg"; // FreeCodeCamp Excel
+        docUrl = "https://support.microsoft.com/excel";
+        lessonType = "data";
 
-        techContent = "<strong>Excel & Logic:</strong> Mastering spreadsheets, filters, and conditional logic (IF/AND/OR).";
-        healthContent = "<strong>Hospital Admin:</strong> Managing patient admission logs, shift schedules, and inventory.";
-        bioContent = "<strong>Vital Signs:</strong> Understanding HR, BP, and SpO2 data ranges.";
-        labContent = "<strong>Mission:</strong> Find the patient with <strong>Critical Vitals</strong> in the log.";
-        taskInstruction = "Locate the patient with 'Critical' status.";
-        taskTarget = "Critical";
+        techContent = `<strong>Spreadsheet & Logical Foundations (Day ${dayNum}):</strong> Master cell grid references, structured data entry, formatting, and formulas like <code>=SUM()</code>, <code>=AVERAGE()</code>, and <code>=IF()</code>.`;
+        healthContent = `<strong>Clinical Operations:</strong> Managing patient admission records, vital sign triage logs, and shift rosters.`;
+        bioContent = `<strong>Bio-Telemetry:</strong> Standardizing human baseline measurements (Heart Rate 60-100 bpm, Blood Pressure 120/80 mmHg).`;
+        labContent = `<strong>Mission Protocol:</strong> Analyze the triage telemetry table. Locate the patient record flagged with <strong>CRITICAL</strong> status.`;
+        taskInstruction = "Locate the patient with 'CRITICAL' status in the telemetry table.";
+        taskTarget = "CRITICAL";
+        starterCode = `# Excel / Logic Simulation Script
+patients = [
+    {"id": "P-101", "name": "Sarah Connor", "hr": 72, "status": "STABLE"},
+    {"id": "P-102", "name": "James Cole", "hr": 142, "status": "CRITICAL"},
+    {"id": "P-103", "name": "Ellen Ripley", "hr": 68, "status": "STABLE"}
+]
+
+print("--- PATIENT TELEMETRY AUDIT ---")
+for p in patients:
+    print(f"ID: {p['id']} | Name: {p['name']:15} | HR: {p['hr']} bpm => Status: {p['status']}")
+`;
     }
-    // PHASE 2: WEEKS 9-20 (SQL & Analysis)
+    // PHASE 2: WEEKS 9-20 (SQL & RELATIONAL ANALYTICS)
     else if (weekNum <= 20) {
-        phase = "Phase 2: Analyst";
-        topic = "SQL & Data Viz";
+        phase = "Phase 2: Relational Analytics";
+        topic = "SQL & Data Engineering";
         videoUrl = "https://www.youtube.com/embed/HXV3zeQKqGY"; // FreeCodeCamp SQL
+        docUrl = "https://www.postgresql.org/docs/current/";
+        lessonType = "data";
 
-        techContent = "<strong>SQL & Databases:</strong> SELECT, WHERE, JOIN, and Aggregations.";
-        healthContent = "<strong>EHR Systems:</strong> Querying Epic/Cerner databases for patient cohorts.";
-        bioContent = "<strong>Pathology:</strong> Lab results, blood panels, and disease markers.";
-        labContent = "<strong>Mission:</strong> Query the database for <strong>Type 2 Diabetes</strong> patients.";
-        taskInstruction = "Find the 'Type 2 Diabetes' diagnosis.";
+        techContent = `<strong>Relational DB & SQL Protocols (Day ${dayNum}):</strong> Querying relational tables using <code>SELECT</code>, <code>WHERE</code>, <code>GROUP BY</code>, <code>HAVING</code>, and multi-table <code>JOIN</code> operations.`;
+        healthContent = `<strong>Enterprise EHR Systems:</strong> Querying Epic/Cerner databases for clinical cohort analysis and ICU resource planning.`;
+        bioContent = `<strong>Biomarker Indexing:</strong> Structuring blood panel results, genomic markers, and pathology reports across normalized database tables.`;
+        labContent = `<strong>Mission Protocol:</strong> Run a query on the patient database table. Identify the record with <strong>Type 2 Diabetes</strong>.`;
+        taskInstruction = "Locate the patient record with Diagnosis = 'Type 2 Diabetes'.";
         taskTarget = "Type 2 Diabetes";
+        starterCode = `# SQL Query Simulator in Python
+import sqlite3
+
+conn = sqlite3.connect(":memory:")
+cur = conn.cursor()
+cur.execute("CREATE TABLE EHR (id INT, patient TEXT, diagnosis TEXT, triage TEXT)")
+cur.execute("INSERT INTO EHR VALUES (101, 'Alex Mercer', 'Hypertension', 'Normal')")
+cur.execute("INSERT INTO EHR VALUES (102, 'Dana Scully', 'Type 2 Diabetes', 'Active')")
+cur.execute("INSERT INTO EHR VALUES (103, 'Fox Mulder', 'Asthma', 'Normal')")
+
+cur.execute("SELECT patient, diagnosis FROM EHR WHERE diagnosis = 'Type 2 Diabetes'")
+for row in cur.fetchall():
+    print(f"Query Result -> Patient: {row[0]} | Diagnosis: {row[1]}")
+`;
     }
-    // PHASE 3: WEEKS 21-32 (Python Dev)
+    // PHASE 3: WEEKS 21-32 (PYTHON DATA SCIENCE & PANDAS)
     else if (weekNum <= 32) {
-        phase = "Phase 3: Python Dev";
-        topic = "Python Programming";
+        phase = "Phase 3: Python Data Science";
+        topic = "Python Programming & Pandas";
         videoUrl = "https://www.youtube.com/embed/LHBE6Q9XlzI"; // FreeCodeCamp Python
+        docUrl = "https://pandas.pydata.org/docs/";
+        lessonType = "python";
 
-        techContent = "<strong>Python Programming:</strong> Variables, Lists, Loops, Pandas DataFrames.";
-        healthContent = "<strong>Bioinformatics:</strong> Processing raw DNA sequences and large clinical datasets.";
-        bioContent = "<strong>Genomics:</strong> A, C, T, G sequences and protein synthesis.";
-        labContent = "<strong>Mission:</strong> Identify the <strong>Mutated</strong> gene sequence.";
-        taskInstruction = "Find the 'Mutated' status.";
-        taskTarget = "Mutated";
+        techContent = `<strong>Python & Pandas Analytics (Day ${dayNum}):</strong> Ingesting, cleaning, transforming, and visualizing large datasets using Python, Pandas DataFrames, NumPy, and Matplotlib.`;
+        healthContent = `<strong>Bioinformatics Pipelines:</strong> Processing raw DNA fasta sequences, RNA-seq gene counts, and clinical trial cohorts.`;
+        bioContent = `<strong>Genomic Data Structures:</strong> Manipulating nucleotide sequences (A, C, T, G) and codon reading frames programmatically.`;
+        labContent = `<strong>Mission Protocol:</strong> Execute the Python Pandas analysis script in the editor to identify the <strong>MUTATED</strong> gene marker.`;
+        taskInstruction = "Find the gene record with Mutation_Status = 'MUTATED'.";
+        taskTarget = "MUTATED";
+        starterCode = `# Python Data Science & Pandas Analysis
+import pandas as pd
+
+gene_data = {
+    "Gene_ID": ["BRCA1", "TP53", "EGFR", "KRAS"],
+    "Sample": ["S-01", "S-02", "S-03", "S-04"],
+    "Expression_Level": [4.2, 18.9, 2.1, 14.5],
+    "Mutation_Status": ["NORMAL", "MUTATED", "NORMAL", "NORMAL"]
+}
+
+df = pd.DataFrame(gene_data)
+print("--- GENOMIC EXPRESSION MATRIX ---")
+print(df)
+
+mutated = df[df["Mutation_Status"] == "MUTATED"]
+print("\n--- MUTATED GENE LOCATED ---")
+print(mutated)
+`;
     }
-    // PHASE 4: WEEKS 33-52 (AI Architect)
+    // PHASE 4: WEEKS 33-52 (MACHINE LEARNING & AI ARCHITECT)
     else {
-        phase = "Phase 4: AI Architect";
-        topic = "Neural Networks & ML";
+        phase = "Phase 4: AI & Neural Architect";
+        topic = "Machine Learning & Deep Learning";
         videoUrl = "https://www.youtube.com/embed/aircAruvnKk"; // 3Blue1Brown Neural Networks
+        docUrl = "https://scikit-learn.org/stable/";
+        lessonType = "python";
 
-        techContent = "<strong>Neural Networks:</strong> Nodes, Layers, Weights, Biases, Backprop.";
-        healthContent = "<strong>Medical AI:</strong> Computer Vision for Tumor Detection in X-Rays.";
-        bioContent = "<strong>Oncology:</strong> Identifying malignant vs benign cell structures.";
-        labContent = "<strong>Mission:</strong> Verify the model's prediction of <strong>High Risk</strong>.";
-        taskInstruction = "Find the 'High Risk' prediction.";
-        taskTarget = "High Risk";
+        techContent = `<strong>Neural Networks & AI Architecture (Day ${dayNum}):</strong> Building supervised regression, classification, deep neural networks, CNNs, Transformers, and GenAI applications.`;
+        healthContent = `<strong>Medical AI Diagnostics:</strong> Computer Vision models analyzing X-rays, MRIs, and predictive patient risk models.`;
+        bioContent = `<strong>Oncology Deep Learning:</strong> Classifying histological cell structures and predicting therapeutic drug binding affinities.`;
+        labContent = `<strong>Mission Protocol:</strong> Execute the Neural Model script to verify the AI model prediction of <strong>HIGH RISK</strong>.`;
+        taskInstruction = "Identify the AI prediction output of 'HIGH RISK'.";
+        taskTarget = "HIGH RISK";
+        starterCode = `# Machine Learning & Neural Network Classifier
+import numpy as np
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+# Features: [Age_Norm, Systolic_BP_Norm, Glucose_Norm]
+patient_vector = np.array([0.85, 0.92, 0.78])
+weights = np.array([1.5, 2.1, 1.2])
+bias = -1.8
+
+z = np.dot(patient_vector, weights) + bias
+risk_probability = sigmoid(z)
+
+print(f"Neural Activation (z): {z:.4f}")
+print(f"Predicted Disease Risk Probability: {risk_probability * 100:.2f}%")
+
+if risk_probability > 0.5:
+    print("AI Diagnosis: HIGH RISK DETECTED")
+else:
+    print("AI Diagnosis: LOW RISK")
+`;
     }
 
     return {
         id: lessonId,
-        title: `W${weekNum} -D${dayNum}: ${topic} Mastery`,
+        title: `W${weekNum}-D${dayNum}: ${topic} (Day ${dayNum})`,
         image: 'assets/lesson_matrix.png',
         video: videoUrl,
-        sources: [{ title: `${topic} Documentation`, url: `https://www.google.com/search?q=${topic.replace(/ /g, '+')}+documentation` }],
+        type: lessonType,
+        code_start: starterCode,
+        sources: [
+            { title: `${topic} Documentation`, url: docUrl },
+            { title: 'DataVitals Master Library', url: '#' }
+        ],
         story: `
-    <div class="quad-track">
+            <div class="quad-track">
                 <div class="track-section tech">
                     <h4>💻 1. Tech Core</h4>
                     <p>${techContent}</p>
                 </div>
                 <div class="track-section health">
-                    <h4>🏥 2. Health Systems</h4>
+                    <h4>🏥 2. Clinical Base</h4>
                     <p>${healthContent}</p>
                 </div>
                 <div class="track-section bio">
-                    <h4>🧬 3. Bio-Science</h4>
+                    <h4>🧬 3. Bio Sync</h4>
                     <p>${bioContent}</p>
                 </div>
                 <div class="track-section lab">
-                    <h4>🧪 4. Project Lab</h4>
+                    <h4>🧪 4. Lab Protocol</h4>
                     <p>${labContent}</p>
                 </div>
             </div>
-    `,
+        `,
         task: {
             type: 'find-value',
             targetColumn: 'Status',
-            condition: (val) => val === taskTarget,
-            successMessage: "Analysis Complete. Clinical Insight Generated.",
+            condition: (val) => val === taskTarget || val === 'Active' || val === 'Online',
+            successMessage: "Analysis Complete. Clinical & Technical Telemetry Verified!",
             errorMessage: taskInstruction
         },
         data: [
-            { Check: "Power", Status: "Online", Zone: "Core" },
-            { Check: "Uplink", Status: "Stable", Zone: "Net" },
-            { Check: "Verify", Status: "System Ready", Zone: "Admin" }, // Target
-            { Check: "Aux", Status: "Standby", Zone: "Backup" }
+            { ID: 101, Item: "Node 1", Status: taskTarget, Zone: "Primary" },
+            { ID: 102, Item: "Node 2", Status: "Normal", Zone: "Secondary" },
+            { ID: 103, Item: "Node 3", Status: "Online", Zone: "Backup" }
         ]
     };
 }
 
+// Global action to launch kernel pre-loaded with current lesson code
+window.launchNeuralKernelForLesson = () => {
+    const lesson = window.activeLessonContext;
+    const modal = document.getElementById('terminal-modal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        triggerHaptic('medium');
+        if (window.PythonEngine) {
+            PythonEngine.init().then(() => {
+                if (PythonEngine.editor && lesson && lesson.code_start) {
+                    PythonEngine.editor.setValue(lesson.code_start);
+                }
+            });
+        }
+    }
+};
 
 function renderLesson(lessonId, dayId) {
     const lesson = getLessonById(lessonId);
@@ -1212,34 +1448,46 @@ function renderLesson(lessonId, dayId) {
 
     const app = document.getElementById('app');
     if (!app) return;
+
     app.innerHTML = `
-        <div class="lesson-mission-control" style="padding-bottom: 60px;">
-            <div class="lesson-header-row" style="display: flex; align-items: center; margin-bottom: 32px; gap: 24px;">
-                <button onclick="renderWeekView('${parentWeekId}')" class="btn-neural" style="font-size: 0.8rem; padding: 10px 20px; border-radius: 8px;">← ESC_TO_NODE</button>
-                <div style="flex: 1;">
+        <div class="lesson-container" style="max-width: 1400px; margin: 0 auto; animation: fadeIn 0.4s;">
+
+            <!-- TOP ACTION NAV BAR -->
+            <div class="lesson-top-bar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <button onclick="renderRoadmap('${parentWeekId}')" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.8rem; padding: 8px 16px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    <span>←</span> BACK_TO_CURRICULUM
+                </button>
+
+                <div style="flex: 1; margin-left: 24px;">
                     <h2 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: 1.8rem; margin: 0; font-weight: 700;">${lesson.title}</h2>
                     <span style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--accent-cyan);">NODE_ID: ${lesson.id} // MISSION_STATUS: ACTIVE</span>
                 </div>
             </div>
 
-            <div class="lesson-main-layout" style="display: grid; grid-template-columns: 7fr 3fr; gap: 32px; height: calc(100vh - 200px); min-height: 600px;">
-                
+            <div class="lesson-main-layout" style="display: grid; grid-template-columns: 7fr 3fr; gap: 32px; min-height: 600px;">
+
                 <!-- 70% PRIMARY STREAM -->
                 <div class="lesson-primary-stream" style="display: flex; flex-direction: column; overflow-y: auto; padding-right: 16px;">
                     <div class="video-refractive-frame glass-refractive" style="border-radius: 16px; overflow: hidden; background: #000; aspect-ratio: 16/9; width: 100%;">
                         <iframe src="${lesson.video}" style="width: 100%; height: 100%;" frameborder="0" allowfullscreen></iframe>
                     </div>
-                    <div style="margin-top: 12px; display: flex; justify-content: flex-end; gap: 12px;">
+                    <div style="margin-top: 12px; display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap;">
+                        <button id="zen-max-btn" onclick="window.toggleWorkspaceZenMode()" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.8rem; padding: 6px 14px; border-radius: 8px; display: flex; align-items: center; gap: 8px; border-color: var(--accent-violet); color: var(--accent-violet);">
+                            <span>🖥️</span> Maximize Workspace
+                        </button>
+                        <button onclick="window.launchNeuralKernelForLesson()" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.8rem; padding: 6px 14px; border-radius: 8px; display: flex; align-items: center; gap: 8px; border-color: var(--accent-cyan); color: var(--accent-cyan);">
+                            <span>⚡</span> Launch Code Kernel
+                        </button>
                         ${lesson.sources ? lesson.sources.map(src => `
                             <a href="${src.url}" target="_blank" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.8rem; text-decoration: none; padding: 6px 12px; border-radius: 6px; display: flex; align-items: center; gap: 8px; border-color: var(--accent-pink); color: var(--accent-pink);">
                                 <span>📚</span> ${src.title}
                             </a>
                         `).join('') : ''}
-                        <a href="${lesson.video.replace('/embed/', '/watch?v=')}" target="_blank" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.8rem; text-decoration: none; padding: 6px 12px; border-radius: 6px; display: flex; align-items: center; gap: 8px;">
+                        <a href="${lesson.video.replace('/embed/', '/watch?v=').split('?')[0]}" target="_blank" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.8rem; text-decoration: none; padding: 6px 12px; border-radius: 6px; display: flex; align-items: center; gap: 8px;">
                             <span>🔗</span> Open Video in New Tab
                         </a>
                     </div>
-                    
+
                     <div class="lesson-story-glass glass-refractive" style="margin-top: 32px; padding: 32px; border-radius: 16px;">
                         <h3 style="color: var(--accent-cyan); margin-bottom: 24px; font-family: 'JetBrains Mono'; font-size: 0.9rem;">> MISSION_BRIEFING</h3>
                         <div class="holographic-quad-track" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
@@ -1265,22 +1513,22 @@ function renderLesson(lessonId, dayId) {
 
                 <!-- 30% INTERACTIVE LAB -->
                 <div class="lesson-vitals-sidebar" style="height: 100%;">
-                    <div class="glass-refractive" style="padding: 32px; height: 100%; border-radius: 16px; display: flex; flex-direction: column;">
-                         <h3 style="color: var(--accent-violet); margin-bottom: 24px; font-family: 'JetBrains Mono'; font-size: 0.9rem;">> NEURAL_LAB</h3>
-                         
+                    <div class="glass-refractive" style="padding: 24px; height: 100%; border-radius: 16px; display: flex; flex-direction: column;">
+                         <h3 style="color: var(--accent-violet); margin-bottom: 20px; font-family: 'JetBrains Mono'; font-size: 0.9rem;">> NEURAL_LAB</h3>
+
                          <div id="neural-lab-interface" style="flex: 1; display: flex; flex-direction: column; overflow-y: auto;">
                             ${isPythonLesson ? `
-                                <div id="monaco-container" class="editor-pane" style="flex: 1; min-height: 250px; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; margin-bottom: 24px;"></div>
-                                <div class="lab-controls" style="display: flex; gap: 12px; margin-bottom: 24px;">
+                                <div id="monaco-container" class="editor-pane" style="flex: 1; min-height: 250px; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; margin-bottom: 16px;"></div>
+                                <div class="lab-controls" style="display: flex; gap: 12px; margin-bottom: 16px;">
                                     <button id="term-run-btn" onclick="PythonEngine.run()" class="btn-neural" style="font-size: 0.8rem; padding: 10px 20px; width: 100%;">▶ EXECUTE_CODE</button>
                                 </div>
-                                <div id="term-output" class="console-pane glass-refractive" style="height: 160px; font-family: 'JetBrains Mono'; font-size: 0.75rem; padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                                <div id="term-output" class="console-pane glass-refractive" style="height: 140px; font-family: 'JetBrains Mono'; font-size: 0.75rem; padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); overflow-y: auto;">
                                     <div class="term-line info">> Kernel linked. Awaiting input.</div>
                                 </div>
                             ` : `
                                 <div class="interaction-node" style="flex: 1; display: flex; flex-direction: column;">
                                     ${renderTable(lesson.data)}
-                                    <div id="feedback" class="feedback-box glass-refractive" style="margin-top: 24px; padding: 24px; font-size: 0.9rem; color: var(--text-secondary); border: 1px dashed rgba(6,182,212,0.3); border-radius: 12px; background: rgba(0,0,0,0.3);">
+                                    <div id="feedback" class="feedback-box glass-refractive" style="margin-top: 16px; padding: 16px; font-size: 0.85rem; color: var(--text-secondary); border: 1px dashed rgba(6,182,212,0.3); border-radius: 12px; background: rgba(0,0,0,0.3);">
                                         > MONITORING_DATA_SYNC...
                                     </div>
                                 </div>
@@ -1313,13 +1561,11 @@ function renderLesson(lessonId, dayId) {
             journal.value = notesDict[dayId] || '';
             if (status) {
                 status.innerText = 'LOADED';
-                status.style.color = 'var(--text-muted)';
             }
         }
-    }, 50);
+    }, 100);
 }
 
-// Utility to extract text from the procedural HTML strings
 function extractTrackText(html, trackClass) {
     const temp = document.createElement('div');
     temp.innerHTML = html;
@@ -1356,16 +1602,6 @@ function renderTable(data) {
 }
 
 // Helper to find parent Week ID
-function getWeekIdForDay(currentDayId) {
-    for (let w = 0; w < window.roadmap.length; w++) {
-        const week = window.roadmap[w];
-        const dIndex = week.days.findIndex(d => d.id === currentDayId);
-        if (dIndex !== -1) {
-            return week.id;
-        }
-    }
-    return 'week-1'; // fallback
-}
 
 // Helper to find next lesson object
 function getNextLesson(currentDayId) {
@@ -1509,156 +1745,7 @@ function triggerConfetti() {
 // --- UI UTILS ---
 
 // Show Library Resources v5.5 (Day-by-Day)
-window.showResources = () => {
-    const app = document.getElementById('app');
-    const title = document.getElementById('page-title');
-    if (title) title.innerText = "Library";
-
-    // Highlight sidebar
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-    // Find library link heuristic
-    const navItems = document.querySelectorAll('.nav-item');
-    if (navItems.length > 5) navItems[5].classList.add('active');
-
-    if (!window.libraryResources) {
-        app.innerHTML = '<p style="padding:20px;">Library data loading...</p>';
-        return;
-    }
-
-    let html = `<div class="library-container" style="max-width: 1000px; margin: 0 auto; padding-bottom: 50px;">`;
-
-    window.libraryResources.forEach(week => {
-        html += `
-            <div class="lib-week-block" style="margin-bottom: 40px;">
-                <h2 style="font-size: 1.4rem; color: var(--accent-primary); border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px; margin-bottom: 20px;">
-                    ${week.weekTitle}
-                </h2>
-                <div class="lib-days-grid" style="display: grid; gap: 20px;">
-        `;
-
-        week.days.forEach(day => {
-            html += `
-                <div class="lib-day-card" style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 20px;">
-                    <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 15px; display:flex; align-items:center; gap:10px;">
-                        <span style="opacity:0.6;">📅</span> ${day.dayTitle}
-                    </h3>
-                    <div class="resources-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px;">
-            `;
-
-            day.resources.forEach(res => {
-                let icon = '📄';
-                if (res.type === 'book') icon = '📖';
-                if (res.type === 'video') icon = '📺';
-                if (res.type === 'tool') icon = '🛠️';
-                if (res.type === 'course') icon = '🎓';
-
-                html += `
-                    <a href="${res.url}" target="_blank" class="resource-link" style="
-                        display: flex; align-items: center; gap: 10px; 
-                        padding: 10px; background: rgba(255,255,255,0.03); 
-                        border-radius: 6px; text-decoration: none; 
-                        color: var(--text-secondary); transition: all 0.2s; border: 1px solid transparent;">
-                        <span style="font-size: 1.2rem;">${icon}</span>
-                        <div style="flex:1;">
-                            <div style="font-size: 0.9rem; font-weight: 500; color: var(--text-primary);">${res.title}</div>
-                            <div style="font-size: 0.75rem; opacity: 0.6; text-transform: uppercase;">${res.type}</div>
-                        </div>
-                        <span style="opacity:0.3;">↗</span>
-                    </a>
-                `;
-            });
-
-            html += `</div></div>`;
-        });
-
-        html += `</div></div>`;
-    });
-
-    html += `</div>`;
-
-    // --- BENTO GRID COMPATIBILITY ---
-    function filterModules(query) {
-        const q = query.toLowerCase();
-        const cards = document.querySelectorAll('.week-card');
-        cards.forEach(card => {
-            const text = card.innerText.toLowerCase();
-            card.style.display = text.includes(q) ? 'block' : 'none';
-            card.style.animation = 'fadeIn 0.5s forwards';
-        });
-    }
-
-    // Adding custom styles for HUD items
-    const horizonStyles = document.createElement('style');
-    horizonStyles.innerHTML = `
-    .vital-item { margin-bottom: 16px; font-family: 'JetBrains Mono'; font-size: 0.7rem; }
-    .vital-item .label { color: var(--text-muted); display: block; margin-bottom: 4px; }
-    .vital-item .value { font-size: 1.1rem; font-weight: 700; }
-    .vital-bar { width: 100%; height: 2px; background: rgba(255,255,255,0.05); margin-top: 8px; border-radius: 1px; }
-    .vital-bar .fill { height: 100%; background: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan); }
-    .lab-line { font-family: 'JetBrains Mono'; font-size: 0.7rem; padding: 4px 0; opacity: 0.8; }
-    .quick-link { padding: 8px 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 8px; font-family: 'JetBrains Mono'; font-size: 0.65rem; color: var(--text-secondary); cursor: pointer; transition: 0.3s; margin-bottom: 4px; }
-    .quick-link:hover { border-color: var(--accent-cyan); color: white; transform: translateX(5px); }
-`;
-    document.head.appendChild(horizonStyles);
-
-    // --- UI UTILS ---
-    function injectCustomStyles(id, css) {
-        if (!document.getElementById(id)) {
-            const style = document.createElement('style');
-            style.id = id;
-            style.innerHTML = css;
-            document.head.appendChild(style);
-        }
-    }
-
-    injectCustomStyles('library-styles', `
-    .resource-link:hover {
-        background: rgba(255,255,255,0.08) !important;
-        border-color: var(--accent-cyan) !important;
-        transform: translateX(5px);
-        color: white !important;
-    }
-`);
-    app.innerHTML = html;
-}
-
 // Show Progress Stats
-window.showMyProgress = () => {
-    const app = document.getElementById('app');
-    const title = document.getElementById('page-title');
-    if (title) title.innerText = "My Progress";
-
-    const unlocked = loadProgress().length;
-    const total = window.roadmap.reduce((acc, week) => acc + week.days.length, 0);
-    const percent = Math.round((unlocked / total) * 100);
-    const xp = window.Gamification ? window.Gamification.state.xp : 0;
-    const level = window.Gamification ? window.Gamification.state.level : 1;
-
-    app.innerHTML = `
-        <div style="max-width:800px; margin:0 auto; text-align:center;">
-            <div style="background:var(--bg-card); padding:40px; border-radius:16px; border:1px solid var(--border-subtle);">
-                <div style="font-size:4rem; margin-bottom:10px;">🏆</div>
-                <h2 style="margin-bottom:20px;">Your Journey</h2>
-                <div style="display:flex; justify-content:center; gap:40px; margin-bottom:30px;">
-                    <div>
-                        <div style="font-size:2rem; font-weight:800; color:var(--accent-primary);">${percent}%</div>
-                        <div style="color:var(--text-muted);">Completed</div>
-                    </div>
-                    <div>
-                        <div style="font-size:2rem; font-weight:800; color:var(--accent-cyan);">${xp}</div>
-                        <div style="color:var(--text-muted);">Total XP</div>
-                    </div>
-                    <div>
-                        <div style="font-size:2rem; font-weight:800; color:var(--warning);">${level}</div>
-                        <div style="color:var(--text-muted);">Level</div>
-                    </div>
-                </div>
-                <button onclick="renderRoadmap()" class="btn btn-primary">Continue Learning</button>
-            </div>
-        </div>
-    `;
-};
-
 function toggleTerminal() {
     const modal = document.getElementById('terminal-modal');
     if (modal) {
@@ -1680,10 +1767,6 @@ function showRoadmap() {
     if (splash) splash.classList.add('hidden');
 }
 
-function handleLogout() {
-    resetProgress();
-}
-
 function toggleChat() {
     const chatWindow = document.getElementById('chat-window');
     if (chatWindow) {
@@ -1701,10 +1784,8 @@ function toggleAuraSidebar() {
 
     if (grid) {
         grid.classList.toggle('aura-minimized');
-        if (grid.classList.contains('aura-minimized')) {
-            toggleIcon.innerText = '◧';
-        } else {
-            toggleIcon.innerText = '◨';
+        if (toggleIcon) {
+            toggleIcon.innerText = grid.classList.contains('aura-minimized') ? '◧' : '◨';
         }
     }
 }
@@ -1732,8 +1813,10 @@ function sendMessage(overrideText = null) {
     typingDiv.id = typingId;
     typingDiv.className = 'message bot-message typing-indicator';
     typingDiv.innerHTML = '<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>';
-    messagesContainer.appendChild(typingDiv);
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    if (messagesContainer) {
+        messagesContainer.appendChild(typingDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
 
     // Simulate Network/Processing Delay (0.8s to 2s)
     const delay = Math.floor(Math.random() * 1200) + 800;
@@ -1906,15 +1989,6 @@ try {
     console.log("[Forensic]: System Initializing...");
 
     // 1. Defined hooks first
-    window.onLoginSuccess = () => {
-        console.log("[Forensic]: Login Success Triggered.");
-        if (window.GuidedLoading) {
-            window.GuidedLoading.init();
-        } else {
-            window.bootApplication();
-        }
-    };
-
     window.onSystemReady = () => {
         console.log("[Forensic]: System Ready Triggered.");
         window.bootApplication();
@@ -2060,3 +2134,462 @@ function triggerNeuralSurge() {
         }, 1200);
     }, 10);
 }
+
+
+
+// ============================================================================
+// 💼 FEATURE 1: GITHUB PORTFOLIO GENERATOR
+// ============================================================================
+window.showPortfolioGenerator = () => {
+    const app = document.getElementById('app');
+    const title = document.getElementById('page-title');
+    if (title) title.innerText = "GitHub Portfolio Builder";
+
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+    app.innerHTML = `
+        <div class="portfolio-container" style="max-width: 1100px; margin: 0 auto; padding-bottom: 50px; animation: fadeIn 0.4s;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 20px;">
+                <div>
+                    <h2 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: 2.2rem; margin: 0;">💼 CAREER PORTFOLIO GENERATOR</h2>
+                    <div style="font-family: 'JetBrains Mono'; color: var(--text-muted); font-size: 0.85rem; margin-top: 6px;">
+                        Transform your completed lab exercises into a production-ready GitHub README project portfolio.
+                    </div>
+                </div>
+                <button onclick="window.copyPortfolioToClipboard()" class="btn-neural" style="padding: 10px 20px; font-family: 'Space Grotesk'; font-size: 0.9rem; background: var(--accent-cyan); color: #000; font-weight: 700;">
+                    📋 Copy Markdown
+                </button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 320px 1fr; gap: 30px;">
+                <!-- OPTIONS PANEL -->
+                <div class="glass-refractive" style="padding: 24px; border-radius: 16px; border: 1px solid rgba(6,182,212,0.3); height: fit-content;">
+                    <h4 style="font-family: 'Space Grotesk'; color: white; margin-top: 0; margin-bottom: 16px;">Configure Portfolio</h4>
+
+                    <label style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-cyan); display: block; margin-bottom: 6px;">PROJECT TRACK</label>
+                    <select id="port-track-select" onchange="window.updatePortfolioPreview()" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 8px; font-family: 'Space Grotesk'; margin-bottom: 16px;">
+                        <option value="sql_etl">Phase 2: Healthcare SQL ETL & ER Readmission Pipeline</option>
+                        <option value="stats_scipy">Phase 3: Clinical Trial Statistical Hypothesis Testing (SciPy)</option>
+                        <option value="ai_rag">Phase 4: Medical Imaging AI Assistant & RAG Knowledgebase</option>
+                    </select>
+
+                    <label style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-cyan); display: block; margin-bottom: 6px;">YOUR NAME</label>
+                    <input type="text" id="port-user-name" value="Data Analytics Specialist" onkeyup="window.updatePortfolioPreview()" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 8px; font-family: 'Space Grotesk'; margin-bottom: 16px;">
+
+                    <label style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-cyan); display: block; margin-bottom: 6px;">TARGET JOB ROLE</label>
+                    <input type="text" id="port-job-role" value="Healthcare Data Analyst / AI Engineer" onkeyup="window.updatePortfolioPreview()" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 8px; font-family: 'Space Grotesk'; margin-bottom: 16px;">
+
+                    <div style="background: rgba(6,182,212,0.1); border: 1px solid var(--accent-cyan); border-radius: 10px; padding: 12px; margin-top: 10px;">
+                        <span style="font-size: 0.75rem; font-family: 'JetBrains Mono'; color: var(--accent-cyan);">💡 PRO TIP: Paste this formatted Markdown directly into a new repository 'README.md' on GitHub to showcase to recruiters.</span>
+                    </div>
+                </div>
+
+                <!-- PREVIEW PANEL -->
+                <div class="glass-refractive" style="padding: 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.4);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <span style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--text-muted);">MARKDOWN_PREVIEW</span>
+                        <span id="port-copied-toast" style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--accent-cyan); display: none;">✓ Copied to Clipboard!</span>
+                    </div>
+                    <pre id="portfolio-markdown-output" style="white-space: pre-wrap; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; line-height: 1.6; color: #e2e8f0; background: #090d16; padding: 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); max-height: 550px; overflow-y: auto;"></pre>
+                </div>
+            </div>
+        </div>
+    `;
+
+    window.updatePortfolioPreview();
+    triggerHaptic('medium');
+};
+
+window.updatePortfolioPreview = () => {
+    const track = document.getElementById('port-track-select')?.value || 'sql_etl';
+    const name = document.getElementById('port-user-name')?.value || 'Data Analyst';
+    const role = document.getElementById('port-job-role')?.value || 'Healthcare Data Analytics Engineer';
+    const outputEl = document.getElementById('portfolio-markdown-output');
+
+    if (!outputEl) return;
+
+    let md = '';
+
+    if (track === 'sql_etl') {
+        md = `# 🏥 Healthcare ER Readmission SQL Pipeline & Analytics Dashboard
+**Author:** ${name}  
+**Target Role:** ${role}  
+**Repository:** [github.com/${name.toLowerCase().replace(/\s+/g, '')}/healthcare-sql-pipeline](https://github.com)
+
+## 📌 Executive Summary
+Designed and deployed a end-to-end relational SQL ETL pipeline and executive dashboard analyzing 10,000+ emergency room patient records. Identified key factors driving 30-day readmission rates, resulting in actionable recommendations that reduce hospital penalty risks by **18%**.
+
+## 🛠️ Technology Stack
+- **SQL / Relational DB:** PostgreSQL, CTEs, Window Functions (\`ROW_NUMBER()\`, \`DENSE_RANK()\`, \`LAG()\`)
+- **Python Data Science:** Pandas, NumPy, Matplotlib, Seaborn
+- **BI & Viz:** Power BI / Tableau Interactive Dashboard
+
+## 📊 Analytical Highlights & SQL Window Functions
+\`\`\`sql
+-- Query: 30-Day Patient Readmission Window Analysis
+WITH PatientVisits AS (
+    SELECT 
+        patient_id,
+        visit_date,
+        diagnosis_code,
+        LAG(visit_date, 1) OVER (PARTITION BY patient_id ORDER BY visit_date) AS prev_visit
+    FROM hospital_admissions
+)
+SELECT 
+    patient_id,
+    visit_date,
+    prev_visit,
+    (visit_date - prev_visit) AS days_between_visits,
+    CASE 
+        WHEN (visit_date - prev_visit) <= 30 THEN 1 
+        ELSE 0 
+    END AS is_30day_readmit
+FROM PatientVisits
+WHERE prev_visit IS NOT NULL;
+\`\`\`
+
+## 📈 Key Findings
+1. Patients with high Triage Scores (Level 4-5) had a **34% higher probability** of readmission within 14 days without follow-up tele-health calls.
+2. Implemented automated SQL trigger alerts for high-risk chronic care patient discharges.
+`;
+    } else if (track === 'stats_scipy') {
+        md = `# 🧪 Clinical Trial Statistical Analysis & Hypothesis Testing (SciPy)
+**Author:** ${name}  
+**Target Role:** ${role}  
+
+## 📌 Project Overview
+Statistical evaluation of drug efficacy data across 500 patient cohorts using **SciPy.stats** and hypothesis testing. Verified treatment response significance ($p < 0.05$) across control vs experimental drug dosages.
+
+## 🔬 Statistical Methodology
+- **Normality Check:** Shapiro-Wilk Test (\`scipy.stats.shapiro\`)
+- **2-Sample Independent T-Test:** \`scipy.stats.ttest_ind(equal_var=False)\`
+- **Categorical Independence:** Chi-Square Test (\`scipy.stats.chi2_contingency\`)
+
+\`\`\`python
+import numpy as np
+from scipy import stats
+
+# Clinical Trial Blood Pressure Data (mmHg Drop)
+control_group = np.random.normal(loc=4.2, scale=2.1, size=150)
+treatment_group = np.random.normal(loc=12.8, scale=2.4, size=150)
+
+# Execute 2-Sample T-Test
+t_stat, p_val = stats.ttest_ind(treatment_group, control_group)
+print(f"T-Statistic: {t_stat:.4f} | P-Value: {p_val:.4e}")
+
+if p_val < 0.05:
+    print("Conclusion: Reject H0 — Statistically significant blood pressure reduction achieved!")
+\`\`\`
+`;
+    } else {
+        md = `# 🤖 Medical Diagnostic AI Assistant & RAG Vector Knowledgebase
+**Author:** ${name}  
+**Target Role:** ${role}  
+
+## 📌 Architecture Summary
+Built a Retrieval-Augmented Generation (RAG) assistant leveraging LLMs, vector embeddings (Cosine Similarity), and PyTorch for clinical documentation lookup and diagnostic support.
+
+## 🧠 Model Pipeline
+- **Embedding Model:** Sentence-Transformers (\`all-MiniLM-L6-v2\`)
+- **Vector Database:** FAISS / Chromadb
+- **LLM Engine:** Open-Source Transformer Pipeline
+
+\`\`\`python
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+
+# Vector Embeddings Cosine Distance Query
+def query_clinical_knowledgebase(query_vector, doc_vectors):
+    similarities = cosine_similarity([query_vector], doc_vectors)[0]
+    top_k_idx = np.argsort(similarities)[::-1][:3]
+    return top_k_idx
+\`\`\`
+`;
+    }
+
+    outputEl.innerText = md;
+};
+
+window.copyPortfolioToClipboard = () => {
+    const outputEl = document.getElementById('portfolio-markdown-output');
+    if (!outputEl) return;
+    navigator.clipboard.writeText(outputEl.innerText).then(() => {
+        const toast = document.getElementById('port-copied-toast');
+        if (toast) {
+            toast.style.display = 'inline';
+            setTimeout(() => toast.style.display = 'none', 2500);
+        }
+        triggerHaptic('medium');
+    });
+};
+
+// ============================================================================
+// 📐 FEATURE 2: INSTANT FORMULA & CODE CHEAT-SHEET MATRIX
+// ============================================================================
+window.showCheatSheetModal = () => {
+    let overlay = document.getElementById('cheat-sheet-modal-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'cheat-sheet-modal-overlay';
+        overlay.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(15px);
+            z-index: 10000; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.3s;
+        `;
+        document.body.appendChild(overlay);
+    }
+
+    overlay.classList.remove('hidden');
+
+    overlay.innerHTML = `
+        <div class="glass-refractive" style="width: 90%; max-width: 950px; max-height: 85vh; background: #0a0f1d; border: 1px solid rgba(6,182,212,0.4); border-radius: 20px; padding: 30px; display: flex; flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,0.8); position: relative;">
+            <button onclick="document.getElementById('cheat-sheet-modal-overlay').classList.add('hidden')" style="position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer;">✕</button>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 15px;">
+                <div>
+                    <h3 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: 1.8rem; margin: 0;">📐 ULTIMATE FORMULA & CODE CHEAT-SHEET</h3>
+                    <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-cyan); margin-top: 4px;">// Instant copyable reference for SQL, Excel, Python & Healthcare Stats</div>
+                </div>
+                <input type="text" id="cs-search-input" placeholder="Search formulas (e.g. XLOOKUP, CTE, T-Test)..." onkeyup="window.filterCheatSheet(this.value)" style="width: 300px; padding: 8px 14px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-family: 'Space Grotesk'; outline: none;">
+            </div>
+
+            <!-- TABS -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; overflow-x: auto;">
+                <button class="cs-tab btn-neural active" onclick="window.switchCheatTab('sql')" style="padding: 6px 14px; font-size: 0.8rem;">SQL Mastery</button>
+                <button class="cs-tab btn-neural" onclick="window.switchCheatTab('excel')" style="padding: 6px 14px; font-size: 0.8rem;">Excel & Formulas</button>
+                <button class="cs-tab btn-neural" onclick="window.switchCheatTab('python')" style="padding: 6px 14px; font-size: 0.8rem;">Python & Pandas</button>
+                <button class="cs-tab btn-neural" onclick="window.switchCheatTab('stats')" style="padding: 6px 14px; font-size: 0.8rem;">SciPy Stats</button>
+                <button class="cs-tab btn-neural" onclick="window.switchCheatTab('ai')" style="padding: 6px 14px; font-size: 0.8rem;">AI & GenAI</button>
+            </div>
+
+            <!-- CONTENT BODY -->
+            <div id="cheat-sheet-body" style="flex: 1; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 16px; padding-right: 8px;">
+            </div>
+        </div>
+    `;
+
+    window.switchCheatTab('sql');
+    triggerHaptic('medium');
+};
+
+const cheatSheetData = {
+    sql: [
+        { title: "Window Function (ROW_NUMBER & PARTITION)", code: "SELECT patient_id, visit_date,\n       ROW_NUMBER() OVER (PARTITION BY patient_id ORDER BY visit_date DESC) as visit_rank\nFROM hospital_admissions;" },
+        { title: "Common Table Expression (CTE)", code: "WITH HighRisk AS (\n    SELECT patient_id, COUNT(*) as visit_count\n    FROM admissions GROUP BY patient_id\n    HAVING COUNT(*) >= 3\n)\nSELECT * FROM HighRisk WHERE visit_count > 5;" },
+        { title: "SQL LEFT JOIN with Aggregation", code: "SELECT p.dept_name, COUNT(a.id) as total_admissions, AVG(a.cost) as avg_cost\nFROM departments p\nLEFT JOIN admissions a ON p.id = a.dept_id\nGROUP BY p.dept_name;" }
+    ],
+    excel: [
+        { title: "XLOOKUP (Modern Lookup)", code: "=XLOOKUP(lookup_val, A2:A100, B2:B100, 'Not Found', 0)" },
+        { title: "INDEX / MATCH Combination", code: "=INDEX(C2:C100, MATCH(lookup_val, A2:A100, 0))" },
+        { title: "SUMIFS Multi-Condition", code: "=SUMIFS(CostRange, DeptRange, 'Cardiology', StatusRange, 'Admitted')" }
+    ],
+    python: [
+        { title: "Pandas GroupBy & Multi-Aggregation", code: "df.groupby('department').agg(\n    avg_readmission=('readmitted', 'mean'),\n    total_patients=('patient_id', 'count')\n).reset_index()" },
+        { title: "Pandas Merge (SQL JOIN equivalent)", code: "df_combined = pd.merge(df_patients, df_visits, on='patient_id', how='left')" },
+        { title: "Missing Data Handling", code: "df['age'] = df['age'].fillna(df['age'].median())" }
+    ],
+    stats: [
+        { title: "2-Sample Independent T-Test", code: "from scipy import stats\nt_stat, p_val = stats.ttest_ind(group_a, group_b, equal_var=False)" },
+        { title: "Chi-Square Test of Independence", code: "res = stats.chi2_contingency(contingency_table)\nprint(f'P-value: {res.pvalue:.4f}')" },
+        { title: "ANOVA (One-Way)", code: "f_val, p_val = stats.f_oneway(group1, group2, group3)" }
+    ],
+    ai: [
+        { title: "Scikit-Learn Train/Test & Random Forest", code: "from sklearn.ensemble import RandomForestClassifier\nfrom sklearn.model_selection import train_test_split\n\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)\nclf = RandomForestClassifier().fit(X_train, y_train)\nprint(f'Accuracy: {clf.score(X_test, y_test):.2f}')" },
+        { title: "Cosine Similarity Vector Search", code: "from sklearn.metrics.pairwise import cosine_similarity\nsim = cosine_similarity([query_embedding], document_embeddings)[0]" }
+    ]
+};
+
+window.switchCheatTab = (tabKey) => {
+    document.querySelectorAll('.cs-tab').forEach(btn => btn.classList.remove('active'));
+    const body = document.getElementById('cheat-sheet-body');
+    if (!body) return;
+
+    const items = cheatSheetData[tabKey] || [];
+    body.innerHTML = items.map(item => `
+        <div class="glass-refractive" style="padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span style="font-family: 'Space Grotesk'; font-weight: 700; color: white; font-size: 0.9rem;">${item.title}</span>
+                <button onclick="navigator.clipboard.writeText('${item.code}'); triggerHaptic('light'); alert('Copied snippet!');" style="padding: 4px 10px; font-family: 'JetBrains Mono'; font-size: 0.7rem; background: rgba(6,182,212,0.2); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); border-radius: 6px; cursor: pointer;">📋 Copy</button>
+            </div>
+            <pre style="font-family: 'JetBrains Mono'; font-size: 0.78rem; background: #050811; color: #38bdf8; padding: 12px; border-radius: 8px; margin: 0; white-space: pre-wrap; overflow-x: auto;">${item.code}</pre>
+        </div>
+    `).join('');
+};
+
+window.filterCheatSheet = (query) => {
+    query = query.toLowerCase();
+    const body = document.getElementById('cheat-sheet-body');
+    if (!body) return;
+
+    let allItems = [];
+    Object.keys(cheatSheetData).forEach(k => allItems.push(...cheatSheetData[k]));
+    const filtered = allItems.filter(i => i.title.toLowerCase().includes(query) || i.code.toLowerCase().includes(query));
+
+    body.innerHTML = filtered.map(item => `
+        <div class="glass-refractive" style="padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span style="font-family: 'Space Grotesk'; font-weight: 700; color: white; font-size: 0.9rem;">${item.title}</span>
+                <button onclick="navigator.clipboard.writeText('${item.code}'); triggerHaptic('light'); alert('Copied snippet!');" style="padding: 4px 10px; font-family: 'JetBrains Mono'; font-size: 0.7rem; background: rgba(6,182,212,0.2); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); border-radius: 6px; cursor: pointer;">📋 Copy</button>
+            </div>
+            <pre style="font-family: 'JetBrains Mono'; font-size: 0.78rem; background: #050811; color: #38bdf8; padding: 12px; border-radius: 8px; margin: 0; white-space: pre-wrap; overflow-x: auto;">${item.code}</pre>
+        </div>
+    `).join('');
+};
+
+// ============================================================================
+// 🧪 FEATURE 3: INTERACTIVE DATA STUDIO & CSV PLAYGROUND
+// ============================================================================
+window.showDataStudio = () => {
+    const app = document.getElementById('app');
+    const title = document.getElementById('page-title');
+    if (title) title.innerText = "Data Studio & CSV Playground";
+
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+    app.innerHTML = `
+        <div class="datastudio-container" style="max-width: 1150px; margin: 0 auto; padding-bottom: 50px; animation: fadeIn 0.4s;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px;">
+                <div>
+                    <h2 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: 2.2rem; margin: 0;">🧪 INTERACTIVE DATA STUDIO</h2>
+                    <div style="font-family: 'JetBrains Mono'; color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">
+                        Explore, filter, and run live Python queries against healthcare datasets.
+                    </div>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <button onclick="window.sendDataToKernel()" class="btn-neural" style="padding: 10px 18px; font-family: 'Space Grotesk'; font-size: 0.85rem; border-color: var(--accent-violet); color: var(--accent-violet);">
+                        ⚡ Run Pandas in Code Kernel
+                    </button>
+                </div>
+            </div>
+
+            <!-- DATASET SELECTOR & METRICS -->
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;">
+                <div class="glass-refractive" style="padding: 16px; border-radius: 12px; border: 1px solid rgba(6,182,212,0.3);">
+                    <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--accent-cyan);">ACTIVE_DATASET</div>
+                    <select id="ds-selector" onchange="window.loadStudioDataset(this.value)" style="width: 100%; margin-top: 8px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 6px; border-radius: 6px; font-family: 'Space Grotesk'; font-size: 0.85rem;">
+                        <option value="ehr">🏥 EHR Emergency Patients (100 Rows)</option>
+                        <option value="bp">💊 Blood Pressure Drug Trial (50 Rows)</option>
+                        <option value="claims">💰 Hospital Billing Claims (60 Rows)</option>
+                    </select>
+                </div>
+                <div class="glass-refractive" style="padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                    <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">TOTAL_RECORDS</div>
+                    <div id="ds-metric-records" style="font-family: 'Space Grotesk'; font-size: 1.8rem; font-weight: 700; color: white; margin-top: 4px;">100</div>
+                </div>
+                <div class="glass-refractive" style="padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                    <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">MISSING_VALUES</div>
+                    <div id="ds-metric-missing" style="font-family: 'Space Grotesk'; font-size: 1.8rem; font-weight: 700; color: var(--accent-pink); margin-top: 4px;">0 (Clean)</div>
+                </div>
+                <div class="glass-refractive" style="padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                    <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">IN_MEMORY_SIZE</div>
+                    <div style="font-family: 'Space Grotesk'; font-size: 1.8rem; font-weight: 700; color: var(--accent-violet); margin-top: 4px;">14.2 KB</div>
+                </div>
+            </div>
+
+            <!-- TABLE CONTAINER -->
+            <div class="glass-refractive" style="padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.3);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <span style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--accent-cyan);">// DATASET_VIEWER</span>
+                    <input type="text" placeholder="Filter rows in real-time..." onkeyup="window.filterStudioTable(this.value)" style="padding: 6px 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white; font-family: 'Space Grotesk'; font-size: 0.85rem; width: 250px;">
+                </div>
+                <div id="ds-table-wrapper" style="overflow-x: auto; max-height: 420px; overflow-y: auto;">
+                </div>
+            </div>
+        </div>
+    `;
+
+    window.loadStudioDataset('ehr');
+    triggerHaptic('medium');
+};
+
+const studioDatasets = {
+    ehr: [
+        { id: 101, patient_id: "P-492", age: 64, triage_level: 4, wait_min: 45, dept: "Cardiology", readmitted: "YES" },
+        { id: 102, patient_id: "P-118", age: 42, triage_level: 2, wait_min: 12, dept: "Trauma", readmitted: "NO" },
+        { id: 103, patient_id: "P-883", age: 71, triage_level: 5, wait_min: 90, dept: "Neurology", readmitted: "YES" },
+        { id: 104, patient_id: "P-304", age: 35, triage_level: 1, wait_min: 8, dept: "General", readmitted: "NO" },
+        { id: 105, patient_id: "P-752", age: 58, triage_level: 3, wait_min: 30, dept: "Cardiology", readmitted: "YES" }
+    ],
+    bp: [
+        { trial_id: "T-01", group: "Placebo", baseline_bp: 142, week4_bp: 140, drop_mmHg: 2 },
+        { trial_id: "T-02", group: "Treatment_10mg", baseline_bp: 145, week4_bp: 128, drop_mmHg: 17 },
+        { trial_id: "T-03", group: "Treatment_20mg", baseline_bp: 150, week4_bp: 122, drop_mmHg: 28 },
+        { trial_id: "T-04", group: "Placebo", baseline_bp: 138, week4_bp: 137, drop_mmHg: 1 }
+    ],
+    claims: [
+        { claim_id: "CLM-901", icd_code: "I10", billed_amount: 1450.00, approved_amount: 1200.00, status: "APPROVED" },
+        { claim_id: "CLM-902", icd_code: "E11.9", billed_amount: 2800.00, approved_amount: 0.00, status: "DENIED" },
+        { claim_id: "CLM-903", icd_code: "J45.909", billed_amount: 980.00, approved_amount: 950.00, status: "APPROVED" }
+    ]
+};
+
+window.loadStudioDataset = (key) => {
+    const data = studioDatasets[key] || studioDatasets.ehr;
+    const recordsEl = document.getElementById('ds-metric-records');
+    const wrapper = document.getElementById('ds-table-wrapper');
+
+    if (recordsEl) recordsEl.innerText = data.length;
+
+    if (!data || data.length === 0 || !wrapper) return;
+
+    const cols = Object.keys(data[0]);
+
+    wrapper.innerHTML = `
+        <table class="studio-table" style="width: 100%; border-collapse: collapse; font-family: 'Space Grotesk'; font-size: 0.85rem;">
+            <thead>
+                <tr style="background: rgba(6,182,212,0.15); border-bottom: 1px solid var(--accent-cyan); text-align: left;">
+                    ${cols.map(c => `<th style="padding: 10px 14px; color: var(--accent-cyan); font-family: 'JetBrains Mono';">${c.toUpperCase()}</th>`).join('')}
+                </tr>
+            </thead>
+            <tbody id="ds-tbody">
+                ${data.map((row, idx) => `
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); background: ${idx % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent'}; transition: background 0.2s;" onmouseover="this.style.background='rgba(6,182,212,0.08)'" onmouseout="this.style.background='${idx % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent'}'">
+                        ${cols.map(c => `<td style="padding: 10px 14px; color: white;">${row[c]}</td>`).join('')}
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+};
+
+window.filterStudioTable = (query) => {
+    query = query.toLowerCase();
+    const tbody = document.getElementById('ds-tbody');
+    if (!tbody) return;
+
+    const rows = tbody.querySelectorAll('tr');
+    rows.forEach(r => {
+        const text = r.innerText.toLowerCase();
+        r.style.display = text.includes(query) ? '' : 'none';
+    });
+};
+
+window.sendDataToKernel = () => {
+    const selector = document.getElementById('ds-selector');
+    const key = selector ? selector.value : 'ehr';
+    const data = studioDatasets[key] || studioDatasets.ehr;
+
+    const sampleCode = `# Auto-Generated Pandas Code for Dataset '${key.toUpperCase()}'
+import pandas as pd
+import numpy as np
+
+# Load dataset into Pandas DataFrame
+data = ${JSON.stringify(data, null, 4)}
+
+df = pd.DataFrame(data)
+
+print("=== DATASET OVERVIEW ===")
+print(df.info())
+
+print("\n=== SUMMARY STATISTICS ===")
+print(df.describe(include='all'))
+`;
+
+    window.toggleTerminal();
+    setTimeout(() => {
+        if (window.PythonEngine && PythonEngine.editor) {
+            PythonEngine.editor.setValue(sampleCode);
+            triggerHaptic('medium');
+        }
+    }, 400);
+};
