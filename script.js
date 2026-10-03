@@ -1899,15 +1899,24 @@ function generateBotResponse(userMsg, context) {
 function unlockNextDay(currentDayId) {
     const progress = window.StorageHub.load('datavitals_progress_default', {});
     progress[currentDayId] = true;
-    window.StorageHub.save('datavitals_progress_default', progress);
+    if (window.StorageHub && window.StorageHub.save) {
+        window.StorageHub.save('datavitals_progress_default', progress);
+    } else {
+        try { localStorage.setItem('datavitals_progress_default', JSON.stringify(progress)); } catch(e) {}
+    }
     return "Next Module Decrypted Successfully.";
 }
 
 function loadProgress() {
-    // Returns an object like { 'week-1-d1': true, 'week-1-d2': true }
-    // Initialize with 'week-1-d1' if no progress is found
-    const storedProgress = window.StorageHub.load('datavitals_progress_default', { 'week-1-d1': true });
-    return storedProgress;
+    if (window.StorageHub && window.StorageHub.load) {
+        return window.StorageHub.load('datavitals_progress_default', { 'week-1-d1': true });
+    }
+    try {
+        const raw = localStorage.getItem('datavitals_progress_default');
+        return raw ? JSON.parse(raw) : { 'week-1-d1': true };
+    } catch(e) {
+        return { 'week-1-d1': true };
+    }
 }
 
 function handleLogout() {
