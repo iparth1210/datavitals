@@ -391,6 +391,42 @@ const AudioEngine = {
             osc.start(now);
             osc.stop(now + 0.1);
         }
+    },
+    playSuccessChime() {
+        try {
+            this.init();
+            const now = this.ctx.currentTime;
+            const notes = [523.25, 659.25, 783.99, 1046.50];
+            notes.forEach((freq, idx) => {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+                gain.gain.setValueAtTime(0.08, now + idx * 0.08);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.08 + 0.3);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now + idx * 0.08);
+                osc.stop(now + idx * 0.08 + 0.35);
+            });
+        } catch(e) {}
+    },
+    playErrorTone() {
+        try {
+            this.init();
+            const now = this.ctx.currentTime;
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(220, now);
+            osc.frequency.linearRampToValueAtTime(140, now + 0.18);
+            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.22);
+        } catch(e) {}
     }
 };
 
@@ -1448,6 +1484,9 @@ function renderLesson(lessonId, dayId) {
     if (!lesson) return;
 
     window.activeLessonContext = lesson; // AURA AI CONTEXT HOOK
+    if (window.AudioBriefing && window.AudioBriefing.isPlaying) {
+        window.AudioBriefing.stop();
+    }
 
     const isPythonLesson = lesson.type === 'python';
 
@@ -1468,6 +1507,9 @@ function renderLesson(lessonId, dayId) {
                 <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
                     <button onclick="window.toggleMobileCurriculumDrawer()" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.72rem; padding: 4px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; border-color: var(--accent-cyan); color: var(--accent-cyan);">
                         <span>☰</span> 52 WEEKS
+                    </button>
+                    <button id="lesson-audio-btn" onclick="window.toggleAudioBriefing()" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.72rem; padding: 4px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; border-color: var(--accent-pink); color: var(--accent-pink);" title="Listen to AI Audio Briefing">
+                        <span id="audio-icon">🎧</span> <span id="audio-btn-label">Audio Briefing</span>
                     </button>
                     <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-cyan);">NODE_ID: ${lesson.id} // MISSION_STATUS: ACTIVE</span>
                 </div>
@@ -1519,6 +1561,9 @@ function renderLesson(lessonId, dayId) {
                             </div>
                         </div>
                     </div>
+
+                    <!-- CLINICAL KNOWLEDGE CHECK CARD (v14.0) -->
+                    ${(typeof renderQuizCard === 'function') ? renderQuizCard(lesson) : ''}
                 </div>
 
                 <!-- 30% INTERACTIVE LAB -->
@@ -2504,13 +2549,32 @@ window.showDataStudio = () => {
                 </div>
             </div>
 
-            <!-- TABLE CONTAINER -->
+            <!-- TABLE & CHART CONTAINER (v14.0) -->
             <div class="glass-refractive" style="padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.3);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                    <span style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--accent-cyan);">// DATASET_VIEWER</span>
-                    <input type="text" placeholder="Filter rows in real-time..." onkeyup="window.filterStudioTable(this.value)" style="padding: 6px 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white; font-family: 'Space Grotesk'; font-size: 0.85rem; width: 250px;">
+                <!-- VIEW SWITCHER BUTTONS -->
+                <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                    <button id="ds-tab-table" onclick="window.setStudioView('table')" class="btn-neural" style="padding: 6px 16px; font-size: 0.8rem; border-radius: 8px; background: rgba(6,182,212,0.15); border-color: var(--accent-cyan); color: var(--accent-cyan);">
+                        📋 Data Table
+                    </button>
+                    <button id="ds-tab-chart" onclick="window.setStudioView('chart')" class="btn-neural" style="padding: 6px 16px; font-size: 0.8rem; border-radius: 8px; border-color: rgba(255,255,255,0.1); color: var(--text-muted);">
+                        📊 Interactive SVG Chart
+                    </button>
                 </div>
-                <div id="ds-table-wrapper" style="overflow-x: auto; max-height: 420px; overflow-y: auto;">
+
+                <!-- TABLE VIEW -->
+                <div id="ds-view-table">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+                        <span style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--accent-cyan);">// DATASET_VIEWER</span>
+                        <input type="text" placeholder="Filter rows in real-time..." onkeyup="window.filterStudioTable(this.value)" style="padding: 6px 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white; font-family: 'Space Grotesk'; font-size: 0.85rem; width: 250px;">
+                    </div>
+                    <div id="ds-table-wrapper" style="overflow-x: auto; max-height: 420px; overflow-y: auto;">
+                    </div>
+                </div>
+
+                <!-- CHART VIEW -->
+                <div id="ds-view-chart" style="display: none;">
+                    <div id="ds-chart-wrapper" class="studio-chart-wrapper">
+                    </div>
                 </div>
             </div>
         </div>
@@ -2568,6 +2632,10 @@ window.loadStudioDataset = (key) => {
             </tbody>
         </table>
     `;
+
+    if (window.renderStudioChart) {
+        window.renderStudioChart(key);
+    }
 };
 
 window.filterStudioTable = (query) => {
