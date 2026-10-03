@@ -1463,16 +1463,15 @@ function renderLesson(lessonId, dayId) {
     app.innerHTML = `
         <div class="lesson-container" style="max-width: 1400px; margin: 0 auto; animation: fadeIn 0.4s;">
 
-            <!-- TOP ACTION NAV BAR -->
-            <div class="lesson-top-bar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                <button onclick="renderRoadmap('${parentWeekId}')" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.8rem; padding: 8px 16px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px;">
-                    <span>←</span> BACK_TO_CURRICULUM
-                </button>
-
-                <div style="flex: 1; margin-left: 24px;">
-                    <h2 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: 1.8rem; margin: 0; font-weight: 700;">${lesson.title}</h2>
-                    <span style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--accent-cyan);">NODE_ID: ${lesson.id} // MISSION_STATUS: ACTIVE</span>
+            <!-- TOP ACTION NAV BAR (FLUID RESPONSIVE) -->
+            <div class="lesson-top-bar" style="display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 20px; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                    <button onclick="window.toggleMobileCurriculumDrawer()" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.72rem; padding: 4px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; border-color: var(--accent-cyan); color: var(--accent-cyan);">
+                        <span>☰</span> 52 WEEKS
+                    </button>
+                    <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-cyan);">NODE_ID: ${lesson.id} // MISSION_STATUS: ACTIVE</span>
                 </div>
+                <h2 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: clamp(1.4rem, 4.5vw, 2.2rem); margin: 4px 0 0 0; font-weight: 700; line-height: 1.25; word-break: break-word; max-width: 100%;">${lesson.title}</h2>
             </div>
 
             <div class="lesson-main-layout" style="display: grid; grid-template-columns: 7fr 3fr; gap: 32px; min-height: 600px;">

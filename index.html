@@ -35,9 +35,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="QuantumField.js"></script>
     <script src="AuraVisual.js"></script>
-    <link rel="stylesheet" href="style.css?v=10.0">
+    <link rel="stylesheet" href="style.css?v=11.0">
     <!-- MUST BE LAST TO OVERRIDE ALL LEGACY GRIDS -->
-    <link rel="stylesheet" href="HorizonLayout.css?v=10.0">
+    <link rel="stylesheet" href="HorizonLayout.css?v=11.0">
 </head>
 
 <body>
@@ -239,13 +239,13 @@
     <script src="roadmap.js"></script>
     <script src="library_data.js"></script>
     <script src="modules.js"></script>
-    <script src="gamification.js?v=10.0"></script>
+    <script src="gamification.js?v=11.0"></script>
     <script src="python_engine.js"></script>
     <script src="NarrativeEngine.js"></script>
     <script src="LoginOverlay.js"></script>
     <script src="GuidedLoading.js"></script>
-    <script src="SpotlightTour.js?v=10.0"></script>
-    <script src="script.js?v=10.0"></script>
+    <script src="SpotlightTour.js?v=11.0"></script>
+    <script src="script.js?v=11.0"></script>
     <!-- COMMAND PALETTE (Cmd+K) -->
     <div id="cmd-palette-overlay" class="hidden" style="display: none !important; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100000; backdrop-filter: blur(10px); justify-content: center; align-items: flex-start; padding-top: 15vh;">
         <div class="cmd-palette glass-refractive" style="width: 600px; max-width: 90%; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1); background: rgba(10, 15, 25, 0.8);">
@@ -263,16 +263,22 @@
     <!-- MOBILE BOTTOM APP NAVIGATION & DRAWER BACKDROP -->
     <div id="mobile-drawer-backdrop" onclick="window.toggleMobileCurriculumDrawer(false)" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 99994;"></div>
 
-    <!-- MOBILE FLOATING UP/DOWN LESSON SLIDER -->
+    <!-- MOBILE FLOATING UP/DOWN LESSON & SCROLL SLIDER -->
     <div id="mobile-floating-slider" class="mobile-slider-container">
+        <button class="mobile-slide-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Scroll to Top">
+            ⬆ Top
+        </button>
         <button class="mobile-slide-btn" onclick="window.navigateLessonStep(-1)" title="Previous Day">
-            ▲ Prev
+            ◀ Prev
         </button>
         <button class="mobile-slide-btn drawer-toggle-pill" onclick="window.toggleMobileCurriculumDrawer()">
-            ☰ 52 WEEKS (SLIDE)
+            ☰ 52 WEEKS
         </button>
         <button class="mobile-slide-btn" onclick="window.navigateLessonStep(1)" title="Next Day">
-            Next ▼
+            Next ▶
+        </button>
+        <button class="mobile-slide-btn" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})" title="Scroll Down">
+            ⬇ Down
         </button>
     </div>
 
