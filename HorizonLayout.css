@@ -254,3 +254,164 @@ body {
     visibility: hidden !important;
     z-index: -99999 !important;
 }
+
+
+/* ============================================================================
+ * 📱 NATIVE-APP MOBILE UX/UI TRANSFORMATION ENGINE (v9.0)
+ * ============================================================================ */
+#mobile-bottom-nav {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    /* 1. Full Viewport Mobile Flow */
+    body {
+        overflow-x: hidden !important;
+        position: relative !important;
+    }
+
+    .bento-grid {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+        height: auto !important;
+    }
+
+    /* 2. Hero Learning Workspace is FIRST and FULL-WIDTH */
+    .card-hero {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+        padding: 16px !important;
+        padding-bottom: 95px !important; /* Space for Bottom Nav Bar */
+        min-height: 100vh !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 3. Mobile Header */
+    .workspace-header {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+        margin-bottom: 18px !important;
+        padding-bottom: 14px !important;
+    }
+
+    #page-title {
+        font-size: 1.6rem !important;
+    }
+
+    .workspace-header > div {
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+    }
+
+    .search-bar {
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 4. Native App Bottom Navigation Bar */
+    #mobile-bottom-nav {
+        display: flex !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 68px !important;
+        background: rgba(8, 13, 26, 0.95) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        border-top: 1px solid rgba(6, 182, 212, 0.3) !important;
+        z-index: 99990 !important;
+        justify-content: space-around !important;
+        align-items: center !important;
+        padding: 4px 6px !important;
+        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.9) !important;
+        box-sizing: border-box !important;
+    }
+
+    .mob-nav-btn {
+        flex: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: transparent !important;
+        border: none !important;
+        color: var(--text-muted) !important;
+        padding: 6px 0 !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        outline: none !important;
+    }
+
+    .mob-nav-btn.active, .mob-nav-btn:active {
+        color: var(--accent-cyan) !important;
+        transform: scale(1.05) !important;
+    }
+
+    .mob-icon {
+        font-size: 1.3rem !important;
+        line-height: 1 !important;
+        margin-bottom: 2px !important;
+    }
+
+    .mob-label {
+        font-family: 'Space Grotesk', sans-serif !important;
+        font-size: 0.72rem !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.5px !important;
+    }
+
+    /* 5. Mobile Slide-Up Action Sheet Drawer for Curriculum */
+    .card-sidebar {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 82vh !important;
+        max-height: 82vh !important;
+        border-radius: 24px 24px 0 0 !important;
+        border-top: 2px solid var(--accent-cyan) !important;
+        background: #090e1c !important;
+        box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.95) !important;
+        z-index: 99995 !important;
+        transform: translateY(105%) !important;
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        box-sizing: border-box !important;
+    }
+
+    .card-sidebar.mobile-open {
+        transform: translateY(0%) !important;
+    }
+
+    /* 6. Touch-Friendly Lesson Quad Track & Tables */
+    .quad-track {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    .track-section {
+        padding: 16px !important;
+    }
+
+    .lesson-main-layout {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    /* Table horizontal scroll container */
+    .data-table-container, .studio-table-container {
+        width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+}

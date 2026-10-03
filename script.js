@@ -520,6 +520,9 @@ function handleSidebarClick(weekId, dayId, lessonId, e) {
     });
 
     renderLesson(lessonId, dayId);
+    if (window.innerWidth <= 768 && window.toggleMobileCurriculumDrawer) {
+        window.toggleMobileCurriculumDrawer(false);
+    }
 }
 
 function loadDashboardCore() {
@@ -2701,4 +2704,33 @@ window.dismissWelcomeAndBoot = () => {
     const welcome = document.getElementById('welcome-portal-overlay');
     if (welcome) welcome.remove();
     window.bootApplication();
+};
+
+
+
+// ============================================================================
+// 📱 MOBILE DRAWER & BOTTOM NAV CONTROLLERS (v9.0)
+// ============================================================================
+window.toggleMobileCurriculumDrawer = (forceState) => {
+    const sidebar = document.querySelector('.card-sidebar');
+    const backdrop = document.getElementById('mobile-drawer-backdrop');
+    if (!sidebar) return;
+
+    const isOpen = sidebar.classList.contains('mobile-open');
+    const shouldOpen = forceState !== undefined ? forceState : !isOpen;
+
+    if (shouldOpen) {
+        sidebar.classList.add('mobile-open');
+        if (backdrop) backdrop.style.display = 'block';
+    } else {
+        sidebar.classList.remove('mobile-open');
+        if (backdrop) backdrop.style.display = 'none';
+    }
+    triggerHaptic('light');
+};
+
+window.showActiveLessonMobile = () => {
+    window.toggleMobileCurriculumDrawer(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    triggerHaptic('light');
 };
