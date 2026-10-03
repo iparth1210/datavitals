@@ -775,3 +775,16 @@ body.zen-focus .focus-spotlight {
     box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
     border-color: var(--accent-cyan);
 }
+
+/* HARDWARE OVERLAY KILLER RULE (V8.5) */
+#cmd-palette-overlay.hidden,
+#quantum-login-terminal.hidden,
+#quantum-narrative-overlay.hidden,
+#splash-screen.hidden,
+.hidden {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    z-index: -99999 !important;
+}

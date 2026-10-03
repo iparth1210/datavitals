@@ -4,3 +4,16 @@
 */
 
 @import url('../design_system.css');
+
+/* HARDWARE OVERLAY KILLER RULE (V8.5) */
+#cmd-palette-overlay.hidden,
+#quantum-login-terminal.hidden,
+#quantum-narrative-overlay.hidden,
+#splash-screen.hidden,
+.hidden {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    z-index: -99999 !important;
+}
