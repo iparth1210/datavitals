@@ -931,6 +931,7 @@ function toggleCommandPalette() {
 
     if (overlay.classList.contains('hidden')) {
         overlay.classList.remove('hidden');
+        overlay.style.display = 'flex';
         if (input) {
             input.value = '';
             setTimeout(() => input.focus(), 50);
@@ -939,6 +940,7 @@ function toggleCommandPalette() {
         triggerHaptic('medium');
     } else {
         overlay.classList.add('hidden');
+        overlay.style.display = 'none';
         triggerHaptic('light');
     }
 }
@@ -2004,15 +2006,14 @@ try {
     // 4. Component Boot
     if (window.loginOverlay) window.loginOverlay.init();
 
-    // 5. Delayed Narrative Entry
+    // 5. Initial Entry Point: Show Welcome Portal
     setTimeout(() => {
         const splash = document.getElementById('splash-screen');
         if (splash) splash.remove();
 
-        if (window.NarrativeEngine) {
-            window.NarrativeEngine.init();
-        }
-    }, 500);
+        // Launch Welcome Screen
+        window.showWelcomePortal();
+    }, 300);
 
 } catch (e) {
     console.error("Critical System Failure:", e);
@@ -2592,4 +2593,94 @@ print(df.describe(include='all'))
             triggerHaptic('medium');
         }
     }, 400);
+};
+
+
+
+// ============================================================================
+// 🏆 WELCOME PORTAL & ONBOARDING PIPELINE
+// ============================================================================
+window.showWelcomePortal = () => {
+    let welcome = document.getElementById('welcome-portal-overlay');
+    if (!welcome) {
+        welcome = document.createElement('div');
+        welcome.id = 'welcome-portal-overlay';
+        document.body.appendChild(welcome);
+    }
+
+    welcome.style.cssText = `
+        position: fixed; inset: 0; z-index: 999999;
+        background: radial-gradient(circle at center, rgba(15, 23, 42, 0.98) 0%, rgba(5, 8, 17, 1) 100%);
+        backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+        display: flex; align-items: center; justify-content: center; padding: 20px;
+        overflow-y: auto; animation: fadeIn 0.4s ease;
+    `;
+
+    welcome.innerHTML = `
+        <div class="welcome-card glass-refractive" style="max-width: 850px; width: 100%; padding: 40px 30px; border-radius: 24px; border: 1px solid rgba(6,182,212,0.4); text-align: center; background: rgba(10, 15, 28, 0.85); box-shadow: 0 25px 60px rgba(0,0,0,0.9), 0 0 50px rgba(6,182,212,0.15); position: relative; margin: auto;">
+            
+            <div style="width: 70px; height: 70px; margin: 0 auto 20px; background: rgba(6,182,212,0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--accent-cyan); box-shadow: 0 0 20px rgba(6,182,212,0.3);">
+                <img src="logo.png" alt="Logo" style="width: 42px;">
+            </div>
+
+            <h1 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: clamp(2.2rem, 5vw, 3.5rem); margin: 0 0 10px; font-weight: 700; letter-spacing: -1px; line-height: 1.1;">
+                WELCOME TO DATAVITALS OS
+            </h1>
+            
+            <div style="font-family: 'JetBrains Mono'; color: var(--accent-cyan); font-size: clamp(0.85rem, 2vw, 1rem); margin-bottom: 24px; letter-spacing: 2px;">
+                // ZERO TO HERO: HEALTHCARE DATA SCIENCE & AI ECOSYSTEM
+            </div>
+
+            <p style="color: var(--text-secondary); font-family: 'Space Grotesk'; font-size: 1.05rem; line-height: 1.6; max-width: 650px; margin: 0 auto 30px;">
+                Master 52 weeks of structured computer science, clinical database systems, applied statistics, machine learning, and generative AI. Built for non-tech beginners and future AI leaders.
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 36px; text-align: left;">
+                <div class="glass-refractive" style="padding: 18px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.3);">
+                    <div style="font-size: 1.5rem; margin-bottom: 8px;">🎓</div>
+                    <div style="font-family: 'Space Grotesk'; font-weight: 700; color: white; font-size: 0.95rem;">52-Week Curriculum</div>
+                    <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; font-family: 'Space Grotesk';">364 daily lessons from basic Excel & SQL to PyTorch & RAG.</div>
+                </div>
+                <div class="glass-refractive" style="padding: 18px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.3);">
+                    <div style="font-size: 1.5rem; margin-bottom: 8px;">⚡</div>
+                    <div style="font-family: 'Space Grotesk'; font-weight: 700; color: white; font-size: 0.95rem;">Live Code Kernel</div>
+                    <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; font-family: 'Space Grotesk';">Execute Python & SQL directly in Monaco + Pyodide terminal.</div>
+                </div>
+                <div class="glass-refractive" style="padding: 18px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.3);">
+                    <div style="font-size: 1.5rem; margin-bottom: 8px;">💼</div>
+                    <div style="font-family: 'Space Grotesk'; font-weight: 700; color: white; font-size: 0.95rem;">GitHub Portfolio Builder</div>
+                    <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; font-family: 'Space Grotesk';">Generate resume project documentation with 1 click.</div>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 14px; align-items: center;">
+                <button onclick="window.startGuidedOnboarding()" class="btn-neural" style="padding: 16px 36px; font-family: 'Space Grotesk'; font-size: 1.1rem; font-weight: 700; background: var(--accent-cyan); color: #000; border-radius: 12px; cursor: pointer; box-shadow: 0 0 30px rgba(6,182,212,0.4); width: 100%; max-width: 420px; transition: transform 0.2s;">
+                    🚀 START LEARNING (BEGIN GUIDED TOUR)
+                </button>
+
+                <button onclick="window.dismissWelcomeAndBoot()" style="background: transparent; border: none; color: var(--text-muted); font-family: 'Space Grotesk'; font-size: 0.9rem; cursor: pointer; padding: 8px 16px; text-decoration: underline;">
+                    Skip Tour & Go Straight to Dashboard →
+                </button>
+            </div>
+        </div>
+    `;
+};
+
+window.startGuidedOnboarding = () => {
+    const welcome = document.getElementById('welcome-portal-overlay');
+    if (welcome) welcome.remove();
+
+    window.bootApplication();
+
+    setTimeout(() => {
+        if (window.SpotlightTour) {
+            window.SpotlightTour.init();
+        }
+    }, 400);
+};
+
+window.dismissWelcomeAndBoot = () => {
+    const welcome = document.getElementById('welcome-portal-overlay');
+    if (welcome) welcome.remove();
+    window.bootApplication();
 };
