@@ -828,3 +828,77 @@ body.zen-mode-active .lesson-container {
     border-color: var(--accent-cyan) !important;
     box-shadow: 0 0 12px rgba(6, 182, 212, 0.25) !important;
 }
+
+/* ============================================================================
+ * 📚 52-WEEK CURRICULUM MODULES HUB (v14.2)
+ * ============================================================================ */
+.modules-hub-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.modules-hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    margin-top: 16px;
+}
+
+@media (max-width: 768px) {
+    .modules-hub-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+}
+
+.module-hub-card {
+    background: rgba(13, 17, 34, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-sizing: border-box;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.module-hub-card:hover {
+    border-color: rgba(6, 182, 212, 0.45);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(6, 182, 212, 0.15);
+}
+
+.hub-phase-pill {
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.hub-phase-pill:hover {
+    color: white;
+    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.hub-phase-pill.active {
+    background: rgba(6, 182, 212, 0.2) !important;
+    border-color: var(--accent-cyan) !important;
+    color: var(--accent-cyan) !important;
+    font-weight: 700;
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.3);
+}
+
+.hub-day-row:hover {
+    background: rgba(6, 182, 212, 0.15) !important;
+    border-color: rgba(6, 182, 212, 0.3) !important;
+}

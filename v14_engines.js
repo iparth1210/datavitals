@@ -664,3 +664,248 @@ window.addEventListener('scroll', () => {
     const progress = Math.min(100, Math.max(0, (window.scrollY / totalHeight) * 100));
     bar.style.width = `${progress}%`;
 }, { passive: true });
+
+// ============================================================================
+// 📚 5. 52-WEEK MASTER CURRICULUM MODULES HUB & NAVIGATION ENGINE (v14.2)
+// ============================================================================
+window.currentHubPhaseFilter = 0;
+window.currentHubSearchQuery = '';
+
+window.showModulesView = () => {
+    // 1. Dismiss mobile drawer if open
+    if (window.toggleMobileCurriculumDrawer) {
+        window.toggleMobileCurriculumDrawer(false);
+    }
+
+    // 2. Update bottom nav button active states
+    const navButtons = document.querySelectorAll('#mobile-bottom-nav .mob-nav-btn');
+    if (navButtons) {
+        navButtons.forEach(btn => btn.classList.remove('active'));
+    }
+    const modulesBtn = document.getElementById('mob-btn-modules');
+    if (modulesBtn) modulesBtn.classList.add('active');
+
+    // 3. Scroll to top smoothly
+    if (typeof window.scrollTo === 'function') window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // 4. Render into main workspace
+    const app = document.getElementById('app');
+    if (!app) return;
+    if (!window.roadmap || !window.roadmap.length) {
+        app.innerHTML = '<div style="padding: 40px; color: white; text-align: center;">Loading 52-Week Curriculum...</div>';
+        return;
+    }
+
+    app.innerHTML = `
+        <div class="modules-hub-wrapper" style="max-width: 1400px; margin: 0 auto; padding-bottom: 90px; animation: fadeIn 0.3s ease;">
+            <div class="modules-hub-header" style="margin-bottom: 24px; display: flex; flex-direction: column; gap: 14px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+                    <div>
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--accent-cyan); letter-spacing: 1.5px; margin-bottom: 4px;">// MASTER_CURRICULUM_MATRIX (52 WEEKS)</div>
+                        <h1 class="text-gradient" style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; margin: 0;">52-Week Healthcare Intelligence Hub</h1>
+                    </div>
+                    <button onclick="window.showActiveLessonMobile()" class="btn-neural" style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; padding: 10px 18px; border-radius: 8px; border-color: var(--accent-cyan); color: var(--accent-cyan); display: inline-flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <span>📖</span> Resume Active Lesson
+                    </button>
+                </div>
+                <p style="font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; color: var(--text-secondary); max-width: 820px; margin: 0; line-height: 1.55;">
+                    Explore all 52 modules across Computer Science, Clinical EHR Systems, Biomedical Signals, and Applied Labs (364 Daily Missions). Tap any module to start Day 1, or expand to inspect any specific day.
+                </p>
+
+                <!-- SEARCH & FILTER ROW -->
+                <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 6px;">
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+                        <div style="flex: 1; min-width: 260px; background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 10px 16px; display: flex; align-items: center; gap: 10px;">
+                            <span style="color: var(--accent-cyan); font-size: 1rem;">🔍</span>
+                            <input type="text" id="hub-search-input" placeholder="Search 52 modules by topic, tool, or keyword (e.g., SQL, Excel, PyTorch, HIPAA)..." 
+                                oninput="window.filterModulesHub(this.value)"
+                                style="background: transparent; border: none; color: white; width: 100%; outline: none; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem;">
+                        </div>
+                    </div>
+
+                    <!-- PHASE FILTER PILLS -->
+                    <div class="hub-phase-filters" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                        <button class="hub-phase-pill active" onclick="window.setHubPhaseFilter(0, this)">All (52 Weeks)</button>
+                        <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(1, this)">Phase 1: Foundations (W1-8)</button>
+                        <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(2, this)">Phase 2: SQL & DBs (W9-20)</button>
+                        <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(3, this)">Phase 3: Python Science (W21-36)</button>
+                        <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(4, this)">Phase 4: ML & Medical AI (W37-52)</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODULES GRID (52 WEEKS) -->
+            <div id="modules-hub-grid" class="modules-hub-grid">
+                ${window.roadmap.map((week, index) => {
+                    const weekNum = index + 1;
+                    const phase = week.phase || (weekNum <= 8 ? 1 : weekNum <= 20 ? 2 : weekNum <= 36 ? 3 : 4);
+                    const phaseColor = phase === 1 ? '#06b6d4' : phase === 2 ? '#8b5cf6' : phase === 3 ? '#ec4899' : '#10b981';
+                    const phaseName = phase === 1 ? 'Foundations & Excel' : phase === 2 ? 'SQL & Relational DBs' : phase === 3 ? 'Python & Data Science' : 'Machine Learning & AI';
+                    const firstDay = week.days && week.days.length > 0 ? week.days[0] : null;
+
+                    return `
+                    <div class="module-hub-card glass-refractive" id="hub-card-${week.id}" data-phase="${phase}" data-title="${week.title.toLowerCase()}">
+                        <div class="hub-card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <span class="hub-badge" style="background: rgba(255,255,255,0.06); border: 1px solid ${phaseColor}; color: ${phaseColor}; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 6px;">
+                                MODULE ${weekNum.toString().padStart(2, '0')}
+                            </span>
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-muted);">
+                                ${week.days ? week.days.length : 7} Daily Missions
+                            </span>
+                        </div>
+
+                        <h3 class="hub-card-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: white; margin: 0 0 6px 0; line-height: 1.35;">
+                            ${week.title}
+                        </h3>
+
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: ${phaseColor}; margin-bottom: 12px; opacity: 0.9;">
+                            // ${phaseName}
+                        </div>
+
+                        <!-- DAYS ACCORDION IN CARD -->
+                        <div class="hub-days-inline" id="hub-days-${week.id}" style="display: none; flex-direction: column; gap: 6px; margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px;">
+                            ${(week.days || []).map((day, dIdx) => `
+                                <div class="hub-day-row" onclick="window.openModuleDay('${week.id}', '${day.id}', '${day.lessonId}')" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-radius: 6px; background: rgba(0,0,0,0.35); cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transition: all 0.2s ease;">
+                                    <div style="display: flex; align-items: center; gap: 8px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--accent-cyan); font-weight: 700;">D0${dIdx+1}</span>
+                                        <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; color: #cbd5e1; overflow: hidden; text-overflow: ellipsis;">${day.title}</span>
+                                    </div>
+                                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--accent-cyan);">Launch ➔</span>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <!-- CARD ACTIONS -->
+                        <div style="display: flex; gap: 8px; margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05);">
+                            <button onclick="window.openModuleDay('${week.id}', '${firstDay ? firstDay.id : week.id + '-d1'}', '${firstDay ? firstDay.lessonId : 'lesson-' + week.id + '-d1'}')" 
+                                class="btn-neural" style="flex: 1; padding: 8px 12px; border-radius: 8px; font-family: 'Space Grotesk', sans-serif; font-size: 0.82rem; font-weight: 700; background: rgba(6,182,212,0.12); border-color: var(--accent-cyan); color: var(--accent-cyan); display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
+                                <span>🚀</span> Open Module
+                            </button>
+                            <button onclick="window.toggleHubDaysList('${week.id}')" id="hub-toggle-btn-${week.id}"
+                                class="btn-neural" style="padding: 8px 12px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; border-color: rgba(255,255,255,0.15); color: var(--text-muted); cursor: pointer;" title="View all 7 days">
+                                7 Days ▾
+                            </button>
+                        </div>
+                    </div>
+                    `;
+                }).join('')}
+            </div>
+        </div>
+    `;
+};
+
+window.toggleHubDaysList = (weekId) => {
+    const list = document.getElementById(`hub-days-${weekId}`);
+    const btn = document.getElementById(`hub-toggle-btn-${weekId}`);
+    if (!list) return;
+
+    if (list.style.display === 'none' || list.style.display === '') {
+        list.style.display = 'flex';
+        if (btn) btn.innerText = 'Close ▴';
+    } else {
+        list.style.display = 'none';
+        if (btn) btn.innerText = '7 Days ▾';
+    }
+};
+
+window.setHubPhaseFilter = (phase, btn) => {
+    window.currentHubPhaseFilter = phase;
+    document.querySelectorAll('.hub-phase-pill').forEach(p => p.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    window.applyHubFilters();
+};
+
+window.filterModulesHub = (query) => {
+    window.currentHubSearchQuery = (query || '').toLowerCase().trim();
+    window.applyHubFilters();
+};
+
+window.applyHubFilters = () => {
+    const q = window.currentHubSearchQuery || '';
+    const phase = window.currentHubPhaseFilter || 0;
+    const cards = document.querySelectorAll('.module-hub-card');
+
+    cards.forEach(card => {
+        const cardPhase = parseInt(card.getAttribute('data-phase'));
+        const cardTitle = (card.getAttribute('data-title') || '').toLowerCase();
+        const text = card.innerText.toLowerCase();
+
+        const matchesPhase = (phase === 0) || (cardPhase === phase);
+        const matchesQuery = (q === '') || cardTitle.includes(q) || text.includes(q);
+
+        if (matchesPhase && matchesQuery) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+};
+
+window.openModuleDay = (weekId, dayId, lessonId) => {
+    window.activeCurrentDayId = dayId;
+    window.activeCurrentLessonId = lessonId;
+
+    // 1. Render the lesson
+    if (typeof renderLesson === 'function') {
+        renderLesson(lessonId, dayId);
+    } else if (typeof window.renderLesson === 'function') {
+        window.renderLesson(lessonId, dayId);
+    }
+
+    // 2. Update sidebar active status
+    const sidebarItems = document.querySelectorAll('.sidebar-module-item');
+    if (sidebarItems) sidebarItems.forEach(item => item.classList.remove('active-module'));
+    const sidebarDays = document.querySelectorAll('.sidebar-day-item');
+    if (sidebarDays) sidebarDays.forEach(item => item.classList.remove('active-day'));
+
+    const parentWeek = document.getElementById(`sidebar-mod-${weekId}`);
+    if (parentWeek) parentWeek.classList.add('active-module');
+
+    const dayElem = document.getElementById(`day-node-${dayId}`);
+    if (dayElem) dayElem.classList.add('active-day');
+
+    // 3. Highlight Lesson tab on bottom nav
+    const navButtons = document.querySelectorAll('#mobile-bottom-nav .mob-nav-btn');
+    if (navButtons) navButtons.forEach(btn => btn.classList.remove('active'));
+    const lessonBtn = document.getElementById('mob-btn-lesson');
+    if (lessonBtn) lessonBtn.classList.add('active');
+
+    // 4. Close mobile drawer if open
+    if (window.toggleMobileCurriculumDrawer) {
+        window.toggleMobileCurriculumDrawer(false);
+    }
+
+    // 5. Scroll to top smoothly
+    if (typeof window.scrollTo === 'function') window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof triggerHaptic === 'function') triggerHaptic('light');
+};
+
+window.showActiveLessonMobile = () => {
+    // If not currently showing a lesson, re-render the active lesson
+    const app = document.getElementById('app');
+    const isShowingLesson = app && app.querySelector('.lesson-container');
+    if (!isShowingLesson) {
+        const lesson = window.activeLessonContext || (window.modules ? window.modules[0] : null);
+        const dayId = window.activeCurrentDayId || 'week-1-d1';
+        const lessonId = window.activeCurrentLessonId || (lesson ? lesson.id : 'lesson-w1-d1');
+        if (typeof renderLesson === 'function') {
+            renderLesson(lessonId, dayId);
+        } else if (typeof window.renderLesson === 'function') {
+            window.renderLesson(lessonId, dayId);
+        }
+    }
+
+    // Update bottom nav
+    const navButtons = document.querySelectorAll('#mobile-bottom-nav .mob-nav-btn');
+    if (navButtons) navButtons.forEach(btn => btn.classList.remove('active'));
+    const lessonBtn = document.getElementById('mob-btn-lesson');
+    if (lessonBtn) lessonBtn.classList.add('active');
+
+    // Close drawer
+    if (window.toggleMobileCurriculumDrawer) {
+        window.toggleMobileCurriculumDrawer(false);
+    }
+
+    if (typeof window.scrollTo === 'function') window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof triggerHaptic === 'function') triggerHaptic('light');
+};

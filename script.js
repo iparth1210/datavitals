@@ -592,7 +592,7 @@ function handleSidebarClick(weekId, dayId, lessonId, e) {
     renderLesson(lessonId, dayId);
 
     // Scroll to top smoothly
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof window.scrollTo === 'function') window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // If on mobile and drawer is open, close drawer so user sees newly opened module lesson immediately!
     if (window.toggleMobileCurriculumDrawer) {
@@ -2839,7 +2839,7 @@ window.toggleMobileCurriculumDrawer = (forceState) => {
 
 window.showActiveLessonMobile = () => {
     window.toggleMobileCurriculumDrawer(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof window.scrollTo === 'function') window.scrollTo({ top: 0, behavior: 'smooth' });
     triggerHaptic('light');
 };
 
@@ -2875,7 +2875,7 @@ window.navigateLessonStep = (delta) => {
     window.activeCurrentDayId = target.dayId;
     handleSidebarClick(target.weekId, target.dayId, target.lessonId, null);
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof window.scrollTo === 'function') window.scrollTo({ top: 0, behavior: 'smooth' });
     triggerHaptic('medium');
 };
 
@@ -2906,3 +2906,16 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+
+// ============================================================================
+// 🌐 GLOBAL WINDOW API EXPORTS (v14.2)
+// ============================================================================
+// EXPORT ESSENTIALS TO WINDOW
+window.renderLesson = renderLesson;
+window.getLessonById = getLessonById;
+window.handleSidebarClick = handleSidebarClick;
+window.renderRoadmap = renderRoadmap;
+window.renderWeekView = renderWeekView;
+window.handleDayClick = handleDayClick;
+window.getWeekIdForDay = getWeekIdForDay;
