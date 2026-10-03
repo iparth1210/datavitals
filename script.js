@@ -99,12 +99,8 @@ window.bootApplication = () => {
         // Staggered HUD Reveal
         setTimeout(() => initAIObserver(), 1000);
 
-        // Trigger Phase 2.4: Strategic Spotlight
-        setTimeout(() => {
-            if (window.SpotlightTour) {
-                window.SpotlightTour.init();
-            }
-        }, 1200);
+        // Direct Clean Startup: NO intrusive auto-tour on boot
+        // Tour is only available if manually requested via help/settings
     } catch (renderError) {
         console.error("[Neural_Link]: Critical Render Error:", renderError);
     }
