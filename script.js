@@ -491,6 +491,7 @@ window.toggleAccordion = (weekId, e) => {
 };
 
 function handleSidebarClick(weekId, dayId, lessonId, e) {
+    window.activeCurrentDayId = dayId;
     if(e) e.stopPropagation();
 
     const sidebarItems = document.querySelectorAll('.sidebar-module-item');
@@ -2734,3 +2735,67 @@ window.showActiveLessonMobile = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     triggerHaptic('light');
 };
+
+
+
+// ============================================================================
+// 📱 UP/DOWN LESSON SLIDER & SWIPE CONTROLLERS (v9.5)
+// ============================================================================
+window.activeCurrentDayId = 'week-1-d1';
+
+window.getAllFlattenedRoadmapDays = () => {
+    if (!window.roadmap) return [];
+    const list = [];
+    window.roadmap.forEach(week => {
+        week.days.forEach(day => {
+            list.push({ weekId: week.id, dayId: day.id, lessonId: day.lessonId, title: day.title });
+        });
+    });
+    return list;
+};
+
+window.navigateLessonStep = (delta) => {
+    const allDays = window.getAllFlattenedRoadmapDays();
+    if (allDays.length === 0) return;
+
+    const currentId = window.activeCurrentDayId || 'week-1-d1';
+    let idx = allDays.findIndex(d => d.dayId === currentId);
+    if (idx === -1) idx = 0;
+
+    const targetIdx = Math.max(0, Math.min(allDays.length - 1, idx + delta));
+    const target = allDays[targetIdx];
+
+    window.activeCurrentDayId = target.dayId;
+    handleSidebarClick(target.weekId, target.dayId, target.lessonId, null);
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    triggerHaptic('medium');
+};
+
+// Track day in handleSidebarClick
+
+
+
+// Mobile Drawer Touch Swipe Listener
+window.addEventListener('DOMContentLoaded', () => {
+    const handleBar = document.querySelector('.mobile-drawer-handle-bar');
+    if (!handleBar) return;
+
+    let touchStartY = 0;
+    let touchMoveY = 0;
+
+    handleBar.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    handleBar.addEventListener('touchmove', (e) => {
+        touchMoveY = e.touches[0].clientY;
+    }, { passive: true });
+
+    handleBar.addEventListener('touchend', () => {
+        // If swiped down by 40px or more, close drawer
+        if (touchMoveY - touchStartY > 40) {
+            window.toggleMobileCurriculumDrawer(false);
+        }
+    });
+});

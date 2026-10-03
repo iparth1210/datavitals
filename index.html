@@ -35,9 +35,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="QuantumField.js"></script>
     <script src="AuraVisual.js"></script>
-    <link rel="stylesheet" href="style.css?v=9.0">
+    <link rel="stylesheet" href="style.css?v=9.5">
     <!-- MUST BE LAST TO OVERRIDE ALL LEGACY GRIDS -->
-    <link rel="stylesheet" href="HorizonLayout.css?v=9.0">
+    <link rel="stylesheet" href="HorizonLayout.css?v=9.5">
 </head>
 
 <body>
@@ -68,6 +68,14 @@
 
         <!-- COLUMN 1: CURRICULUM SIDEBAR -->
         <nav class="bento-card card-sidebar">
+            <!-- MOBILE SLIDER TOP DRAG HANDLE -->
+            <div class="mobile-drawer-handle-bar" onclick="window.toggleMobileCurriculumDrawer()">
+                <div class="drawer-drag-pill"></div>
+                <div class="drawer-handle-label">
+                    <span id="drawer-arrow-icon">▼</span> 52-WEEK CURRICULUM (SLIDE DOWN / UP) <span id="drawer-arrow-icon-2">▼</span>
+                </div>
+            </div>
+
             <div class="sidebar-header" style="padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 16px;">
                 <img src="logo.png" alt="Logo" class="sidebar-logo" style="width: 32px; filter: drop-shadow(0 0 10px var(--accent-cyan));">
                 <span class="sidebar-title-text" style="font-family: 'Space Grotesk'; font-weight: 700; color: white; font-size: 1.2rem; letter-spacing: -0.5px;">DataVitals</span>
@@ -231,13 +239,13 @@
     <script src="roadmap.js"></script>
     <script src="library_data.js"></script>
     <script src="modules.js"></script>
-    <script src="gamification.js?v=9.0"></script>
+    <script src="gamification.js?v=9.5"></script>
     <script src="python_engine.js"></script>
     <script src="NarrativeEngine.js"></script>
     <script src="LoginOverlay.js"></script>
     <script src="GuidedLoading.js"></script>
     <script src="SpotlightTour.js"></script>
-    <script src="script.js?v=9.0"></script>
+    <script src="script.js?v=9.5"></script>
     <!-- COMMAND PALETTE (Cmd+K) -->
     <div id="cmd-palette-overlay" class="hidden" style="display: none !important; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100000; backdrop-filter: blur(10px); justify-content: center; align-items: flex-start; padding-top: 15vh;">
         <div class="cmd-palette glass-refractive" style="width: 600px; max-width: 90%; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1); background: rgba(10, 15, 25, 0.8);">
@@ -254,6 +262,19 @@
 
     <!-- MOBILE BOTTOM APP NAVIGATION & DRAWER BACKDROP -->
     <div id="mobile-drawer-backdrop" onclick="window.toggleMobileCurriculumDrawer(false)" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 99994;"></div>
+
+    <!-- MOBILE FLOATING UP/DOWN LESSON SLIDER -->
+    <div id="mobile-floating-slider" class="mobile-slider-container">
+        <button class="mobile-slide-btn" onclick="window.navigateLessonStep(-1)" title="Previous Day">
+            ▲ Prev
+        </button>
+        <button class="mobile-slide-btn drawer-toggle-pill" onclick="window.toggleMobileCurriculumDrawer()">
+            ☰ 52 WEEKS (SLIDE)
+        </button>
+        <button class="mobile-slide-btn" onclick="window.navigateLessonStep(1)" title="Next Day">
+            Next ▼
+        </button>
+    </div>
 
     <nav id="mobile-bottom-nav">
         <button class="mob-nav-btn active" onclick="window.showActiveLessonMobile()" id="mob-btn-lesson">
