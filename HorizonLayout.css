@@ -152,3 +152,91 @@ body {
 .hidden {
     display: none !important;
 }
+
+
+/* ============================================================================
+ * 📱 MOBILE RESPONSIVE ENGINE (@media max-width 768px & 480px)
+ * ============================================================================ */
+@media (max-width: 768px) {
+    /* Stack Bento Grid vertically on mobile */
+    .bento-grid {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto !important;
+        padding: 12px !important;
+        gap: 16px !important;
+        height: auto !important;
+        overflow-y: auto !important;
+    }
+
+    /* Sidebar container auto height on mobile */
+    .card-sidebar {
+        width: 100% !important;
+        max-height: 400px !important;
+        min-height: auto !important;
+    }
+
+    /* Main Hero container full width */
+    .card-hero {
+        width: 100% !important;
+        padding: 16px !important;
+    }
+
+    /* Header bar flex column on mobile */
+    .workspace-header {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 16px !important;
+        padding-bottom: 16px !important;
+    }
+
+    .workspace-header > div {
+        flex-wrap: wrap !important;
+        justify-content: flex-start !important;
+        gap: 8px !important;
+    }
+
+    .search-bar {
+        width: 100% !important;
+    }
+
+    .workspace-header button {
+        flex: 1 1 auto !important;
+        justify-content: center !important;
+        font-size: 0.78rem !important;
+        padding: 8px 12px !important;
+    }
+
+    /* Lesson main layout single column */
+    .lesson-main-layout {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    /* Quad tracks single column */
+    .quad-track {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    /* Studio & Portfolio grid single column */
+    .portfolio-container > div,
+    .datastudio-container > div {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #page-title {
+        font-size: 1.6rem !important;
+    }
+    
+    .sidebar-footer {
+        padding: 8px !important;
+        gap: 4px !important;
+    }
+    
+    .nav-item-killer {
+        font-size: 1.1rem !important;
+        padding: 8px !important;
+    }
+}
