@@ -752,3 +752,79 @@ body.zen-mode-active .lesson-container {
     display: flex;
     flex-direction: column;
 }
+
+/* ============================================================================
+ * 📚 CURRICULUM MODULE & ACCORDION SYSTEM (v14.1)
+ * ============================================================================ */
+.sidebar-module-group {
+    margin-bottom: 8px;
+    width: 100%;
+}
+
+.sidebar-module-item {
+    cursor: pointer;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.22s ease;
+    user-select: none;
+}
+
+.sidebar-module-item:hover {
+    background: rgba(6, 182, 212, 0.08);
+    border-color: rgba(6, 182, 212, 0.35);
+    transform: translateX(3px);
+}
+
+.sidebar-module-item.active-module {
+    background: rgba(6, 182, 212, 0.16) !important;
+    border-color: var(--accent-cyan) !important;
+    box-shadow: 0 0 16px rgba(6, 182, 212, 0.25) !important;
+}
+
+.sidebar-days-container {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+    margin-bottom: 12px;
+    padding-left: 12px;
+    border-left: 2px solid rgba(6, 182, 212, 0.4);
+    animation: fadeIn 0.25s ease;
+}
+
+.sidebar-days-container.expanded {
+    display: flex !important;
+}
+
+.sidebar-day-item {
+    cursor: pointer;
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.82rem;
+    color: #94a3b8;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid transparent;
+    transition: all 0.18s ease;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sidebar-day-item:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateX(3px);
+}
+
+.sidebar-day-item.active-day {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    background: rgba(6, 182, 212, 0.22) !important;
+    border-color: var(--accent-cyan) !important;
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.25) !important;
+}

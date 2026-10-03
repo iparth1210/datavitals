@@ -459,30 +459,29 @@ document.addEventListener('mousemove', (e) => {
 /* Replaced renderRoadmap with renderSidebarCurriculum to load items on the left */
 function renderSidebarCurriculum() {
     const sidebar = document.getElementById('sidebar-curriculum');
-    if(!sidebar) return;
-    
-    const unlocked = loadProgress();
+    if (!sidebar) return;
     
     sidebar.innerHTML = `
-        <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; letter-spacing: 1px;">// CURRICULUM_MODULES</div>
+        <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; letter-spacing: 1px;">// CURRICULUM_MODULES (52 WEEKS)</div>
         ${window.roadmap.map((week, index) => {
-            const isAvailable = true; // Unlocked for full access
+            const isAvailable = true;
             const weekNum = index + 1;
             
             return `
-            <div class="sidebar-module-group" style="margin-bottom: 8px;">
-                <div class="sidebar-module-item ${isAvailable ? '' : 'locked'}" id="sidebar-mod-${week.id}" style="opacity: ${isAvailable ? 1 : 0.5}" onclick="${isAvailable ? "toggleAccordion('" + week.id + "', event)" : ''}">
+            <div class="sidebar-module-group" id="group-${week.id}">
+                <div class="sidebar-module-item ${isAvailable ? '' : 'locked'}" id="sidebar-mod-${week.id}" style="opacity: ${isAvailable ? 1 : 0.5}" onclick="${isAvailable ? "window.handleModuleClick('" + week.id + "', event)" : ''}">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                        <span class="module-subtitle-text" style="font-family: 'JetBrains Mono'; color: var(--accent-cyan); font-size: 0.7rem;">MODULE_${weekNum.toString().padStart(2, '0')}</span>
-                        <span id="accordion-icon-${week.id}" style="transition: transform 0.3s;">${isAvailable ? '▼' : '🔒'}</span>
+                        <span class="module-subtitle-text" style="font-family: 'JetBrains Mono'; color: var(--accent-cyan); font-size: 0.7rem; font-weight: 700;">MODULE_${weekNum.toString().padStart(2, '0')}</span>
+                        <span id="accordion-icon-${week.id}" onclick="event.stopPropagation(); window.toggleAccordionOnly('${week.id}');" style="transition: transform 0.3s; padding: 2px 6px; cursor: pointer; color: var(--text-muted);" title="Toggle Days List">${isAvailable ? '▼' : '🔒'}</span>
                     </div>
                     <div class="module-title-text" style="font-family: 'Space Grotesk'; font-weight: 700; color: white; font-size: 0.95rem; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">${week.title}</div>
                 </div>
                 <div class="sidebar-days-container" id="days-${week.id}">
                     ${week.days.map((day, dayIndex) => {
-                        const isDayAvail = true; // Unlocked for full access
-                        return `<div class="sidebar-day-item ${isDayAvail ? '' : 'locked-day'}" onclick="${isDayAvail ? "handleSidebarClick('" + week.id + "', '" + day.id + "', '" + day.lessonId + "', event)" : ''}">
-                                    DAY_0${dayIndex+1}: ${day.title}
+                        const isDayAvail = true;
+                        return `<div class="sidebar-day-item ${isDayAvail ? '' : 'locked-day'}" id="day-node-${day.id}" onclick="${isDayAvail ? "handleSidebarClick('" + week.id + "', '" + day.id + "', '" + day.lessonId + "', event)" : ''}">
+                                    <span style="font-family: 'JetBrains Mono'; font-size: 0.68rem; color: var(--accent-cyan); font-weight: 700;">D0${dayIndex+1}</span>
+                                    <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1;">${day.title}</span>
                                 </div>`;
                     }).join('')}
                 </div>
@@ -494,37 +493,71 @@ function renderSidebarCurriculum() {
     if (window.updateGamificationUI) window.updateGamificationUI();
 }
 
-window.toggleAccordion = (weekId, e) => {
-    // If sidebar is minimized, touching an accordion expands the sidebar
+window.handleModuleClick = (weekId, e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+
+    // If sidebar is minimized on desktop, clicking a module expands sidebar
     const grid = document.querySelector('.bento-grid');
     if (grid && grid.classList.contains('sidebar-minimized')) {
         window.toggleSidebar();
     }
-    
+
+    const week = window.roadmap ? window.roadmap.find(w => w.id === weekId) : null;
+    if (!week || !week.days || week.days.length === 0) return;
+
+    // Expand accordion for this week and collapse others
+    window.toggleAccordionOnly(weekId, true);
+
+    // Open first day of this module in the workspace!
+    const firstDay = week.days[0];
+    handleSidebarClick(weekId, firstDay.id, firstDay.lessonId, e);
+};
+
+window.toggleAccordionOnly = (weekId, forceOpen = false) => {
     const container = document.getElementById(`days-${weekId}`);
     const icon = document.getElementById(`accordion-icon-${weekId}`);
-    
-    // Close other open accordions optionally to keep view clean
+    if (!container) return;
+
+    const isCurrentlyExpanded = container.classList.contains('expanded');
+    const shouldExpand = forceOpen ? true : !isCurrentlyExpanded;
+
+    // Close other open accordions
     document.querySelectorAll('.sidebar-days-container.expanded').forEach(c => {
-        if (c.id !== `days-${weekId}`) {
+        if (c && c.id && c.id !== `days-${weekId}`) {
             c.classList.remove('expanded');
             const parentId = c.id.replace('days-', '');
             const otherIcon = document.getElementById(`accordion-icon-${parentId}`);
-            if(otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+            if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
         }
     });
 
-    if (container) {
-        container.classList.toggle('expanded');
-        if (icon) {
-            icon.style.transform = container.classList.contains('expanded') ? 'rotate(-180deg)' : 'rotate(0deg)';
-        }
+    if (shouldExpand) {
+        container.classList.add('expanded');
+        if (icon) icon.style.transform = 'rotate(-180deg)';
+    } else {
+        container.classList.remove('expanded');
+        if (icon) icon.style.transform = 'rotate(0deg)';
+    }
+};
+
+window.toggleAccordion = window.handleModuleClick;
+
+window.openModule = (query) => {
+    if (!query || !window.roadmap) return;
+    query = query.toLowerCase().trim();
+    const week = window.roadmap.find(w => 
+        w.id.toLowerCase().includes(query) || 
+        w.title.toLowerCase().includes(query) ||
+        (query.startsWith('module_') && w.id.includes(query.replace('module_', 'week-')))
+    );
+    if (week) {
+        window.handleModuleClick(week.id);
     }
 };
 
 function handleSidebarClick(weekId, dayId, lessonId, e) {
     window.activeCurrentDayId = dayId;
-    if(e) e.stopPropagation();
+    if (e && e.stopPropagation) e.stopPropagation();
 
     const sidebarItems = document.querySelectorAll('.sidebar-module-item');
     sidebarItems.forEach(item => item.classList.remove('active-module'));
@@ -543,36 +576,46 @@ function handleSidebarClick(weekId, dayId, lessonId, e) {
     }
 
     // Child active state
-    // We can find the specific day item by its onclick attribute or by adding data-day-id earlier,
-    // but since we render days with day.id, let's search for the onclick string matching the dayId.
-    const allDays = document.querySelectorAll('.sidebar-day-item');
-    allDays.forEach(item => {
-        if(item.getAttribute('onclick') && item.getAttribute('onclick').includes(`'${dayId}'`)) {
-            item.classList.add('active-day');
-        }
-    });
+    const dayElem = document.getElementById(`day-node-${dayId}`);
+    if (dayElem) {
+        dayElem.classList.add('active-day');
+    } else {
+        const allDays = document.querySelectorAll('.sidebar-day-item');
+        allDays.forEach(item => {
+            if (item.getAttribute('onclick') && item.getAttribute('onclick').includes(`'${dayId}'`)) {
+                item.classList.add('active-day');
+            }
+        });
+    }
 
+    // Render the lesson
     renderLesson(lessonId, dayId);
-    if (window.innerWidth <= 768 && window.toggleMobileCurriculumDrawer) {
+
+    // Scroll to top smoothly
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // If on mobile and drawer is open, close drawer so user sees newly opened module lesson immediately!
+    if (window.toggleMobileCurriculumDrawer) {
         window.toggleMobileCurriculumDrawer(false);
     }
 }
 
 function loadDashboardCore() {
-    const unlocked = loadProgress();
-    // Very simple fallback: just load week 1 day 1 initially.
-    handleSidebarClick(window.roadmap[0].id, window.roadmap[0].days[0].id, window.roadmap[0].days[0].lessonId);
+    if (!window.roadmap || window.roadmap.length === 0) return;
+    const firstWeek = window.roadmap[0];
+    const firstDay = firstWeek.days[0];
+    
+    // Load week 1 day 1 initially
+    handleSidebarClick(firstWeek.id, firstDay.id, firstDay.lessonId, null);
     
     setTimeout(() => {
-        const firstWeek = window.roadmap[0].id;
-        const container = document.getElementById(`days-${firstWeek}`);
-        const icon = document.getElementById(`accordion-icon-${firstWeek}`);
-        if(container) container.classList.add('expanded');
-        if(icon) icon.style.transform = 'rotate(-180deg)';
+        const container = document.getElementById(`days-${firstWeek.id}`);
+        const icon = document.getElementById(`accordion-icon-${firstWeek.id}`);
+        if (container) container.classList.add('expanded');
+        if (icon) icon.style.transform = 'rotate(-180deg)';
         
-        // Highlight first day
-        const firstDayElem = document.querySelector('.sidebar-day-item');
-        if(firstDayElem) firstDayElem.classList.add('active-day');
+        const firstDayElem = document.getElementById(`day-node-${firstDay.id}`) || document.querySelector('.sidebar-day-item');
+        if (firstDayElem) firstDayElem.classList.add('active-day');
     }, 100);
 }
 
@@ -583,11 +626,12 @@ function renderRoadmap() {
 }
 
 function renderWeekView(weekId) {
-    const week = window.roadmap.find(w => w.id === weekId);
+    const week = window.roadmap ? window.roadmap.find(w => w.id === weekId) : null;
     if (!week) return;
 
     const app = document.getElementById('app');
     if (!app) return;
+    const unlocked = (typeof loadProgress === 'function') ? loadProgress() : {};
     app.innerHTML = `
         <div class="roadmap-container mission-mission-control" style="padding-bottom: 60px; max-width: 1000px; margin: 0 auto;">
             <div class="lesson-header-row" style="display: flex; align-items: center; margin-bottom: 40px; gap: 24px;">
