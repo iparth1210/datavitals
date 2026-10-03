@@ -46,7 +46,7 @@ function applyMagneticTilt(card) {
 
 // --- CRITICAL BOOT BRIDGE ---
 window.bootApplication = () => {
-    console.log("[Neural_Link]: System Ready. Initializing Kernel...");
+    console.log("[Neural_Link]: System Ready. Initializing Direct Lesson Boot...");
     try {
         const app = document.getElementById('app');
         if (!app) return;
@@ -60,12 +60,16 @@ window.bootApplication = () => {
         const login = document.getElementById('quantum-login-terminal');
         if (login) login.remove();
         const legacySplash = document.getElementById('splash-screen');
-        if (legacySplash) legacySplash.classList.add('hidden');
+        if (legacySplash) legacySplash.remove();
+        const welcome = document.getElementById('welcome-portal-overlay');
+        if (welcome) welcome.remove();
 
         renderSidebarCurriculum();
         initCommandPalette();
-        loadDashboardCore();
-        console.log("[Neural_Link]: Welcome back, Architect.");
+        
+        // DIRECT LESSON BOOT (Week 1 Day 1)
+        handleSidebarClick('week-1', 'week-1-d1', 'lesson-w1-d1', null);
+        console.log("[Neural_Link]: Direct Lesson Boot Complete.");
 
         // Smart Boot Aura
         setTimeout(() => {
@@ -2015,14 +2019,14 @@ try {
     // 4. Component Boot
     if (window.loginOverlay) window.loginOverlay.init();
 
-    // 5. Initial Entry Point: Show Welcome Portal
+    // 5. Direct Entry Point: Boot Directly into Lesson 1
     setTimeout(() => {
         const splash = document.getElementById('splash-screen');
         if (splash) splash.remove();
 
-        // Launch Welcome Screen
-        window.showWelcomePortal();
-    }, 300);
+        // Direct Boot into Lesson View
+        window.bootApplication();
+    }, 50);
 
 } catch (e) {
     console.error("Critical System Failure:", e);
