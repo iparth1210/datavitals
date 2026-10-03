@@ -591,3 +591,25 @@ body {
         font-size: 0.75rem !important;
     }
 }
+
+
+/* ============================================================================
+ * 💻 DESKTOP & LAPTOP ZEN MODE MAX-SPACE (v13.0)
+ * ============================================================================ */
+body.zen-mode-active .card-sidebar {
+    display: none !important;
+}
+
+body.zen-mode-active .bento-grid {
+    grid-template-columns: 1fr !important;
+    max-width: 100% !important;
+    padding: 16px 36px !important;
+}
+
+body.zen-mode-active .card-hero {
+    max-width: 100% !important;
+}
+
+body.zen-mode-active .lesson-container {
+    max-width: 100% !important;
+}
