@@ -63,6 +63,11 @@ window.bootApplication = () => {
         if (legacySplash) legacySplash.remove();
         const welcome = document.getElementById('welcome-portal-overlay');
         if (welcome) welcome.remove();
+        const cmdOverlay = document.getElementById('cmd-palette-overlay');
+        if (cmdOverlay) {
+            cmdOverlay.classList.add('hidden');
+            cmdOverlay.style.setProperty('display', 'none', 'important');
+        }
 
         renderSidebarCurriculum();
         initCommandPalette();
@@ -933,9 +938,9 @@ function toggleCommandPalette() {
     const input = document.getElementById('cmd-palette-input');
     if (!overlay) return;
 
-    if (overlay.classList.contains('hidden')) {
+    if (overlay.classList.contains('hidden') || overlay.style.display === 'none' || getComputedStyle(overlay).display === 'none') {
         overlay.classList.remove('hidden');
-        overlay.style.display = 'flex';
+        overlay.style.setProperty('display', 'flex', 'important');
         if (input) {
             input.value = '';
             setTimeout(() => input.focus(), 50);
@@ -944,7 +949,7 @@ function toggleCommandPalette() {
         triggerHaptic('medium');
     } else {
         overlay.classList.add('hidden');
-        overlay.style.display = 'none';
+        overlay.style.setProperty('display', 'none', 'important');
         triggerHaptic('light');
     }
 }
