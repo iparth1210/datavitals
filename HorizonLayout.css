@@ -1,3 +1,6 @@
+html, body, .card-workspace, #app, .content-scrollable {
+    scroll-behavior: smooth !important;
+}
 /* ==========================================================================
    🏗️ THE HORIZON ARCHITECTURE v2.0
    Max-Space Bento Grid & High-Fidelity Responsive Suite
@@ -424,9 +427,7 @@ body {
     display: none;
 }
 
-.mobile-slider-container {
-    display: none;
-}
+/* .mobile-slider-container is universally visible */
 
 @media (max-width: 768px) {
     /* 1. Mobile Drawer Drag Handle */
@@ -1020,5 +1021,122 @@ body.zen-mode-active .lesson-container {
     }
     .edtech-hero-banner {
         padding: 20px !important;
+    }
+}
+
+
+/* ============================================================================
+ * 🚀 UNIVERSAL FLOATING SCROLL & LESSON CONTROLLER (LAPTOP, DESKTOP, MOBILE)
+ * ============================================================================ */
+
+.universal-floating-slider,
+.mobile-slider-container {
+    display: flex !important;
+    position: fixed !important;
+    bottom: 24px !important;
+    right: 28px !important;
+    left: auto !important;
+    transform: none !important;
+    z-index: 999999 !important;
+    background: rgba(11, 17, 33, 0.94) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(56, 189, 248, 0.45) !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7), 0 0 25px rgba(56, 189, 248, 0.25) !important;
+    border-radius: 9999px !important;
+    padding: 8px 14px !important;
+    gap: 8px !important;
+    align-items: center !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.universal-slide-btn,
+.mobile-slide-btn {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    color: #e2e8f0 !important;
+    padding: 8px 14px !important;
+    border-radius: 9999px !important;
+    font-family: 'Space Grotesk', sans-serif !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    white-space: nowrap !important;
+    text-decoration: none !important;
+    user-select: none !important;
+}
+
+.universal-slide-btn:hover,
+.mobile-slide-btn:hover {
+    background: rgba(56, 189, 248, 0.25) !important;
+    border-color: #38bdf8 !important;
+    color: white !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35) !important;
+}
+
+.universal-slide-btn.scroll-down-btn {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(139, 92, 246, 0.3)) !important;
+    border-color: rgba(56, 189, 248, 0.55) !important;
+    color: #38bdf8 !important;
+}
+
+.universal-slide-btn.scroll-down-btn:hover {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.4), rgba(139, 92, 246, 0.5)) !important;
+    color: white !important;
+}
+
+.floating-day-counter {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    color: #38bdf8 !important;
+    background: rgba(56, 189, 248, 0.12) !important;
+    border: 1px solid rgba(56, 189, 248, 0.35) !important;
+    padding: 6px 12px !important;
+    border-radius: 9999px !important;
+    white-space: nowrap !important;
+}
+
+.curriculum-transition-banner {
+    background: linear-gradient(180deg, rgba(17, 24, 39, 0.95) 0%, rgba(13, 17, 34, 0.98) 100%) !important;
+    border: 1px solid rgba(56, 189, 248, 0.3) !important;
+    border-radius: 20px !important;
+    padding: 28px 32px !important;
+    margin: 36px 0 32px 0 !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4), 0 0 25px rgba(56, 189, 248, 0.1) !important;
+}
+
+@media (max-width: 768px) {
+    .universal-floating-slider,
+    .mobile-slider-container {
+        bottom: 74px !important; /* Above bottom app navigation bar */
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%) !important;
+        max-width: 96vw !important;
+        padding: 5px 8px !important;
+        gap: 5px !important;
+    }
+
+    .universal-slide-btn,
+    .mobile-slide-btn {
+        padding: 6px 10px !important;
+        font-size: 0.74rem !important;
+        gap: 4px !important;
+    }
+
+    .floating-day-counter {
+        padding: 4px 8px !important;
+        font-size: 0.72rem !important;
+    }
+
+    .curriculum-transition-banner {
+        padding: 20px 18px !important;
+        margin: 24px 0 20px 0 !important;
     }
 }

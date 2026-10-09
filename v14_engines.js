@@ -671,27 +671,50 @@ window.addEventListener('scroll', () => {
 window.currentHubPhaseFilter = 0;
 window.currentHubSearchQuery = '';
 
-window.showModulesView = () => {
-    if (window.toggleMobileCurriculumDrawer) {
-        window.toggleMobileCurriculumDrawer(false);
+// ============================================================================
+// 📜 UNIVERSAL BULLETPROOF APP SCROLLER (ALL DEVICES)
+// ============================================================================
+window.scrollAppTo = (target) => {
+    try {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+
+        if (target === 'top' || target === 0) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+            document.body.scrollTo({ top: 0, behavior: 'smooth' });
+            const ws = document.querySelector('.card-workspace');
+            if (ws) ws.scrollTo({ top: 0, behavior: 'smooth' });
+            const app = document.getElementById('app');
+            if (app) app.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+
+        if (target === 'bottom') {
+            const bottomY = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, 5000);
+            window.scrollTo({ top: bottomY, behavior: 'smooth' });
+            const ws = document.querySelector('.card-workspace');
+            if (ws) ws.scrollTo({ top: ws.scrollHeight, behavior: 'smooth' });
+            const app = document.getElementById('app');
+            if (app) app.scrollTo({ top: app.scrollHeight, behavior: 'smooth' });
+            return;
+        }
+
+        let elem = (typeof target === 'string') ? document.querySelector(target) : target;
+        if (elem) {
+            elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    } catch (err) {
+        console.warn('[ScrollAppTo Error]:', err);
     }
-    const navButtons = document.querySelectorAll('#mobile-bottom-nav .mob-nav-btn');
-    if (navButtons) navButtons.forEach(btn => btn.classList.remove('active'));
-    const modulesBtn = document.getElementById('mob-btn-modules');
-    if (modulesBtn) modulesBtn.classList.add('active');
-    if (typeof window.scrollTo === 'function') window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 
-    const app = document.getElementById('app');
-    if (!app) return;
-
+window.getModulesHubHTML = () => {
     const modules = window.curriculumData || window.roadmap || [];
     if (!modules || !modules.length) {
-        app.innerHTML = '<div style="padding: 60px 20px; color: white; text-align: center; font-family: sans-serif;"><h3>Loading 52-Week Healthcare Intelligence Curriculum...</h3></div>';
-        return;
+        return '<div style="padding: 60px 20px; color: white; text-align: center; font-family: sans-serif;"><h3>Loading 52-Week Healthcare Intelligence Curriculum...</h3></div>';
     }
 
-    app.innerHTML = `
-        <div class="modules-hub-wrapper" style="max-width: 1440px; margin: 0 auto; padding-bottom: 90px; animation: fadeIn 0.3s ease;">
+    return `<div class="modules-hub-wrapper" style="max-width: 1440px; margin: 0 auto; padding-bottom: 90px; animation: fadeIn 0.3s ease;">
             
             <!-- EXECUTIVE HERO HEADER -->
             <div class="edtech-hero-banner" style="background: linear-gradient(180deg, rgba(22, 28, 45, 0.9) 0%, rgba(13, 17, 34, 0.95) 100%); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 32px 36px; margin-bottom: 28px; box-shadow: 0 12px 36px rgba(0,0,0,0.4);">
@@ -926,11 +949,34 @@ window.showModulesView = () => {
                     `;
                 }).join('')}
             </div>
-        </div>
-    `;
-
-    window.applyHubFilters();
+        </div>`;
 };
+
+window.showModulesView = () => {
+    if (window.toggleMobileCurriculumDrawer) {
+        window.toggleMobileCurriculumDrawer(false);
+    }
+    const navButtons = document.querySelectorAll('#mobile-bottom-nav .mob-nav-btn');
+    if (navButtons) navButtons.forEach(btn => btn.classList.remove('active'));
+    const modulesBtn = document.getElementById('mob-btn-modules');
+    if (modulesBtn) modulesBtn.classList.add('active');
+
+    const matrix = document.getElementById('curriculum-master-matrix');
+    if (matrix) {
+        window.scrollAppTo('#curriculum-master-matrix');
+    } else {
+        const lesson = window.activeLessonContext || (window.modules ? window.modules[0] : null);
+        const dayId = window.activeCurrentDayId || 'week-1-d1';
+        const lessonId = window.activeCurrentLessonId || (lesson ? lesson.id : 'lesson-w1-d1');
+        if (typeof renderLesson === 'function') {
+            renderLesson(lessonId, dayId);
+        } else if (typeof window.renderLesson === 'function') {
+            window.renderLesson(lessonId, dayId);
+        }
+        setTimeout(() => window.scrollAppTo('#curriculum-master-matrix'), 100);
+    }
+};
+
 
 window.toggleHubDaysList = (weekId) => {
     const list = document.getElementById(`hub-days-${weekId}`);
@@ -1030,7 +1076,7 @@ window.openModuleDay = (weekId, dayId, lessonId) => {
     }
 
     // 5. Scroll to top smoothly
-    if (typeof window.scrollTo === 'function') window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollAppTo('top');
     if (typeof triggerHaptic === 'function') triggerHaptic('light');
 };
 
@@ -1060,6 +1106,6 @@ window.showActiveLessonMobile = () => {
         window.toggleMobileCurriculumDrawer(false);
     }
 
-    if (typeof window.scrollTo === 'function') window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollAppTo('top');
     if (typeof triggerHaptic === 'function') triggerHaptic('light');
 };

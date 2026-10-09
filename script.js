@@ -592,7 +592,7 @@ function handleSidebarClick(weekId, dayId, lessonId, e) {
     renderLesson(lessonId, dayId);
 
     // Scroll to top smoothly
-    if (typeof window.scrollTo === 'function') window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof window.scrollAppTo === 'function') { window.scrollAppTo('top'); } else if (typeof window.scrollTo === 'function') { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
     // If on mobile and drawer is open, close drawer so user sees newly opened module lesson immediately!
     if (window.toggleMobileCurriculumDrawer) {
@@ -1551,14 +1551,19 @@ function renderLesson(lessonId, dayId) {
     const app = document.getElementById('app');
     if (!app) return;
 
-    app.innerHTML = `
-        <div class="lesson-container" style="max-width: 1400px; margin: 0 auto; animation: fadeIn 0.4s;">
+    const heroContent = `<div class="lesson-container" style="max-width: 1400px; margin: 0 auto; animation: fadeIn 0.4s;">
 
             <!-- TOP ACTION NAV BAR (FLUID RESPONSIVE) -->
             <div class="lesson-top-bar" style="display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 20px; width: 100%;">
                 <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                    <button onclick="window.toggleMobileCurriculumDrawer()" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.72rem; padding: 4px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; border-color: var(--accent-cyan); color: var(--accent-cyan);">
-                        <span>☰</span> 52 WEEKS
+                    <button onclick="window.scrollAppTo('#curriculum-master-matrix')" class="btn-neural" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.78rem; font-weight: 700; padding: 6px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; border-color: var(--accent-cyan); color: var(--accent-cyan); background: rgba(6,182,212,0.1);" title="Jump to Complete 52-Week Curriculum Below">
+                        <span>⬇</span> 52 WEEKS SYLLABUS
+                    </button>
+                    <button onclick="window.navigateLessonStep(-1)" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.75rem; padding: 6px 10px; border-radius: 8px; display: inline-flex; align-items: center; gap: 4px;" title="Previous Day Mission">
+                        <span>◀</span> Prev Day
+                    </button>
+                    <button onclick="window.navigateLessonStep(1)" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.75rem; padding: 6px 10px; border-radius: 8px; display: inline-flex; align-items: center; gap: 4px;" title="Next Day Mission">
+                        Next Day <span>▶</span>
                     </button>
                     <button id="lesson-audio-btn" onclick="window.toggleAudioBriefing()" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.72rem; padding: 4px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; border-color: var(--accent-pink); color: var(--accent-pink);" title="Listen to AI Audio Briefing">
                         <span id="audio-icon">🎧</span> <span id="audio-btn-label">Audio Briefing</span>
@@ -1619,6 +1624,9 @@ function renderLesson(lessonId, dayId) {
                         <a href="${lesson.video.replace('/embed/', '/watch?v=').split('?')[0]}" target="_blank" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.8rem; text-decoration: none; padding: 6px 12px; border-radius: 6px; display: flex; align-items: center; gap: 8px;">
                             <span>🔗</span> Open Video in New Tab
                         </a>
+                        <button onclick="window.scrollAppTo('#curriculum-master-matrix')" class="btn-neural" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; font-weight: 700; padding: 6px 14px; border-radius: 6px; display: flex; align-items: center; gap: 8px; border-color: #38bdf8; color: #38bdf8; background: rgba(56,189,248,0.1);">
+                            <span>⬇</span> Browse 52-Week Syllabus (5 W's & H)
+                        </button>
                     </div>
 
                     <div class="lesson-story-glass glass-refractive" style="margin-top: 32px; padding: 32px; border-radius: 16px;">
@@ -1674,8 +1682,63 @@ function renderLesson(lessonId, dayId) {
                 </div>
 
             </div>
-        </div>
-    `;
+        </div>`;
+
+    const heroWorkspace = document.getElementById('active-lesson-hero-workspace');
+    const curriculumMatrix = document.getElementById('curriculum-master-matrix');
+
+    if (heroWorkspace && curriculumMatrix) {
+        heroWorkspace.innerHTML = heroContent;
+    } else {
+        app.innerHTML = `
+            <div id="horizon-master-experience" style="max-width: 1440px; margin: 0 auto; padding-bottom: 120px; animation: fadeIn 0.3s ease;">
+                
+                <!-- TOP: ACTIVE MISSION & VIDEO PLAYER STUDIO -->
+                <div id="active-lesson-hero-workspace">
+                    ${heroContent}
+                </div>
+
+                <!-- TRANSITION: ELEGANT JUMP BANNER -->
+                <div id="curriculum-transition-divider" class="curriculum-transition-banner" style="background: linear-gradient(180deg, rgba(17, 24, 39, 0.95) 0%, rgba(13, 17, 34, 0.98) 100%); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 20px; padding: 28px 32px; margin: 36px 0 32px 0; box-shadow: 0 12px 36px rgba(0,0,0,0.4), 0 0 25px rgba(56,189,248,0.1);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 18px;">
+                        <div>
+                            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 20px; padding: 4px 12px; margin-bottom: 8px;">
+                                <span style="font-size: 0.76rem; color: #38bdf8; font-family: 'Space Grotesk', sans-serif; font-weight: 700;">⬇ COMPLETE 52-WEEK ACCREDITED SYLLABUS</span>
+                            </div>
+                            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.45rem; font-weight: 800; color: white; margin: 0 0 6px 0;">
+                                52-Week Master Curriculum & 5 W's & H Framework
+                            </h3>
+                            <p style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.92rem; color: #94a3b8; margin: 0; max-width: 820px; line-height: 1.55;">
+                                Scroll down below to explore all 52 modules in full academic detail (What, Why, Who, Where, When, How), clinical case studies, competencies, and 364 daily hands-on laboratory missions. Click any day to load it into the video player above.
+                            </p>
+                        </div>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button onclick="window.scrollAppTo('#curriculum-master-matrix')" class="btn-neural" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.88rem; font-weight: 700; padding: 12px 22px; border-radius: 10px; background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(56,189,248,0.4)); border-color: #38bdf8; color: white; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 16px rgba(56,189,248,0.25);">
+                                <span>⬇</span> Scroll Down to 52 Weeks
+                            </button>
+                            <button onclick="window.scrollAppTo('top')" class="btn-neural" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.88rem; font-weight: 600; padding: 12px 20px; border-radius: 10px; background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.15); color: #cbd5e1; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                                <span>⬆</span> Top / Video
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LOWER: THE 52-WEEK CURRICULUM MASTER MATRIX -->
+                <div id="curriculum-master-matrix">
+                    ${typeof window.getModulesHubHTML === 'function' ? window.getModulesHubHTML() : ''}
+                </div>
+            </div>
+        `;
+        if (typeof window.applyHubFilters === 'function') {
+            window.applyHubFilters();
+        }
+    }
+
+    // Update floating day counter
+    const floatingCounter = document.getElementById('floating-day-counter');
+    if (floatingCounter) {
+        floatingCounter.textContent = currentDay ? `Day ${currentDay.dayNum || 1} / 364` : 'Day 1';
+    }
 
     if (isPythonLesson && window.PythonEngine) {
         setTimeout(() => {
@@ -2876,7 +2939,7 @@ window.toggleMobileCurriculumDrawer = (forceState) => {
 
 window.showActiveLessonMobile = () => {
     window.toggleMobileCurriculumDrawer(false);
-    if (typeof window.scrollTo === 'function') window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof window.scrollAppTo === 'function') { window.scrollAppTo('top'); } else if (typeof window.scrollTo === 'function') { window.scrollTo({ top: 0, behavior: 'smooth' }); }
     triggerHaptic('light');
 };
 
@@ -2912,7 +2975,7 @@ window.navigateLessonStep = (delta) => {
     window.activeCurrentDayId = target.dayId;
     handleSidebarClick(target.weekId, target.dayId, target.lessonId, null);
 
-    if (typeof window.scrollTo === 'function') window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof window.scrollAppTo === 'function') { window.scrollAppTo('top'); } else if (typeof window.scrollTo === 'function') { window.scrollTo({ top: 0, behavior: 'smooth' }); }
     triggerHaptic('medium');
 };
 
