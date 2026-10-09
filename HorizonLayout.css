@@ -992,3 +992,33 @@ body.zen-mode-active .lesson-container {
         padding: 8px 10px !important;
     }
 }
+
+
+/* ============================================================================
+ * 🎓 V15.1 MODERN EDTECH COURSE MATRIX & 5 W'S & H STYLING
+ * ============================================================================ */
+
+.modern-edtech-card {
+    background: #111827 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 18px !important;
+    padding: 28px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease !important;
+}
+
+.modern-edtech-card:hover {
+    transform: translateY(-3px) !important;
+    border-color: rgba(56, 189, 248, 0.45) !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.15) !important;
+}
+
+@media (max-width: 768px) {
+    .modern-edtech-card {
+        padding: 18px !important;
+        border-radius: 14px !important;
+    }
+    .edtech-hero-banner {
+        padding: 20px !important;
+    }
+}
