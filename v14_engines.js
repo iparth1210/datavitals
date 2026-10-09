@@ -691,44 +691,88 @@ window.showModulesView = () => {
     // 4. Render into main workspace
     const app = document.getElementById('app');
     if (!app) return;
-    if (!window.roadmap || !window.roadmap.length) {
-        app.innerHTML = '<div style="padding: 40px; color: white; text-align: center;">Loading 52-Week Curriculum...</div>';
+
+    const modules = window.curriculumData || window.roadmap || [];
+    if (!modules || !modules.length) {
+        app.innerHTML = '<div style="padding: 60px 20px; color: white; text-align: center; font-family: \'Space Grotesk\', sans-serif;"><h3>Loading 52-Week Healthcare Intelligence Curriculum...</h3></div>';
         return;
     }
 
     app.innerHTML = `
         <div class="modules-hub-wrapper" style="max-width: 1400px; margin: 0 auto; padding-bottom: 90px; animation: fadeIn 0.3s ease;">
-            <div class="modules-hub-header" style="margin-bottom: 24px; display: flex; flex-direction: column; gap: 14px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+            
+            <!-- HERO HEADER -->
+            <div class="modules-hub-header" style="margin-bottom: 28px; display: flex; flex-direction: column; gap: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
                     <div>
-                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--accent-cyan); letter-spacing: 1.5px; margin-bottom: 4px;">// MASTER_CURRICULUM_MATRIX (52 WEEKS)</div>
-                        <h1 class="text-gradient" style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; margin: 0;">52-Week Healthcare Intelligence Hub</h1>
+                        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(6,182,212,0.12); border: 1px solid rgba(6,182,212,0.3); border-radius: 20px; padding: 4px 14px; margin-bottom: 10px;">
+                            <span style="font-size: 0.75rem; color: var(--accent-cyan); font-family: 'JetBrains Mono', monospace; font-weight: 700; letter-spacing: 1px;">// MASTER_CURRICULUM_MATRIX (52 WEEKS)</span>
+                        </div>
+                        <h1 class="text-gradient" style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 4vw, 2.7rem); font-weight: 700; margin: 0 0 8px 0; line-height: 1.2;">
+                            Healthcare Data Intelligence Hub
+                        </h1>
+                        <p style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.98rem; color: #94a3b8; max-width: 860px; margin: 0; line-height: 1.6;">
+                            From absolute zero to principal healthcare AI specialist. Complete 52-week curriculum (364 daily missions) spanning clinical computer science, EHR databases, biomedical signal processing, machine learning, and AI hospital robotics.
+                        </p>
                     </div>
-                    <button onclick="window.showActiveLessonMobile()" class="btn-neural" style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; padding: 10px 18px; border-radius: 8px; border-color: var(--accent-cyan); color: var(--accent-cyan); display: inline-flex; align-items: center; gap: 8px; cursor: pointer;">
+
+                    <button onclick="window.showActiveLessonMobile()" class="btn-neural" style="font-family: 'JetBrains Mono', monospace; font-size: 0.84rem; padding: 12px 20px; border-radius: 10px; border-color: var(--accent-cyan); color: var(--accent-cyan); display: inline-flex; align-items: center; gap: 8px; cursor: pointer; background: rgba(6,182,212,0.08); box-shadow: 0 4px 16px rgba(6,182,212,0.15);">
                         <span>📖</span> Resume Active Lesson
                     </button>
                 </div>
-                <p style="font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; color: var(--text-secondary); max-width: 820px; margin: 0; line-height: 1.55;">
-                    Explore all 52 modules across Computer Science, Clinical EHR Systems, Biomedical Signals, and Applied Labs (364 Daily Missions). Tap any module to start Day 1, or expand to inspect any specific day.
-                </p>
 
-                <!-- SEARCH & FILTER ROW -->
-                <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 6px;">
+                <!-- STATS STRIP -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 4px;">
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 1.5rem;">🎓</span>
+                        <div>
+                            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700; color: white;">52 Modules</div>
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted);">End-to-End Structured Path</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 1.5rem;">⚡</span>
+                        <div>
+                            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700; color: white;">364 Daily Missions</div>
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted);">Hands-On Labs & Coding</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 1.5rem;">🏥</span>
+                        <div>
+                            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700; color: white;">Clinical EHR Impact</div>
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted);">HIPAA, FHIR, MIMIC & PACS</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 1.5rem;">🏆</span>
+                        <div>
+                            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700; color: white;">4 Career Phases</div>
+                            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted);">Zero to Healthcare AI Specialist</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEARCH & FILTER BAR -->
+                <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
                     <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
-                        <div style="flex: 1; min-width: 260px; background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 10px 16px; display: flex; align-items: center; gap: 10px;">
-                            <span style="color: var(--accent-cyan); font-size: 1rem;">🔍</span>
-                            <input type="text" id="hub-search-input" placeholder="Search 52 modules by topic, tool, or keyword (e.g., SQL, Excel, PyTorch, HIPAA)..." 
+                        <div style="flex: 1; min-width: 280px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; padding: 12px 18px; display: flex; align-items: center; gap: 12px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);">
+                            <span style="color: var(--accent-cyan); font-size: 1.1rem;">🔍</span>
+                            <input type="text" id="hub-search-input" placeholder="Search topics, learning goals, clinical applications, or skills (e.g., SQL, HIPAA, DICOM, ICU, PyTorch)..." 
                                 oninput="window.filterModulesHub(this.value)"
-                                style="background: transparent; border: none; color: white; width: 100%; outline: none; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem;">
+                                style="background: transparent; border: none; color: white; width: 100%; outline: none; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem;">
+                        </div>
+                        <div id="hub-results-count" style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-muted); background: rgba(255,255,255,0.04); padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
+                            Showing 52 of 52 modules
                         </div>
                     </div>
 
                     <!-- PHASE FILTER PILLS -->
                     <div class="hub-phase-filters" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-                        <button class="hub-phase-pill active" onclick="window.setHubPhaseFilter(0, this)">All (52 Weeks)</button>
-                        <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(1, this)">Phase 1: Foundations (W1-8)</button>
-                        <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(2, this)">Phase 2: SQL & DBs (W9-20)</button>
-                        <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(3, this)">Phase 3: Python Science (W21-36)</button>
+                        <button class="hub-phase-pill active" onclick="window.setHubPhaseFilter(0, this)">All (52 Modules)</button>
+                        <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(1, this)">Phase 1: Foundations & Excel (W1-8)</button>
+                        <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(2, this)">Phase 2: Relational DBs & SQL (W9-20)</button>
+                        <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(3, this)">Phase 3: Python & SciPy (W21-36)</button>
                         <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(4, this)">Phase 4: ML & Medical AI (W37-52)</button>
                     </div>
                 </div>
@@ -736,54 +780,155 @@ window.showModulesView = () => {
 
             <!-- MODULES GRID (52 WEEKS) -->
             <div id="modules-hub-grid" class="modules-hub-grid">
-                ${window.roadmap.map((week, index) => {
-                    const weekNum = index + 1;
+                ${modules.map((week, index) => {
+                    const weekNum = week.weekNum || (index + 1);
                     const phase = week.phase || (weekNum <= 8 ? 1 : weekNum <= 20 ? 2 : weekNum <= 36 ? 3 : 4);
-                    const phaseColor = phase === 1 ? '#06b6d4' : phase === 2 ? '#8b5cf6' : phase === 3 ? '#ec4899' : '#10b981';
-                    const phaseName = phase === 1 ? 'Foundations & Excel' : phase === 2 ? 'SQL & Relational DBs' : phase === 3 ? 'Python & Data Science' : 'Machine Learning & AI';
-                    const firstDay = week.days && week.days.length > 0 ? week.days[0] : null;
+                    const phaseColors = {
+                        1: { primary: '#06b6d4', glow: 'rgba(6,182,212,0.15)', border: 'rgba(6,182,212,0.35)', badge: 'rgba(6,182,212,0.12)' },
+                        2: { primary: '#a855f7', glow: 'rgba(168,85,247,0.15)', border: 'rgba(168,85,247,0.35)', badge: 'rgba(168,85,247,0.12)' },
+                        3: { primary: '#ec4899', glow: 'rgba(236,72,153,0.15)', border: 'rgba(236,72,153,0.35)', badge: 'rgba(236,72,153,0.12)' },
+                        4: { primary: '#10b981', glow: 'rgba(168,185,129,0.15)', border: 'rgba(16,185,129,0.35)', badge: 'rgba(16,185,129,0.12)' }
+                    };
+                    const pColor = phaseColors[phase] || phaseColors[1];
+                    const phaseName = week.phaseName || (phase === 1 ? 'Phase 1: Foundations, Spreadsheets & Biostatistics' 
+                                      : phase === 2 ? 'Phase 2: Relational Databases & Analytics Engineering'
+                                      : phase === 3 ? 'Phase 3: Python Programming & SciPy'
+                                      : 'Phase 4: Machine Learning & Medical AI');
+                    const level = week.level || (phase === 1 ? 'Beginner' : phase === 2 ? 'Intermediate' : phase === 3 ? 'Advanced' : 'Specialist');
+                    const duration = week.duration || '7 Daily Missions • ~45 min/day';
+                    const overview = week.overview || 'Explore clinical data workflows, medical informatics principles, and hands-on laboratory exercises.';
+                    const understandPoints = (week.whatYouWillUnderstand && week.whatYouWillUnderstand.length > 0)
+                        ? week.whatYouWillUnderstand
+                        : [
+                            `Core architecture, data structures, and mathematical concepts behind ${week.title}`,
+                            'Production data pipelines, validation rules, and error handling',
+                            'Hospital informatics standards, HIPAA compliance, and data governance',
+                            'Practical synthesis and code execution in daily interactive missions'
+                        ];
+                    const clinicalApp = week.clinicalApplication || 'Essential for EHR integration, patient risk stratification, and hospital operational intelligence.';
+                    const tools = (week.tools && week.tools.length > 0) ? week.tools : ['EHR', 'Python', 'SQL', 'Clinical Data'];
+                    const days = week.days || [];
+                    const firstDay = days.length > 0 ? days[0] : { id: `${week.id}-d1`, lessonId: `lesson-${week.id}-d1` };
 
                     return `
-                    <div class="module-hub-card glass-refractive" id="hub-card-${week.id}" data-phase="${phase}" data-title="${week.title.toLowerCase()}">
-                        <div class="hub-card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                            <span class="hub-badge" style="background: rgba(255,255,255,0.06); border: 1px solid ${phaseColor}; color: ${phaseColor}; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 6px;">
-                                MODULE ${weekNum.toString().padStart(2, '0')}
-                            </span>
-                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-muted);">
-                                ${week.days ? week.days.length : 7} Daily Missions
+                    <div class="module-hub-card modern-module-card glass-refractive" id="hub-card-${week.id}" data-phase="${phase}" data-title="${week.title.toLowerCase()}">
+                        
+                        <!-- CARD HEADER METADATA -->
+                        <div class="hub-card-meta-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; flex-wrap: wrap;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span class="hub-badge" style="background: ${pColor.badge}; border: 1px solid ${pColor.border}; color: ${pColor.primary}; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; padding: 4px 9px; border-radius: 6px;">
+                                    MODULE ${weekNum.toString().padStart(2, '0')}
+                                </span>
+                                <span style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; padding: 3px 8px; border-radius: 6px;">
+                                    ${level}
+                                </span>
+                            </div>
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-muted); display: inline-flex; align-items: center; gap: 4px;">
+                                ⏱️ ${duration}
                             </span>
                         </div>
 
-                        <h3 class="hub-card-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: white; margin: 0 0 6px 0; line-height: 1.35;">
+                        <!-- TITLE & PHASE SUBTITLE -->
+                        <h3 class="hub-card-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 1.18rem; font-weight: 700; color: white; margin: 0 0 6px 0; line-height: 1.35;">
                             ${week.title}
                         </h3>
-
-                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: ${phaseColor}; margin-bottom: 12px; opacity: 0.9;">
-                            // ${phaseName}
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: ${pColor.primary}; margin-bottom: 16px; opacity: 0.95; font-weight: 600;">
+                            ✦ ${phaseName}
                         </div>
 
-                        <!-- DAYS ACCORDION IN CARD -->
-                        <div class="hub-days-inline" id="hub-days-${week.id}" style="display: none; flex-direction: column; gap: 6px; margin: 12px 0; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px;">
-                            ${(week.days || []).map((day, dIdx) => `
-                                <div class="hub-day-row" onclick="window.openModuleDay('${week.id}', '${day.id}', '${day.lessonId}')" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border-radius: 6px; background: rgba(0,0,0,0.35); cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transition: all 0.2s ease;">
-                                    <div style="display: flex; align-items: center; gap: 8px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--accent-cyan); font-weight: 700;">D0${dIdx+1}</span>
-                                        <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; color: #cbd5e1; overflow: hidden; text-overflow: ellipsis;">${day.title}</span>
+                        <!-- SECTION 1: TOPIC OVERVIEW -->
+                        <div class="hub-overview-block" style="background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px;">
+                            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                                <span style="font-size: 0.85rem;">📖</span>
+                                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: var(--accent-cyan); letter-spacing: 0.5px;">TOPIC OVERVIEW</span>
+                            </div>
+                            <p style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.88rem; color: #e2e8f0; line-height: 1.55; margin: 0;">
+                                ${overview}
+                            </p>
+                        </div>
+
+                        <!-- SECTION 2: WHAT YOU WILL UNDERSTAND -->
+                        <div class="hub-understand-block" style="background: rgba(16,185,129,0.04); border: 1px solid rgba(16,185,129,0.18); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px;">
+                            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+                                <span style="font-size: 0.85rem;">🎯</span>
+                                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: #34d399; letter-spacing: 0.5px;">WHAT YOU WILL UNDERSTAND & MASTER</span>
+                            </div>
+                            <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px;">
+                                ${understandPoints.map(point => `
+                                    <li style="display: flex; align-items: flex-start; gap: 8px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.84rem; color: #cbd5e1; line-height: 1.45;">
+                                        <span style="color: #10b981; font-weight: 900; font-size: 0.85rem; line-height: 1.3;">✓</span>
+                                        <span>${point}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+
+                        <!-- SECTION 3: REAL-WORLD CLINICAL & HEALTHCARE APPLICATION -->
+                        <div class="hub-clinical-block" style="background: rgba(6,182,212,0.04); border-left: 3px solid ${pColor.primary}; border-radius: 0 8px 8px 0; padding: 10px 12px; margin-bottom: 14px;">
+                            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                                <span style="font-size: 0.82rem;">🏥</span>
+                                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700; color: ${pColor.primary}; letter-spacing: 0.5px;">CLINICAL IMPACT & EHR USE CASE</span>
+                            </div>
+                            <p style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.82rem; color: #94a3b8; line-height: 1.45; margin: 0;">
+                                ${clinicalApp}
+                            </p>
+                        </div>
+
+                        <!-- SECTION 4: TOOLS & SKILLS STACK -->
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--text-muted); font-weight: 700;">STACK:</span>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                ${tools.map(tool => `
+                                    <span style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 2px 7px; font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: #e2e8f0;">
+                                        ${tool}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- SECTION 5: 7-DAY STRUCTURED SYLLABUS -->
+                        <div class="hub-days-inline" id="hub-days-${week.id}" style="display: none; flex-direction: column; gap: 8px; margin: 12px 0 16px 0; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--accent-cyan); font-weight: 700;">
+                                    📅 7-DAY STRUCTURED SYLLABUS
+                                </span>
+                                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--text-muted);">
+                                    Tap any day to launch
+                                </span>
+                            </div>
+
+                            ${days.map((day, dIdx) => `
+                                <div class="hub-day-row" onclick="window.openModuleDay('${week.id}', '${day.id}', '${day.lessonId}')" 
+                                    style="padding: 10px 12px; border-radius: 8px; background: rgba(0,0,0,0.4); cursor: pointer; border: 1px solid rgba(255,255,255,0.07); transition: all 0.2s ease; display: flex; flex-direction: column; gap: 4px;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: ${pColor.primary}; font-weight: 700; background: ${pColor.badge}; border: 1px solid ${pColor.border}; padding: 1px 6px; border-radius: 4px;">
+                                                DAY 0${day.dayNum || (dIdx + 1)}
+                                            </span>
+                                            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.86rem; font-weight: 600; color: white;">
+                                                ${day.title}
+                                            </span>
+                                        </div>
+                                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--accent-cyan); font-weight: 700; white-space: nowrap; margin-left: 8px;">
+                                            Launch ➔
+                                        </span>
                                     </div>
-                                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--accent-cyan);">Launch ➔</span>
+                                    <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.78rem; color: #94a3b8; line-height: 1.4; padding-left: 2px;">
+                                        ${day.summary || 'Daily hands-on mission and conceptual synthesis lab.'}
+                                    </div>
                                 </div>
                             `).join('')}
                         </div>
 
-                        <!-- CARD ACTIONS -->
-                        <div style="display: flex; gap: 8px; margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05);">
-                            <button onclick="window.openModuleDay('${week.id}', '${firstDay ? firstDay.id : week.id + '-d1'}', '${firstDay ? firstDay.lessonId : 'lesson-' + week.id + '-d1'}')" 
-                                class="btn-neural" style="flex: 1; padding: 8px 12px; border-radius: 8px; font-family: 'Space Grotesk', sans-serif; font-size: 0.82rem; font-weight: 700; background: rgba(6,182,212,0.12); border-color: var(--accent-cyan); color: var(--accent-cyan); display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
-                                <span>🚀</span> Open Module
+                        <!-- CARD FOOTER ACTIONS -->
+                        <div style="display: flex; gap: 10px; margin-top: auto; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.06); flex-wrap: wrap;">
+                            <button onclick="window.openModuleDay('${week.id}', '${firstDay.id}', '${firstDay.lessonId}')" 
+                                class="btn-neural" style="flex: 1; min-width: 140px; padding: 10px 14px; border-radius: 8px; font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 700; background: linear-gradient(135deg, ${pColor.primary}22, ${pColor.primary}44); border-color: ${pColor.primary}; color: white; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 12px ${pColor.glow};">
+                                <span>🚀</span> Start Day 1 Mission
                             </button>
                             <button onclick="window.toggleHubDaysList('${week.id}')" id="hub-toggle-btn-${week.id}"
-                                class="btn-neural" style="padding: 8px 12px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; border-color: rgba(255,255,255,0.15); color: var(--text-muted); cursor: pointer;" title="View all 7 days">
-                                7 Days ▾
+                                class="btn-neural" style="padding: 10px 14px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; border-color: rgba(255,255,255,0.18); color: #cbd5e1; cursor: pointer; background: rgba(255,255,255,0.04);" title="View all 7 days with daily summaries">
+                                📅 7-Day Syllabus ▾
                             </button>
                         </div>
                     </div>
@@ -792,6 +937,9 @@ window.showModulesView = () => {
             </div>
         </div>
     `;
+
+    // Apply any active filters right after render
+    window.applyHubFilters();
 };
 
 window.toggleHubDaysList = (weekId) => {
@@ -801,10 +949,18 @@ window.toggleHubDaysList = (weekId) => {
 
     if (list.style.display === 'none' || list.style.display === '') {
         list.style.display = 'flex';
-        if (btn) btn.innerText = 'Close ▴';
+        if (btn) {
+            btn.innerHTML = '▲ Close Syllabus';
+            btn.style.borderColor = 'var(--accent-cyan)';
+            btn.style.color = 'var(--accent-cyan)';
+        }
     } else {
         list.style.display = 'none';
-        if (btn) btn.innerText = '7 Days ▾';
+        if (btn) {
+            btn.innerHTML = '📅 7-Day Syllabus ▾';
+            btn.style.borderColor = 'rgba(255,255,255,0.18)';
+            btn.style.color = '#cbd5e1';
+        }
     }
 };
 
@@ -824,6 +980,7 @@ window.applyHubFilters = () => {
     const q = window.currentHubSearchQuery || '';
     const phase = window.currentHubPhaseFilter || 0;
     const cards = document.querySelectorAll('.module-hub-card');
+    let visibleCount = 0;
 
     cards.forEach(card => {
         const cardPhase = parseInt(card.getAttribute('data-phase'));
@@ -835,11 +992,18 @@ window.applyHubFilters = () => {
 
         if (matchesPhase && matchesQuery) {
             card.style.display = 'flex';
+            visibleCount++;
         } else {
             card.style.display = 'none';
         }
     });
+
+    const countEl = document.getElementById('hub-results-count');
+    if (countEl) {
+        countEl.innerText = `Showing ${visibleCount} of ${cards.length} modules`;
+    }
 };
+
 
 window.openModuleDay = (weekId, dayId, lessonId) => {
     window.activeCurrentDayId = dayId;

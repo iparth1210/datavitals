@@ -902,3 +902,93 @@ body.zen-mode-active .lesson-container {
     background: rgba(6, 182, 212, 0.15) !important;
     border-color: rgba(6, 182, 212, 0.3) !important;
 }
+
+
+/* ============================================================================
+ * 🎓 V15.0 MODERN EDTECH MODULE CARDS & TOPIC OVERVIEW STYLES
+ * ============================================================================ */
+
+.modern-module-card {
+    background: rgba(13, 17, 34, 0.82) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 18px !important;
+    padding: 24px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+}
+
+.modern-module-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: rgba(6, 182, 212, 0.5) !important;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 24px rgba(6, 182, 212, 0.2) !important;
+}
+
+.hub-overview-block {
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.hub-overview-block:hover {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.hub-understand-block {
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.hub-understand-block:hover {
+    background: rgba(16, 185, 129, 0.07) !important;
+    border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+.hub-clinical-block {
+    transition: background 0.2s ease;
+}
+
+.hub-clinical-block:hover {
+    background: rgba(6, 182, 212, 0.08) !important;
+}
+
+.hub-day-row {
+    transition: all 0.2s ease !important;
+}
+
+.hub-day-row:hover {
+    background: rgba(6, 182, 212, 0.12) !important;
+    border-color: rgba(6, 182, 212, 0.4) !important;
+    transform: translateX(4px);
+}
+
+.lesson-mission-briefing-card {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lesson-mission-briefing-card:hover {
+    border-color: rgba(6, 182, 212, 0.45) !important;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4), 0 0 16px rgba(6, 182, 212, 0.15) !important;
+}
+
+@media (max-width: 768px) {
+    .modern-module-card {
+        padding: 16px !important;
+        border-radius: 14px !important;
+    }
+
+    .hub-card-title {
+        font-size: 1.05rem !important;
+    }
+
+    .hub-overview-block,
+    .hub-understand-block,
+    .hub-clinical-block {
+        padding: 10px 12px !important;
+    }
+
+    .hub-day-row {
+        padding: 8px 10px !important;
+    }
+}

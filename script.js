@@ -1540,6 +1540,14 @@ function renderLesson(lessonId, dayId) {
         parentWeekId = getWeekIdForDay(dayId); // Robust resolution of the parent Week
     }
 
+    // Lookup rich module and day curriculum metadata
+    const allModules = window.curriculumData || window.roadmap || [];
+    const currentModule = allModules.find(w => w.id === parentWeekId) || (dayId ? allModules.find(w => w.days && w.days.some(d => d.id === dayId)) : null);
+    const currentDay = currentModule && currentModule.days ? currentModule.days.find(d => d.id === dayId || d.lessonId === lessonId) : null;
+    const moduleOverview = currentModule ? currentModule.overview : '';
+    const daySummary = currentDay ? currentDay.summary : (lesson.techDesc || '');
+    const clinicalApp = currentModule ? currentModule.clinicalApplication : '';
+
     const app = document.getElementById('app');
     if (!app) return;
 
@@ -1564,6 +1572,35 @@ function renderLesson(lessonId, dayId) {
 
                 <!-- 70% PRIMARY STREAM -->
                 <div class="lesson-primary-stream" style="display: flex; flex-direction: column; overflow-y: auto; padding-right: 16px;">
+                    
+                    <!-- MISSION OVERVIEW & WHAT YOU WILL UNDERSTAND TODAY -->
+                    <div class="lesson-mission-briefing-card glass-refractive" style="border-radius: 14px; padding: 18px 20px; margin-bottom: 20px; background: rgba(13, 17, 34, 0.75); border: 1px solid rgba(6, 182, 212, 0.25); box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--accent-cyan); font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+                                <span>📖</span> ${currentModule ? currentModule.title : 'Healthcare Data Intelligence Mission'}
+                            </span>
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-muted); background: rgba(255,255,255,0.06); padding: 2px 8px; border-radius: 4px;">
+                                ${currentModule ? currentModule.level : 'Active Mission'} • ${currentDay ? 'Day ' + (currentDay.dayNum || 1) : 'Daily Mission'}
+                            </span>
+                        </div>
+                        
+                        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: white; margin-bottom: 6px;">
+                            🎯 Today's Mission & Understanding Goal: ${currentDay ? currentDay.title : lesson.title}
+                        </div>
+
+                        <p style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.88rem; color: #cbd5e1; line-height: 1.55; margin: 0 0 10px 0;">
+                            ${daySummary || moduleOverview || 'Master the fundamental architectural models and medical data workflows in this hands-on interactive mission.'}
+                        </p>
+
+                        ${clinicalApp ? `
+                        <div style="display: flex; align-items: flex-start; gap: 8px; background: rgba(6,182,212,0.06); border-left: 3px solid var(--accent-cyan); padding: 8px 12px; border-radius: 0 6px 6px 0;">
+                            <span style="font-size: 0.85rem;">🏥</span>
+                            <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.8rem; color: #94a3b8; line-height: 1.45;">
+                                <strong style="color: var(--accent-cyan);">Real-World Clinical Impact:</strong> ${clinicalApp}
+                            </div>
+                        </div>` : ''}
+                    </div>
+
                     <div class="video-refractive-frame glass-refractive" style="border-radius: 16px; overflow: hidden; background: #000; aspect-ratio: 16/9; width: 100%;">
                         <iframe src="${lesson.video}" style="width: 100%; height: 100%;" frameborder="0" allowfullscreen></iframe>
                     </div>
