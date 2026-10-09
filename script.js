@@ -1334,6 +1334,12 @@ window.showResources = () => {
 
 // --- LESSON FETCHER & PROCEDURAL GENERATOR ---
 function getLessonById(lessonId) {
+    // 0. High-Fidelity Pedagogical Master Engine (v15.4)
+    if (typeof window.getComprehensiveLesson === 'function') {
+        const masterLesson = window.getComprehensiveLesson(lessonId);
+        if (masterLesson) return masterLesson;
+    }
+
     // 1. Try to find manually authored content
     const manualLesson = window.modules.find(m => m.id === lessonId);
     if (manualLesson) return manualLesson;
@@ -1555,6 +1561,12 @@ function renderLesson(lessonId, dayId) {
     window.activeLessonContext = lesson; // AURA AI CONTEXT HOOK
     if (window.AudioBriefing && window.AudioBriefing.isPlaying) {
         window.AudioBriefing.stop();
+    }
+
+    // 0. Render via v15.4 Pedagogical Masterclass Engine
+    if (typeof window.renderMasterLessonView === 'function') {
+        window.renderMasterLessonView(lesson, dayId);
+        return;
     }
 
     const isPythonLesson = lesson.type === 'python';

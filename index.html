@@ -52,10 +52,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="QuantumField.js"></script>
     <script src="AuraVisual.js"></script>
-    <link rel="stylesheet" href="style.css?v=15.3">
-    <link rel="stylesheet" href="style_terminal_modern.css?v=15.3">
+    <link rel="stylesheet" href="style.css?v=15.4">
+    <link rel="stylesheet" href="style_terminal_modern.css?v=15.4">
     <!-- MUST BE LAST TO OVERRIDE ALL LEGACY GRIDS -->
-    <link rel="stylesheet" href="HorizonLayout.css?v=15.3">
+    <link rel="stylesheet" href="HorizonLayout.css?v=15.4">
 </head>
 
 <body>
@@ -260,18 +260,19 @@
     <script src="NeuralStorageHub.js"></script>
 
     <!-- Core Engine -->
-    <script src="roadmap.js?v=15.3"></script>
-    <script src="curriculum_data.js?v=15.3"></script>
+    <script src="roadmap.js?v=15.4"></script>
+    <script src="curriculum_data.js?v=15.4"></script>
     <script src="library_data.js"></script>
     <script src="modules.js"></script>
-    <script src="gamification.js?v=15.3"></script>
+    <script src="gamification.js?v=15.4"></script>
     <script src="python_engine.js"></script>
     <script src="NarrativeEngine.js"></script>
     <script src="LoginOverlay.js"></script>
     <script src="GuidedLoading.js"></script>
-    <script src="SpotlightTour.js?v=15.3"></script>
-    <script src="v14_engines.js?v=15.3"></script>
-    <script src="script.js?v=15.3"></script>
+    <script src="SpotlightTour.js?v=15.4"></script>
+    <script src="v14_engines.js?v=15.4"></script>
+    <script src="v15_masterclass_engine.js?v=15.4"></script>
+    <script src="script.js?v=15.4"></script>
     <!-- COMMAND PALETTE (Cmd+K) -->
     <div id="cmd-palette-overlay" class="hidden" style="display: none !important; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100000; backdrop-filter: blur(10px); justify-content: center; align-items: flex-start; padding-top: 15vh;">
         <div class="cmd-palette glass-refractive" style="width: 600px; max-width: 90%; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1); background: rgba(10, 15, 25, 0.8);">
@@ -292,7 +293,10 @@
     <!-- UNIVERSAL FLOATING UP/DOWN LESSON & SCROLL CONTROLLER (LAPTOP, DESKTOP, TABLET & MOBILE) -->
     <div id="universal-floating-scroll-bar" class="universal-floating-slider">
         <button class="universal-slide-btn" onclick="window.scrollAppTo('top')" title="Scroll to Top / Video Player">
-            <span>⬆</span> <span>Top / Video</span>
+            <span>⬆</span> <span>Top</span>
+        </button>
+        <button class="universal-slide-btn scroll-down-btn" onclick="window.scrollAppDown(650)" title="Scroll Down Lesson Page">
+            <span>⬇</span> <span>Down</span>
         </button>
         <button class="universal-slide-btn" onclick="window.navigateLessonStep(-1)" title="Previous Day Mission">
             <span>◀</span> <span>Prev</span>
@@ -303,8 +307,8 @@
         <button class="universal-slide-btn" onclick="window.navigateLessonStep(1)" title="Next Day Mission">
             <span>Next</span> <span>▶</span>
         </button>
-        <button class="universal-slide-btn scroll-down-btn" onclick="window.scrollAppTo('#curriculum-master-matrix')" title="Scroll Down to 52-Week Master Curriculum Hub">
-            <span>⬇</span> <span>52 Weeks</span>
+        <button class="universal-slide-btn" onclick="window.scrollAppTo('#curriculum-master-matrix')" title="Scroll Down to 52-Week Master Curriculum Hub" style="background: rgba(139, 92, 246, 0.25) !important; border-color: rgba(139, 92, 246, 0.5) !important; color: #c4b5fd !important;">
+            <span>📋</span> <span>52 Weeks</span>
         </button>
     </div>
 

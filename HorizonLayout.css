@@ -75,15 +75,32 @@ body {
 }
 
 /* CENTER WORKSPACE CARD - MAX SPACE OPTIMIZED */
-.card-workspace {
+.card-workspace, .card-hero {
     background: transparent !important;
     display: flex !important;
     flex-direction: column !important;
     overflow-y: auto !important;
-    padding: 24px 32px !important;
+    overflow-x: hidden !important;
+    padding: 24px 32px 140px 32px !important;
     width: 100% !important;
     height: 100vh !important;
+    max-height: 100vh !important;
     position: relative !important;
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+/* Ensure inner lesson content never creates an internal scroll trap */
+#app,
+.masterclass-lesson-container,
+.lesson-mission-control,
+.lesson-main-layout,
+.lesson-primary-stream,
+.lesson-vitals-sidebar,
+#curriculum-master-matrix {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
 }
 
 /* RIGHT AURA AI CARD */
@@ -1139,4 +1156,58 @@ body.zen-mode-active .lesson-container {
         padding: 20px 18px !important;
         margin: 24px 0 20px 0 !important;
     }
+}
+
+
+/* ============================================================================
+ * 🚀 QUICK JUMP BAR & INTERACTIVE PILLS (v15.4)
+ * ============================================================================ */
+.lesson-quick-jump-bar {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    padding: 10px 14px !important;
+    background: rgba(11, 17, 33, 0.96) !important;
+    border: 1px solid rgba(56, 189, 248, 0.25) !important;
+    border-radius: 12px !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    margin-bottom: 24px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+}
+
+.jump-pill {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #94a3b8 !important;
+    padding: 6px 14px !important;
+    border-radius: 9999px !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    font-family: 'Space Grotesk', sans-serif !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    text-decoration: none !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.jump-pill:hover {
+    background: rgba(56, 189, 248, 0.22) !important;
+    border-color: #38bdf8 !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3) !important;
+}
+
+.jump-pill.jump-pill-accent {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(139, 92, 246, 0.3)) !important;
+    border-color: rgba(6, 182, 212, 0.5) !important;
+    color: #38bdf8 !important;
 }
