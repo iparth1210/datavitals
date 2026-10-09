@@ -23,7 +23,11 @@ const PythonEngine = {
         if (!container) return;
 
         // 1. Init Monaco (UI First)
-        if (!this.editor && container) {
+        if (container && (!this.editor || container.childElementCount === 0)) {
+            if (this.editor && typeof this.editor.dispose === 'function') {
+                try { this.editor.dispose(); } catch(e){}
+                this.editor = null;
+            }
             this.log("Initializing Editor Interface...");
             try {
                 await this.initMonaco();
@@ -152,13 +156,14 @@ const PythonEngine = {
      * Log output to the 'Terminal' div
      */
     log(msg, type = 'log') {
-        const consoleEl = document.getElementById('term-output');
-        if (!consoleEl) return;
-
-        const line = document.createElement('div');
-        line.className = `term-line ${type}`;
-        line.innerText = msg;
-        consoleEl.appendChild(line);
-        consoleEl.scrollTop = consoleEl.scrollHeight;
+        const consoleEls = document.querySelectorAll('#term-output, .console-pane');
+        if (!consoleEls.length) return;
+        consoleEls.forEach(consoleEl => {
+            const line = document.createElement('div');
+            line.className = `term-line ${type}`;
+            line.innerText = msg;
+            consoleEl.appendChild(line);
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        });
     }
 };

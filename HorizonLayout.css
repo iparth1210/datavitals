@@ -63,7 +63,7 @@ body {
 }
 
 /* LEFT NAVIGATION CARD */
-.card-nav {
+.card-nav, .card-sidebar {
     background: var(--bg-sidebar) !important;
     border-right: 1px solid var(--border-subtle) !important;
     display: flex !important;

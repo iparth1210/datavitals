@@ -1,3 +1,6 @@
+// Sync full 52-week curriculum
+if (typeof window !== 'undefined' && window.curriculumData) { window.roadmap = window.curriculumData; }
+
 
 // 1-Click Maximize Learning Objective Workspace Mode
 window.toggleWorkspaceZenMode = () => {
@@ -335,16 +338,22 @@ function executeOpenCommand(query) {
 }
 
 window.filterModules = (query) => {
-    query = query.toLowerCase().trim();
+    query = (query || '').toLowerCase().trim();
     const groups = document.querySelectorAll('.sidebar-module-group');
-    groups.forEach(group => {
-        const text = group.innerText.toLowerCase();
-        if (text.includes(query) || query === '') {
-            group.style.display = 'block';
-        } else {
-            group.style.display = 'none';
-        }
-    });
+    if (groups) {
+        groups.forEach(group => {
+            const text = group.innerText.toLowerCase();
+            if (text.includes(query) || query === '') {
+                group.style.display = 'block';
+            } else {
+                group.style.display = 'none';
+            }
+        });
+    }
+    // Synchronously filter the 52-week curriculum hub matrix
+    if (typeof window.filterModulesHub === 'function') {
+        window.filterModulesHub(query);
+    }
 };
 
 // --- AUDIO HAPTIC ENGINE ---
@@ -1097,7 +1106,15 @@ window.showMyProgress = () => {
     const progressPercent = (state.xp / xpNeeded) * 100;
 
     app.innerHTML = `
-        <div class="holographic-dashboard" style="padding: 40px; animation: fadeIn 0.5s;">
+        <div class="holographic-dashboard" style="padding: 30px; animation: fadeIn 0.5s; max-width: 1200px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding: 12px 18px; border-radius: 12px; background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.25);">
+                <button onclick="window.returnToCurriculum()" class="btn-neural" style="font-family: 'Space Grotesk'; font-size: 0.9rem; font-weight: 700; padding: 10px 20px; border-radius: 10px; background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(56,189,248,0.4)); border-color: #38bdf8; color: white; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                    <span>⬅</span> Back to Master Curriculum & Video Studio
+                </button>
+                <button onclick="window.showModulesView()" class="btn-neural" style="font-family: 'Space Grotesk'; font-size: 0.85rem; color: #94a3b8; background: transparent; border: none; cursor: pointer;">
+                    <span>⬇</span> 52-Week Matrix
+                </button>
+            </div>
             <h2 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: 2.5rem; margin-bottom: 30px;">HOLOGRAPHIC_PROFILE</h2>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
@@ -1152,6 +1169,14 @@ window.showResources = () => {
     // Main container
     let html = `
         <div class="library-container" style="max-width: 1000px; margin: 0 auto; padding-bottom: 50px; animation: fadeIn 0.5s;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding: 12px 18px; border-radius: 12px; background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.25);">
+                <button onclick="window.returnToCurriculum()" class="btn-neural" style="font-family: 'Space Grotesk'; font-size: 0.9rem; font-weight: 700; padding: 10px 20px; border-radius: 10px; background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(56,189,248,0.4)); border-color: #38bdf8; color: white; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                    <span>⬅</span> Back to Master Curriculum & Video Studio
+                </button>
+                <button onclick="window.showModulesView()" class="btn-neural" style="font-family: 'Space Grotesk'; font-size: 0.85rem; color: #94a3b8; background: transparent; border: none; cursor: pointer;">
+                    <span>⬇</span> 52-Week Matrix
+                </button>
+            </div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px;">
                 <div>
                     <h2 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: 2.5rem; margin: 0;">DATA_LIBRARY</h2>
@@ -2356,6 +2381,14 @@ window.showPortfolioGenerator = () => {
 
     app.innerHTML = `
         <div class="portfolio-container" style="max-width: 1100px; margin: 0 auto; padding-bottom: 50px; animation: fadeIn 0.4s;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 12px 18px; border-radius: 12px; background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.25);">
+                <button onclick="window.returnToCurriculum()" class="btn-neural" style="font-family: 'Space Grotesk'; font-size: 0.9rem; font-weight: 700; padding: 10px 20px; border-radius: 10px; background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(56,189,248,0.4)); border-color: #38bdf8; color: white; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                    <span>⬅</span> Back to Master Curriculum & Video Studio
+                </button>
+                <button onclick="window.showModulesView()" class="btn-neural" style="font-family: 'Space Grotesk'; font-size: 0.85rem; color: #94a3b8; background: transparent; border: none; cursor: pointer;">
+                    <span>⬇</span> 52-Week Matrix
+                </button>
+            </div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 20px;">
                 <div>
                     <h2 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: 2.2rem; margin: 0;">💼 CAREER PORTFOLIO GENERATOR</h2>
@@ -2655,6 +2688,14 @@ window.showDataStudio = () => {
 
     app.innerHTML = `
         <div class="datastudio-container" style="max-width: 1150px; margin: 0 auto; padding-bottom: 50px; animation: fadeIn 0.4s;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 12px 18px; border-radius: 12px; background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.25);">
+                <button onclick="window.returnToCurriculum()" class="btn-neural" style="font-family: 'Space Grotesk'; font-size: 0.9rem; font-weight: 700; padding: 10px 20px; border-radius: 10px; background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(56,189,248,0.4)); border-color: #38bdf8; color: white; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                    <span>⬅</span> Back to Master Curriculum & Video Studio
+                </button>
+                <button onclick="window.showModulesView()" class="btn-neural" style="font-family: 'Space Grotesk'; font-size: 0.85rem; color: #94a3b8; background: transparent; border: none; cursor: pointer;">
+                    <span>⬇</span> 52-Week Matrix
+                </button>
+            </div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px;">
                 <div>
                     <h2 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: 2.2rem; margin: 0;">🧪 INTERACTIVE DATA STUDIO</h2>
@@ -3019,3 +3060,17 @@ window.renderRoadmap = renderRoadmap;
 window.renderWeekView = renderWeekView;
 window.handleDayClick = handleDayClick;
 window.getWeekIdForDay = getWeekIdForDay;
+
+window.returnToCurriculum = () => {
+    const lesson = window.activeLessonContext || (window.modules ? window.modules[0] : null);
+    const dayId = window.activeCurrentDayId || 'week-1-d1';
+    const lessonId = window.activeCurrentLessonId || (lesson ? lesson.id : 'lesson-w1-d1');
+    if (typeof renderLesson === 'function') {
+        renderLesson(lessonId, dayId);
+    } else if (typeof window.renderLesson === 'function') {
+        window.renderLesson(lessonId, dayId);
+    }
+    if (typeof window.scrollAppTo === 'function') {
+        window.scrollAppTo('top');
+    }
+};

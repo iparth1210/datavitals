@@ -5011,3 +5011,6 @@ window.roadmap = window.curriculumData.map(mod => ({
     estimatedHours: mod.estimatedHours,
     days: mod.days
 }));
+
+// Sync window.roadmap with full 52-week curriculum dataset
+window.roadmap = window.curriculumData;

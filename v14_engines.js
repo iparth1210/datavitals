@@ -1027,7 +1027,7 @@ window.applyHubFilters = () => {
         const matchesQuery = (q === '') || cardTitle.includes(q) || text.includes(q);
 
         if (matchesPhase && matchesQuery) {
-            card.style.display = 'flex';
+            card.style.display = '';
             visibleCount++;
         } else {
             card.style.display = 'none';
@@ -1109,3 +1109,5 @@ window.showActiveLessonMobile = () => {
     window.scrollAppTo('top');
     if (typeof triggerHaptic === 'function') triggerHaptic('light');
 };
+
+window.returnToCurriculum = window.showActiveLessonMobile;

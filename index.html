@@ -6,7 +6,7 @@
     <!-- AUTO CACHE-BUSTER REDIRECT (v14.2) -->
     <script>
         (function() {
-            var APP_VER = '15.2';
+            var APP_VER = '15.3';
             try {
                 var u = new URL(window.location.href);
                 if (u.searchParams.get('v') !== APP_VER) {
@@ -52,9 +52,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="QuantumField.js"></script>
     <script src="AuraVisual.js"></script>
-    <link rel="stylesheet" href="style.css?v=15.2">
+    <link rel="stylesheet" href="style.css?v=15.3">
+    <link rel="stylesheet" href="style_terminal_modern.css?v=15.3">
     <!-- MUST BE LAST TO OVERRIDE ALL LEGACY GRIDS -->
-    <link rel="stylesheet" href="HorizonLayout.css?v=15.2">
+    <link rel="stylesheet" href="HorizonLayout.css?v=15.3">
 </head>
 
 <body>
@@ -131,6 +132,9 @@
                         <input type="text" placeholder="Search knowledge base..." onkeyup="filterModules(this.value)"
                             style="background: transparent; border: none; color: white; width: 80%; outline: none; margin-left: 8px; font-family: 'Plus Jakarta Sans'; font-size: 0.9rem;">
                     </div>
+                    <button onclick="window.returnToCurriculum()" class="btn-neural" style="padding: 10px 14px; font-size: 0.8rem; border-radius: 8px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.45); color: #38bdf8; display: flex; align-items: center; gap: 6px; font-weight: 700;" title="Return to Master Video Studio & 52-Week Matrix">
+                        🎓 Curriculum & Video
+                    </button>
                     <button onclick="showDataStudio()" class="btn-neural" style="padding: 10px 14px; font-size: 0.8rem; border-radius: 8px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.3); color: var(--accent-cyan); display: flex; align-items: center; gap: 6px;" title="Open Data Studio">
                         🧪 Data Studio
                     </button>
@@ -256,18 +260,18 @@
     <script src="NeuralStorageHub.js"></script>
 
     <!-- Core Engine -->
-    <script src="roadmap.js?v=15.2"></script>
-    <script src="curriculum_data.js?v=15.2"></script>
+    <script src="roadmap.js?v=15.3"></script>
+    <script src="curriculum_data.js?v=15.3"></script>
     <script src="library_data.js"></script>
     <script src="modules.js"></script>
-    <script src="gamification.js?v=15.2"></script>
+    <script src="gamification.js?v=15.3"></script>
     <script src="python_engine.js"></script>
     <script src="NarrativeEngine.js"></script>
     <script src="LoginOverlay.js"></script>
     <script src="GuidedLoading.js"></script>
-    <script src="SpotlightTour.js?v=15.2"></script>
-    <script src="v14_engines.js?v=15.2"></script>
-    <script src="script.js?v=15.2"></script>
+    <script src="SpotlightTour.js?v=15.3"></script>
+    <script src="v14_engines.js?v=15.3"></script>
+    <script src="script.js?v=15.3"></script>
     <!-- COMMAND PALETTE (Cmd+K) -->
     <div id="cmd-palette-overlay" class="hidden" style="display: none !important; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100000; backdrop-filter: blur(10px); justify-content: center; align-items: flex-start; padding-top: 15vh;">
         <div class="cmd-palette glass-refractive" style="width: 600px; max-width: 90%; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1); background: rgba(10, 15, 25, 0.8);">
