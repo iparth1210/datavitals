@@ -8,58 +8,61 @@
 
     // 1. TOPIC-SPECIFIC VIDEO EMBED DIRECTORY (ALL 52 WEEKS)
     window.videoDirectory = {
-        1: { url: 'https://www.youtube.com/embed/xnyFYiK2rSY', title: 'Hardware Architecture & Healthcare IT Infrastructure' },
-        2: { url: 'https://www.youtube.com/embed/Vl0H-qTclOg', title: 'Excel Foundations & Medical Data Grid' },
-        3: { url: 'https://www.youtube.com/embed/O5iZ91l5qfg', title: 'Excel Clinical Formulas & Mathematical Validation' },
-        4: { url: 'https://www.youtube.com/embed/7_aK0C7K-l4', title: 'Medical Lookups: XLOOKUP & Dynamic Cohort Indexing' },
-        5: { url: 'https://www.youtube.com/embed/m132RAWc6nk', title: 'Clinical Pivot Tables: Hospital Admissions & ICU Metrics' },
-        6: { url: 'https://www.youtube.com/embed/0XZ7U6nzazE', title: 'Medical Data Cleaning & Text Parsing' },
-        7: { url: 'https://www.youtube.com/embed/qFY1n2b44Co', title: 'Real-World Clinical Excel Project & Mortality Audit' },
-        8: { url: 'https://www.youtube.com/embed/rpkpK_n2ad0', title: 'Phase 1 Capstone Exam & Biostatistical Validation' },
-        9: { url: 'https://www.youtube.com/embed/HXV3zeQKqGY', title: 'Relational Database Architecture & SQL 101' },
-        10: { url: 'https://www.youtube.com/embed/7S_tz1z_5bA', title: 'SQL Filtering: WHERE, LIKE, IN & BETWEEN' },
-        11: { url: 'https://www.youtube.com/embed/qw--VYLpxG4', title: 'SQL Aggregations: COUNT, SUM, AVG & Cohort Summaries' },
-        12: { url: 'https://www.youtube.com/embed/BPHAr4QGGVE', title: 'SQL GROUP BY & HAVING: Departmental Utilization' },
-        13: { url: 'https://www.youtube.com/embed/093STTl8PBQ', title: 'SQL Relational JOINs: INNER, LEFT, RIGHT' },
-        14: { url: 'https://www.youtube.com/embed/Yh4CrPHVBpc', title: 'Advanced Multi-Table JOINs & Composite Keys' },
-        15: { url: 'https://www.youtube.com/embed/Ww71knvhQ-s', title: 'SQL Subqueries, CTEs & Window Functions' },
-        16: { url: 'https://www.youtube.com/embed/4bV3NevQ48M', title: 'Clinical Data Modeling: Normalization & FHIR Schemas' },
-        17: { url: 'https://www.youtube.com/embed/AGrl-H87pRU', title: 'PowerBI Foundations: Ingesting Clinical Feeds' },
-        18: { url: 'https://www.youtube.com/embed/TmhQCQr_mpU', title: 'PowerBI DAX Calculations: Clinical KPIs' },
-        19: { url: 'https://www.youtube.com/embed/e_pZ9y-3Q6c', title: 'Enterprise Hospital Dashboards & Surgical Throughput' },
-        20: { url: 'https://www.youtube.com/embed/rpkpK_n2ad0', title: 'Phase 2 Capstone: Hospital Enterprise Analytics' },
-        21: { url: 'https://www.youtube.com/embed/rfscVS0vtbw', title: 'Python for Healthcare Data Science & PEP 8' },
-        22: { url: 'https://www.youtube.com/embed/kqtD5dpn9C8', title: 'Python Data Types & String Parsing' },
-        23: { url: 'https://www.youtube.com/embed/DWgzHbcastg', title: 'Python Conditional Logic & Triage Decision Engines' },
-        24: { url: 'https://www.youtube.com/embed/6iF8Xb7Z3wQ', title: 'Python Loops & High-Throughput Telemetry Ingestion' },
-        25: { url: 'https://www.youtube.com/embed/9Os0o3wzS_I', title: 'Python Modular Functions & Type Hinting' },
-        26: { url: 'https://www.youtube.com/embed/daefaLgNkw0', title: 'Python Data Structures & FHIR JSON Traversal' },
-        27: { url: 'https://www.youtube.com/embed/vmEHCJofslg', title: 'Pandas Ingestion, DataFrames & Clinical Manipulation' },
-        28: { url: 'https://www.youtube.com/embed/bDhvCp3_lYw', title: 'Pandas Advanced Data Cleaning & Imputation' },
-        29: { url: 'https://www.youtube.com/embed/_L39rN6gzag', title: 'Clinical Data Visualization: Matplotlib & Seaborn' },
-        30: { url: 'https://www.youtube.com/embed/0P7QnIQDBJY', title: 'Machine Learning Intro: Scikit-learn Pipelines' },
-        31: { url: 'https://www.youtube.com/embed/XVv6mJpFOb8', title: 'Clinical Web Scraping & REST APIs: CDC & OpenFDA' },
-        32: { url: 'https://www.youtube.com/embed/LHBE6Q9XlzI', title: 'Phase 3 Capstone: Medical Ingestion & Report Engine' },
-        33: { url: 'https://www.youtube.com/embed/fNk_zzaMoSs', title: 'Mathematics for Medical AI: Linear Algebra & Biosignals' },
-        34: { url: 'https://www.youtube.com/embed/tIeHLnjs5U8', title: 'Multivariable Calculus & Gradient Descent in Clinical AI' },
-        35: { url: 'https://www.youtube.com/embed/PaFPbb-SXE0', title: 'Machine Learning Foundations: Clinical Biases & Splitting' },
-        36: { url: 'https://www.youtube.com/embed/yIYKR4sgzI8', title: 'Supervised Learning: Linear & Logistic Regression' },
-        37: { url: 'https://www.youtube.com/embed/7VeUPuFG444', title: 'Tree-Based Models: Decision Trees & Explainable Rules' },
-        38: { url: 'https://www.youtube.com/embed/J4Wdy0Wc_xQ', title: 'Ensemble Learning: Random Forests & XGBoost' },
-        39: { url: 'https://www.youtube.com/embed/4b5d3muPQmA', title: 'Unsupervised Learning: K-Means & Patient Subgrouping' },
-        40: { url: 'https://www.youtube.com/embed/aircAruvnKk', title: 'Deep Learning Foundations: Perceptrons & Backprop' },
-        41: { url: 'https://www.youtube.com/embed/IHZwWFHWa-w', title: 'Activation Functions & Regularization in Medical Nets' },
-        42: { url: 'https://www.youtube.com/embed/tPYj3Ngid4E', title: 'PyTorch for Medical Imaging & Tensor Acceleration' },
-        43: { url: 'https://www.youtube.com/embed/zfiSAzpy9LC', title: 'Convolutional Neural Networks: Chest X-Ray & MRI' },
-        44: { url: 'https://www.youtube.com/embed/UNmqTiXiR2c', title: 'Recurrent Neural Networks: ICU Waveforms & Vital Series' },
-        45: { url: 'https://www.youtube.com/embed/M49520vM4vY', title: 'Clinical NLP: Clinical Notes, SpaCy & BioBERT' },
-        46: { url: 'https://www.youtube.com/embed/SZorAJ4I-sA', title: 'Transformers & Self-Attention: Clinical Foundation Models' },
-        47: { url: 'https://www.youtube.com/embed/bZQun8Y4L2A', title: 'Generative AI & LLMs in Healthcare Decision Support' },
-        48: { url: 'https://www.youtube.com/embed/_ZvnD93Mr5Q', title: 'Prompt Engineering & Guardrails for Healthcare' },
-        49: { url: 'https://www.youtube.com/embed/HcqpanDadyQ', title: 'Medical AI Ethics, Algorithmic Bias Audits & FDA SaMD' },
-        50: { url: 'https://www.youtube.com/embed/zOjov-2OZ0E', title: 'Final Capstone Part 1: Problem Formulation & ETL' },
-        51: { url: 'https://www.youtube.com/embed/aircAruvnKk', title: 'Final Capstone Part 2: Model Training & Tuning' },
-        52: { url: 'https://www.youtube.com/embed/zOjov-2OZ0E', title: 'Final Capstone Graduation: Production MLOps Launch' }
+        1: { url: 'https://www.youtube.com/embed/xnyFYiK2rSY', title: 'Hardware Architecture & Healthcare IT Infrastructure', id: 'xnyFYiK2rSY' },
+        2: { url: 'https://www.youtube.com/embed/Vl0H-qTclOg', title: 'Excel Grid, Data Types & Medical Records', id: 'Vl0H-qTclOg' },
+        3: { url: 'https://www.youtube.com/embed/Vl0H-qTclOg', title: 'Excel Clinical Formulas & Mathematical Validation', id: 'Vl0H-qTclOg' },
+        4: { url: 'https://www.youtube.com/embed/d3BYVQ6xIE4', title: 'Medical Lookups: XLOOKUP & Dynamic Cohort Indexing', id: 'd3BYVQ6xIE4' },
+        5: { url: 'https://www.youtube.com/embed/9NUjHBNWe9M', title: 'Clinical Pivot Tables: Hospital Admissions & ICU Metrics', id: '9NUjHBNWe9M' },
+        6: { url: 'https://www.youtube.com/embed/Vl0H-qTclOg', title: 'Medical Data Cleaning & Text Parsing', id: 'Vl0H-qTclOg' },
+        7: { url: 'https://www.youtube.com/embed/opJgMj1IUrc', title: 'Real-World Clinical Excel Project & Mortality Audit', id: 'opJgMj1IUrc' },
+        8: { url: 'https://www.youtube.com/embed/xxpc-HPKN28', title: 'Phase 1 Capstone Exam & Biostatistical Validation', id: 'xxpc-HPKN28' },
+
+        9: { url: 'https://www.youtube.com/embed/7S_tz1z_5bA', title: 'PostgreSQL Architecture & Clinical Database Setup', id: '7S_tz1z_5bA' },
+        10: { url: 'https://www.youtube.com/embed/7S_tz1z_5bA', title: 'SQL SELECT, Filtering & Cohort Extraction', id: '7S_tz1z_5bA' },
+        11: { url: 'https://www.youtube.com/embed/7S_tz1z_5bA', title: 'SQL Aggregate Functions: SUM, AVG, COUNT in Patient Data', id: '7S_tz1z_5bA' },
+        12: { url: 'https://www.youtube.com/embed/7S_tz1z_5bA', title: 'GROUP BY, HAVING & Clinical Stratification', id: '7S_tz1z_5bA' },
+        13: { url: 'https://www.youtube.com/embed/2HVMiPPuPIM', title: 'SQL Relational JOINs: INNER, LEFT, RIGHT', id: '2HVMiPPuPIM' },
+        14: { url: 'https://www.youtube.com/embed/Ww71knvhQ-s', title: 'Advanced Multi-Table JOINs & Composite Keys', id: 'Ww71knvhQ-s' },
+        15: { url: 'https://www.youtube.com/embed/Ww71knvhQ-s', title: 'SQL Window Functions: ROW_NUMBER, RANK, DENSE_RANK', id: 'Ww71knvhQ-s' },
+        16: { url: 'https://www.youtube.com/embed/ztHopE5Wnpc', title: 'Clinical Data Modeling: Normalization & FHIR Schemas', id: 'ztHopE5Wnpc' },
+        17: { url: 'https://www.youtube.com/embed/ztHopE5Wnpc', title: 'SQL Indexing, EXPLAIN ANALYZE & Query Optimization', id: 'ztHopE5Wnpc' },
+        18: { url: 'https://www.youtube.com/embed/AGrl-H87pRU', title: 'PowerBI DAX Calculations: Clinical KPIs', id: 'AGrl-H87pRU' },
+        19: { url: 'https://www.youtube.com/embed/AGrl-H87pRU', title: 'Enterprise Hospital Dashboards & Surgical Throughput', id: 'AGrl-H87pRU' },
+        20: { url: 'https://www.youtube.com/embed/7S_tz1z_5bA', title: 'Phase 2 Capstone: Hospital Enterprise Analytics', id: '7S_tz1z_5bA' },
+
+        21: { url: 'https://www.youtube.com/embed/rfscVS0vtbw', title: 'Python Syntax, Variables & Healthcare Math', id: 'rfscVS0vtbw' },
+        22: { url: 'https://www.youtube.com/embed/rfscVS0vtbw', title: 'Python Control Structures & Iteration in Patient Records', id: 'rfscVS0vtbw' },
+        23: { url: 'https://www.youtube.com/embed/rfscVS0vtbw', title: 'Python Conditional Logic & Triage Decision Engines', id: 'rfscVS0vtbw' },
+        24: { url: 'https://www.youtube.com/embed/rfscVS0vtbw', title: 'Modular Python: Functions & Defensive Architecture', id: 'rfscVS0vtbw' },
+        25: { url: 'https://www.youtube.com/embed/rfscVS0vtbw', title: 'Python Data Structures: Dictionaries & Patient Lists', id: 'rfscVS0vtbw' },
+        26: { url: 'https://www.youtube.com/embed/rfscVS0vtbw', title: 'FHIR JSON Traversal & Telemetry Serialization', id: 'rfscVS0vtbw' },
+        27: { url: 'https://www.youtube.com/embed/rfscVS0vtbw', title: 'NumPy Arrays & Multidimensional Physiological Matrices', id: 'rfscVS0vtbw' },
+        28: { url: 'https://www.youtube.com/embed/rfscVS0vtbw', title: 'Pandas DataFrames: Cohort Ingestion & Cleaning', id: 'rfscVS0vtbw' },
+        29: { url: 'https://www.youtube.com/embed/UO98lJQ3QGI', title: 'Clinical Data Visualization: Matplotlib & Seaborn', id: 'UO98lJQ3QGI' },
+        30: { url: 'https://www.youtube.com/embed/UO98lJQ3QGI', title: 'Exploratory Data Analysis (EDA) on ICU Datasets', id: 'UO98lJQ3QGI' },
+        31: { url: 'https://www.youtube.com/embed/GZvSYJDk-us', title: 'Clinical Web Scraping & REST APIs: CDC & OpenFDA', id: 'GZvSYJDk-us' },
+        32: { url: 'https://www.youtube.com/embed/rfscVS0vtbw', title: 'Phase 3 Capstone: Python Bio-Informatics Pipeline', id: 'rfscVS0vtbw' },
+
+        33: { url: 'https://www.youtube.com/embed/Gv9_4yMHFhI', title: 'Supervised Learning: Logistic Regression in Readmission', id: 'Gv9_4yMHFhI' },
+        34: { url: 'https://www.youtube.com/embed/Gv9_4yMHFhI', title: 'Classification Metrics: ROC-AUC, Sensitivity, Specificity', id: 'Gv9_4yMHFhI' },
+        35: { url: 'https://www.youtube.com/embed/Gv9_4yMHFhI', title: 'Machine Learning Foundations: Clinical Biases & Splitting', id: 'Gv9_4yMHFhI' },
+        36: { url: 'https://www.youtube.com/embed/Gv9_4yMHFhI', title: 'Linear Regression: Length of Stay & Cost Forecasting', id: 'Gv9_4yMHFhI' },
+        37: { url: 'https://www.youtube.com/embed/J4Wdy0Wc_xQ', title: 'Tree-Based Models: Decision Trees & Explainable Rules', id: 'J4Wdy0Wc_xQ' },
+        38: { url: 'https://www.youtube.com/embed/J4Wdy0Wc_xQ', title: 'Ensemble Methods: Random Forests & Sepsis Early Warning', id: 'J4Wdy0Wc_xQ' },
+        39: { url: 'https://www.youtube.com/embed/J4Wdy0Wc_xQ', title: 'Gradient Boosting: XGBoost & LightGBM for Mortality', id: 'J4Wdy0Wc_xQ' },
+        40: { url: 'https://www.youtube.com/embed/aircAruvnKk', title: 'Deep Learning Foundations: Perceptrons & Backprop', id: 'aircAruvnKk' },
+        41: { url: 'https://www.youtube.com/embed/aircAruvnKk', title: 'Neural Network Architecture & Loss Function Formulation', id: 'aircAruvnKk' },
+        42: { url: 'https://www.youtube.com/embed/V_xro1bcAuA', title: 'PyTorch for Medical Imaging & Tensor Acceleration', id: 'V_xro1bcAuA' },
+        43: { url: 'https://www.youtube.com/embed/YRhxdVk_sIs', title: 'Convolutional Neural Networks: Chest X-Ray & MRI', id: 'YRhxdVk_sIs' },
+        44: { url: 'https://www.youtube.com/embed/AsNTP8Kwu80', title: 'Recurrent Neural Networks: ICU Waveforms & Vital Series', id: 'AsNTP8Kwu80' },
+        45: { url: 'https://www.youtube.com/embed/4Bdc55j80l8', title: 'Clinical NLP: Clinical Notes, SpaCy & BioBERT', id: '4Bdc55j80l8' },
+        46: { url: 'https://www.youtube.com/embed/4Bdc55j80l8', title: 'Transformer Models: Medical Text Summarization', id: '4Bdc55j80l8' },
+        47: { url: 'https://www.youtube.com/embed/4Bdc55j80l8', title: 'Large Language Models & Clinical Question Answering', id: '4Bdc55j80l8' },
+        48: { url: 'https://www.youtube.com/embed/jC4v5AS4RIM', title: 'Prompt Engineering & Guardrails for Healthcare', id: 'jC4v5AS4RIM' },
+        49: { url: 'https://www.youtube.com/embed/jC4v5AS4RIM', title: 'AI Ethics, Bias Mitigation & Algorithmic Fairness', id: 'jC4v5AS4RIM' },
+        50: { url: 'https://www.youtube.com/embed/V_xro1bcAuA', title: 'Model Deployment: FastAPI & Docker for Medical AI', id: 'V_xro1bcAuA' },
+        51: { url: 'https://www.youtube.com/embed/V_xro1bcAuA', title: 'MLOps in Healthcare: Monitoring Drift & FDA SaMD', id: 'V_xro1bcAuA' },
+        52: { url: 'https://www.youtube.com/embed/V_xro1bcAuA', title: 'Final Capstone Graduation: Production MLOps Launch', id: 'V_xro1bcAuA' }
     };
 
     // 2. CURATED EXTERNAL RESOURCES DIRECTORY
@@ -435,9 +438,12 @@
 
         const isPythonLesson = lesson.type === 'python';
 
-        // Update dynamic page title
+        // Update dynamic page title with clean compact breadcrumb
         const titleEl = document.getElementById('page-title');
-        if (titleEl) titleEl.innerText = `${lesson.title}`;
+        if (titleEl) {
+            titleEl.innerHTML = `<span style="color: var(--accent-cyan); font-family: 'JetBrains Mono'; font-weight: 700; margin-right: 6px;">W${lesson.weekNum}·D${lesson.dayNum}</span> <span style="color: #e2e8f0; font-weight: 600;">${lesson.shortTitle || lesson.moduleTitle}</span>`;
+            titleEl.title = lesson.title;
+        }
 
         window.activeDayId = dayId || lesson.dayId;
         window.activeCurrentLessonId = lesson.id;
@@ -526,9 +532,7 @@
                             </h3>
                         </div>
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                            <a href="${lesson.video.replace('/embed/', '/watch?v=').split('?')[0]}" target="_blank" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.78rem; text-decoration: none; padding: 8px 14px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; border-color: rgba(255,255,255,0.2); color: #cbd5e1;">
-                                <span>↗</span> Open on YouTube
-                            </a>
+                            <a href="${lesson.video.replace('/embed/', '/watch?v=').split('?')[0]}" target="_blank" rel="noopener noreferrer" class="btn-neural" style="font-family: 'Space Grotesk'; font-size: 0.8rem; font-weight: 700; text-decoration: none; padding: 8px 16px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; background: rgba(239, 68, 68, 0.2); border-color: #ef4444; color: #fca5a5;" title="Open directly in YouTube full-screen player"><span>▶</span> Open on YouTube</a>
                             <button onclick="window.toggleWorkspaceZenMode()" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.78rem; padding: 8px 14px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; border-color: var(--accent-violet); color: var(--accent-violet);">
                                 <span>🖥️</span> Theater Mode
                             </button>
@@ -539,7 +543,7 @@
                     </div>
 
                     <div class="video-refractive-frame" style="border-radius: 16px; overflow: hidden; background: #000; aspect-ratio: 16/9; width: 100%; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 8px 28px rgba(0,0,0,0.6);">
-                        <iframe src="${lesson.video}" style="width: 100%; height: 100%;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <iframe src="${lesson.video}?enablejsapi=1&rel=0&modestbranding=1" style="width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen title="${lesson.videoTitle}"></iframe>
                     </div>
                 </div>
 

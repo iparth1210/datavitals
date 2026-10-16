@@ -490,7 +490,19 @@ function renderSidebarCurriculum() {
                         const isDayAvail = true;
                         return `<div class="sidebar-day-item ${isDayAvail ? '' : 'locked-day'}" id="day-node-${day.id}" onclick="${isDayAvail ? "handleSidebarClick('" + week.id + "', '" + day.id + "', '" + day.lessonId + "', event)" : ''}">
                                     <span style="font-family: 'JetBrains Mono'; font-size: 0.68rem; color: var(--accent-cyan); font-weight: 700;">D0${dayIndex+1}</span>
-                                    <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1;">${day.title}</span>
+                                    <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1;" title="${day.title}">${(() => {
+                                        let t = day.title;
+                                        if (t.includes(' - Day ')) {
+                                            const parts = t.split(' - Day ');
+                                            return parts[1].replace(/^\d+:\s*/, '');
+                                        } else if (t.includes(' - Part ')) {
+                                            return 'Part ' + t.split(' - Part ')[1];
+                                        } else if (t.includes(': ')) {
+                                            const parts = t.split(': ');
+                                            return parts[parts.length - 1];
+                                        }
+                                        return t;
+                                    })()}</span>
                                 </div>`;
                     }).join('')}
                 </div>
