@@ -568,34 +568,34 @@
     }
 }
 
-/* --- ZEN FOCUS MODE --- */
+/* --- ZEN FOCUS MODE (PERMANENTLY NEUTRALIZED FOR READABILITY) --- */
 body.zen-focus .bento-card:not(:hover):not(.selected-focus) {
-    opacity: 0.1;
-    filter: grayscale(1) blur(4px);
-    pointer-events: none;
-    transition: all 0.8s var(--smooth-ease);
+    opacity: 1 !important;
+    filter: none !important;
+    pointer-events: auto !important;
 }
 
 body.zen-focus .bento-card:hover,
 body.zen-focus .selected-focus {
-    opacity: 1;
-    filter: none;
-    box-shadow: 0 0 50px rgba(6, 182, 212, 0.3);
-    transform: scale(1.05);
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
 }
 
-.focus-spotlight {
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, rgba(0, 0, 0, 0.95) 400px);
-    pointer-events: none;
-    opacity: 0;
-    z-index: 999;
-    transition: opacity 0.5s;
-}
-
-body.zen-focus .focus-spotlight {
-    opacity: 1;
+/* PERMANENTLY ERADICATE BLACKOUT ON MOUSE MOVE */
+.focus-spotlight,
+#focus-spotlight,
+body.zen-focus .focus-spotlight,
+.cursor-aura,
+#cursor-aura,
+.cursor-trail-container {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    background: transparent !important;
+    width: 0 !important;
+    height: 0 !important;
 }
 
 /* --- LOGIN OVERLAY --- */
