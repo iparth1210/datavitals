@@ -466,15 +466,58 @@ document.addEventListener('mousemove', (e) => {
 // --- RENDER FUNCTIONS ---
 
 /* Replaced renderRoadmap with renderSidebarCurriculum to load items on the left */
+window.sidebarPhaseFilter = window.sidebarPhaseFilter || 0;
+
+window.setSidebarPhaseFilter = function(phaseNum, btnElem) {
+    window.sidebarPhaseFilter = parseInt(phaseNum) || 0;
+    renderSidebarCurriculum();
+};
+
 function renderSidebarCurriculum() {
     const sidebar = document.getElementById('sidebar-curriculum');
-    if (!sidebar) return;
+    if (!sidebar || !window.roadmap) return;
     
+    const filter = window.sidebarPhaseFilter || 0;
+    const modulesToRender = filter === 0 
+        ? window.roadmap 
+        : window.roadmap.filter(w => w.phase === filter);
+
+    const weekOptions = window.roadmap.map((w, idx) => {
+        const wNum = idx + 1;
+        const isCurrent = (window.activeLessonContext && window.activeLessonContext.weekNum === wNum);
+        const cleanTitle = w.title.replace(/^Week \d+:\s*/, '');
+        return `<option value="${wNum}" ${isCurrent ? 'selected' : ''} style="background: #0f172a; color: white;">W${wNum.toString().padStart(2, '0')}: ${cleanTitle}</option>`;
+    }).join('');
+
     sidebar.innerHTML = `
-        <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; letter-spacing: 1px;">// CURRICULUM_MODULES (52 WEEKS)</div>
-        ${window.roadmap.map((week, index) => {
+        <div style="padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: var(--accent-cyan); font-weight: 700; letter-spacing: 0.5px;">// CURRICULUM (52 WEEKS)</span>
+                <span style="font-family: 'JetBrains Mono'; font-size: 0.65rem; color: var(--text-muted);">${modulesToRender.length} WEEKS</span>
+            </div>
+
+            <!-- PHASE FILTER PILLS -->
+            <div class="sidebar-phase-tabs" style="display: flex; gap: 4px; overflow-x: auto; padding-bottom: 2px;">
+                <button onclick="window.setSidebarPhaseFilter(0, this)" class="btn-neural sidebar-phase-btn ${filter === 0 ? 'active' : ''}" style="font-family: 'JetBrains Mono'; font-size: 0.65rem; padding: 4px 6px; border-radius: 4px; flex: 1; text-align: center; white-space: nowrap; ${filter === 0 ? 'background: rgba(56,189,248,0.25); border-color: #38bdf8; color: white; font-weight: 700;' : 'color: #94a3b8; background: rgba(255,255,255,0.03);'}">ALL</button>
+                <button onclick="window.setSidebarPhaseFilter(1, this)" class="btn-neural sidebar-phase-btn ${filter === 1 ? 'active' : ''}" style="font-family: 'JetBrains Mono'; font-size: 0.65rem; padding: 4px 6px; border-radius: 4px; flex: 1; text-align: center; white-space: nowrap; ${filter === 1 ? 'background: rgba(56,189,248,0.25); border-color: #38bdf8; color: white; font-weight: 700;' : 'color: #94a3b8; background: rgba(255,255,255,0.03);'}">P1</button>
+                <button onclick="window.setSidebarPhaseFilter(2, this)" class="btn-neural sidebar-phase-btn ${filter === 2 ? 'active' : ''}" style="font-family: 'JetBrains Mono'; font-size: 0.65rem; padding: 4px 6px; border-radius: 4px; flex: 1; text-align: center; white-space: nowrap; ${filter === 2 ? 'background: rgba(168,85,247,0.25); border-color: #a855f7; color: white; font-weight: 700;' : 'color: #94a3b8; background: rgba(255,255,255,0.03);'}">P2</button>
+                <button onclick="window.setSidebarPhaseFilter(3, this)" class="btn-neural sidebar-phase-btn ${filter === 3 ? 'active' : ''}" style="font-family: 'JetBrains Mono'; font-size: 0.65rem; padding: 4px 6px; border-radius: 4px; flex: 1; text-align: center; white-space: nowrap; ${filter === 3 ? 'background: rgba(236,72,153,0.25); border-color: #ec4899; color: white; font-weight: 700;' : 'color: #94a3b8; background: rgba(255,255,255,0.03);'}">P3</button>
+                <button onclick="window.setSidebarPhaseFilter(4, this)" class="btn-neural sidebar-phase-btn ${filter === 4 ? 'active' : ''}" style="font-family: 'JetBrains Mono'; font-size: 0.65rem; padding: 4px 6px; border-radius: 4px; flex: 1; text-align: center; white-space: nowrap; ${filter === 4 ? 'background: rgba(16,185,129,0.25); border-color: #10b981; color: white; font-weight: 700;' : 'color: #94a3b8; background: rgba(255,255,255,0.03);'}">P4</button>
+            </div>
+
+            <!-- QUICK WEEK JUMP SELECTOR -->
+            <div style="display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 5px 8px;">
+                <span style="font-size: 0.75rem;">⚡</span>
+                <select onchange="window.jumpToWeek(this.value, 1)" style="background: transparent; border: none; color: #cbd5e1; font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; width: 100%; outline: none; cursor: pointer;">
+                    <option value="" style="background: #0f172a;">Jump to Week (1-52)...</option>
+                    ${weekOptions}
+                </select>
+            </div>
+        </div>
+
+        ${modulesToRender.map((week) => {
             const isAvailable = true;
-            const weekNum = index + 1;
+            const weekNum = week.weekNum;
             
             return `
             <div class="sidebar-module-group" id="group-${week.id}">

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * DATAVITALS OS - v14.0 ADVANCED ENGINE SUITE
  * 1. 🎧 AI Audio Briefing Engine (Web Speech API)
  * 2. 🎯 Clinical Knowledge Check & Micro-Quiz Engine (+50 XP)
@@ -770,13 +770,29 @@ window.getModulesHubHTML = () => {
                         </div>
                     </div>
 
-                    <!-- PHASE FILTER PILLS -->
-                    <div class="hub-phase-filters" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-                        <button class="hub-phase-pill active" onclick="window.setHubPhaseFilter(0, this)">All (52 Modules)</button>
-                        <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(1, this)">Phase 1: Foundations & Excel (W1-8)</button>
-                        <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(2, this)">Phase 2: Relational DBs & SQL (W9-20)</button>
-                        <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(3, this)">Phase 3: Python Data Science (W21-32)</button>
-                        <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(4, this)">Phase 4: ML & Medical AI (W33-52)</button>
+                    <!-- PHASE & WEEK ISOLATION CONTROLS -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                        <div class="hub-phase-filters" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                            <button class="hub-phase-pill active" onclick="window.setHubPhaseFilter(0, this)">All (52 Modules)</button>
+                            <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(1, this)">Phase 1: Spreadsheets & Stats (W1-8)</button>
+                            <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(2, this)">Phase 2: Relational DBs & SQL (W9-20)</button>
+                            <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(3, this)">Phase 3: Python Data Science (W21-32)</button>
+                            <button class="hub-phase-pill" onclick="window.setHubPhaseFilter(4, this)">Phase 4: ML & Medical AI (W33-52)</button>
+                        </div>
+
+                        <!-- SINGLE WEEK ISOLATOR DROPDOWN -->
+                        <div style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.5); border: 1px solid rgba(56,189,248,0.3); border-radius: 10px; padding: 6px 14px;">
+                            <span style="font-size: 0.9rem;">🗓️</span>
+                            <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #38bdf8; font-weight: 700;">ISOLATE WEEK:</span>
+                            <select id="hub-week-select" onchange="window.filterHubBySingleWeek(this.value)" style="background: transparent; border: none; color: white; font-family: 'Space Grotesk', sans-serif; font-size: 0.84rem; font-weight: 700; outline: none; cursor: pointer;">
+                                <option value="0" style="background: #0f172a;">Show All 52 Weeks</option>
+                                ${modules.map((m, idx) => {
+                                    const wNum = idx + 1;
+                                    const cln = m.title.replace(/^Week \d+:\s*/, '');
+                                    return `<option value="${wNum}" style="background: #0f172a;">Week ${wNum}: ${cln}</option>`;
+                                }).join('')}
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -897,18 +913,18 @@ window.getModulesHubHTML = () => {
                             </div>
                         </div>
 
-                        <!-- 7-DAY SYLLABUS ACCORDION -->
-                        <div class="hub-days-inline" id="hub-days-${week.id}" style="display: none; flex-direction: column; gap: 10px; margin: 20px 0; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 18px;">
+                        <!-- 7-DAY SYLLABUS (DAY-WISE SEPARATED) -->
+                        <div class="hub-days-inline" id="hub-days-${week.id}" style="display: flex; flex-direction: column; gap: 10px; margin: 20px 0; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 18px;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                                <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.88rem; color: #38bdf8; font-weight: 700;">
-                                    📅 7-DAY STRUCTURED MASTER SYLLABUS
+                                <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.88rem; color: #38bdf8; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+                                    <span>📅</span> 7-DAY STRUCTURED MASTER SYLLABUS (DAY-WISE SEPARATED)
                                 </span>
                                 <span style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.78rem; color: #94a3b8;">
                                     Click any day to launch mission workspace
                                 </span>
                             </div>
 
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px;">
                                 ${days.map((day, dIdx) => `
                                     <div class="hub-day-row" onclick="window.openModuleDay('${week.id}', '${day.id}', '${day.lessonId}')" 
                                         style="padding: 12px 16px; border-radius: 10px; background: rgba(0,0,0,0.4); cursor: pointer; border: 1px solid rgba(255,255,255,0.08); transition: all 0.2s ease; display: flex; flex-direction: column; gap: 6px;">
@@ -941,8 +957,8 @@ window.getModulesHubHTML = () => {
                                 <span>🚀</span> Start Day 1 Mission
                             </button>
                             <button onclick="window.toggleHubDaysList('${week.id}')" id="hub-toggle-btn-${week.id}"
-                                class="btn-neural" style="padding: 12px 18px; border-radius: 10px; font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600; border-color: rgba(255,255,255,0.18); color: #e2e8f0; cursor: pointer; background: rgba(255,255,255,0.04);">
-                                📅 7-Day Syllabus & Briefs ▾
+                                class="btn-neural" style="padding: 12px 18px; border-radius: 10px; font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600; border-color: #38bdf8; color: #38bdf8; cursor: pointer; background: rgba(56,189,248,0.08);">
+                                📅 7-Day Syllabus & Briefs (Expanded) ▴
                             </button>
                         </div>
                     </div>
@@ -1040,6 +1056,31 @@ window.applyHubFilters = () => {
     }
 };
 
+window.filterHubBySingleWeek = (weekNum) => {
+    weekNum = parseInt(weekNum) || 0;
+    const cards = document.querySelectorAll('.modern-edtech-card');
+    let visibleCount = 0;
+    cards.forEach(card => {
+        if (weekNum === 0) {
+            card.style.display = '';
+            visibleCount++;
+        } else {
+            const id = card.id; // e.g. hub-card-week-1
+            if (id === `hub-card-week-${weekNum}`) {
+                card.style.display = '';
+                visibleCount++;
+                const daysList = document.getElementById(`hub-days-week-${weekNum}`);
+                if (daysList) daysList.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        }
+    });
+    const countEl = document.getElementById('hub-results-count');
+    if (countEl) {
+        countEl.innerText = weekNum === 0 ? `Showing 52 of 52 modules` : `Showing Week ${weekNum} (Isolated with 7 Days)`;
+    }
+};
 
 window.openModuleDay = (weekId, dayId, lessonId) => {
     window.activeCurrentDayId = dayId;

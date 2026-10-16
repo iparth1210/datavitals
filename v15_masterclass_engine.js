@@ -4,7 +4,44 @@
  */
 
 (function () {
-    console.log('[MasterclassEngine]: Initializing v15.4 Pedagogical Master Engine...');
+    console.log('[MasterclassEngine]: Initializing v15.7 Master Navigation Engine...');
+
+    // 0. GLOBAL WEEK-WISE & DAY-WISE NAVIGATION HELPERS
+    window.jumpToWeek = function(weekNum, dayNum) {
+        weekNum = parseInt(weekNum);
+        dayNum = parseInt(dayNum) || 1;
+        if (isNaN(weekNum) || weekNum < 1) weekNum = 1;
+        if (weekNum > 52) weekNum = 52;
+        if (dayNum < 1) dayNum = 1;
+        if (dayNum > 7) dayNum = 7;
+
+        const weekId = 'week-' + weekNum;
+        const dayId = 'week-' + weekNum + '-d' + dayNum;
+        const lessonId = 'lesson-w' + weekNum + '-d' + dayNum;
+
+        if (typeof window.openModuleDay === 'function') {
+            window.openModuleDay(weekId, dayId, lessonId);
+        } else if (typeof handleSidebarClick === 'function') {
+            handleSidebarClick(weekId, dayId, lessonId, null);
+        }
+        if (typeof window.scrollAppTo === 'function') {
+            window.scrollAppTo('top');
+        }
+    };
+
+    window.navigateWeek = function(delta) {
+        let currentWeekNum = 1;
+        if (window.activeLessonContext && window.activeLessonContext.weekNum) {
+            currentWeekNum = window.activeLessonContext.weekNum;
+        } else if (window.activeCurrentDayId) {
+            const m = window.activeCurrentDayId.match(/week-(\d+)/);
+            if (m) currentWeekNum = parseInt(m[1]);
+        }
+        let targetWeek = currentWeekNum + delta;
+        if (targetWeek < 1) targetWeek = 1;
+        if (targetWeek > 52) targetWeek = 52;
+        window.jumpToWeek(targetWeek, 1);
+    };
 
     // 1. TOPIC-SPECIFIC VIDEO EMBED DIRECTORY (ALL 52 WEEKS)
     window.videoDirectory = {
@@ -465,8 +502,116 @@
         const app = document.getElementById('app');
         if (!app) return;
 
+        const kb = (typeof window !== 'undefined' && window.curriculumKnowledgeBase) ? window.curriculumKnowledgeBase : null;
+        const allRoadmap = (typeof window !== 'undefined' && window.roadmap) ? window.roadmap : [];
+
+        // Build 52-week dropdown options
+        const weekOptionsHTML = Array.from({ length: 52 }, (_, i) => {
+            const wNum = i + 1;
+            const kbW = kb ? kb[wNum] : null;
+            const rW = allRoadmap[i];
+            const title = (kbW && kbW.shortTitle) ? kbW.shortTitle : ((rW && rW.title) ? rW.title.replace(/^Week \d+:\s*/, '') : 'Week ' + wNum);
+            const phaseNum = wNum <= 8 ? 1 : (wNum <= 20 ? 2 : (wNum <= 32 ? 3 : 4));
+            const selected = (wNum === lesson.weekNum) ? 'selected' : '';
+            return `<option value="${wNum}" ${selected} style="background: #0f172a; color: white;">W${wNum.toString().padStart(2, '0')}: ${title} [Phase ${phaseNum}]</option>`;
+        }).join('');
+
+        // Build 7-day navigation cards for current week
+        const currentKbWeek = kb ? kb[lesson.weekNum] : null;
+        const currentRoadmapWeek = allRoadmap.find(m => m.weekNum === lesson.weekNum) || allRoadmap[lesson.weekNum - 1];
+
+        const dayCardsHTML = [1, 2, 3, 4, 5, 6, 7].map(d => {
+            const isActive = (d === lesson.dayNum);
+            let dTitle = 'Day ' + d;
+            if (currentKbWeek && currentKbWeek.dayTitles && currentKbWeek.dayTitles[d - 1]) {
+                dTitle = currentKbWeek.dayTitles[d - 1];
+            } else if (currentRoadmapWeek && currentRoadmapWeek.days && currentRoadmapWeek.days[d - 1]) {
+                dTitle = currentRoadmapWeek.days[d - 1].title;
+            }
+
+            return `
+            <div class="day-nav-card ${isActive ? 'active-day-mission' : ''}" 
+                 onclick="window.jumpToWeek(${lesson.weekNum}, ${d})" 
+                 title="Switch to Week ${lesson.weekNum} - Day ${d}: ${dTitle.replace(/"/g, '&quot;')}"
+                 style="background: ${isActive ? 'linear-gradient(135deg, rgba(6,182,212,0.28), rgba(56,189,248,0.15))' : 'rgba(255,255,255,0.03)'}; border: 1px solid ${isActive ? '#38bdf8' : 'rgba(255,255,255,0.08)'}; border-radius: 12px; padding: 12px 14px; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; gap: 6px; box-shadow: ${isActive ? '0 0 16px rgba(56,189,248,0.35)' : 'none'};">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700; color: ${isActive ? '#38bdf8' : '#94a3b8'}; background: ${isActive ? 'rgba(56,189,248,0.22)' : 'rgba(255,255,255,0.05)'}; padding: 2px 7px; border-radius: 5px;">DAY 0${d}</span>
+                    <span style="font-family: 'JetBrains Mono'; font-size: 0.65rem; color: ${isActive ? '#34d399' : '#64748b'}; font-weight: 700;">${isActive ? '● ACTIVE' : 'OPEN'}</span>
+                </div>
+                <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 700; color: ${isActive ? '#ffffff' : '#cbd5e1'}; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; min-height: 2.2em;">
+                    ${dTitle}
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 4px; border-top: 1px solid ${isActive ? 'rgba(56,189,248,0.25)' : 'rgba(255,255,255,0.04)'};">
+                    <span style="font-family: 'JetBrains Mono'; font-size: 0.65rem; color: #f59e0b;">⭐ +100 XP</span>
+                    <span style="font-size: 0.75rem; color: ${isActive ? '#38bdf8' : '#94a3b8'}; font-weight: 700;">${isActive ? '✔' : '➔'}</span>
+                </div>
+            </div>
+            `;
+        }).join('');
+
         const heroContent = `
             <div class="masterclass-lesson-container" id="masterclass-top" style="max-width: 1440px; margin: 0 auto; padding-bottom: 24px;">
+
+                <!-- 0. MASTER DUAL-LEVEL WEEK-WISE & DAY-WISE NAVIGATION HUB -->
+                <div class="week-day-master-nav-strip glass-refractive" style="border-radius: 18px; padding: 20px 24px; margin-bottom: 24px; border: 1px solid rgba(56, 189, 248, 0.35); background: linear-gradient(180deg, rgba(13, 22, 40, 0.95) 0%, rgba(10, 16, 30, 0.98) 100%); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                    
+                    <!-- LEVEL 1: WEEK-WISE CONTROLLER & JUMP -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                            <button onclick="window.navigateWeek(-1)" class="btn-neural" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.82rem; font-weight: 700; padding: 8px 14px; border-radius: 8px; border-color: rgba(56,189,248,0.4); color: #38bdf8; background: rgba(56,189,248,0.08); display: inline-flex; align-items: center; gap: 6px; cursor: pointer;" title="Previous Week">
+                                <span>◀</span> Prev Week
+                            </button>
+
+                            <!-- 52-WEEK QUICK SELECTOR DROPDOWN -->
+                            <div style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.6); border: 1px solid rgba(56, 189, 248, 0.45); border-radius: 10px; padding: 6px 14px;">
+                                <span style="font-size: 1rem;">🗓️</span>
+                                <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #38bdf8; font-weight: 700; text-transform: uppercase;">WEEK:</span>
+                                <select id="masterclass-week-select" onchange="window.jumpToWeek(this.value, 1)" style="background: transparent; border: none; color: white; font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 700; outline: none; cursor: pointer; max-width: 380px;">
+                                    ${weekOptionsHTML}
+                                </select>
+                            </div>
+
+                            <button onclick="window.navigateWeek(1)" class="btn-neural" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.82rem; font-weight: 700; padding: 8px 14px; border-radius: 8px; border-color: rgba(56,189,248,0.4); color: #38bdf8; background: rgba(56,189,248,0.08); display: inline-flex; align-items: center; gap: 6px; cursor: pointer;" title="Next Week">
+                                Next Week <span>▶</span>
+                            </button>
+                        </div>
+
+                        <!-- PHASE QUICK TABS -->
+                        <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                            <button onclick="window.jumpToWeek(1, 1)" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.72rem; padding: 6px 10px; border-radius: 6px; cursor: pointer; ${lesson.phase === 1 ? 'border-color: #38bdf8; color: #38bdf8; background: rgba(56,189,248,0.2); font-weight: 700;' : 'color: #94a3b8; background: rgba(255,255,255,0.03);'}" title="Phase 1: Spreadsheets & Stats (W1-8)">P1 (W1-8)</button>
+                            <button onclick="window.jumpToWeek(9, 1)" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.72rem; padding: 6px 10px; border-radius: 6px; cursor: pointer; ${lesson.phase === 2 ? 'border-color: #a855f7; color: #a855f7; background: rgba(168,85,247,0.2); font-weight: 700;' : 'color: #94a3b8; background: rgba(255,255,255,0.03);'}" title="Phase 2: Relational DBs & SQL (W9-20)">P2 (W9-20)</button>
+                            <button onclick="window.jumpToWeek(21, 1)" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.72rem; padding: 6px 10px; border-radius: 6px; cursor: pointer; ${lesson.phase === 3 ? 'border-color: #ec4899; color: #ec4899; background: rgba(236,72,153,0.2); font-weight: 700;' : 'color: #94a3b8; background: rgba(255,255,255,0.03);'}" title="Phase 3: Python Data Science (W21-32)">P3 (W21-32)</button>
+                            <button onclick="window.jumpToWeek(33, 1)" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.72rem; padding: 6px 10px; border-radius: 6px; cursor: pointer; ${lesson.phase === 4 ? 'border-color: #10b981; color: #10b981; background: rgba(16,185,129,0.2); font-weight: 700;' : 'color: #94a3b8; background: rgba(255,255,255,0.03);'}" title="Phase 4: Machine Learning & AI (W33-52)">P4 (W33-52)</button>
+                            <button onclick="window.scrollAppTo('#curriculum-master-matrix')" class="btn-neural" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.74rem; font-weight: 700; padding: 6px 12px; border-radius: 6px; border-color: rgba(255,255,255,0.2); color: #e2e8f0; background: rgba(255,255,255,0.05); cursor: pointer;" title="View Complete 52-Week Curriculum Below">
+                                📋 All 52 Weeks
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- LEVEL 2: DAY-WISE SEPARATION (7 DISTINCT DAY MISSIONS FOR THIS WEEK) -->
+                    <div style="margin-top: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #38bdf8; box-shadow: 0 0 8px #38bdf8;"></span>
+                                <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.88rem; font-weight: 800; color: white; letter-spacing: 0.5px;">
+                                    WEEK ${lesson.weekNum} DAILY MISSIONS • 7 DAYS SEPARATED (SELECT DAY TO LOAD)
+                                </span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <button onclick="window.navigateLessonStep(-1)" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.72rem; padding: 4px 10px; border-radius: 6px; cursor: pointer;" title="Previous Day">◀ Prev Day</button>
+                                <button onclick="window.navigateLessonStep(1)" class="btn-neural" style="font-family: 'JetBrains Mono'; font-size: 0.72rem; padding: 4px 10px; border-radius: 6px; cursor: pointer;" title="Next Day">Next Day ▶</button>
+                                <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #38bdf8; background: rgba(56,189,248,0.12); border: 1px solid rgba(56,189,248,0.3); padding: 3px 9px; border-radius: 5px; font-weight: 700;">
+                                    CURRENT: DAY 0${lesson.dayNum} OF 7
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- 7 HORIZONTAL SEPARATED DAY CARDS -->
+                        <div class="day-nav-cards-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px;">
+                            ${dayCardsHTML}
+                        </div>
+                    </div>
+                </div>
 
                 <!-- 1. BREADCRUMBS & BADGES HEADER -->
                 <div class="lesson-header-dossier" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08);">
