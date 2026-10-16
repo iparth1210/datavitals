@@ -21,13 +21,16 @@ let trailPoints = [];
 
 document.addEventListener('mousemove', (e) => {
     const { clientX: x, clientY: y } = e;
-    cursorAura.style.transform = `translate(${x - 10}px, ${y - 10}px)`;
+    if (cursorAura && cursorAura.style.display !== 'none') {
+        cursorAura.style.transform = `translate(${x - 10}px, ${y - 10}px)`;
+    }
 
-    trailPoints.push({ x, y });
-    if (trailPoints.length > 20) trailPoints.shift();
-
-    const d = trailPoints.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
-    cursorTrail.setAttribute('d', d);
+    if (cursorTrail && cursorTrail.parentElement && cursorTrail.parentElement.style.display !== 'none') {
+        trailPoints.push({ x, y });
+        if (trailPoints.length > 20) trailPoints.shift();
+        const d = trailPoints.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+        cursorTrail.setAttribute('d', d);
+    }
 });
 
 // --- 3D PERSPECTIVE PHYSICS ---
