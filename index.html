@@ -65,11 +65,11 @@
     <!-- DYNAMIC READING PROGRESS BAR -->
     <div id="reading-progress-bar" style="position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, #06b6d4, #8b5cf6, #ec4899); z-index: 999999; transition: width 0.08s ease; pointer-events: none;"></div>
 
-    <!-- NEURAL OVERLAYS -->
-    <div id="cursor-aura" class="cursor-aura"></div>
-    <div id="focus-spotlight" class="focus-spotlight"></div>
+    <!-- NEURAL OVERLAYS (PERMANENTLY NEUTRALIZED TO PREVENT ANY SCREEN BLACKOUT) -->
+    <div id="cursor-aura" class="cursor-aura" style="display: none !important; opacity: 0 !important; pointer-events: none !important;"></div>
+    <div id="focus-spotlight" class="focus-spotlight" style="display: none !important; opacity: 0 !important; pointer-events: none !important;"></div>
     <svg class="cursor-trail-container"
-        style="position:fixed; inset:0; pointer-events:none; z-index:99998; width:100%; height:100%;">
+        style="display: none !important; opacity: 0 !important; position:fixed; inset:0; pointer-events:none; z-index:-9999; width:0; height:0;">
         <path id="cursor-trail" class="cursor-trail" d=""></path>
     </svg>
 
@@ -102,7 +102,7 @@
             <div class="sidebar-header" style="padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 16px;">
                 <img src="logo.png" alt="Logo" class="sidebar-logo" style="width: 32px; filter: drop-shadow(0 0 10px var(--accent-cyan));">
                 <span class="sidebar-title-text" style="font-family: 'Space Grotesk'; font-weight: 700; color: white; font-size: 1.2rem; letter-spacing: -0.5px;">DataVitals</span>
-                <button id="toggle-sidebar-btn" onclick="toggleSidebar()" class="btn-neural" style="background: transparent; border: none; font-size: 1.2rem; margin-left: auto; cursor: pointer; color: var(--accent-cyan); padding: 0;">◁</button>
+                <button id="toggle-sidebar-btn" onclick="toggleSidebar()" class="btn-neural" title="Toggle Sidebar Dock" style="background: transparent; border: none; font-size: 1.2rem; margin-left: auto; cursor: pointer; color: var(--accent-cyan); padding: 0;">◨</button>
             </div>
             <div id="sidebar-curriculum" style="flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
                 <!-- Curriculum injected by script.js -->
