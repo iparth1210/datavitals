@@ -1390,3 +1390,34 @@ body.zen-mode-active .lesson-container {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4) !important;
 }
 
+/* ============================================================================
+ * ZERO MOUSE BLACKOUT & ARTIFACT OVERLAY TERMINATION
+ * ============================================================================ */
+#focus-spotlight,
+.focus-spotlight,
+#cursor-aura,
+.cursor-aura,
+.cursor-trail-container,
+body.zen-focus .focus-spotlight {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    background: transparent !important;
+    width: 0 !important;
+    height: 0 !important;
+    clip: rect(0,0,0,0) !important;
+    z-index: -9999 !important;
+}
+
+body.zen-focus .bento-card,
+body.zen-focus .card-hero,
+body.zen-focus .card-sidebar,
+body.zen-focus .modern-card {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    pointer-events: auto !important;
+}
+
+
