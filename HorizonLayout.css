@@ -1270,16 +1270,19 @@ body.zen-mode-active .lesson-container {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    padding: 10px 24px !important;
+    padding: 12px 24px !important;
     min-height: 56px !important;
-    max-height: 64px !important;
+    height: auto !important;
+    max-height: none !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-    background: rgba(8, 13, 26, 0.9) !important;
+    background: rgba(8, 13, 26, 0.95) !important;
     backdrop-filter: blur(16px) !important;
     -webkit-backdrop-filter: blur(16px) !important;
-    z-index: 50 !important;
-    gap: 16px !important;
-    flex-wrap: nowrap !important;
+    z-index: 40 !important;
+    gap: 14px !important;
+    flex-wrap: wrap !important;
+    margin-bottom: 24px !important;
+    position: relative !important;
 }
 
 #page-title {
