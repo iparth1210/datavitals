@@ -44,14 +44,23 @@
         if (window.activeLessonContext && window.activeLessonContext.weekNum) {
             currentWeek = window.activeLessonContext.weekNum;
         }
-        window.jumpToWeek(currentWeek + delta, 1);
+        let targetWeek = currentWeek + delta;
+        if (targetWeek < 1) targetWeek = 52;
+        if (targetWeek > 52) targetWeek = 1;
+        window.jumpToWeek(targetWeek, 1);
     };
 
-    window.openModuleDay = function (moduleId, dayId) {
+    window.openModuleDay = function (moduleId, dayId, lessonId) {
         let weekNum = 1;
         let dayNum = 1;
 
-        if (dayId) {
+        if (lessonId) {
+            const m = lessonId.match(/w(\d+)-d(\d+)/) || lessonId.match(/week-(\d+)-d(\d+)/);
+            if (m) {
+                weekNum = parseInt(m[1]);
+                dayNum = parseInt(m[2]);
+            }
+        } else if (dayId) {
             const m = dayId.match(/week-(\d+)-d(\d+)/) || dayId.match(/w(\d+)-d(\d+)/);
             if (m) {
                 weekNum = parseInt(m[1]);
@@ -65,6 +74,7 @@
         }
 
         window.jumpToWeek(weekNum, dayNum);
+        window.scrollAppTo('top');
     };
 
     // 1. MASTERCLASS LESSON GENERATOR (100% Unique Content for Every Day)
@@ -561,7 +571,7 @@
         }
 
         const heroContent = `
-            <div class="masterclass-lesson-container" id="masterclass-top" style="max-width: 1440px; margin: 0 auto; padding-bottom: 40px;">
+            <div class="masterclass-lesson-container lesson-container" id="masterclass-top" style="max-width: 1440px; margin: 0 auto; padding-bottom: 40px;">
 
                 <!-- 0. MASTER DUAL-LEVEL WEEK & DAY CURRICULUM CONTROLLER -->
                 <div class="week-day-master-nav-strip modern-card" style="border-radius: 20px; padding: 22px 26px; margin-bottom: 28px; background: #0f172a; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
