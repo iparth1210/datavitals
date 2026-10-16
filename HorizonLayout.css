@@ -98,8 +98,8 @@ body {
 .card-sidebar::-webkit-scrollbar,
 .content-scrollable::-webkit-scrollbar,
 #app::-webkit-scrollbar {
-    width: 10px !important;
-    height: 10px !important;
+    width: 12px !important;
+    height: 12px !important;
 }
 
 .card-workspace::-webkit-scrollbar-track,
@@ -107,7 +107,7 @@ body {
 .card-sidebar::-webkit-scrollbar-track,
 .content-scrollable::-webkit-scrollbar-track,
 #app::-webkit-scrollbar-track {
-    background: rgba(8, 13, 26, 0.85) !important;
+    background: rgba(11, 15, 25, 0.95) !important;
     border-radius: 8px !important;
 }
 
@@ -116,10 +116,10 @@ body {
 .card-sidebar::-webkit-scrollbar-thumb,
 .content-scrollable::-webkit-scrollbar-thumb,
 #app::-webkit-scrollbar-thumb {
-    background: rgba(56, 189, 248, 0.4) !important;
-    border: 2px solid rgba(8, 13, 26, 0.9) !important;
+    background: rgba(59, 130, 246, 0.55) !important;
+    border: 2px solid rgba(15, 23, 42, 0.95) !important;
     border-radius: 9999px !important;
-    transition: background 0.2s ease !important;
+    transition: all 0.2s ease !important;
 }
 
 .card-workspace::-webkit-scrollbar-thumb:hover,
@@ -127,8 +127,8 @@ body {
 .card-sidebar::-webkit-scrollbar-thumb:hover,
 .content-scrollable::-webkit-scrollbar-thumb:hover,
 #app::-webkit-scrollbar-thumb:hover {
-    background: rgba(56, 189, 248, 0.8) !important;
-    box-shadow: 0 0 12px rgba(56, 189, 248, 0.6) !important;
+    background: #3b82f6 !important;
+    box-shadow: 0 0 16px rgba(59, 130, 246, 0.8) !important;
 }
 
 .card-workspace,
@@ -137,7 +137,7 @@ body {
 .content-scrollable,
 #app {
     scrollbar-width: thin !important;
-    scrollbar-color: rgba(56, 189, 248, 0.45) rgba(8, 13, 26, 0.85) !important;
+    scrollbar-color: rgba(59, 130, 246, 0.6) rgba(11, 15, 25, 0.95) !important;
 }
 
 /* Ensure inner lesson content never creates an internal scroll trap */
@@ -1066,19 +1066,21 @@ body.zen-mode-active .lesson-container {
  * 🎓 V15.1 MODERN EDTECH COURSE MATRIX & 5 W'S & H STYLING
  * ============================================================================ */
 
+.modern-card,
 .modern-edtech-card {
-    background: #111827 !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 18px !important;
+    background: #0f172a !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 20px !important;
     padding: 28px !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
     transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease !important;
 }
 
+.modern-card:hover,
 .modern-edtech-card:hover {
-    transform: translateY(-3px) !important;
-    border-color: rgba(56, 189, 248, 0.45) !important;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.15) !important;
+    transform: translateY(-2px) !important;
+    border-color: rgba(59, 130, 246, 0.35) !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.12) !important;
 }
 
 @media (max-width: 768px) {
@@ -1097,6 +1099,7 @@ body.zen-mode-active .lesson-container {
  * ============================================================================ */
 
 .universal-floating-slider,
+.universal-floating-slider,
 .mobile-slider-container {
     display: flex !important;
     position: fixed !important;
@@ -1105,13 +1108,13 @@ body.zen-mode-active .lesson-container {
     left: auto !important;
     transform: none !important;
     z-index: 999999 !important;
-    background: rgba(11, 17, 33, 0.94) !important;
+    background: rgba(15, 23, 42, 0.92) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
-    border: 1px solid rgba(56, 189, 248, 0.45) !important;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7), 0 0 25px rgba(56, 189, 248, 0.25) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7), 0 0 20px rgba(59, 130, 246, 0.2) !important;
     border-radius: 9999px !important;
-    padding: 8px 14px !important;
+    padding: 8px 16px !important;
     gap: 8px !important;
     align-items: center !important;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
@@ -1119,10 +1122,10 @@ body.zen-mode-active .lesson-container {
 
 .universal-slide-btn,
 .mobile-slide-btn {
-    background: rgba(255, 255, 255, 0.06) !important;
-    border: 1px solid rgba(255, 255, 255, 0.14) !important;
-    color: #e2e8f0 !important;
-    padding: 8px 14px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #f1f5f9 !important;
+    padding: 8px 15px !important;
     border-radius: 9999px !important;
     font-family: 'Space Grotesk', sans-serif !important;
     font-size: 0.82rem !important;
@@ -1139,21 +1142,21 @@ body.zen-mode-active .lesson-container {
 
 .universal-slide-btn:hover,
 .mobile-slide-btn:hover {
-    background: rgba(56, 189, 248, 0.25) !important;
-    border-color: #38bdf8 !important;
+    background: rgba(59, 130, 246, 0.25) !important;
+    border-color: #3b82f6 !important;
     color: white !important;
     transform: translateY(-2px) !important;
-    box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35) !important;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35) !important;
 }
 
 .universal-slide-btn.scroll-down-btn {
-    background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(139, 92, 246, 0.3)) !important;
-    border-color: rgba(56, 189, 248, 0.55) !important;
-    color: #38bdf8 !important;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(99, 102, 241, 0.3)) !important;
+    border-color: #3b82f6 !important;
+    color: white !important;
 }
 
 .universal-slide-btn.scroll-down-btn:hover {
-    background: linear-gradient(135deg, rgba(56, 189, 248, 0.4), rgba(139, 92, 246, 0.5)) !important;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.5), rgba(99, 102, 241, 0.5)) !important;
     color: white !important;
 }
 
@@ -1161,10 +1164,10 @@ body.zen-mode-active .lesson-container {
     font-family: 'JetBrains Mono', monospace !important;
     font-size: 0.8rem !important;
     font-weight: 700 !important;
-    color: #38bdf8 !important;
-    background: rgba(56, 189, 248, 0.12) !important;
-    border: 1px solid rgba(56, 189, 248, 0.35) !important;
-    padding: 6px 12px !important;
+    color: #3b82f6 !important;
+    background: rgba(59, 130, 246, 0.12) !important;
+    border: 1px solid rgba(59, 130, 246, 0.35) !important;
+    padding: 6px 14px !important;
     border-radius: 9999px !important;
     white-space: nowrap !important;
 }
@@ -1249,11 +1252,11 @@ body.zen-mode-active .lesson-container {
 }
 
 .jump-pill:hover {
-    background: rgba(56, 189, 248, 0.22) !important;
-    border-color: #38bdf8 !important;
+    background: rgba(59, 130, 246, 0.22) !important;
+    border-color: #3b82f6 !important;
     color: #ffffff !important;
     transform: translateY(-2px) !important;
-    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
 }
 
 .jump-pill.jump-pill-accent {
