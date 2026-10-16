@@ -3,15 +3,17 @@
 
 <head>
     <meta charset="UTF-8">
-    <!-- AUTO CACHE-BUSTER REDIRECT (v14.2) -->
+    <!-- AUTO CACHE-BUSTER REDIRECT ONLY ON HTTP/HTTPS -->
     <script>
         (function() {
             var APP_VER = '15.7';
             try {
-                var u = new URL(window.location.href);
-                if (u.searchParams.get('v') !== APP_VER) {
-                    u.searchParams.set('v', APP_VER);
-                    window.location.replace(u.toString());
+                if (window.location.protocol.indexOf('http') === 0) {
+                    var u = new URL(window.location.href);
+                    if (u.searchParams.get('v') !== APP_VER) {
+                        u.searchParams.set('v', APP_VER);
+                        window.location.replace(u.toString());
+                    }
                 }
             } catch (e) {}
         })();
