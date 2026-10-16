@@ -119,12 +119,23 @@
             return null;
         }
 
-        const phase = currentModule.phase || 1;
-        const tools = currentModule.tools || ['Healthcare Data Systems'];
+        const kb = (typeof window !== 'undefined' && window.curriculumKnowledgeBase) ? window.curriculumKnowledgeBase : null;
+        const kbWeek = kb ? kb[weekNum] : null;
+
+        const phase = (kbWeek && kbWeek.phase) || currentModule.phase || 1;
+        const tools = (kbWeek && kbWeek.tools) || currentModule.tools || ['Healthcare Data Systems'];
         const primaryTool = tools[0] || 'Clinical Systems';
         const secondaryTool = tools[1] || 'Medical Informatics';
-        const dayTitle = currentDay ? currentDay.title : `${currentModule.title} - Day ${dayNum}`;
-        const dayBrief = currentDay ? currentDay.brief : currentModule.overview;
+
+        // Specific daily title from 52-week Knowledge Base
+        let dayTitle = `${currentModule.title} - Day ${dayNum}`;
+        if (kbWeek && kbWeek.dayTitles && kbWeek.dayTitles[dayNum - 1]) {
+            dayTitle = kbWeek.dayTitles[dayNum - 1];
+        } else if (currentDay && currentDay.title) {
+            dayTitle = currentDay.title;
+        }
+
+        const dayBrief = (kbWeek && kbWeek.brief) || (currentDay ? currentDay.brief : currentModule.overview);
         const dayMilestone = currentDay ? currentDay.milestone : `Complete Day ${dayNum} laboratory protocol.`;
 
         // Select Video
@@ -134,7 +145,7 @@
         };
 
         // Select Resources
-        const sources = window.phaseResources[phase] || window.phaseResources[1];
+        const sources = (kbWeek && kbWeek.sources) || window.phaseResources[phase] || window.phaseResources[1];
 
         // Determine Lesson Type
         let lessonType = 'data';
@@ -143,92 +154,88 @@
         }
 
         // Generate Day Specific Objectives
-        const objectives = [
+        const objectives = (kbWeek && kbWeek.objectives) || [
             `Deconstruct the core theoretical, algorithmic, and architectural mechanics of ${dayTitle}.`,
             `Analyze real-world clinical implications across hospital departments, minimizing alert fatigue and preventing adverse patient events.`,
             `Implement hands-on protocol with defensive data engineering using ${primaryTool} and ${secondaryTool}.`,
             `Validate data integrity against regulatory healthcare standards (HIPAA §164.312, HL7 FHIR v4, and FDA SaMD).`
         ];
 
-        // Synthesize Multi-Paragraph Theoretical Deep Dive (1,000+ words across sections)
-        const theoryP1 = `Mastering <strong>${dayTitle}</strong> represents a pivotal milestone in the architecture of modern healthcare computing. In clinical data environments, systems must process vast streams of heterogeneous, time-critical information while ensuring absolute computational determinism. This mission deconstructs the foundational principles of <strong>${primaryTool}</strong>, examining how underlying memory hierarchies, data representation models, and execution runtimes interact under high-concurrency clinical hospital loads. Unlike conventional software domains where minor latency or unhandled edge cases cause benign glitches, clinical informatics software operates directly adjacent to patient care pathways where computational errors propagate into real-world diagnostic delays.`;
-
-        const theoryP2 = `At the architectural level, <strong>${dayTitle}</strong> demands a rigorous understanding of structured abstraction. When working with ${secondaryTool}, data structures must be engineered to minimize computational complexity—reducing algorithmic time requirements from <em>O(N²)</em> brute-force traversals down to <em>O(N)</em> or <em>O(log N)</em> logarithmic indexes. Memory footprint must be carefully governed: buffer allocations in hospital telemetry servers and patient index registers require strictly bounded bounds to prevent kernel memory fragmentation and sudden pipeline crashes during high-volume emergency department admissions.`;
-
-        const theoryP3 = `The computational protocol for today centers upon <em>${dayBrief}</em>. Engineers systematically configure data parsing pipelines, establish strict typing constraints, and apply mathematical normalization to prevent numerical underflow or floating-point rounding errors during drug concentration calculations or physiological scoring (such as SOFA, APACHE-II, or NEWS2 scores). By maintaining immutable audit trails and thread-safe data pipelines, learners guarantee that every diagnostic transformation is fully reproducible and forensically auditable.`;
+        // Theoretical Deep Dive
+        const theoryP1 = (kbWeek && kbWeek.theoryP1) || `Mastering <strong>${dayTitle}</strong> represents a pivotal milestone in the architecture of modern healthcare computing. In clinical data environments, systems must process vast streams of heterogeneous, time-critical information while ensuring absolute computational determinism. This mission deconstructs the foundational principles of <strong>${primaryTool}</strong>, examining how underlying memory hierarchies, data representation models, and execution runtimes interact under high-concurrency clinical hospital loads. Unlike conventional software domains where minor latency or unhandled edge cases cause benign glitches, clinical informatics software operates directly adjacent to patient care pathways where computational errors propagate into real-world diagnostic delays.`;
+        const theoryP2 = (kbWeek && kbWeek.theoryP2) || `At the architectural level, <strong>${dayTitle}</strong> demands a rigorous understanding of structured abstraction. When working with ${secondaryTool}, data structures must be engineered to minimize computational complexity—reducing algorithmic time requirements from <em>O(N²)</em> brute-force traversals down to <em>O(N)</em> or <em>O(log N)</em> logarithmic indexes. Memory footprint must be carefully governed: buffer allocations in hospital telemetry servers and patient index registers require strictly bounded bounds to prevent kernel memory fragmentation and sudden pipeline crashes during high-volume emergency department admissions.`;
+        const theoryP3 = (kbWeek && kbWeek.theoryP3) || `The computational protocol for today centers upon <em>${dayBrief}</em>. Engineers systematically configure data parsing pipelines, establish strict typing constraints, and apply mathematical normalization to prevent numerical underflow or floating-point rounding errors during drug concentration calculations or physiological scoring. By maintaining immutable audit trails and thread-safe data pipelines, learners guarantee that every diagnostic transformation is fully reproducible and forensically auditable.`;
 
         // Clinical Systems & Hospital Workflows
-        const clinicalCase = currentModule.clinicalCaseStudy || 'The Regional Hospital Outage: Unmonitored memory leaks and unindexed clinical queries caused critical delays in patient telemetry feeds during peak admissions.';
+        const clinicalCase = (kbWeek && kbWeek.clinicalP2) || currentModule.clinicalCaseStudy || 'The Regional Hospital Outage: Unmonitored memory leaks and unindexed clinical queries caused critical delays in patient telemetry feeds during peak admissions.';
         const clinicalApp = currentModule.clinicalApplication || 'Deployed across ICU bedside monitors, Epic/Cerner hosting enclaves, and HIPAA cloud vaults.';
 
-        const clinicalP1 = `In production hospital systems, <strong>${dayTitle}</strong> directly interfaces with enterprise Electronic Health Record (EHR) platforms such as Epic Systems (Chronicles hierarchical database, Clarity relational data store, Caboodle data warehouse), Cerner Millennium, and MEDITECH. These clinical repositories ingest millions of physiological observation records daily. ${clinicalApp}`;
-
-        const clinicalP2 = `<strong>Real-World Incident Analysis:</strong> ${clinicalCase} This incident highlights why defensive programming is an ethical prerequisite in healthcare engineering. When medical databases experience lock contention or unhandled null values during triage shifts, clinician workflow stalls. Nurses waiting for real-time lab results are forced to transition to paper downtime procedures, directly jeopardizing patient safety and delaying antibiotic administration in acute sepsis scenarios.`;
-
-        const clinicalP3 = `<strong>Regulatory Compliance & Governance:</strong> Production implementations must adhere to the <em>HIPAA Security Rule (§164.312 Technical Safeguards)</em>, requiring end-to-end TLS 1.3 encryption in transit, AES-256 encryption at rest, role-based access control (RBAC), and non-repudiable audit logging. Furthermore, algorithms informing clinical triage must satisfy <em>FDA Software as a Medical Device (SaMD)</em> standards and <em>21 CFR Part 11</em> audit trail mandates.`;
+        const clinicalP1 = (kbWeek && kbWeek.clinicalP1) || `In production hospital systems, <strong>${dayTitle}</strong> directly interfaces with enterprise Electronic Health Record (EHR) platforms such as Epic Systems (Chronicles hierarchical database, Clarity relational data store, Caboodle data warehouse), Cerner Millennium, and MEDITECH. These clinical repositories ingest millions of physiological observation records daily. ${clinicalApp}`;
+        const clinicalP2 = (kbWeek && kbWeek.clinicalP2) || `<strong>Real-World Incident Analysis:</strong> ${clinicalCase} This incident highlights why defensive programming is an ethical prerequisite in healthcare engineering. When medical databases experience lock contention or unhandled null values during triage shifts, clinician workflow stalls. Nurses waiting for real-time lab results are forced to transition to paper downtime procedures, directly jeopardizing patient safety and delaying antibiotic administration in acute sepsis scenarios.`;
+        const clinicalP3 = (kbWeek && kbWeek.clinicalP3) || `<strong>Regulatory Compliance & Governance:</strong> Production implementations must adhere to the <em>HIPAA Security Rule (§164.312 Technical Safeguards)</em>, requiring end-to-end TLS 1.3 encryption in transit, AES-256 encryption at rest, role-based access control (RBAC), and non-repudiable audit logging. Furthermore, algorithms informing clinical triage must satisfy <em>FDA Software as a Medical Device (SaMD)</em> standards and <em>21 CFR Part 11</em> audit trail mandates.`;
 
         // Biomedical Telemetry & Standards
-        const bioP1 = `Biomedical telemetry demands strict precision and standardized clinical codings. Today's protocol aligns with internationally recognized informatics vocabularies: <strong>LOINC (Logical Observation Identifiers Names and Codes)</strong> for laboratory tests and clinical observations, <strong>SNOMED-CT</strong> for clinical terminology and diagnoses, and <strong>ICD-10-CM</strong> for epidemiological classification. Telemetry feeds must also map seamlessly to <strong>HL7 FHIR v4 (Fast Healthcare Interoperability Resources)</strong>, specifically the <code>Patient</code>, <code>Encounter</code>, <code>Observation</code>, and <code>Condition</code> resources.`;
-
-        const bioP2 = `<strong>Physiological Baseline Reference Telemetry:</strong> Clinical systems continuously evaluate patient observations against canonical adult reference ranges: Heart Rate (60–100 bpm; tachycardia > 100 bpm), Blood Pressure (Systolic 90–120 mmHg, Diastolic 60–80 mmHg), Mean Arterial Pressure (MAP = 1/3 SBP + 2/3 DBP; critical threshold < 65 mmHg indicating organ hypoperfusion), Pulse Oximetry (SpO2 ≥ 95%; hypoxemia < 90%), Arterial Blood Gas pH (7.35–7.45), and Serum Creatinine (0.7–1.3 mg/dL). Out-of-range sensor readings must be distinguished from sensor artifact through temporal smoothing.`;
+        const bioP1 = (kbWeek && kbWeek.bioP1) || `Biomedical telemetry demands strict precision and standardized clinical codings. Today's protocol aligns with internationally recognized informatics vocabularies: <strong>LOINC (Logical Observation Identifiers Names and Codes)</strong> for laboratory tests and clinical observations, <strong>SNOMED-CT</strong> for clinical terminology and diagnoses, and <strong>ICD-10-CM</strong> for epidemiological classification. Telemetry feeds must also map seamlessly to <strong>HL7 FHIR v4 (Fast Healthcare Interoperability Resources)</strong>, specifically the <code>Patient</code>, <code>Encounter</code>, <code>Observation</code>, and <code>Condition</code> resources.`;
+        const bioP2 = (kbWeek && kbWeek.bioP2) || `<strong>Physiological Baseline Reference Telemetry:</strong> Clinical systems continuously evaluate patient observations against canonical adult reference ranges: Heart Rate (60–100 bpm; tachycardia > 100 bpm), Blood Pressure (Systolic 90–120 mmHg, Diastolic 60–80 mmHg), Mean Arterial Pressure (MAP = 1/3 SBP + 2/3 DBP; critical threshold < 65 mmHg indicating organ hypoperfusion), Pulse Oximetry (SpO2 ≥ 95%; hypoxemia < 90%), Arterial Blood Gas pH (7.35–7.45), and Serum Creatinine (0.7–1.3 mg/dL). Out-of-range sensor readings must be distinguished from sensor artifact through temporal smoothing.`;
 
         // Engineering Pitfalls
-        const pitfall1 = `<strong>1. The Null / Missing Value Ambiguity Trap:</strong> In clinical datasets, missing or null entries are rarely missing completely at random (MCAR). A missing arterial blood gas value typically indicates the patient was breathing comfortably and did not require an invasive arterial puncture. Imputing nulls with mean values or zero introduces catastrophic diagnostic bias into machine learning models.`;
-
-        const pitfall2 = `<strong>2. Temporal Leakage & Daylight Savings Skew:</strong> Recording timestamps without explicit UTC offsets (ISO 8601 format) causes severe temporal inversion when clocks shift during daylight savings transitions. In critical care, an inverted timestamp can record a medication as having been administered before it was ordered, corrupting time-series models and triggering erroneous medical error alerts.`;
-
-        const pitfall3 = `<strong>3. Concurrency Lock Contention:</strong> Running unindexed queries or unbounded analytics operations on production clinical databases locks critical patient tables. Analytics pipelines must always query read-only replica databases (e.g. Epic Clarity) rather than transactional real-time operational datastores (Chronicles) to prevent freezing bedside charting monitors.`;
+        const pitfall1 = (kbWeek && kbWeek.pitfall1) || `<strong>1. The Null / Missing Value Ambiguity Trap:</strong> In clinical datasets, missing or null entries are rarely missing completely at random (MCAR). A missing arterial blood gas value typically indicates the patient was breathing comfortably and did not require an invasive arterial puncture. Imputing nulls with mean values or zero introduces catastrophic diagnostic bias into machine learning models.`;
+        const pitfall2 = (kbWeek && kbWeek.pitfall2) || `<strong>2. Temporal Leakage & Daylight Savings Skew:</strong> Recording timestamps without explicit UTC offsets (ISO 8601 format) causes severe temporal inversion when clocks shift during daylight savings transitions. In critical care, an inverted timestamp can record a medication as having been administered before it was ordered, corrupting time-series models and triggering erroneous medical error alerts.`;
+        const pitfall3 = (kbWeek && kbWeek.pitfall3) || `<strong>3. Concurrency Lock Contention:</strong> Running unindexed queries or unbounded analytics operations on production clinical databases locks critical patient tables. Analytics pipelines must always query read-only replica databases (e.g. Epic Clarity) rather than transactional real-time operational datastores (Chronicles) to prevent freezing bedside charting monitors.`;
 
         // Starter Code & Lab Data
-        let starterCode = '';
-        let labData = [];
-        let taskTarget = '';
-        let taskInstruction = '';
+        let starterCode = (kbWeek && kbWeek.starterCode) || '';
+        let labData = (kbWeek && kbWeek.labData) || [];
+        let taskTarget = (kbWeek && kbWeek.taskTarget) || '';
+        let taskInstruction = (kbWeek && kbWeek.taskInstruction) || '';
+        let targetColumn = (kbWeek && kbWeek.targetColumn) || (phase === 1 ? 'Status' : (phase === 2 ? 'Diagnosis' : (phase === 3 ? 'Mutation_Status' : (phase === 4 ? 'Classification' : 'AI_Diagnosis'))));
 
-        if (phase === 1) {
-            taskInstruction = 'Locate the clinical record with Status = "CRITICAL" in the ICU admission table.';
-            taskTarget = 'CRITICAL';
-            starterCode = `# Excel / Logic Simulation: Patient Admission Triage Audit\n# Mission: Audit admission records and identify critical vitals\npatients = [\n    {"patient_id": "P-101", "name": "Elena Rostova", "hr": 74, "spo2": 98, "status": "STABLE"},\n    {"patient_id": "P-102", "name": "Marcus Vance", "hr": 142, "spo2": 88, "status": "CRITICAL"},\n    {"patient_id": "P-103", "name": "Sarah Jenkins", "hr": 68, "spo2": 99, "status": "STABLE"},\n    {"patient_id": "P-104", "name": "David Kim", "hr": 82, "spo2": 96, "status": "STABLE"}\n]\n\nprint("=== HOSPITAL ICU ADMISSION & VITALS AUDIT ===")\nfor p in patients:\n    flag = "[ALERT]" if p["status"] == "CRITICAL" else "[OK]"\n    print(f"{flag} ID: {p['patient_id']} | Name: {p['name']:15} | HR: {p['hr']:3} bpm | SpO2: {p['spo2']}% => {p['status']}")\n`;
-            labData = [
-                { Patient_ID: 'P-101', Name: 'Elena Rostova', HR_bpm: 74, SpO2: '98%', Status: 'STABLE' },
-                { Patient_ID: 'P-102', Name: 'Marcus Vance', HR_bpm: 142, SpO2: '88%', Status: 'CRITICAL' },
-                { Patient_ID: 'P-103', Name: 'Sarah Jenkins', HR_bpm: 68, SpO2: '99%', Status: 'STABLE' },
-                { Patient_ID: 'P-104', Name: 'David Kim', HR_bpm: 82, SpO2: '96%', Status: 'STABLE' }
-            ];
-        } else if (phase === 2) {
-            taskInstruction = 'Find the clinical cohort record diagnosed with "Type 2 Diabetes".';
-            taskTarget = 'Type 2 Diabetes';
-            starterCode = `# Relational SQL Query Simulator in Python\nimport sqlite3\n\nconn = sqlite3.connect(":memory:")\ncur = conn.cursor()\n\n# 1. Initialize MIMIC-IV Simulated Hospital Tables\ncur.execute("""\n    CREATE TABLE patients (\n        subject_id INT PRIMARY KEY,\n        gender TEXT,\n        anchor_age INT,\n        diagnosis TEXT,\n        triage_status TEXT\n    )\n""")\n\ncur.executemany("INSERT INTO patients VALUES (?, ?, ?, ?, ?)", [\n    (1001, "F", 54, "Hypertension", "Routine"),\n    (1002, "M", 67, "Type 2 Diabetes", "Priority"),\n    (1003, "F", 42, "Asthma", "Routine"),\n    (1004, "M", 71, "Congestive Heart Failure", "Priority")\n])\n\n# 2. Query High-Risk Cohort\ncur.execute("SELECT subject_id, gender, anchor_age, diagnosis FROM patients WHERE diagnosis = 'Type 2 Diabetes'")\nrows = cur.fetchall()\n\nprint("=== MIMIC-IV RELATIONAL COHORT QUERY RESULT ===")\nfor r in rows:\n    print(f"Subject: {r[0]} | Gender: {r[1]} | Age: {r[2]} | Diagnosis: {r[3]}")\n`;
-            labData = [
-                { Subject_ID: 1001, Gender: 'F', Age: 54, Diagnosis: 'Hypertension', Triage: 'Routine' },
-                { Subject_ID: 1002, Gender: 'M', Age: 67, Diagnosis: 'Type 2 Diabetes', Triage: 'Priority' },
-                { Subject_ID: 1003, Gender: 'F', Age: 42, Diagnosis: 'Asthma', Triage: 'Routine' },
-                { Subject_ID: 1004, Gender: 'M', Age: 71, Diagnosis: 'CHF', Triage: 'Priority' }
-            ];
-        } else if (phase === 3) {
-            taskInstruction = 'Execute the Python script to identify the gene sample flagged as MUTATED.';
-            taskTarget = 'MUTATED';
-            starterCode = `# Python Data Science & Bioinformatics Pipeline\nimport pandas as pd\n\n# Clinical Gene Expression Cohort\ndata = {\n    "Sample_ID": ["SMPL-01", "SMPL-02", "SMPL-03", "SMPL-04"],\n    "Gene_Symbol": ["BRCA1", "TP53", "EGFR", "KRAS"],\n    "Expression_TPM": [4.2, 18.9, 2.1, 14.5],\n    "Mutation_Status": ["NORMAL", "MUTATED", "NORMAL", "NORMAL"]\n}\n\ndf = pd.DataFrame(data)\nprint("=== CLINICAL ONCOLOGY GENOMIC MATRIX ===")\nprint(df)\n\n# Filter Mutated Markers\nmutated_cohort = df[df["Mutation_Status"] == "MUTATED"]\nprint("\\n=== HIGH RISK MUTATED ONCOGENE DETECTED ===")\nprint(mutated_cohort[["Sample_ID", "Gene_Symbol", "Expression_TPM"]])\n`;
-            labData = [
-                { Sample_ID: 'SMPL-01', Gene: 'BRCA1', TPM: 4.2, Mutation_Status: 'NORMAL' },
-                { Sample_ID: 'SMPL-02', Gene: 'TP53', TPM: 18.9, Mutation_Status: 'MUTATED' },
-                { Sample_ID: 'SMPL-03', Gene: 'EGFR', TPM: 2.1, Mutation_Status: 'NORMAL' },
-                { Sample_ID: 'SMPL-04', Gene: 'KRAS', TPM: 14.5, Mutation_Status: 'NORMAL' }
-            ];
-        } else {
-            taskInstruction = 'Execute the Neural Network model to locate the AI Diagnosis output of "HIGH RISK".';
-            taskTarget = 'HIGH RISK';
-            starterCode = `# Clinical Deep Learning & AI Diagnostic Model\nimport numpy as np\n\ndef sigmoid(x):\n    return 1 / (1 + np.exp(-x))\n\n# Normalized Patient Feature Vector: [Age, Systolic_BP, Troponin_Level]\nfeatures = np.array([0.82, 0.94, 0.76])\nweights = np.array([1.8, 2.2, 1.5])\nbias = -1.9\n\n# Feed-Forward Pass\nz = np.dot(features, weights) + bias\nrisk_probability = sigmoid(z)\n\nprint("=== NEURAL INFERENCE ENGINE: ACUTE CARDIAC RISK ===")\nprint(f"Logit Activation (z): {z:.4f}")\nprint(f"Predicted Cardiac Mortality Probability: {risk_probability * 100:.2f}%")\n\nif risk_probability > 0.5:\n    print("AI Diagnosis: HIGH RISK (Immediate Triage Recommended)")\nelse:\n    print("AI Diagnosis: LOW RISK (Standard Observation)")\n`;
-            labData = [
-                { Patient_Case: 'Case-401', Age_Norm: 0.82, SBP_Norm: 0.94, Risk_Prob: '84.2%', AI_Diagnosis: 'HIGH RISK' },
-                { Patient_Case: 'Case-402', Age_Norm: 0.35, SBP_Norm: 0.42, Risk_Prob: '12.8%', AI_Diagnosis: 'LOW RISK' },
-                { Patient_Case: 'Case-403', Age_Norm: 0.45, SBP_Norm: 0.51, Risk_Prob: '22.1%', AI_Diagnosis: 'LOW RISK' },
-                { Patient_Case: 'Case-404', Age_Norm: 0.55, SBP_Norm: 0.60, Risk_Prob: '35.4%', AI_Diagnosis: 'LOW RISK' }
-            ];
+        if (!starterCode) {
+            if (phase === 1) {
+                taskInstruction = 'Locate the clinical record with Status = "CRITICAL" in the ICU admission table.';
+                taskTarget = 'CRITICAL';
+                starterCode = `# Excel / Logic Simulation: Patient Admission Triage Audit\n# Mission: Audit admission records and identify critical vitals\npatients = [\n    {"patient_id": "P-101", "name": "Elena Rostova", "hr": 74, "spo2": 98, "status": "STABLE"},\n    {"patient_id": "P-102", "name": "Marcus Vance", "hr": 142, "spo2": 88, "status": "CRITICAL"},\n    {"patient_id": "P-103", "name": "Sarah Jenkins", "hr": 68, "spo2": 99, "status": "STABLE"},\n    {"patient_id": "P-104", "name": "David Kim", "hr": 82, "spo2": 96, "status": "STABLE"}\n]\n\nprint("=== HOSPITAL ICU ADMISSION & VITALS AUDIT ===")\nfor p in patients:\n    flag = "[ALERT]" if p["status"] == "CRITICAL" else "[OK]"\n    print(f"{flag} ID: {p['patient_id']} | Name: {p['name']:15} | HR: {p['hr']:3} bpm | SpO2: {p['spo2']}% => {p['status']}")\n`;
+                labData = [
+                    { Patient_ID: 'P-101', Name: 'Elena Rostova', HR_bpm: 74, SpO2: '98%', Status: 'STABLE' },
+                    { Patient_ID: 'P-102', Name: 'Marcus Vance', HR_bpm: 142, SpO2: '88%', Status: 'CRITICAL' },
+                    { Patient_ID: 'P-103', Name: 'Sarah Jenkins', HR_bpm: 68, SpO2: '99%', Status: 'STABLE' },
+                    { Patient_ID: 'P-104', Name: 'David Kim', HR_bpm: 82, SpO2: '96%', Status: 'STABLE' }
+                ];
+            } else if (phase === 2) {
+                taskInstruction = 'Find the clinical cohort record diagnosed with "Type 2 Diabetes".';
+                taskTarget = 'Type 2 Diabetes';
+                starterCode = `# Relational SQL Query Simulator in Python\nimport sqlite3\n\nconn = sqlite3.connect(":memory:")\ncur = conn.cursor()\n\ncur.execute("CREATE TABLE patients (subject_id INT PRIMARY KEY, gender TEXT, anchor_age INT, diagnosis TEXT, triage_status TEXT)")\ncur.executemany("INSERT INTO patients VALUES (?, ?, ?, ?, ?)", [\n    (1001, "F", 54, "Hypertension", "Routine"),\n    (1002, "M", 67, "Type 2 Diabetes", "Priority"),\n    (1003, "F", 42, "Asthma", "Routine"),\n    (1004, "M", 71, "Congestive Heart Failure", "Priority")\n])\ncur.execute("SELECT subject_id, gender, anchor_age, diagnosis FROM patients WHERE diagnosis = 'Type 2 Diabetes'")\nrows = cur.fetchall()\nprint("=== MIMIC-IV RELATIONAL COHORT QUERY RESULT ===")\nfor r in rows:\n    print(f"Subject: {r[0]} | Gender: {r[1]} | Age: {r[2]} | Diagnosis: {r[3]}")\n`;
+                labData = [
+                    { Subject_ID: 1001, Gender: 'F', Age: 54, Diagnosis: 'Hypertension', Triage: 'Routine' },
+                    { Subject_ID: 1002, Gender: 'M', Age: 67, Diagnosis: 'Type 2 Diabetes', Triage: 'Priority' },
+                    { Subject_ID: 1003, Gender: 'F', Age: 42, Diagnosis: 'Asthma', Triage: 'Routine' },
+                    { Subject_ID: 1004, Gender: 'M', Age: 71, Diagnosis: 'CHF', Triage: 'Priority' }
+                ];
+            } else if (phase === 3) {
+                taskInstruction = 'Execute the Python script to identify the gene sample flagged as MUTATED.';
+                taskTarget = 'MUTATED';
+                starterCode = `# Python Data Science & Bioinformatics Pipeline\nimport pandas as pd\ndata = {"Sample_ID": ["SMPL-01", "SMPL-02", "SMPL-03", "SMPL-04"], "Gene_Symbol": ["BRCA1", "TP53", "EGFR", "KRAS"], "Expression_TPM": [4.2, 18.9, 2.1, 14.5], "Mutation_Status": ["NORMAL", "MUTATED", "NORMAL", "NORMAL"]}\ndf = pd.DataFrame(data)\nprint("=== CLINICAL ONCOLOGY GENOMIC MATRIX ===")\nprint(df)\nmutated_cohort = df[df["Mutation_Status"] == "MUTATED"]\nprint("\n=== HIGH RISK MUTATED ONCOGENE DETECTED ===")\nprint(mutated_cohort[["Sample_ID", "Gene_Symbol", "Expression_TPM"]])\n`;
+                labData = [
+                    { Sample_ID: 'SMPL-01', Gene: 'BRCA1', TPM: 4.2, Mutation_Status: 'NORMAL' },
+                    { Sample_ID: 'SMPL-02', Gene: 'TP53', TPM: 18.9, Mutation_Status: 'MUTATED' },
+                    { Sample_ID: 'SMPL-03', Gene: 'EGFR', TPM: 2.1, Mutation_Status: 'NORMAL' },
+                    { Sample_ID: 'SMPL-04', Gene: 'KRAS', TPM: 14.5, Mutation_Status: 'NORMAL' }
+                ];
+            } else {
+                taskInstruction = 'Execute the Neural Network model to locate the AI Diagnosis output of "HIGH RISK".';
+                taskTarget = 'HIGH RISK';
+                starterCode = `# Clinical Deep Learning & AI Diagnostic Model\nimport numpy as np\ndef sigmoid(x): return 1 / (1 + np.exp(-x))\nfeatures = np.array([0.82, 0.94, 0.76])\nweights = np.array([1.8, 2.2, 1.5])\nbias = -1.9\nz = np.dot(features, weights) + bias\nrisk_probability = sigmoid(z)\nprint("=== NEURAL INFERENCE ENGINE: ACUTE CARDIAC RISK ===")\nprint(f"Logit Activation (z): {z:.4f}")\nprint(f"Predicted Cardiac Mortality Probability: {risk_probability * 100:.2f}%")\nif risk_probability > 0.5: print("AI Diagnosis: HIGH RISK (Immediate Triage Recommended)")\nelse: print("AI Diagnosis: LOW RISK (Standard Observation)")\n`;
+                labData = [
+                    { Patient_Case: 'Case-401', Age_Norm: 0.82, SBP_Norm: 0.94, Risk_Prob: '84.2%', AI_Diagnosis: 'HIGH RISK' },
+                    { Patient_Case: 'Case-402', Age_Norm: 0.35, SBP_Norm: 0.42, Risk_Prob: '12.8%', AI_Diagnosis: 'LOW RISK' },
+                    { Patient_Case: 'Case-403', Age_Norm: 0.45, SBP_Norm: 0.51, Risk_Prob: '22.1%', AI_Diagnosis: 'LOW RISK' },
+                    { Patient_Case: 'Case-404', Age_Norm: 0.55, SBP_Norm: 0.60, Risk_Prob: '35.4%', AI_Diagnosis: 'LOW RISK' }
+                ];
+            }
         }
 
         // Generate Topic Quiz
-        const quiz = {
+        const quiz = (kbWeek && kbWeek.quiz) || {
             question: `In production clinical systems implementing "${dayTitle}", why is strict defensive validation required before updating patient records or algorithmic risk scores?`,
             options: [
                 { text: 'To prevent silent data corruption, eliminate fatal false negatives, and comply with FDA SaMD & HIPAA regulations.', correct: true },
@@ -238,7 +245,6 @@
             ],
             explanation: `Rigorous defensive validation in ${primaryTool} prevents corrupted sensor readings or anomalous queries from triggering erroneous clinical interventions, ensuring complete patient safety and regulatory compliance.`
         };
-
         return {
             id: lessonId,
             dayId: currentDay ? currentDay.id : `week-${weekNum}-d${dayNum}`,
@@ -748,10 +754,10 @@
                         ${lesson.sources.map(src => `
                             <a href="${src.url}" target="_blank" class="resource-card glass-refractive" style="display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; border-radius: 12px; text-decoration: none; border: 1px solid rgba(255,255,255,0.08); transition: all 0.2s ease;">
                                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                                    <span style="font-family: 'JetBrains Mono'; font-size: 0.68rem; color: var(--accent-pink); font-weight: 700; text-transform: uppercase;">${src.tag || 'Resource'}</span>
+                                    <span style="font-family: 'JetBrains Mono'; font-size: 0.68rem; color: var(--accent-pink); font-weight: 700; text-transform: uppercase;">${src.tag || src.type || 'Resource'}</span>
                                     <span style="font-size: 0.8rem; color: #94a3b8;">↗</span>
                                 </div>
-                                <span style="font-family: 'Space Grotesk'; font-size: 0.95rem; font-weight: 600; color: white;">${src.title}</span>
+                                <span style="font-family: 'Space Grotesk'; font-size: 0.95rem; font-weight: 600; color: white;">${src.title || src.name}</span>
                                 <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: #64748b; word-break: break-all;">${src.url}</span>
                             </a>
                         `).join('')}

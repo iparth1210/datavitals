@@ -90,6 +90,56 @@ body {
     -webkit-overflow-scrolling: touch !important;
 }
 
+/* ==========================================================================
+   HIGH-VISIBILITY REFRACTIVE SCROLLBARS (ZERO SCROLL-TRAP ASSURANCE)
+   ========================================================================== */
+.card-workspace::-webkit-scrollbar,
+.card-hero::-webkit-scrollbar,
+.card-sidebar::-webkit-scrollbar,
+.content-scrollable::-webkit-scrollbar,
+#app::-webkit-scrollbar {
+    width: 10px !important;
+    height: 10px !important;
+}
+
+.card-workspace::-webkit-scrollbar-track,
+.card-hero::-webkit-scrollbar-track,
+.card-sidebar::-webkit-scrollbar-track,
+.content-scrollable::-webkit-scrollbar-track,
+#app::-webkit-scrollbar-track {
+    background: rgba(8, 13, 26, 0.85) !important;
+    border-radius: 8px !important;
+}
+
+.card-workspace::-webkit-scrollbar-thumb,
+.card-hero::-webkit-scrollbar-thumb,
+.card-sidebar::-webkit-scrollbar-thumb,
+.content-scrollable::-webkit-scrollbar-thumb,
+#app::-webkit-scrollbar-thumb {
+    background: rgba(56, 189, 248, 0.4) !important;
+    border: 2px solid rgba(8, 13, 26, 0.9) !important;
+    border-radius: 9999px !important;
+    transition: background 0.2s ease !important;
+}
+
+.card-workspace::-webkit-scrollbar-thumb:hover,
+.card-hero::-webkit-scrollbar-thumb:hover,
+.card-sidebar::-webkit-scrollbar-thumb:hover,
+.content-scrollable::-webkit-scrollbar-thumb:hover,
+#app::-webkit-scrollbar-thumb:hover {
+    background: rgba(56, 189, 248, 0.8) !important;
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.6) !important;
+}
+
+.card-workspace,
+.card-hero,
+.card-sidebar,
+.content-scrollable,
+#app {
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(56, 189, 248, 0.45) rgba(8, 13, 26, 0.85) !important;
+}
+
 /* Ensure inner lesson content never creates an internal scroll trap */
 #app,
 .masterclass-lesson-container,

@@ -76,6 +76,7 @@ const weekTitles = [
 
 const generateRoadmap = () => {
     const roadmap = [];
+    const kb = (typeof window !== 'undefined' && window.curriculumKnowledgeBase) ? window.curriculumKnowledgeBase : null;
 
     for (let i = 0; i < 52; i++) {
         const weekNum = i + 1;
@@ -84,10 +85,15 @@ const generateRoadmap = () => {
         if (weekNum > 20) phase = 3;
         if (weekNum > 32) phase = 4;
 
+        const kbWeek = kb ? kb[weekNum] : null;
+        const weekTitle = (kbWeek && kbWeek.shortTitle) ? kbWeek.shortTitle : (weekTitles[i] || `Week ${weekNum}`);
+
         const days = [];
         for (let d = 1; d <= 7; d++) {
             let dayTitle = `Day ${d}`;
-            if (weekNum === 1) {
+            if (kbWeek && kbWeek.dayTitles && kbWeek.dayTitles[d - 1]) {
+                dayTitle = kbWeek.dayTitles[d - 1];
+            } else if (weekNum === 1) {
                 const titles = [
                     "Hardware vs Software", "The Operating System", "Files & Folders",
                     "The Internet & Cloud", "Data Units & Bytes", "Security & Privacy", "Weekly Review"
@@ -101,6 +107,8 @@ const generateRoadmap = () => {
 
             days.push({
                 id: `week-${weekNum}-d${d}`,
+                dayNum: d,
+                weekNum: weekNum,
                 title: dayTitle,
                 lessonId: `lesson-w${weekNum}-d${d}`
             });
@@ -108,9 +116,10 @@ const generateRoadmap = () => {
 
         roadmap.push({
             id: `week-${weekNum}`,
+            weekNum: weekNum,
             phase: phase,
-            title: `Week ${weekNum}: ${weekTitles[i]}`,
-            description: phases[phase],
+            title: `Week ${weekNum}: ${weekTitle}`,
+            description: (kbWeek && kbWeek.brief) ? kbWeek.brief : phases[phase],
             days: days
         });
     }
@@ -118,3 +127,4 @@ const generateRoadmap = () => {
 };
 
 window.roadmap = generateRoadmap();
+
