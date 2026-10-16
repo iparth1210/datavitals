@@ -145,7 +145,7 @@ window.toggleSidebar = () => {
         grid.classList.toggle('sidebar-minimized');
         const btn = document.getElementById('toggle-sidebar-btn');
         if (btn) {
-            btn.innerHTML = grid.classList.contains('sidebar-minimized') ? '▷' : '◁';
+            btn.innerHTML = grid.classList.contains('sidebar-minimized') ? '◧' : '◨';
         }
         triggerHaptic('light');
     }
@@ -3046,6 +3046,22 @@ window.toggleMobileCurriculumDrawer = (forceState) => {
 };
 
 window.showActiveLessonMobile = () => {
+    const app = document.getElementById('app');
+    const isShowingLesson = app && (app.querySelector('.lesson-container') || app.querySelector('.masterclass-lesson-container'));
+    if (!isShowingLesson) {
+        const dayId = window.activeCurrentDayId || 'week-1-d1';
+        const lessonId = window.activeCurrentLessonId || 'lesson-w1-d1';
+        if (typeof window.jumpToWeek === 'function') {
+            const m = dayId.match(/week-(\d+)-d(\d+)/) || lessonId.match(/lesson-w(\d+)-d(\d+)/);
+            if (m) {
+                window.jumpToWeek(parseInt(m[1]), parseInt(m[2]));
+            } else if (typeof renderLesson === 'function') {
+                renderLesson(lessonId, dayId);
+            }
+        } else if (typeof renderLesson === 'function') {
+            renderLesson(lessonId, dayId);
+        }
+    }
     window.toggleMobileCurriculumDrawer(false);
     if (typeof window.scrollAppTo === 'function') { window.scrollAppTo('top'); } else if (typeof window.scrollTo === 'function') { window.scrollTo({ top: 0, behavior: 'smooth' }); }
     triggerHaptic('light');
@@ -3077,10 +3093,13 @@ window.navigateLessonStep = (delta) => {
     let idx = allDays.findIndex(d => d.dayId === currentId);
     if (idx === -1) idx = 0;
 
-    const targetIdx = Math.max(0, Math.min(allDays.length - 1, idx + delta));
+    let targetIdx = idx + delta;
+    if (targetIdx < 0) targetIdx = allDays.length - 1;
+    else if (targetIdx >= allDays.length) targetIdx = 0;
     const target = allDays[targetIdx];
 
     window.activeCurrentDayId = target.dayId;
+    window.activeCurrentLessonId = target.lessonId;
     handleSidebarClick(target.weekId, target.dayId, target.lessonId, null);
 
     if (typeof window.scrollAppTo === 'function') { window.scrollAppTo('top'); } else if (typeof window.scrollTo === 'function') { window.scrollTo({ top: 0, behavior: 'smooth' }); }
