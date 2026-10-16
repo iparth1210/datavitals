@@ -278,6 +278,76 @@
         `;
     };
 
+    window.handleCellClick = function (cellElem, col, val) {
+        if (!cellElem) return;
+        const lesson = window.activeLessonContext;
+        const feedbackEl = document.getElementById('feedback');
+
+        // Reset previous selections
+        document.querySelectorAll('table.clinical-interactive-table td').forEach(td => {
+            td.style.outline = 'none';
+        });
+
+        if (!lesson || !lesson.task) {
+            cellElem.style.outline = '2px solid #3b82f6';
+            if (feedbackEl) {
+                feedbackEl.innerHTML = `<span style="color: #38bdf8;">> Selected: <strong>${col}</strong> = "${val}".</span>`;
+            }
+            return;
+        }
+
+        const task = lesson.task;
+        let isCorrect = false;
+
+        if (typeof task.condition === 'function') {
+            isCorrect = (col === task.targetColumn && task.condition(val));
+        } else {
+            isCorrect = (val === 'CRITICAL' || val === 'HIGH RISK' || val === 'MUTATED');
+        }
+
+        if (isCorrect) {
+            cellElem.style.outline = '2px solid #10b981';
+            cellElem.style.background = 'rgba(16, 185, 129, 0.2)';
+            if (feedbackEl) {
+                feedbackEl.className = 'feedback-box modern-card';
+                feedbackEl.style.borderColor = '#10b981';
+                feedbackEl.style.background = 'rgba(16, 185, 129, 0.12)';
+                feedbackEl.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                        <div>
+                            <div style="font-family: 'Space Grotesk'; font-weight: 700; color: #10b981; font-size: 1.05rem;">
+                                ✔ CLINICAL GROUND TRUTH CONFIRMED (+100 XP)
+                            </div>
+                            <div style="font-family: 'Plus Jakarta Sans'; font-size: 0.92rem; color: #cbd5e1; margin-top: 4px;">
+                                ${task.successMessage || 'Telemetry observation validated against clinical protocol.'}
+                            </div>
+                        </div>
+                        <button onclick="window.navigateLessonStep(1)" class="btn-neural" style="font-family: 'Space Grotesk'; font-size: 0.85rem; font-weight: 700; padding: 10px 18px; border-radius: 8px; background: #10b981; color: #022c22; border: none; cursor: pointer;">
+                            Continue to Next Mission ➔
+                        </button>
+                    </div>
+                `;
+            }
+            if (window.Gamification && typeof window.Gamification.addXP === 'function') {
+                window.Gamification.addXP(100);
+            }
+            if (typeof triggerHaptic === 'function') triggerHaptic('success');
+            if (typeof triggerConfetti === 'function') triggerConfetti();
+        } else {
+            cellElem.style.outline = '2px solid #f59e0b';
+            if (feedbackEl) {
+                feedbackEl.className = 'feedback-box modern-card';
+                feedbackEl.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+                feedbackEl.innerHTML = `
+                    <div style="font-family: 'Plus Jakarta Sans'; font-size: 0.92rem; color: #fbbf24;">
+                        ⚠️ Inspected <strong>${col}</strong> = "${val}". Target required: ${task.errorMessage || 'Please locate the critical patient telemetry record.'}
+                    </div>
+                `;
+            }
+            if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        }
+    };
+
     // 3. CLINICAL ACCREDITATION QUIZ RENDERER
     window.renderMasterQuiz = function (lesson) {
         if (!lesson || !lesson.quiz) return '';
