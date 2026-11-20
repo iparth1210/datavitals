@@ -1704,7 +1704,7 @@ else:
                     <p>${techContent}</p>
                 </div>
                 <div class="track-section health">
-                    <h4>🏥 2. Clinical Base</h4>
+                    <h4>🏢 2. Production Systems</h4>
                     <p>${healthContent}</p>
                 </div>
                 <div class="track-section bio">
@@ -1721,7 +1721,7 @@ else:
             type: 'find-value',
             targetColumn: 'Status',
             condition: (val) => val === taskTarget || val === 'Active' || val === 'Online',
-            successMessage: "Analysis Complete. Clinical & Technical Telemetry Verified!",
+            successMessage: "Analysis Complete. Production System Telemetry Verified!",
             errorMessage: taskInstruction
         },
         data: [
@@ -1833,7 +1833,7 @@ function renderLesson(lessonId, dayId) {
                         <div style="display: flex; align-items: flex-start; gap: 8px; background: rgba(6,182,212,0.06); border-left: 3px solid var(--accent-cyan); padding: 8px 12px; border-radius: 0 6px 6px 0;">
                             <span style="font-size: 0.85rem;">🏥</span>
                             <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.8rem; color: #94a3b8; line-height: 1.45;">
-                                <strong style="color: var(--accent-cyan);">Real-World Clinical Impact:</strong> ${clinicalApp}
+                                <strong style="color: var(--accent-cyan);">Real-World Production Impact:</strong> ${clinicalApp}
                             </div>
                         </div>` : ''}
                     </div>
@@ -1883,7 +1883,7 @@ function renderLesson(lessonId, dayId) {
                         </div>
                     </div>
 
-                    <!-- CLINICAL KNOWLEDGE CHECK CARD (v14.0) -->
+                    <!-- TECHNICAL KNOWLEDGE CHECK CARD (v14.0) -->
                     ${(typeof renderQuizCard === 'function') ? renderQuizCard(lesson) : ''}
                 </div>
 
@@ -2396,11 +2396,11 @@ function updateNeuralHUD() {
                 <div class="vital-bar"><div class="fill" style="width: 65%;"></div></div>
             </div>
             <div class="vital-item">
-                <span class="label">CLINICAL_STREAK</span>
+                <span class="label">DAILY_STREAK</span>
                 <span class="value" style="color: var(--accent-pink);">8 DAYS</span>
             </div>
             <div class="vital-item">
-                <span class="label">BIO_SYNC</span>
+                <span class="label">SYSTEM_SYNC</span>
                 <span class="value" style="color: var(--accent-cyan);">OPTIMAL</span>
             </div>
         `;
@@ -2547,7 +2547,7 @@ window.updateAuraInsights = () => {
                 "Your trajectory suggests this module is the logical next step.",
                 "Optimal path identified: Data persistence aligns here.",
                 "Shall we continue, Architect? The neural link is stable.",
-                "Mastery of this node unlocks advanced clinical logic flows."
+                "Mastery of this node unlocks advanced engineering logic flows."
             ];
             insightBubble.innerText = `"${insights[Math.floor(Math.random() * insights.length)]}"`;
         }
@@ -2615,16 +2615,16 @@ window.showPortfolioGenerator = () => {
 
                     <label style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-cyan); display: block; margin-bottom: 6px;">PROJECT TRACK</label>
                     <select id="port-track-select" onchange="window.updatePortfolioPreview()" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 8px; font-family: 'Space Grotesk'; margin-bottom: 16px;">
-                        <option value="sql_etl">Phase 2: Healthcare SQL ETL & ER Readmission Pipeline</option>
-                        <option value="stats_scipy">Phase 3: Clinical Trial Statistical Hypothesis Testing (SciPy)</option>
-                        <option value="ai_rag">Phase 4: Medical Imaging AI Assistant & RAG Knowledgebase</option>
+                        <option value="sql_etl">Phase 2: Enterprise SQL ETL & User Event Analytics Pipeline</option>
+                        <option value="stats_scipy">Phase 3: High-Performance Python & Statistical Hypothesis Testing (SciPy)</option>
+                        <option value="ai_rag">Phase 4: Enterprise RAG Knowledge Assistant & Vector Search</option>
                     </select>
 
                     <label style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-cyan); display: block; margin-bottom: 6px;">YOUR NAME</label>
                     <input type="text" id="port-user-name" value="Data Analytics Specialist" onkeyup="window.updatePortfolioPreview()" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 8px; font-family: 'Space Grotesk'; margin-bottom: 16px;">
 
                     <label style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-cyan); display: block; margin-bottom: 6px;">TARGET JOB ROLE</label>
-                    <input type="text" id="port-job-role" value="Healthcare Data Analyst / AI Engineer" onkeyup="window.updatePortfolioPreview()" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 8px; font-family: 'Space Grotesk'; margin-bottom: 16px;">
+                    <input type="text" id="port-job-role" value="Senior Data Analyst / Applied AI Engineer" onkeyup="window.updatePortfolioPreview()" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 8px; font-family: 'Space Grotesk'; margin-bottom: 16px;">
 
                     <div style="background: rgba(6,182,212,0.1); border: 1px solid var(--accent-cyan); border-radius: 10px; padding: 12px; margin-top: 10px;">
                         <span style="font-size: 0.75rem; font-family: 'JetBrains Mono'; color: var(--accent-cyan);">💡 PRO TIP: Paste this formatted Markdown directly into a new repository 'README.md' on GitHub to showcase to recruiters.</span>
@@ -2650,7 +2650,7 @@ window.showPortfolioGenerator = () => {
 window.updatePortfolioPreview = () => {
     const track = document.getElementById('port-track-select')?.value || 'sql_etl';
     const name = document.getElementById('port-user-name')?.value || 'Data Analyst';
-    const role = document.getElementById('port-job-role')?.value || 'Healthcare Data Analytics Engineer';
+    const role = document.getElementById('port-job-role')?.value || 'Senior Data Analyst / Applied AI Engineer';
     const outputEl = document.getElementById('portfolio-markdown-output');
 
     if (!outputEl) return;
@@ -2664,7 +2664,7 @@ window.updatePortfolioPreview = () => {
 **Repository:** [github.com/${name.toLowerCase().replace(/\s+/g, '')}/healthcare-sql-pipeline](https://github.com)
 
 ## 📌 Executive Summary
-Designed and deployed a end-to-end relational SQL ETL pipeline and executive dashboard analyzing 10,000+ emergency room patient records. Identified key factors driving 30-day readmission rates, resulting in actionable recommendations that reduce hospital penalty risks by **18%**.
+Designed and deployed an end-to-end relational SQL ETL pipeline and executive dashboard analyzing 100,000+ customer transaction and session event records. Identified key bottlenecks driving user churn, delivering actionable data models that optimized retention by **18%**.
 
 ## 🛠️ Technology Stack
 - **SQL / Relational DB:** PostgreSQL, CTEs, Window Functions (\`ROW_NUMBER()\`, \`DENSE_RANK()\`, \`LAG()\`)
@@ -2700,12 +2700,12 @@ WHERE prev_visit IS NOT NULL;
 2. Implemented automated SQL trigger alerts for high-risk chronic care patient discharges.
 `;
     } else if (track === 'stats_scipy') {
-        md = `# 🧪 Clinical Trial Statistical Analysis & Hypothesis Testing (SciPy)
+        md = `# 🧪 A/B Testing Statistical Analysis & Hypothesis Testing (SciPy)
 **Author:** ${name}  
 **Target Role:** ${role}  
 
 ## 📌 Project Overview
-Statistical evaluation of drug efficacy data across 500 patient cohorts using **SciPy.stats** and hypothesis testing. Verified treatment response significance ($p < 0.05$) across control vs experimental drug dosages.
+Statistical evaluation of conversion and performance metrics across 5,000 user cohorts using **SciPy.stats** and empirical hypothesis testing. Verified treatment response significance ($p < 0.05$) across control vs variant feature flags.
 
 ## 🔬 Statistical Methodology
 - **Normality Check:** Shapiro-Wilk Test (\`scipy.stats.shapiro\`)
@@ -2729,12 +2729,12 @@ if p_val < 0.05:
 \`\`\`
 `;
     } else {
-        md = `# 🤖 Medical Diagnostic AI Assistant & RAG Vector Knowledgebase
+        md = `# 🤖 Enterprise Generative AI Assistant & RAG Vector Knowledgebase
 **Author:** ${name}  
 **Target Role:** ${role}  
 
 ## 📌 Architecture Summary
-Built a Retrieval-Augmented Generation (RAG) assistant leveraging LLMs, vector embeddings (Cosine Similarity), and PyTorch for clinical documentation lookup and diagnostic support.
+Built a Retrieval-Augmented Generation (RAG) assistant leveraging LLMs, vector embeddings (Cosine Similarity), and PyTorch for enterprise documentation lookup and technical decision support.
 
 ## 🧠 Model Pipeline
 - **Embedding Model:** Sentence-Transformers (\`all-MiniLM-L6-v2\`)
@@ -2907,7 +2907,7 @@ window.showDataStudio = () => {
                 <div>
                     <h2 class="text-gradient" style="font-family: 'Space Grotesk'; font-size: 2.2rem; margin: 0;">🧪 INTERACTIVE DATA STUDIO</h2>
                     <div style="font-family: 'JetBrains Mono'; color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">
-                        Explore, filter, and run live Python queries against healthcare datasets.
+                        Explore, filter, and run live Python queries against enterprise production datasets.
                     </div>
                 </div>
                 <div style="display: flex; gap: 12px;">
@@ -2922,9 +2922,9 @@ window.showDataStudio = () => {
                 <div class="glass-refractive" style="padding: 16px; border-radius: 12px; border: 1px solid rgba(6,182,212,0.3);">
                     <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--accent-cyan);">ACTIVE_DATASET</div>
                     <select id="ds-selector" onchange="window.loadStudioDataset(this.value)" style="width: 100%; margin-top: 8px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 6px; border-radius: 6px; font-family: 'Space Grotesk'; font-size: 0.85rem;">
-                        <option value="ehr">🏥 EHR Emergency Patients (100 Rows)</option>
-                        <option value="bp">💊 Blood Pressure Drug Trial (50 Rows)</option>
-                        <option value="claims">💰 Hospital Billing Claims (60 Rows)</option>
+                        <option value="ehr">⚡ High-Throughput Event Streams (100 Rows)</option>
+                        <option value="bp">📈 A/B Conversion Experiment (50 Rows)</option>
+                        <option value="claims">💳 Enterprise Transaction Logs (60 Rows)</option>
                     </select>
                 </div>
                 <div class="glass-refractive" style="padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
@@ -3105,7 +3105,7 @@ window.showWelcomePortal = () => {
             </h1>
             
             <div style="font-family: 'JetBrains Mono'; color: var(--accent-cyan); font-size: clamp(0.85rem, 2vw, 1rem); margin-bottom: 24px; letter-spacing: 2px;">
-                // ZERO TO HERO: HEALTHCARE DATA SCIENCE & AI ECOSYSTEM
+                // ZERO TO HERO: COMPUTER SCIENCE, DATA ENGINEERING & AI ECOSYSTEM
             </div>
 
             <p style="color: var(--text-secondary); font-family: 'Space Grotesk'; font-size: 1.05rem; line-height: 1.6; max-width: 650px; margin: 0 auto 30px;">

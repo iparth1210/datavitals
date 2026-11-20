@@ -83,7 +83,7 @@ const Gamification = {
                 </div>
 
                 <div class="vital-card">
-                    <span class="vital-label">CLINICAL_STREAK</span>
+                    <span class="vital-label">DAILY_STREAK</span>
                     <span class="vital-value" style="color: var(--accent-pink);">${this.state.streak} DAYS</span>
                     <div class="aura-insight-bubble" id="aura-streak-insight">"Consistency is the catalyst of mastery."</div>
                 </div>

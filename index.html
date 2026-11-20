@@ -23,25 +23,25 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataVitals: Healthcare Data Intelligence | CS + MedTech</title>
+    <title>DataVitals: Complete Computer Science, Data Engineering & Applied AI Masterclass</title>
     <meta name="description"
-        content="Master Healthcare Data Science. The only Quad-Track curriculum combining Computer Science, Clinical Systems, Biomedical Science, and Applied Labs.">
+        content="From Ground Zero ('What is a Computer?') to On-Field Industry Professional. Master Computer Science, Software Engineering, Relational SQL, Python, and Applied AI across modern technology and enterprise production systems.">
     <meta name="keywords"
-        content="Healthcare Analytics, Medical AI, Bioinformatics, Data Science, Python, SQL, EHR, HL7, DICOM">
+        content="Computer Science, Data Engineering, Software Engineering, Python, SQL, Machine Learning, Deep Learning, Cloud Computing, Database Architecture, Applied AI">
     <meta name="author" content="DataVitals Team">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://datavitals.app/">
-    <meta property="og:title" content="DataVitals: Healthcare Data Intelligence">
-    <meta property="og:description" content="Master CS, Clinical Systems, and Bio-Science in one platform.">
+    <meta property="og:title" content="DataVitals: Complete Computer Science & Data Engineering Masterclass">
+    <meta property="og:description" content="From Ground Zero ('What is a Computer?') to On-Field Industry Professional.">
     <meta property="og:image" content="logo.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://datavitals.app/">
-    <meta property="twitter:title" content="DataVitals: Healthcare Intelligence">
-    <meta property="twitter:description" content="Master CS, Clinical Systems, and Bio-Science in one platform.">
+    <meta property="twitter:title" content="DataVitals: CS, Data Engineering & Applied AI">
+    <meta property="twitter:description" content="From Ground Zero ('What is a Computer?') to On-Field Industry Professional.">
     <meta property="twitter:image" content="logo.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -109,10 +109,10 @@
             </div>
             <div class="sidebar-footer" style="padding: 12px 10px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; gap: 4px; background: rgba(0,0,0,0.2);">
                 <button class="footer-tool-btn" onclick="showMyProgress()" title="Progress Dashboard (XP & Certifications)">📈</button>
-                <button class="footer-tool-btn" onclick="showResources()" title="Data Library & Medical Reference Docs">📚</button>
-                <button class="footer-tool-btn" onclick="showDataStudio()" title="Interactive Clinical Data Studio">🧪</button>
-                <button class="footer-tool-btn" onclick="showCheatSheetModal()" title="Medical Formula & SQL/Python Cheat Sheet">📐</button>
-                <button class="footer-tool-btn" onclick="showPortfolioGenerator()" title="GitHub Healthcare Portfolio Builder">💼</button>
+                <button class="footer-tool-btn" onclick="showResources()" title="Documentation, Data Library & Reference Guides">📚</button>
+                <button class="footer-tool-btn" onclick="showDataStudio()" title="Interactive Enterprise Data Studio">🧪</button>
+                <button class="footer-tool-btn" onclick="showCheatSheetModal()" title="Computer Science, SQL & Python Cheat Sheet">📐</button>
+                <button class="footer-tool-btn" onclick="showPortfolioGenerator()" title="GitHub Tech Portfolio Builder">💼</button>
                 <button class="footer-tool-btn" onclick="toggleTerminal()" title="Python 3.11 & SQL Terminal">💻</button>
                 <button class="footer-tool-btn" onclick="showSettings()" title="Settings & Theme Options">⚙️</button>
                 <button class="footer-tool-btn logout-btn" onclick="handleLogout()" title="Reset Session" style="color: var(--accent-pink);">⏻</button>
@@ -131,7 +131,7 @@
                     <div class="search-bar" id="global-search-container"
                         style="position: relative; width: 300px; background: rgba(15,23,42,0.85); border: 1.5px solid rgba(59,130,246,0.35); border-radius: 10px; padding: 7px 14px; display: flex; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: all 0.2s ease;">
                         <span class="search-icon" style="color: #38bdf8; font-size: 0.95rem; margin-right: 8px;">🔍</span>
-                        <input type="text" id="global-search-input" placeholder="Search 52 weeks & 364 days..." 
+                        <input type="text" id="global-search-input" placeholder="Search 52 weeks & 364 lessons across CS, SQL, Python & AI..." 
                             oninput="window.handleGlobalSearch(this.value)"
                             onfocus="window.handleGlobalSearch(this.value)"
                             style="background: transparent; border: none; color: white; width: 100%; outline: none; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.86rem; font-weight: 500;">
@@ -151,10 +151,10 @@
                     <button onclick="showDataStudio()" class="btn-neural" style="padding: 8px 12px; font-size: 0.76rem; border-radius: 8px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.35); color: var(--accent-cyan); display: inline-flex; align-items: center; gap: 5px;" title="Open Interactive Data Studio">
                         🧪 Studio
                     </button>
-                    <button onclick="showCheatSheetModal()" class="btn-neural" style="padding: 8px 12px; font-size: 0.76rem; border-radius: 8px; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.35); color: var(--accent-violet); display: inline-flex; align-items: center; gap: 5px;" title="Medical Formula & Code Cheat Sheet">
+                    <button onclick="showCheatSheetModal()" class="btn-neural" style="padding: 8px 12px; font-size: 0.76rem; border-radius: 8px; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.35); color: var(--accent-violet); display: inline-flex; align-items: center; gap: 5px;" title="CS, Math & Code Cheat Sheet">
                         📐 Cheats
                     </button>
-                    <button onclick="showPortfolioGenerator()" class="btn-neural" style="padding: 8px 12px; font-size: 0.76rem; border-radius: 8px; background: rgba(236, 72, 153, 0.1); border: 1px solid rgba(236, 72, 153, 0.35); color: var(--accent-pink); display: inline-flex; align-items: center; gap: 5px;" title="GitHub Portfolio Builder">
+                    <button onclick="showPortfolioGenerator()" class="btn-neural" style="padding: 8px 12px; font-size: 0.76rem; border-radius: 8px; background: rgba(236, 72, 153, 0.1); border: 1px solid rgba(236, 72, 153, 0.35); color: var(--accent-pink); display: inline-flex; align-items: center; gap: 5px;" title="GitHub Tech Portfolio Builder">
                         💼 Portfolio
                     </button>
                     <button id="toggle-aura-btn" onclick="toggleAuraSidebar()" class="btn-neural"

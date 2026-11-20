@@ -101,10 +101,10 @@
         const kbWeek = kb ? kb[weekNum] : null;
 
         const phase = (kbWeek && kbWeek.phase) || currentModule?.phase || (weekNum <= 8 ? 1 : (weekNum <= 20 ? 2 : (weekNum <= 32 ? 3 : 4)));
-        const tools = (kbWeek && kbWeek.tools) || currentModule?.tools || ['Healthcare Data Systems', 'Clinical Computing'];
+        const tools = (kbWeek && kbWeek.tools) || currentModule?.tools || ['Computer Systems', 'Python & SQL', 'Cloud Architecture'];
 
         // Authentic Day Title
-        let dayTitle = `Day ${dayNum} Clinical Mission`;
+        let dayTitle = `Day ${dayNum} Engineering Mission`;
         if (kbWeek && kbWeek.dayTitles && kbWeek.dayTitles[dayNum - 1]) {
             dayTitle = kbWeek.dayTitles[dayNum - 1];
         } else if (currentDay && currentDay.title) {
@@ -123,61 +123,61 @@
                 url: 'https://www.youtube.com/embed/xnyFYiK2rSY',
                 id: 'xnyFYiK2rSY',
                 title: `${dayTitle} • Master Lecture`,
-                channel: 'DataVitals Clinical Academy',
+                channel: 'DataVitals Engineering Academy',
                 duration: '18:30'
             };
 
             dailyData = {
                 fiveWs: {
                     what: `Deconstructs the foundational principles, data structures, and algorithmic mechanics of <strong>${dayTitle}</strong>.`,
-                    why: `Prevents clinical data corruption, reduces alarm fatigue, and satisfies regulatory healthcare requirements.`,
-                    who: `Engineered for Clinical Data Scientists, Hospital Systems Analysts, and Healthcare Software Engineers.`,
-                    where: `Deployed on hospital compute nodes, ICU bedside gateways, and enterprise EHR transactional clusters.`,
-                    when: `Executed during real-time telemetry streaming, scheduled batch EHR syncs, and emergency department admissions.`,
-                    how: `Mastered through theoretical analysis, interactive coding laboratories, and clinical ground-truth verification.`
+                    why: `Prevents silent data corruption, eliminates race conditions, and guarantees high availability across production distributed systems.`,
+                    who: `Engineered for Systems Architects, Data Engineers, Software Engineers, and Applied AI Scientists across top-tier tech companies.`,
+                    where: `Deployed on cloud Kubernetes clusters, enterprise database replicas, edge compute nodes, and distributed microservices.`,
+                    when: `Executed during real-time event streaming, scheduled batch ETL pipelines, low-latency API queries, and production inference.`,
+                    how: `Mastered through theoretical mechanics, interactive coding environments, and rigorous enterprise production verification.`
                 },
                 objectives: [
                     `Deconstruct the core architectural and algorithmic mechanics of ${dayTitle}.`,
-                    `Analyze real-world clinical implications across hospital departments, minimizing alert fatigue.`,
+                    `Analyze real-world enterprise engineering implications across distributed clusters, minimizing latency.`,
                     `Implement hands-on defensive data engineering protocols utilizing ${tools[0]}.`,
-                    `Validate data integrity against regulatory healthcare standards (HIPAA §164.312, HL7 FHIR v4).`
+                    `Validate data integrity against industry standards (POSIX, IEEE 754, SOC 2, ISO 27001).`
                 ],
-                theoryP1: `The study of <strong>${dayTitle}</strong> represents a foundational competency in biomedical informatics. At its computational core, this topic governs how clinical data elements—ranging from continuous physiological waveforms to discrete laboratory observations—are structured, normalized, and processed through computing hardware and memory subsystems. In life-critical medical devices, data representation must guarantee strict mathematical determinism, preventing numerical overflow, loss of floating-point precision, or unexpected type coercions during diagnostic scoring.`,
-                theoryP2: `From an architectural standpoint, <strong>${dayTitle}</strong> enforces disciplined data abstractions. Algorithms must optimize computational complexity, reducing execution time from brute-force O(N²) traversals down to optimal O(N) or O(log N) logarithmic lookups. Furthermore, memory footprint must be rigorously bounded: buffer allocations in hospital telemetry servers and patient index registers require strictly controlled bounds to prevent kernel memory fragmentation and sudden pipeline crashes during high-volume emergency surges.`,
-                theoryP3: `The operational protocol for today centers upon applying robust verification rules to ${dayTitle}. Engineers establish immutable audit logs, verify cryptographic checksums across patient records, and implement thread-safe transactional boundaries. By ensuring that every state transition in the clinical pipeline is forensically auditable, learners protect patient data integrity against hardware transient faults, software race conditions, and network transmission artifacts.`,
-                clinicalP1: `In production hospital enterprise systems, <strong>${dayTitle}</strong> directly interfaces with enterprise Electronic Health Record (EHR) platforms such as Epic Systems (Chronicles hierarchical database, Clarity relational data store, Caboodle enterprise data warehouse), Cerner Millennium, and MEDITECH. These clinical repositories ingest millions of physiological observation records daily.`,
-                clinicalP2: `<strong>Real-World Incident Analysis:</strong> During a notable hospital infrastructure incident, an unhandled edge-case exception in a telemetry service handling ${dayTitle} resulted in cascading thread lockups. Bedside telemetry streams from cardiac monitoring units stalled for 34 minutes during shift handover. This incident demonstrates why defensive programming, automated circuit breakers, and bounded queues are ethical prerequisites in clinical healthcare engineering.`,
-                clinicalP3: `<strong>Regulatory Governance & Compliance Mandates:</strong> Production implementations of ${dayTitle} must satisfy the <em>HIPAA Security Rule (§164.312 Technical Safeguards)</em>, requiring end-to-end TLS 1.3 encryption in transit, AES-256 encryption at rest, role-based access control (RBAC), and non-repudiable audit logging. Furthermore, algorithms informing clinical triage must satisfy <em>FDA Software as a Medical Device (SaMD)</em> standards.`,
-                bioP1: `Biomedical telemetry demands strict precision and standardized clinical vocabularies: <strong>LOINC (Logical Observation Identifiers Names and Codes)</strong> for laboratory tests and clinical observations (e.g. LOINC 8867-4 for Heart Rate, 8480-6 for Systolic BP, 2708-6 for Oxygen Saturation), <strong>SNOMED-CT</strong> for clinical terminology and diagnoses, and <strong>ICD-10-CM</strong> for epidemiological classification. Telemetry feeds must map seamlessly to <strong>HL7 FHIR v4</strong> Observation, Encounter, and Condition resources.`,
-                bioP2: `<strong>Canonical Physiological Baseline Reference Telemetry:</strong> Clinical systems continuously evaluate patient observations against canonical adult reference ranges: Heart Rate (60–100 bpm; Sinus Bradycardia < 60, Tachycardia > 100), Blood Pressure (Systolic 90–120 mmHg, Diastolic 60–80 mmHg), Mean Arterial Pressure (MAP = 1/3 SBP + 2/3 DBP; critical threshold < 65 mmHg indicating organ hypoperfusion), and Pulse Oximetry (SpO2 ≥ 95%; hypoxemia < 90%). Out-of-range sensor readings must be distinguished from sensor artifact through temporal smoothing.`,
-                pitfall1: `<strong>1. The Null / Missing Value Ambiguity Trap:</strong> In clinical datasets, missing or null entries are rarely missing completely at random (MCAR). Imputing nulls with mean values or zero introduces catastrophic diagnostic bias into machine learning models.`,
-                pitfall2: `<strong>2. Temporal Leakage & Clock Drift Skew:</strong> Recording clinical events without explicit UTC offsets (ISO 8601 format) causes severe temporal inversion when daylight savings transitions occur, corrupting time-series models.`,
-                pitfall3: `<strong>3. Concurrency Lock Contention:</strong> Running unindexed analytical queries or unbounded scans on production clinical databases locks critical patient tables. Analytics pipelines must always query read-only replica databases (e.g. Epic Clarity) rather than transactional real-time operational datastores.`,
-                starterCode: `# Excel / Logic Simulation: ${dayTitle}\n# Mission: Audit clinical admission records and identify critical vitals\npatients = [\n    {"patient_id": "P-101", "name": "Elena Rostova", "hr": 74, "spo2": 98, "status": "STABLE"},\n    {"patient_id": "P-102", "name": "Marcus Vance", "hr": 142, "spo2": 88, "status": "CRITICAL"},\n    {"patient_id": "P-103", "name": "Sarah Jenkins", "hr": 68, "spo2": 99, "status": "STABLE"},\n    {"patient_id": "P-104", "name": "David Kim", "hr": 82, "spo2": 96, "status": "STABLE"}\n]\n\nprint("=== CLINICAL DATA AUDIT: ${dayTitle.toUpperCase()} ===")\nfor p in patients:\n    flag = "[ALERT]" if p["status"] == "CRITICAL" else "[OK]"\n    print(f"{flag} ID: {p['patient_id']} | Name: {p['name']:15} | HR: {p['hr']:3} bpm | SpO2: {p['spo2']}% => {p['status']}")\n`,
+                theoryP1: `The study of <strong>${dayTitle}</strong> represents a foundational competency in Computer Science and Data Engineering. At its computational core, this topic governs how data elements—ranging from low-level binary bitstreams to high-dimensional matrix arrays—are structured, normalized, and processed through computing hardware and memory subsystems. In mission-critical production systems, data representation must guarantee strict mathematical determinism, preventing numerical overflow, loss of floating-point precision, or unexpected type coercions.`,
+                theoryP2: `From an architectural standpoint, <strong>${dayTitle}</strong> enforces disciplined data abstractions. Algorithms must optimize computational complexity, reducing execution time from brute-force O(N²) traversals down to optimal O(N) or O(log N) logarithmic lookups. Furthermore, memory footprint must be rigorously bounded: buffer allocations in high-throughput network brokers and state registers require strictly controlled bounds to prevent kernel memory fragmentation and sudden pipeline crashes during high-volume traffic surges.`,
+                theoryP3: `The operational protocol for today centers upon applying robust verification rules to ${dayTitle}. Engineers establish immutable audit logs, verify cryptographic checksums across event streams, and implement thread-safe transactional boundaries. By ensuring that every state transition in the data pipeline is forensically auditable, learners protect system integrity against hardware transient faults, software race conditions, and network transmission artifacts.`,
+                clinicalP1: `In production enterprise systems, <strong>${dayTitle}</strong> directly interfaces with large-scale data platforms, distributed streaming clusters (Apache Kafka, Apache Flink), and transactional database engines (PostgreSQL, Snowflake, BigQuery). These platforms ingest and transform billions of operational events daily with strict low-latency SLAs.`,
+                clinicalP2: `<strong>Real-World Incident Analysis:</strong> During a notable production cloud outage, an unhandled edge-case exception in an event-processing worker handling ${dayTitle} resulted in cascading thread starvation. Ingress streaming queues backed up across 14 server nodes, stalling payment processing for 28 minutes. This incident demonstrates why defensive programming, automated circuit breakers, and bounded queues are mandatory prerequisites in enterprise software engineering.`,
+                clinicalP3: `<strong>Regulatory Governance & Security Mandates:</strong> Production implementations of ${dayTitle} must satisfy <em>SOC 2 Type II, ISO/IEC 27001, and GDPR Article 32</em> technical controls, requiring TLS 1.3 encryption in transit, AES-256 encryption at rest, role-based access control (RBAC), and tamper-evident audit logging.`,
+                bioP1: `Industry-standard telemetric protocols require strict determinism and standardized data formats: <strong>POSIX standards</strong> for process scheduling, <strong>RFC 4180</strong> for CSV parsing, <strong>JSON Schema / Protocol Buffers (Protobuf)</strong> for cross-service RPC contracts, and <strong>OpenTelemetry</strong> for distributed tracing across microservices.`,
+                bioP2: `<strong>Canonical Production Baseline Telemetry:</strong> Production monitoring systems continuously track service health against canonical performance baselines: P99 Latency (< 100 ms for transactional endpoints; < 500 ms for analytical queries), CPU Utilization (50–70% target; threshold > 85% auto-scaling trigger), Memory Working Set (< 80% capacity to avoid OOM killer), and Network Packet Drop Rate (< 0.001%). Out-of-bounds metrics trigger automated alerts via Prometheus and PagerDuty.`,
+                pitfall1: `<strong>1. The Unbounded Memory Allocation Trap:</strong> Allowing data streaming workers to accumulate unindexed records in memory without fixed window bounds or backpressure mechanisms, triggering catastrophic Out-Of-Memory (OOM) process termination.`,
+                pitfall2: `<strong>2. Clock Drift & Non-UTC Timestamp Serialization:</strong> Recording distributed timestamps without explicit UTC offsets (ISO 8601 format) causes severe temporal inversion across global regions, corrupting event sequencing and distributed consensus.`,
+                pitfall3: `<strong>3. Concurrency Lock Contention:</strong> Running unindexed analytical queries or unbounded table scans on primary transactional databases locks critical write tables. Analytics pipelines must always query read-only replica databases or columnar data warehouses.`,
+                starterCode: `# Production Data Engineering Simulation: ${dayTitle}\n# Mission: Audit high-throughput transaction records and identify critical anomalies\nevents = [\n    {"event_id": "EVT-101", "service": "Auth-Gateway", "latency_ms": 14, "cpu_pct": 32, "status": "STABLE"},\n    {"event_id": "EVT-102", "service": "Payment-Broker", "latency_ms": 1420, "cpu_pct": 98, "status": "CRITICAL"},\n    {"event_id": "EVT-103", "service": "Search-Index", "latency_ms": 28, "cpu_pct": 45, "status": "STABLE"},\n    {"event_id": "EVT-104", "service": "Notification-Worker", "latency_ms": 19, "cpu_pct": 28, "status": "STABLE"}\n]\n\nprint("=== ENTERPRISE TELEMETRY AUDIT: ${dayTitle.toUpperCase()} ===")\nfor e in events:\n    flag = "[ALERT]" if e["status"] == "CRITICAL" else "[OK]"\n    print(f"{flag} ID: {e['event_id']} | Service: {e['service']:20} | Latency: {e['latency_ms']:4} ms | CPU: {e['cpu_pct']}% => {e['status']}")\n`,
                 labData: [
-                    { Patient_ID: 'P-101', Name: 'Elena Rostova', HR_bpm: 74, SpO2: '98%', Status: 'STABLE' },
-                    { Patient_ID: 'P-102', Name: 'Marcus Vance', HR_bpm: 142, SpO2: '88%', Status: 'CRITICAL' },
-                    { Patient_ID: 'P-103', Name: 'Sarah Jenkins', HR_bpm: 68, SpO2: '99%', Status: 'STABLE' },
-                    { Patient_ID: 'P-104', Name: 'David Kim', HR_bpm: 82, SpO2: '96%', Status: 'STABLE' }
+                    { Event_ID: 'EVT-101', Service: 'Auth-Gateway', Latency_ms: 14, CPU_pct: '32%', Status: 'STABLE' },
+                    { Event_ID: 'EVT-102', Service: 'Payment-Broker', Latency_ms: 1420, CPU_pct: '98%', Status: 'CRITICAL' },
+                    { Event_ID: 'EVT-103', Service: 'Search-Index', Latency_ms: 28, CPU_pct: '45%', Status: 'STABLE' },
+                    { Event_ID: 'EVT-104', Service: 'Notification-Worker', Latency_ms: 19, CPU_pct: '28%', Status: 'STABLE' }
                 ],
-                taskInstruction: `Inspect the ICU admission dataset for "${dayTitle}" and click the record with Status = "CRITICAL".`,
+                taskInstruction: `Inspect the production telemetry dataset for "${dayTitle}" and click the record with Status = "CRITICAL".`,
                 taskTarget: 'CRITICAL',
                 targetColumn: 'Status',
                 quiz: {
-                    question: `In clinical enterprise environments implementing "${dayTitle}", what is the primary architectural justification for strict defensive boundary validation?`,
+                    question: `In enterprise distributed systems implementing "${dayTitle}", what is the primary architectural justification for strict defensive boundary validation?`,
                     options: [
-                        { text: 'To prevent silent data corruption, eliminate fatal false negatives in triage, and satisfy FDA SaMD & HIPAA mandates.', correct: true },
+                        { text: 'To prevent silent data corruption, eliminate catastrophic downtime, and guarantee strict high-availability SLAs.', correct: true },
                         { text: 'To intentionally bypass security auditing pipelines and accelerate ad-hoc software delivery.', correct: false },
-                        { text: 'To automatically drop patient edge-cases that deviate from Gaussian normal distributions.', correct: false },
-                        { text: 'To eliminate physician diagnostic oversight entirely in favor of unverified heuristic rules.', correct: false }
+                        { text: 'To automatically drop edge-case transactions that deviate from normal distributions without logging.', correct: false },
+                        { text: 'To eliminate automated regression testing entirely in favor of unverified manual checks.', correct: false }
                     ],
-                    explanation: `Rigorous defensive validation in ${tools[0]} prevents corrupted sensor readings or anomalous queries from triggering erroneous clinical interventions, ensuring complete patient safety and regulatory compliance.`
+                    explanation: `Rigorous defensive validation in ${tools[0]} prevents corrupted payloads or anomalous inputs from propagating downstream, ensuring 99.999% system reliability and complete operational auditability.`
                 },
                 sources: [
                     { name: `${dayTitle} Technical Documentation`, type: 'Documentation', icon: '📖', url: 'https://docs.python.org/3/' },
-                    { name: `Medical Informatics & ${tools[0]} Cheat Sheet`, type: 'Reference', icon: '📐', url: 'https://pandas.pydata.org/docs/user_guide/index.html' },
-                    { name: `HL7 FHIR v4 Observation Specification`, type: 'Standard', icon: '🧬', url: 'https://hl7.org/fhir/observation.html' },
-                    { name: `FDA Software as a Medical Device (SaMD) Guidelines`, type: 'Regulatory', icon: '🏥', url: 'https://www.fda.gov/medical-devices/digital-health-center-excellence/software-medical-device-samd' }
+                    { name: `Computer Science & ${tools[0]} Reference Guide`, type: 'Reference', icon: '📐', url: 'https://pandas.pydata.org/docs/user_guide/index.html' },
+                    { name: `OpenTelemetry Specification & Architecture`, type: 'Standard', icon: '⚙️', url: 'https://opentelemetry.io/docs/' },
+                    { name: `System Reliability & Production Postmortems`, type: 'Engineering', icon: '🏢', url: 'https://sre.google/sre-book/table-of-contents/' }
                 ],
                 video: video.url,
                 videoTitle: video.title,
@@ -199,30 +199,30 @@
             moduleTitle: currentModule?.title || `Week ${weekNum}`,
             phase: phase,
             phaseName: currentModule?.phaseName || `Phase ${phase}`,
-            level: currentModule?.level || 'Intermediate Healthcare Analytics',
+            level: currentModule?.level || 'Intermediate Computer Science & Engineering',
             duration: dailyData.videoDuration ? `~${dailyData.videoDuration} Video + 30m Lab` : '45-60 min',
             tools: tools,
             brief: dailyData.fiveWs.what,
             milestone: `Complete Day ${dayNum} laboratory protocol for ${dayTitle}.`,
-            domain: dailyData.domain || 'Clinical Healthcare Systems',
+            domain: dailyData.domain || 'Computer Science & Distributed Systems',
             eli5: dailyData.eli5 || {
-                title: "What is a Computer? (Explain Like I'm 5 / The Medical Triage Model)",
-                analogy: "Think of a computer as a medical team: Inputs are the vital sensors (eyes and ears), the CPU is the doctor's brain doing calculations, RAM is the working clipboard holding current numbers, and Storage is the medical archive room holding permanent charts.",
-                binaryBitsExplained: "Computers use electricity (0s and 1s) to represent data. High voltage is 1, low voltage is 0. Billions of tiny transistor switches process thousands of vital signs per second."
+                title: "What is a Computer? (Explain Like I'm 5 / The Master Workshop Model)",
+                analogy: "Think of a computer as a master workshop: Inputs (keyboard/mouse/network) are the reception counter receiving requests, the CPU is the master craftsman executing operations, RAM is the working workbench holding active blueprints, and Storage (SSD/Drive) is the permanent warehouse holding all files.",
+                binaryBitsExplained: "Computers use electricity (0s and 1s). High voltage is 1, low voltage is 0. Billions of microscopic transistor switches perform billions of arithmetic operations per second."
             },
             onFieldPractice: dailyData.onFieldPractice || {
-                roleTitle: "Clinical Systems Specialist",
-                dayToDayDuties: "Ensure real-time data pipelines operate reliably without dropped frames or telemetry lag.",
+                roleTitle: "Systems Architect / Infrastructure Engineer",
+                dayToDayDuties: "Architect high-availability computing services, monitor system latency, and guarantee zero data loss.",
                 onFieldChecklist: [
-                    "Verify telemetry server memory and CPU utilization.",
-                    "Audit data integrity against truncation errors.",
-                    "Enforce role-based access control complying with HIPAA §164.312."
+                    "Profile CPU, memory, and I/O bus throughput under peak load.",
+                    "Audit transactional boundaries to eliminate concurrency race conditions.",
+                    "Enforce end-to-end cryptographic integrity and SOC 2 / ISO 27001 compliance."
                 ]
             },
             interviewQA: dailyData.interviewQA || {
-                question: "How does computational latency affect real-time patient monitoring?",
-                idealAnswer: "In critical care, sub-second latency is vital for physiological alarms; delayed data causes missed arrhythmias or delayed intervention.",
-                keyTakeaway: "In life-critical systems, deterministic execution and data integrity take priority over batch throughput."
+                question: "Why is volatile RAM access orders of magnitude faster than persistent NVMe SSD storage?",
+                idealAnswer: "RAM is wired directly to the CPU memory bus and operates in nanoseconds (50-100ns) without persistent physical wear. NVMe SSDs must transfer through PCI-e controllers and flash NAND pages in microseconds (10-50µs).",
+                keyTakeaway: "High-performance systems cache hot state in RAM to avoid expensive I/O latency bottlenecks."
             },
             fiveWs: dailyData.fiveWs,
             objectives: dailyData.objectives,
@@ -260,7 +260,7 @@
     // 2. INTERACTIVE CLINICAL DATA TABLE RENDERER
     window.renderMasterTable = function (data) {
         if (!data || !Array.isArray(data) || data.length === 0) {
-            return '<div style="padding: 20px; color: #94a3b8; font-family: \'JetBrains Mono\'; text-align: center;">No clinical inspection data available.</div>';
+            return '<div style="padding: 20px; color: #94a3b8; font-family: \'JetBrains Mono\'; text-align: center;">No inspection data available.</div>';
         }
 
         const columns = Object.keys(data[0]);
@@ -346,10 +346,10 @@
                     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
                         <div>
                             <div style="font-family: 'Space Grotesk'; font-weight: 700; color: #10b981; font-size: 1.05rem;">
-                                ✔ CLINICAL GROUND TRUTH CONFIRMED (+100 XP)
+                                ✔ PRODUCTION GROUND TRUTH CONFIRMED (+100 XP)
                             </div>
                             <div style="font-family: 'Plus Jakarta Sans'; font-size: 0.92rem; color: #cbd5e1; margin-top: 4px;">
-                                ${task.successMessage || 'Telemetry observation validated against clinical protocol.'}
+                                ${task.successMessage || 'System telemetry observation validated against production protocol.'}
                             </div>
                         </div>
                         <button onclick="window.navigateLessonStep(1)" class="btn-neural" style="font-family: 'Space Grotesk'; font-size: 0.85rem; font-weight: 700; padding: 10px 18px; border-radius: 8px; background: #10b981; color: #022c22; border: none; cursor: pointer;">
@@ -370,7 +370,7 @@
                 feedbackEl.style.borderColor = 'rgba(245, 158, 11, 0.4)';
                 feedbackEl.innerHTML = `
                     <div style="font-family: 'Plus Jakarta Sans'; font-size: 0.92rem; color: #fbbf24;">
-                        ⚠️ Inspected <strong>${col}</strong> = "${val}". Target required: ${task.errorMessage || 'Please locate the critical patient telemetry record.'}
+                        ⚠️ Inspected <strong>${col}</strong> = "${val}". Target required: ${task.errorMessage || 'Please locate the critical telemetry or anomalous system record.'}
                     </div>
                 `;
             }
@@ -389,9 +389,9 @@
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <span style="font-size: 1.6rem;">🧠</span>
                         <div>
-                            <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #a855f7; text-transform: uppercase; font-weight: 700;">PART VI • CLINICAL ACCREDITATION</span>
+                            <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #a855f7; text-transform: uppercase; font-weight: 700;">PART VI • TECHNICAL ACCREDITATION</span>
                             <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.45rem; font-weight: 700; color: white; margin: 2px 0 0 0;">
-                                Knowledge Check & Clinical Decision Defense
+                                Knowledge Check & Production Decision Defense
                             </h2>
                         </div>
                     </div>
@@ -451,7 +451,7 @@
             feedbackEl.style.color = '#86efac';
             feedbackEl.innerHTML = `
                 <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; margin-bottom: 6px;">
-                    <span style="font-size: 1.2rem;">✔</span> CORRECT DIAGNOSTIC DEFENSE (+50 XP)
+                    <span style="font-size: 1.2rem;">✔</span> CORRECT ARCHITECTURAL & TECHNICAL DEFENSE (+50 XP)
                 </div>
                 <div>${explanation}</div>
             `;
@@ -464,7 +464,7 @@
             feedbackEl.style.color = '#fca5a5';
             feedbackEl.innerHTML = `
                 <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; margin-bottom: 6px;">
-                    <span style="font-size: 1.2rem;">✖</span> CLINICAL RATIONALE REVIEW
+                    <span style="font-size: 1.2rem;">✖</span> TECHNICAL RATIONALE & SYSTEM DEFENSE
                 </div>
                 <div>${explanation}</div>
             `;
@@ -690,8 +690,8 @@
                         <a href="javascript:void(0)" onclick="window.scrollToSection('#lesson-video-theater')" class="jump-pill">🎥 Video Lecture</a>
                         <a href="javascript:void(0)" onclick="window.scrollToSection('#lesson-five-ws')" class="jump-pill">📌 5 W's & H</a>
                         <a href="javascript:void(0)" onclick="window.scrollToSection('#lesson-theory-deepdive')" class="jump-pill">📘 Theory & Mechanics</a>
-                        <a href="javascript:void(0)" onclick="window.scrollToSection('#lesson-clinical-systems')" class="jump-pill">🏥 Clinical Impact</a>
-                        <a href="javascript:void(0)" onclick="window.scrollToSection('#lesson-telemetry-standards')" class="jump-pill">🧬 Biomedical Telemetry</a>
+                        <a href="javascript:void(0)" onclick="window.scrollToSection('#lesson-clinical-systems')" class="jump-pill">🏢 Production Impact</a>
+                        <a href="javascript:void(0)" onclick="window.scrollToSection('#lesson-telemetry-standards')" class="jump-pill">📊 System Telemetry</a>
                         <a href="javascript:void(0)" onclick="window.scrollToSection('#lesson-engineering-pitfalls')" class="jump-pill">⚠️ Failure Modes</a>
                         <a href="javascript:void(0)" onclick="window.scrollToSection('#lesson-interactive-lab')" class="jump-pill">🧪 Hands-On Lab</a>
                         <a href="javascript:void(0)" onclick="window.scrollToSection('#lesson-knowledge-quiz')" class="jump-pill">🧠 Accreditation Quiz</a>
@@ -715,7 +715,7 @@
                                 ${lesson.videoTitle}
                             </h3>
                             <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #94a3b8; margin-top: 2px;">
-                                Instructor / Channel: ${lesson.videoChannel || 'DataVitals Clinical Specialist'}
+                                Instructor / Channel: ${lesson.videoChannel || 'DataVitals Engineering Specialist'}
                             </div>
                         </div>
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
@@ -741,10 +741,10 @@
                             </div>
                             <div>
                                 <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #38bdf8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">
-                                    ZERO-TO-FIELD PEDAGOGY • GROUND ZERO TO ON-FIELD PROFESSIONAL
+                                    ZERO-TO-FIELD PEDAGOGY • GROUND ZERO TO ON-FIELD INDUSTRY PROFESSIONAL
                                 </span>
                                 <h2 style="font-family: 'Space Grotesk'; font-size: 1.35rem; font-weight: 700; color: white; margin: 0;">
-                                    Ground-Zero Foundation & Hospital On-Field Readiness
+                                    Ground-Zero Foundation & On-Field Industry Readiness
                                 </h2>
                             </div>
                         </div>
@@ -779,9 +779,9 @@
                         <!-- BENTO 2: ON-FIELD HOSPITAL DUTY -->
                         <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 16px; padding: 22px; display: flex; flex-direction: column;">
                             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
-                                <span style="font-size: 1.3rem;">🩺</span>
+                                <span style="font-size: 1.3rem;">💻</span>
                                 <div>
-                                    <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: #10b981; text-transform: uppercase; font-weight: 700;">ON-FIELD CLINICAL ROLE</div>
+                                    <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: #10b981; text-transform: uppercase; font-weight: 700;">ON-FIELD INDUSTRY ROLE</div>
                                     <div style="font-family: 'Space Grotesk'; font-size: 1.05rem; font-weight: 700; color: #10b981;">
                                         ${lesson.onFieldPractice.roleTitle}
                                     </div>
@@ -792,7 +792,7 @@
                             </p>
                             <div style="margin-top: auto; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 10px; padding: 12px 14px;">
                                 <div style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #10b981; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">
-                                    📋 On-Field Shift Checklist:
+                                    📋 On-Field Engineering Checklist:
                                 </div>
                                 <ul style="margin: 0; padding-left: 18px; font-family: 'Plus Jakarta Sans'; font-size: 0.84rem; line-height: 1.5; color: #cbd5e1;">
                                     ${lesson.onFieldPractice.onFieldChecklist.map(item => `<li style="margin-bottom: 4px;">${item}</li>`).join('')}
@@ -807,7 +807,7 @@
                                 <div>
                                     <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: #a855f7; text-transform: uppercase; font-weight: 700;">TECHNICAL RECRUITMENT DEFENSE</div>
                                     <div style="font-family: 'Space Grotesk'; font-size: 1.05rem; font-weight: 700; color: #a855f7;">
-                                        Hospital Interview Defense
+                                        Top-Tier Tech Interview Defense
                                     </div>
                                 </div>
                             </div>
@@ -833,10 +833,10 @@
                             </div>
                             <div>
                                 <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #3b82f6; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">
-                                    HARDWARE-TO-EHR INTERACTIVE SIMULATION
+                                    HARDWARE-TO-CLOUD INTERACTIVE SIMULATION
                                 </span>
                                 <h3 style="font-family: 'Space Grotesk'; font-size: 1.35rem; font-weight: 700; color: white; margin: 0;">
-                                    Clinical Computer Architecture Simulator
+                                    Universal Computer & Data Processing Architecture Simulator
                                 </h3>
                             </div>
                         </div>
@@ -857,11 +857,11 @@
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px;">
                         <div id="sim-node-1" onclick="window.setSimulationStep(1)" class="sim-stage-node active-sim-node" style="border: 1px solid #ec4899; background: rgba(236, 72, 153, 0.12); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.25s ease;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                                <span style="font-size: 1.3rem;">🫀</span>
+                                <span style="font-size: 1.3rem;">⚡</span>
                                 <span style="font-family: 'JetBrains Mono'; font-size: 0.68rem; color: #ec4899; font-weight: 700;">STAGE 1</span>
                             </div>
-                            <div style="font-family: 'Space Grotesk'; font-size: 0.88rem; font-weight: 700; color: white;">Sensor Input</div>
-                            <div style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">Bedside ECG (1.25 mV)</div>
+                            <div style="font-family: 'Space Grotesk'; font-size: 0.88rem; font-weight: 700; color: white;">Sensor & Event Input</div>
+                            <div style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">Polling @ 1000 Hz</div>
                         </div>
 
                         <div id="sim-node-2" onclick="window.setSimulationStep(2)" class="sim-stage-node" style="border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.25s ease;">
@@ -875,7 +875,7 @@
 
                         <div id="sim-node-3" onclick="window.setSimulationStep(3)" class="sim-stage-node" style="border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.25s ease;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                                <span style="font-size: 1.3rem;">⚡</span>
+                                <span style="font-size: 1.3rem;">💡</span>
                                 <span style="font-family: 'JetBrains Mono'; font-size: 0.68rem; color: #a855f7; font-weight: 700;">STAGE 3</span>
                             </div>
                             <div style="font-family: 'Space Grotesk'; font-size: 0.88rem; font-weight: 700; color: white;">CPU Instruction</div>
@@ -888,16 +888,16 @@
                                 <span style="font-family: 'JetBrains Mono'; font-size: 0.68rem; color: #10b981; font-weight: 700;">STAGE 4</span>
                             </div>
                             <div style="font-family: 'Space Grotesk'; font-size: 0.88rem; font-weight: 700; color: white;">ALU Evaluation</div>
-                            <div style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">74 BPM (Normal Sinus)</div>
+                            <div style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">Logic & Math Unit</div>
                         </div>
 
                         <div id="sim-node-5" onclick="window.setSimulationStep(5)" class="sim-stage-node" style="border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.25s ease;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                                <span style="font-size: 1.3rem;">🏥</span>
+                                <span style="font-size: 1.3rem;">🌐</span>
                                 <span style="font-family: 'JetBrains Mono'; font-size: 0.68rem; color: #f59e0b; font-weight: 700;">STAGE 5</span>
                             </div>
-                            <div style="font-family: 'Space Grotesk'; font-size: 0.88rem; font-weight: 700; color: white;">EHR & Monitor</div>
-                            <div style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">FHIR Logged & Clear</div>
+                            <div style="font-family: 'Space Grotesk'; font-size: 0.88rem; font-weight: 700; color: white;">GPU & Cloud Lake</div>
+                            <div style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">Render & Persist</div>
                         </div>
                     </div>
 
@@ -914,7 +914,7 @@
                         <div>
                             <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #38bdf8; text-transform: uppercase; font-weight: 700;">PEDAGOGICAL RIGOR</span>
                             <h2 style="font-family: 'Space Grotesk'; font-size: 1.35rem; font-weight: 700; color: white; margin: 0;">
-                                The 5 W's & H Clinical Framework
+                                The 5 W's & H Architecture Framework
                             </h2>
                         </div>
                     </div>
@@ -931,7 +931,7 @@
 
                         <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 18px 20px;">
                             <div style="font-family: 'Space Grotesk'; font-size: 0.95rem; font-weight: 700; color: #f43f5e; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-                                <span>🎯</span> WHY (Clinical Rationale & Patient Safety)
+                                <span>🎯</span> WHY (Production Rationale & System Reliability)
                             </div>
                             <div style="font-family: 'Plus Jakarta Sans'; font-size: 0.9rem; line-height: 1.6; color: #cbd5e1;">
                                 ${lesson.fiveWs.why}
@@ -1021,14 +1021,14 @@
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <span style="font-size: 1.6rem;">🏥</span>
                             <div>
-                                <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #f43f5e; text-transform: uppercase; font-weight: 700;">PART II • HOSPITAL WORKFLOW & PATIENT SAFETY</span>
+                                <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #f43f5e; text-transform: uppercase; font-weight: 700;">PART II • ENTERPRISE PRODUCTION & SYSTEMS ENGINEERING</span>
                                 <h2 style="font-family: 'Space Grotesk'; font-size: 1.45rem; font-weight: 700; color: white; margin: 2px 0 0 0;">
-                                    Healthcare Systems Architecture & Clinical Impact
+                                    Enterprise Production Architecture & Systems Engineering
                                 </h2>
                             </div>
                         </div>
                         <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #f43f5e; background: rgba(244,63,94,0.1); border: 1px solid rgba(244,63,94,0.25); padding: 5px 12px; border-radius: 8px; font-weight: 700;">
-                            HIPAA §164.312 • FDA SaMD
+                            High Availability • ACID & SOC 2
                         </span>
                     </div>
 
@@ -1047,14 +1047,14 @@
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <span style="font-size: 1.6rem;">🧬</span>
                             <div>
-                                <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #10b981; text-transform: uppercase; font-weight: 700;">PART III • INFORMATICS CODING & PHYSIOLOGY</span>
+                                <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #10b981; text-transform: uppercase; font-weight: 700;">PART III • TELEMETRY, PROTOCOLS & STANDARDS</span>
                                 <h2 style="font-family: 'Space Grotesk'; font-size: 1.45rem; font-weight: 700; color: white; margin: 2px 0 0 0;">
-                                    Biomedical Telemetry & Standards Integration
+                                    Production Telemetry, Standards & Baseline Benchmarks
                                 </h2>
                             </div>
                         </div>
                         <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #10b981; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25); padding: 5px 12px; border-radius: 8px; font-weight: 700;">
-                            LOINC • SNOMED • HL7 FHIR
+                            POSIX • IEEE • RFC Standards
                         </span>
                     </div>
 
@@ -1074,7 +1074,7 @@
                             <div>
                                 <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #f59e0b; text-transform: uppercase; font-weight: 700;">PART IV • DEFENSIVE COMPUTING</span>
                                 <h2 style="font-family: 'Space Grotesk'; font-size: 1.45rem; font-weight: 700; color: white; margin: 2px 0 0 0;">
-                                    Engineering Pitfalls & Clinical Failure Modes
+                                    Engineering Pitfalls & Production Outage Postmortems
                                 </h2>
                             </div>
                         </div>
@@ -1104,12 +1104,12 @@
                             <div>
                                 <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #8b5cf6; text-transform: uppercase; font-weight: 700;">PART V • HANDS-ON LABORATORY PROTOCOL</span>
                                 <h2 style="font-family: 'Space Grotesk'; font-size: 1.45rem; font-weight: 700; color: white; margin: 2px 0 0 0;">
-                                    Interactive Code & Clinical Data Workbench
+                                    Interactive Code, SQL & Production Workbench
                                 </h2>
                             </div>
                         </div>
                         <span style="font-family: 'JetBrains Mono'; font-size: 0.74rem; color: #8b5cf6; background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.3); padding: 5px 12px; border-radius: 8px; font-weight: 700;">
-                            ${isPythonLesson ? '🐍 Python 3.11 Kernel' : '📊 Clinical Data Inspector'}
+                            ${isPythonLesson ? '🐍 Python 3.11 Kernel' : '📊 Production Data Inspector'}
                         </span>
                     </div>
 
@@ -1118,7 +1118,7 @@
                             🎯 Mission Objective: ${lesson.task.errorMessage || lesson.milestone}
                         </div>
                         <div style="font-family: 'Plus Jakarta Sans'; font-size: 0.94rem; color: #94a3b8; line-height: 1.6;">
-                            Follow the protocol instructions below. Inspect the live data table or execute the code script to verify clinical ground truth.
+                            Follow the protocol instructions below. Inspect the live data table or execute the code script to verify production ground truth.
                         </div>
                     </div>
 
@@ -1134,7 +1134,7 @@
                                 </span>
                             </div>
                             <div id="term-output" class="console-pane modern-card" style="height: 180px; font-family: 'JetBrains Mono'; font-size: 0.82rem; padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); overflow-y: auto; background: rgba(5,8,18,0.85); color: #e2e8f0; line-height: 1.6;">
-                                <div class="term-line info">> Healthcare Python Kernel Ready. Click 'EXECUTE PYTHON SCRIPT' to run.</div>
+                                <div class="term-line info">> Python 3.11 Execution Kernel Ready. Click 'EXECUTE PYTHON SCRIPT' to run.</div>
                             </div>
                         </div>
                     ` : `
@@ -1142,17 +1142,17 @@
                             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                                 <div style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 6px 14px; width: 300px;">
                                     <span style="font-size: 0.85rem; opacity: 0.7;">🔎</span>
-                                    <input type="text" placeholder="Filter clinical records in table..." oninput="window.filterClinicalTable(this.value)" style="background: transparent; border: none; color: white; width: 100%; outline: none; font-family: 'JetBrains Mono'; font-size: 0.78rem;">
+                                    <input type="text" placeholder="Filter records in table..." oninput="window.filterClinicalTable(this.value)" style="background: transparent; border: none; color: white; width: 100%; outline: none; font-family: 'JetBrains Mono'; font-size: 0.78rem;">
                                 </div>
                                 <div style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #94a3b8;">
-                                    Live Clinical Telemetry Dataset • Click matching record to validate
+                                    Live Production Telemetry & System Dataset • Click matching record to validate
                                 </div>
                             </div>
                             <div style="overflow-x: auto; border-radius: 14px; border: 1px solid rgba(255,255,255,0.08); background: rgba(10,14,26,0.6);">
                                 ${window.renderMasterTable(lesson.data)}
                             </div>
                             <div id="feedback" class="feedback-box modern-card" style="padding: 18px 22px; font-size: 0.92rem; color: #cbd5e1; border: 1px dashed rgba(59,130,246,0.4); border-radius: 12px; background: rgba(0,0,0,0.4); font-family: 'JetBrains Mono';">
-                                > CLINICAL_INSPECTION_MODE: Click on the matching record in the table above to satisfy the validation requirement.
+                                > ENTERPRISE_INSPECTION_MODE: Click on the matching record in the table above to satisfy the validation requirement.
                             </div>
                         </div>
                     `}
@@ -1169,9 +1169,9 @@
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <span style="font-size: 1.6rem;">📚</span>
                             <div>
-                                <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #ec4899; text-transform: uppercase; font-weight: 700;">PART VII • LITERATURE & VERIFIED REPOSITORIES</span>
+                                <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #ec4899; text-transform: uppercase; font-weight: 700;">PART VII • DOCUMENTATION & TECHNICAL STANDARDS</span>
                                 <h2 style="font-family: 'Space Grotesk'; font-size: 1.45rem; font-weight: 700; color: white; margin: 2px 0 0 0;">
-                                    Curated Academic & Clinical Resources
+                                    Curated Technical Documentation & Industry Standards
                                 </h2>
                             </div>
                         </div>
@@ -1209,7 +1209,7 @@
                             Completed Day 0${lesson.dayNum}: ${lesson.title}?
                         </h3>
                         <p style="font-family: 'Plus Jakarta Sans'; font-size: 0.92rem; color: #94a3b8; margin: 0; max-width: 650px;">
-                            Advance your clinical engineering certification portfolio. Verify ground truth in the lab workbench above, test your diagnostics in the quiz, then advance to the next mission.
+                            Advance your professional engineering & data portfolio. Verify ground truth in the workbench above, validate your technical defense in the quiz, then advance to the next mission.
                         </p>
                     </div>
                     <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
@@ -1227,7 +1227,7 @@
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 18px; flex-wrap: wrap; gap: 14px;">
                         <div>
                             <div style="display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono'; font-size: 0.74rem; color: #3b82f6; font-weight: 700; text-transform: uppercase;">
-                                <span>🎓</span> Complete 52-Week Healthcare Masterclass Matrix
+                                <span>🎓</span> Complete 52-Week Computer Science, Data Engineering & AI Matrix
                             </div>
                             <h2 style="font-family: 'Space Grotesk'; font-size: 1.6rem; font-weight: 800; color: white; margin: 4px 0 0 0;">
                                 Master Curriculum Syllabus & Daily Mission Registry
@@ -1347,7 +1347,7 @@
         const toast = document.createElement('div');
         toast.id = 'mission-toast';
         toast.style.cssText = 'position: fixed; bottom: 90px; right: 30px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 14px 22px; border-radius: 12px; font-family: "Space Grotesk", sans-serif; font-weight: 700; box-shadow: 0 10px 30px rgba(16,185,129,0.5); z-index: 999999; display: flex; align-items: center; gap: 10px; font-size: 0.95rem; border: 1px solid rgba(255,255,255,0.2);';
-        toast.innerHTML = '<span>🎉</span> Clinical Mission Verified & Accredited! +100 XP Earned!';
+        toast.innerHTML = '<span>🎉</span> Engineering Mission Verified & Accredited! +100 XP Earned!';
         document.body.appendChild(toast);
         setTimeout(() => {
             toast.style.opacity = '0';
@@ -1375,7 +1375,7 @@
         });
     };
 
-    // 7. CLINICAL COMPUTER ARCHITECTURE SIMULATOR CONTROLLER
+    // 7. UNIVERSAL COMPUTER & DATA ARCHITECTURE SIMULATOR CONTROLLER
     window.simTelemetryData = {
         step: 1,
         isPlaying: false,
@@ -1383,53 +1383,53 @@
         stages: [
             {
                 num: 1,
-                badge: "STAGE 1 • PHYSICAL WORLD TO SENSOR",
-                title: "🔌 Biosignal Sensor Input",
-                sub: "Patient Bedside Sensor",
-                icon: "🫀",
+                badge: "STAGE 1 • PHYSICAL WORLD TO SENSOR / INPUT",
+                title: "🔌 Physical Sensor & User Event Input",
+                sub: "Keyboard, Mouse, Optical Sensor & Network NIC",
+                icon: "⚡",
                 color: "#ec4899",
-                payload: "Analog Voltage: 1.25 mV (Cardiac Lead II)",
-                detail: "The patient's heart contracts, generating a minute electrical potential in microvolts. Ag/AgCl disposable electrode patches capture this analog bioelectric signal at 1000 Hz. The signal represents pure continuous physical voltage in the real world."
+                payload: "Input Event: Hardware Transistor Polling @ 1000 Hz",
+                detail: "Physical interactions (user keyboard press, mouse click, sensor polling, or incoming network packet) generate microvolt electrical signals. The input controller polls the hardware bus thousands of times per second, translating physical events into electronic pulses."
             },
             {
                 num: 2,
-                badge: "STAGE 2 • MEMORY & BUS",
-                title: "🔄 ADC & RAM Memory Buffer",
+                badge: "STAGE 2 • MEMORY BUS & RAM CACHE",
+                title: "🔄 ADC, Bus & RAM Memory Buffer",
                 sub: "Volatile Memory Address: 0x4F00",
                 icon: "📋",
                 color: "#38bdf8",
                 payload: "Binary Word: 0000 0001 0100 1010 (Hex 0x014A = 330)",
-                detail: "The 16-bit Analog-to-Digital Converter (ADC) quantizes the continuous electrical voltage into digital discrete numbers (0s and 1s). The Direct Memory Access (DMA) controller writes the raw packet into volatile system RAM buffer without blocking the CPU."
+                detail: "The Analog-to-Digital Converter (ADC) or network controller quantizes continuous electrical impulses into discrete binary numbers (0s and 1s). The Direct Memory Access (DMA) controller streams the raw packet across the system bus into high-speed volatile RAM buffer without blocking the CPU."
             },
             {
                 num: 3,
-                badge: "STAGE 3 • PROCESSOR CORE",
-                title: "🧠 CPU Fetch & Instruction Decode",
-                sub: "Instruction Register & Control Unit",
-                icon: "⚡",
+                badge: "STAGE 3 • PROCESSOR CORE (FETCH & DECODE)",
+                title: "🧠 CPU Instruction Fetch & Pipeline Decode",
+                sub: "Instruction Register (IR) & Control Unit",
+                icon: "💡",
                 color: "#a855f7",
-                payload: "OPCODE: LOAD_VITAL [0x4F00] -> DECODE: EVAL_R_PEAK",
-                detail: "The CPU Control Unit fetches the queued instruction from L1 instruction cache. The Program Counter increments to 0x0842. The instruction is decoded into micro-operations that configure the ALU for QRS peak detection."
+                payload: "OPCODE: FETCH [0x4F00] -> DECODE: EXECUTE_ALGORITHM",
+                detail: "The CPU Control Unit fetches the queued instruction from L1 instruction cache. The Program Counter increments to 0x0842. The instruction is decoded into hardware micro-operations that configure ALU registers for immediate arithmetic execution."
             },
             {
                 num: 4,
-                badge: "STAGE 4 • ARITHMETIC LOGIC",
-                title: "⚙️ ALU Clinical Evaluation",
-                sub: "Math & Logic Comparison Unit",
+                badge: "STAGE 4 • ARITHMETIC LOGIC (ALU & MATH)",
+                title: "⚙️ ALU Math & Decision Logic Execution",
+                sub: "Arithmetic Logic Unit & Vector Engine",
                 icon: "🧮",
                 color: "#10b981",
-                payload: "R-R Delta: 810 ms -> HR: 74 BPM | Condition: 74 <= 100 -> TRUE (NORMAL)",
-                detail: "The Arithmetic Logic Unit executes 60,000 / 810 ms = 74.07 Beats/Min. It compares the result against the tachycardia safety threshold (100 bpm). The condition evaluates to NORMAL SINUS RHYTHM; no emergency alarm interrupt is triggered."
+                payload: "Vector Math: Delta 810 ms -> Metric: 74 | Condition: 74 <= 100 -> TRUE (OPTIMAL)",
+                detail: "The Arithmetic Logic Unit executes calculations in clock cycles. It evaluates conditional logic, verifies safety thresholds, and updates processor status flags. The calculation satisfies nominal operating criteria; nominal program flow continues."
             },
             {
                 num: 5,
-                badge: "STAGE 5 • PERSISTENCE & ACTUATION",
-                title: "🖥️ EHR Persistence & Monitor Output",
-                sub: "Bedside Display & Hospital Archive",
-                icon: "🏥",
+                badge: "STAGE 5 • PERSISTENCE & SYSTEM OUTPUT",
+                title: "🖥️ Screen Render & Cloud Database Persistence",
+                sub: "GPU Display Buffer & Distributed Storage",
+                icon: "🌐",
                 color: "#f59e0b",
-                payload: "EHR: POST /Observation (LOINC 8867-4) | Display: 74 BPM Green",
-                detail: "The graphics engine paints the green ECG trace on the bedside monitor at 60 FPS. Simultaneously, the networking card packages the reading into an HL7 FHIR JSON packet and commits the record to the hospital's non-volatile EHR database."
+                payload: "Display: Framebuffer Rendered @ 60 FPS | Cloud: POST /events (Committed)",
+                detail: "The graphics engine (GPU) paints the visual interface to the display at 60-144 FPS. Simultaneously, the network controller serializes the processed record and commits it to non-volatile distributed cloud storage (PostgreSQL / Data Lake), ensuring complete data durability."
             }
         ]
     };
@@ -1538,3 +1538,8 @@
 
     console.log('[MasterclassEngine]: v16.1 World-Class Masterclass Engine Fully Initialized.');
 })();
+
+// Compatibility Aliases for Universal Architecture Simulator
+window.stepArchitectureSimulation = window.stepClinicalSimulation;
+window.resetArchitectureSimulation = window.resetClinicalSimulation;
+window.filterProductionTable = window.filterClinicalTable;
