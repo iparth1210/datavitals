@@ -625,8 +625,8 @@
                             </div>
                         </div>
 
-                        <!-- 7-DAY MISSION GRID -->
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px;">
+                        <!-- 7-DAY MISSION GRID (Symmetrical 7-Column Layout) -->
+                        <div class="week-seven-days-grid" style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px;">
                             ${dayCardsHTML}
                         </div>
                     </div>
@@ -941,7 +941,16 @@
                             </div>
                         </div>
                     ` : `
-                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                        <div style="display: flex; flex-direction: column; gap: 14px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                                <div style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 6px 14px; width: 300px;">
+                                    <span style="font-size: 0.85rem; opacity: 0.7;">🔎</span>
+                                    <input type="text" placeholder="Filter clinical records in table..." oninput="window.filterClinicalTable(this.value)" style="background: transparent; border: none; color: white; width: 100%; outline: none; font-family: 'JetBrains Mono'; font-size: 0.78rem;">
+                                </div>
+                                <div style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #94a3b8;">
+                                    Live Clinical Telemetry Dataset • Click matching record to validate
+                                </div>
+                            </div>
                             <div style="overflow-x: auto; border-radius: 14px; border: 1px solid rgba(255,255,255,0.08); background: rgba(10,14,26,0.6);">
                                 ${window.renderMasterTable(lesson.data)}
                             </div>
@@ -989,6 +998,30 @@
                                 </div>
                             </a>
                         `).join('')}
+                    </div>
+                </div>
+
+                <!-- 11.5. MISSION COMPLETION & ACCREDITATION PROGRESSION -->
+                <div class="modern-card mission-completion-card" style="border-radius: 20px; padding: 32px 36px; margin-bottom: 32px; background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95)); border: 1.5px solid rgba(59, 130, 246, 0.35); box-shadow: 0 10px 30px rgba(0,0,0,0.4); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #10b981; font-weight: 700; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); padding: 3px 10px; border-radius: 9999px;">MISSION VERIFICATION</span>
+                            <span style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #f59e0b; font-weight: 700;">⭐ +100 XP REWARD</span>
+                        </div>
+                        <h3 style="font-family: 'Space Grotesk'; font-size: 1.5rem; font-weight: 800; color: white; margin: 0 0 6px 0;">
+                            Completed Day 0${lesson.dayNum}: ${lesson.title}?
+                        </h3>
+                        <p style="font-family: 'Plus Jakarta Sans'; font-size: 0.92rem; color: #94a3b8; margin: 0; max-width: 650px;">
+                            Advance your clinical engineering certification portfolio. Verify ground truth in the lab workbench above, test your diagnostics in the quiz, then advance to the next mission.
+                        </p>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                        <button onclick="window.navigateLessonStep(-1)" class="btn-neural" style="font-family: 'Space Grotesk'; font-size: 0.88rem; font-weight: 700; padding: 12px 20px; border-radius: 12px; background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.15); color: #cbd5e1; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                            <span>◀</span> Prev Day
+                        </button>
+                        <button onclick="window.completeAndNextLesson()" class="btn-neural" style="font-family: 'Space Grotesk'; font-size: 0.95rem; font-weight: 800; padding: 13px 26px; border-radius: 12px; background: linear-gradient(135deg, #2563eb, #3b82f6); border-color: #60a5fa; color: white; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 6px 20px rgba(37,99,235,0.4);">
+                            <span>✔</span> Complete & Next Day <span>▶</span>
+                        </button>
                     </div>
                 </div>
 
@@ -1096,6 +1129,46 @@
 
     window.scrollToSection = function (sectionId) {
         window.scrollAppTo(sectionId);
+    };
+
+    window.completeAndNextLesson = function () {
+        if (window.Gamification && typeof window.Gamification.addXP === 'function') {
+            window.Gamification.addXP(100);
+        }
+        if (typeof triggerHaptic === 'function') triggerHaptic('heavy');
+
+        const existingToast = document.getElementById('mission-toast');
+        if (existingToast) existingToast.remove();
+
+        const toast = document.createElement('div');
+        toast.id = 'mission-toast';
+        toast.style.cssText = 'position: fixed; bottom: 90px; right: 30px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 14px 22px; border-radius: 12px; font-family: "Space Grotesk", sans-serif; font-weight: 700; box-shadow: 0 10px 30px rgba(16,185,129,0.5); z-index: 999999; display: flex; align-items: center; gap: 10px; font-size: 0.95rem; border: 1px solid rgba(255,255,255,0.2);';
+        toast.innerHTML = '<span>🎉</span> Clinical Mission Verified & Accredited! +100 XP Earned!';
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => toast.remove(), 500);
+        }, 2200);
+
+        setTimeout(() => {
+            window.navigateLessonStep(1);
+        }, 350);
+    };
+
+    window.filterClinicalTable = function (query) {
+        query = (query || '').toLowerCase().trim();
+        const table = document.querySelector('.interactive-clinical-table');
+        if (!table) return;
+        const rows = table.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            if (text.includes(query) || query === '') {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
     };
 
     console.log('[MasterclassEngine]: v16.0 World-Class Masterclass Engine Fully Initialized.');

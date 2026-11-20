@@ -359,6 +359,143 @@ window.filterModules = (query) => {
     }
 };
 
+// ============================================================================
+// 🔍 REAL-TIME GLOBAL SEARCH AUTOCOMPLETE (52 WEEKS & 364 MISSIONS)
+// ============================================================================
+window.handleGlobalSearch = (query) => {
+    query = (query || '').toLowerCase().trim();
+    const dropdown = document.getElementById('global-search-dropdown');
+    const resultsList = document.getElementById('search-results-list');
+    const clearBtn = document.getElementById('clear-search-btn');
+
+    if (clearBtn) clearBtn.style.display = query.length > 0 ? 'block' : 'none';
+
+    // Synchronously filter sidebar & hub
+    window.filterModules(query);
+
+    if (!dropdown || !resultsList) return;
+
+    if (query.length < 2) {
+        dropdown.style.display = 'none';
+        return;
+    }
+
+    const matches = [];
+    const allModules = window.curriculumData || window.roadmap || [];
+
+    for (const mod of allModules) {
+        const weekNum = mod.weekNum || 1;
+        const weekTitle = mod.title || `Week ${weekNum}`;
+        const phase = mod.phase || (weekNum <= 8 ? 1 : weekNum <= 20 ? 2 : weekNum <= 32 ? 3 : 4);
+
+        if (weekTitle.toLowerCase().includes(query)) {
+            matches.push({
+                type: 'module',
+                weekNum: weekNum,
+                dayNum: 1,
+                title: weekTitle,
+                subtitle: `Complete Week ${weekNum} Masterclass Module`,
+                phase: phase
+            });
+        }
+
+        if (mod.days) {
+            for (const d of mod.days) {
+                const dayNum = d.dayNum || 1;
+                const dTitle = d.title || '';
+                const dTopic = d.topic || d.brief || '';
+                const tools = d.tools || '';
+                if (dTitle.toLowerCase().includes(query) || dTopic.toLowerCase().includes(query) || tools.toLowerCase().includes(query)) {
+                    matches.push({
+                        type: 'day',
+                        weekNum: weekNum,
+                        dayNum: dayNum,
+                        title: dTitle,
+                        subtitle: `Week ${weekNum} • Day 0${dayNum}`,
+                        phase: phase
+                    });
+                }
+                if (matches.length >= 10) break;
+            }
+        }
+        if (matches.length >= 10) break;
+    }
+
+    if (matches.length === 0) {
+        resultsList.innerHTML = `
+            <div style="padding: 16px; text-align: center; color: #94a3b8; font-family: 'Space Grotesk'; font-size: 0.88rem;">
+                No matching topics for "<span style="color: white; font-weight: 700;">${query}</span>".<br>
+                <span style="font-size: 0.76rem; color: #64748b; margin-top: 4px; display: inline-block;">Try searching "SQL", "Excel", "Biostatistics", "Python", "Transformers", "ECG", or "FHIR".</span>
+            </div>
+        `;
+    } else {
+        const phaseBadges = {
+            1: { name: 'P1: Stats', color: '#38bdf8', bg: 'rgba(56,189,248,0.15)' },
+            2: { name: 'P2: SQL', color: '#a855f7', bg: 'rgba(168,85,247,0.15)' },
+            3: { name: 'P3: Python', color: '#ec4899', bg: 'rgba(236,72,153,0.15)' },
+            4: { name: 'P4: AI/ML', color: '#10b981', bg: 'rgba(16,185,129,0.15)' }
+        };
+
+        resultsList.innerHTML = matches.map(m => {
+            const badge = phaseBadges[m.phase] || phaseBadges[1];
+            return `
+                <div class="search-result-item" onclick="window.selectSearchResult(${m.weekNum}, ${m.dayNum})"
+                     style="padding: 10px 14px; border-radius: 10px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.15s ease; display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+                    <div style="display: flex; flex-direction: column; gap: 3px; overflow: hidden; flex: 1;">
+                        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 700; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            ${m.title}
+                        </div>
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: #94a3b8;">
+                            ${m.subtitle}
+                        </div>
+                    </div>
+                    <span style="font-family: 'JetBrains Mono'; font-size: 0.68rem; font-weight: 700; color: ${badge.color}; background: ${badge.bg}; border: 1px solid ${badge.color}44; padding: 3px 8px; border-radius: 6px; white-space: nowrap;">
+                        ${badge.name}
+                    </span>
+                </div>
+            `;
+        }).join('');
+    }
+
+    dropdown.style.display = 'block';
+};
+
+window.selectSearchResult = (weekNum, dayNum) => {
+    const dropdown = document.getElementById('global-search-dropdown');
+    if (dropdown) dropdown.style.display = 'none';
+    const input = document.getElementById('global-search-input');
+    if (input) input.value = '';
+    const clearBtn = document.getElementById('clear-search-btn');
+    if (clearBtn) clearBtn.style.display = 'none';
+
+    window.jumpToWeek(weekNum, dayNum);
+};
+
+window.clearGlobalSearch = () => {
+    const input = document.getElementById('global-search-input');
+    if (input) input.value = '';
+    const dropdown = document.getElementById('global-search-dropdown');
+    if (dropdown) dropdown.style.display = 'none';
+    const clearBtn = document.getElementById('clear-search-btn');
+    if (clearBtn) clearBtn.style.display = 'none';
+    window.filterModules('');
+};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const dropdown = document.getElementById('global-search-dropdown');
+        if (dropdown) dropdown.style.display = 'none';
+    }
+});
+
+document.addEventListener('click', (e) => {
+    const container = document.getElementById('global-search-container');
+    const dropdown = document.getElementById('global-search-dropdown');
+    if (container && dropdown && !container.contains(e.target)) {
+        dropdown.style.display = 'none';
+    }
+});
+
 // --- AUDIO HAPTIC ENGINE ---
 const AudioEngine = {
     ctx: null,
