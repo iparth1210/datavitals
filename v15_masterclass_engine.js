@@ -204,6 +204,26 @@
             tools: tools,
             brief: dailyData.fiveWs.what,
             milestone: `Complete Day ${dayNum} laboratory protocol for ${dayTitle}.`,
+            domain: dailyData.domain || 'Clinical Healthcare Systems',
+            eli5: dailyData.eli5 || {
+                title: "What is a Computer? (Explain Like I'm 5 / The Medical Triage Model)",
+                analogy: "Think of a computer as a medical team: Inputs are the vital sensors (eyes and ears), the CPU is the doctor's brain doing calculations, RAM is the working clipboard holding current numbers, and Storage is the medical archive room holding permanent charts.",
+                binaryBitsExplained: "Computers use electricity (0s and 1s) to represent data. High voltage is 1, low voltage is 0. Billions of tiny transistor switches process thousands of vital signs per second."
+            },
+            onFieldPractice: dailyData.onFieldPractice || {
+                roleTitle: "Clinical Systems Specialist",
+                dayToDayDuties: "Ensure real-time data pipelines operate reliably without dropped frames or telemetry lag.",
+                onFieldChecklist: [
+                    "Verify telemetry server memory and CPU utilization.",
+                    "Audit data integrity against truncation errors.",
+                    "Enforce role-based access control complying with HIPAA §164.312."
+                ]
+            },
+            interviewQA: dailyData.interviewQA || {
+                question: "How does computational latency affect real-time patient monitoring?",
+                idealAnswer: "In critical care, sub-second latency is vital for physiological alarms; delayed data causes missed arrhythmias or delayed intervention.",
+                keyTakeaway: "In life-critical systems, deterministic execution and data integrity take priority over batch throughput."
+            },
             fiveWs: dailyData.fiveWs,
             objectives: dailyData.objectives,
             theoryP1: dailyData.theoryP1,
@@ -665,6 +685,8 @@
                     <!-- QUICK JUMP PILLS WITH PROMINENT SCROLL DOWN BUTTON -->
                     <div class="lesson-quick-jump-bar" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; background: rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 10px 16px;">
                         <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; margin-right: 4px; font-weight: 700;">Jump to:</span>
+                        <a href="javascript:void(0)" onclick="window.scrollToSection('#lesson-zero-to-field')" class="jump-pill">🌱 Zero-to-Field</a>
+                        <a href="javascript:void(0)" onclick="window.scrollToSection('#lesson-computer-simulator')" class="jump-pill">⚡ Architecture Sim</a>
                         <a href="javascript:void(0)" onclick="window.scrollToSection('#lesson-video-theater')" class="jump-pill">🎥 Video Lecture</a>
                         <a href="javascript:void(0)" onclick="window.scrollToSection('#lesson-five-ws')" class="jump-pill">📌 5 W's & H</a>
                         <a href="javascript:void(0)" onclick="window.scrollToSection('#lesson-theory-deepdive')" class="jump-pill">📘 Theory & Mechanics</a>
@@ -708,6 +730,181 @@
                     </div>
 
                     ${videoPlayerHTML}
+                </div>
+
+                <!-- 2.5. ZERO-TO-FIELD PEDAGOGICAL ARCHITECTURE (ELI5, ON-FIELD DUTY & INTERVIEW DEFENSE) -->
+                <div id="lesson-zero-to-field" class="modern-card" style="border-radius: 20px; padding: 30px; margin-bottom: 28px; background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.85)); border: 1px solid rgba(56, 189, 248, 0.25); box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+                                🌱
+                            </div>
+                            <div>
+                                <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #38bdf8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">
+                                    ZERO-TO-FIELD PEDAGOGY • GROUND ZERO TO ON-FIELD PROFESSIONAL
+                                </span>
+                                <h2 style="font-family: 'Space Grotesk'; font-size: 1.35rem; font-weight: 700; color: white; margin: 0;">
+                                    Ground-Zero Foundation & Hospital On-Field Readiness
+                                </h2>
+                            </div>
+                        </div>
+                        <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #94a3b8; background: rgba(255,255,255,0.05); padding: 5px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
+                            Discipline: <strong style="color: #38bdf8;">${lesson.domain}</strong>
+                        </div>
+                    </div>
+
+                    <!-- 3-COLUMN BENTO GRID: ELI5, ON-FIELD DUTY, INTERVIEW DEFENSE -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px;">
+                        <!-- BENTO 1: ELI5 -->
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 16px; padding: 22px; display: flex; flex-direction: column;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+                                <span style="font-size: 1.3rem;">💡</span>
+                                <div style="font-family: 'Space Grotesk'; font-size: 1.05rem; font-weight: 700; color: #38bdf8;">
+                                    ${lesson.eli5.title}
+                                </div>
+                            </div>
+                            <p style="font-family: 'Plus Jakarta Sans'; font-size: 0.9rem; line-height: 1.65; color: #cbd5e1; margin: 0 0 16px 0; white-space: pre-line;">
+                                ${lesson.eli5.analogy}
+                            </p>
+                            <div style="margin-top: auto; background: rgba(56, 189, 248, 0.06); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 10px; padding: 12px 14px;">
+                                <div style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #38bdf8; font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">
+                                    ⚡ The Binary Bits & Electronics Reality:
+                                </div>
+                                <div style="font-family: 'Plus Jakarta Sans'; font-size: 0.85rem; line-height: 1.5; color: #94a3b8;">
+                                    ${lesson.eli5.binaryBitsExplained}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BENTO 2: ON-FIELD HOSPITAL DUTY -->
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 16px; padding: 22px; display: flex; flex-direction: column;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+                                <span style="font-size: 1.3rem;">🩺</span>
+                                <div>
+                                    <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: #10b981; text-transform: uppercase; font-weight: 700;">ON-FIELD CLINICAL ROLE</div>
+                                    <div style="font-family: 'Space Grotesk'; font-size: 1.05rem; font-weight: 700; color: #10b981;">
+                                        ${lesson.onFieldPractice.roleTitle}
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="font-family: 'Plus Jakarta Sans'; font-size: 0.9rem; line-height: 1.65; color: #cbd5e1; margin: 0 0 14px 0;">
+                                ${lesson.onFieldPractice.dayToDayDuties}
+                            </p>
+                            <div style="margin-top: auto; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 10px; padding: 12px 14px;">
+                                <div style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #10b981; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">
+                                    📋 On-Field Shift Checklist:
+                                </div>
+                                <ul style="margin: 0; padding-left: 18px; font-family: 'Plus Jakarta Sans'; font-size: 0.84rem; line-height: 1.5; color: #cbd5e1;">
+                                    ${lesson.onFieldPractice.onFieldChecklist.map(item => `<li style="margin-bottom: 4px;">${item}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- BENTO 3: HOSPITAL INTERVIEW DEFENSE -->
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 16px; padding: 22px; display: flex; flex-direction: column;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+                                <span style="font-size: 1.3rem;">💼</span>
+                                <div>
+                                    <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: #a855f7; text-transform: uppercase; font-weight: 700;">TECHNICAL RECRUITMENT DEFENSE</div>
+                                    <div style="font-family: 'Space Grotesk'; font-size: 1.05rem; font-weight: 700; color: #a855f7;">
+                                        Hospital Interview Defense
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="background: rgba(168, 85, 247, 0.08); border-left: 3px solid #a855f7; padding: 10px 12px; border-radius: 6px; margin-bottom: 12px; font-family: 'Plus Jakarta Sans'; font-size: 0.88rem; font-weight: 600; color: #e2e8f0; line-height: 1.5;">
+                                "${lesson.interviewQA.question}"
+                            </div>
+                            <p style="font-family: 'Plus Jakarta Sans'; font-size: 0.88rem; line-height: 1.6; color: #cbd5e1; margin: 0 0 12px 0;">
+                                <strong style="color: #a855f7;">Model Answer:</strong> ${lesson.interviewQA.idealAnswer}
+                            </p>
+                            <div style="margin-top: auto; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 8px; padding: 8px 12px; font-family: 'JetBrains Mono'; font-size: 0.75rem; color: #94a3b8;">
+                                🎯 <strong style="color: #cbd5e1;">Core Takeaway:</strong> ${lesson.interviewQA.keyTakeaway}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2.8. INTERACTIVE CLINICAL COMPUTER ARCHITECTURE SIMULATOR -->
+                <div id="lesson-computer-simulator" class="modern-card" style="border-radius: 20px; padding: 30px; margin-bottom: 28px; background: #0f172a; border: 1px solid rgba(59, 130, 246, 0.25); box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 14px; flex-wrap: wrap; gap: 12px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+                                ⚡
+                            </div>
+                            <div>
+                                <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #3b82f6; text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">
+                                    HARDWARE-TO-EHR INTERACTIVE SIMULATION
+                                </span>
+                                <h3 style="font-family: 'Space Grotesk'; font-size: 1.35rem; font-weight: 700; color: white; margin: 0;">
+                                    Clinical Computer Architecture Simulator
+                                </h3>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button onclick="window.stepClinicalSimulation()" class="btn-neural" style="font-family: 'Space Grotesk'; font-size: 0.82rem; font-weight: 700; padding: 8px 16px; border-radius: 10px; background: rgba(59, 130, 246, 0.2); border-color: #3b82f6; color: #93c5fd; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                                <span>▶</span> Next Clock Cycle
+                            </button>
+                            <button id="sim-continuous-toggle-btn" onclick="window.toggleContinuousSimulation()" class="btn-neural" style="font-family: 'Space Grotesk'; font-size: 0.82rem; font-weight: 700; padding: 8px 16px; border-radius: 10px; background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.15); color: #cbd5e1; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                                <span>⚡</span> Continuous Flow: OFF
+                            </button>
+                            <button onclick="window.resetClinicalSimulation()" class="btn-neural" style="font-family: 'Space Grotesk'; font-size: 0.82rem; padding: 8px 14px; border-radius: 10px; background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); color: #94a3b8; cursor: pointer;">
+                                🔄 Reset
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 5-STAGE INTERACTIVE HARDWARE PIPELINE GRID -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px;">
+                        <div id="sim-node-1" onclick="window.setSimulationStep(1)" class="sim-stage-node active-sim-node" style="border: 1px solid #ec4899; background: rgba(236, 72, 153, 0.12); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.25s ease;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                <span style="font-size: 1.3rem;">🫀</span>
+                                <span style="font-family: 'JetBrains Mono'; font-size: 0.68rem; color: #ec4899; font-weight: 700;">STAGE 1</span>
+                            </div>
+                            <div style="font-family: 'Space Grotesk'; font-size: 0.88rem; font-weight: 700; color: white;">Sensor Input</div>
+                            <div style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">Bedside ECG (1.25 mV)</div>
+                        </div>
+
+                        <div id="sim-node-2" onclick="window.setSimulationStep(2)" class="sim-stage-node" style="border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.25s ease;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                <span style="font-size: 1.3rem;">📋</span>
+                                <span style="font-family: 'JetBrains Mono'; font-size: 0.68rem; color: #38bdf8; font-weight: 700;">STAGE 2</span>
+                            </div>
+                            <div style="font-family: 'Space Grotesk'; font-size: 0.88rem; font-weight: 700; color: white;">ADC & RAM Buffer</div>
+                            <div style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">Address 0x4F00</div>
+                        </div>
+
+                        <div id="sim-node-3" onclick="window.setSimulationStep(3)" class="sim-stage-node" style="border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.25s ease;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                <span style="font-size: 1.3rem;">⚡</span>
+                                <span style="font-family: 'JetBrains Mono'; font-size: 0.68rem; color: #a855f7; font-weight: 700;">STAGE 3</span>
+                            </div>
+                            <div style="font-family: 'Space Grotesk'; font-size: 0.88rem; font-weight: 700; color: white;">CPU Instruction</div>
+                            <div style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">Fetch & Decode</div>
+                        </div>
+
+                        <div id="sim-node-4" onclick="window.setSimulationStep(4)" class="sim-stage-node" style="border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.25s ease;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                <span style="font-size: 1.3rem;">🧮</span>
+                                <span style="font-family: 'JetBrains Mono'; font-size: 0.68rem; color: #10b981; font-weight: 700;">STAGE 4</span>
+                            </div>
+                            <div style="font-family: 'Space Grotesk'; font-size: 0.88rem; font-weight: 700; color: white;">ALU Evaluation</div>
+                            <div style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">74 BPM (Normal Sinus)</div>
+                        </div>
+
+                        <div id="sim-node-5" onclick="window.setSimulationStep(5)" class="sim-stage-node" style="border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.25s ease;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                <span style="font-size: 1.3rem;">🏥</span>
+                                <span style="font-family: 'JetBrains Mono'; font-size: 0.68rem; color: #f59e0b; font-weight: 700;">STAGE 5</span>
+                            </div>
+                            <div style="font-family: 'Space Grotesk'; font-size: 0.88rem; font-weight: 700; color: white;">EHR & Monitor</div>
+                            <div style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">FHIR Logged & Clear</div>
+                        </div>
+                    </div>
+
+                    <!-- ACTIVE STEP DETAILS READOUT -->
+                    <div id="sim-active-readout-box" style="background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 20px;">
+                        <!-- Dynamically populated by window.renderSimulationDOM() -->
+                    </div>
                 </div>
 
                 <!-- 3. THE 5 W'S & H FRAMEWORK (6-TILE BENTO GRID) -->
@@ -1059,6 +1256,13 @@
 
         app.innerHTML = heroContent;
 
+        // Initialize Clinical Computer Architecture Simulator
+        setTimeout(() => {
+            if (typeof window.renderSimulationDOM === 'function') {
+                window.renderSimulationDOM();
+            }
+        }, 50);
+
         // Populate Monaco / Pyodide editor if Python lesson
         if (isPythonLesson && window.PythonEngine && typeof window.PythonEngine.setEditorContent === 'function') {
             setTimeout(() => {
@@ -1171,5 +1375,166 @@
         });
     };
 
-    console.log('[MasterclassEngine]: v16.0 World-Class Masterclass Engine Fully Initialized.');
+    // 7. CLINICAL COMPUTER ARCHITECTURE SIMULATOR CONTROLLER
+    window.simTelemetryData = {
+        step: 1,
+        isPlaying: false,
+        timer: null,
+        stages: [
+            {
+                num: 1,
+                badge: "STAGE 1 • PHYSICAL WORLD TO SENSOR",
+                title: "🔌 Biosignal Sensor Input",
+                sub: "Patient Bedside Sensor",
+                icon: "🫀",
+                color: "#ec4899",
+                payload: "Analog Voltage: 1.25 mV (Cardiac Lead II)",
+                detail: "The patient's heart contracts, generating a minute electrical potential in microvolts. Ag/AgCl disposable electrode patches capture this analog bioelectric signal at 1000 Hz. The signal represents pure continuous physical voltage in the real world."
+            },
+            {
+                num: 2,
+                badge: "STAGE 2 • MEMORY & BUS",
+                title: "🔄 ADC & RAM Memory Buffer",
+                sub: "Volatile Memory Address: 0x4F00",
+                icon: "📋",
+                color: "#38bdf8",
+                payload: "Binary Word: 0000 0001 0100 1010 (Hex 0x014A = 330)",
+                detail: "The 16-bit Analog-to-Digital Converter (ADC) quantizes the continuous electrical voltage into digital discrete numbers (0s and 1s). The Direct Memory Access (DMA) controller writes the raw packet into volatile system RAM buffer without blocking the CPU."
+            },
+            {
+                num: 3,
+                badge: "STAGE 3 • PROCESSOR CORE",
+                title: "🧠 CPU Fetch & Instruction Decode",
+                sub: "Instruction Register & Control Unit",
+                icon: "⚡",
+                color: "#a855f7",
+                payload: "OPCODE: LOAD_VITAL [0x4F00] -> DECODE: EVAL_R_PEAK",
+                detail: "The CPU Control Unit fetches the queued instruction from L1 instruction cache. The Program Counter increments to 0x0842. The instruction is decoded into micro-operations that configure the ALU for QRS peak detection."
+            },
+            {
+                num: 4,
+                badge: "STAGE 4 • ARITHMETIC LOGIC",
+                title: "⚙️ ALU Clinical Evaluation",
+                sub: "Math & Logic Comparison Unit",
+                icon: "🧮",
+                color: "#10b981",
+                payload: "R-R Delta: 810 ms -> HR: 74 BPM | Condition: 74 <= 100 -> TRUE (NORMAL)",
+                detail: "The Arithmetic Logic Unit executes 60,000 / 810 ms = 74.07 Beats/Min. It compares the result against the tachycardia safety threshold (100 bpm). The condition evaluates to NORMAL SINUS RHYTHM; no emergency alarm interrupt is triggered."
+            },
+            {
+                num: 5,
+                badge: "STAGE 5 • PERSISTENCE & ACTUATION",
+                title: "🖥️ EHR Persistence & Monitor Output",
+                sub: "Bedside Display & Hospital Archive",
+                icon: "🏥",
+                color: "#f59e0b",
+                payload: "EHR: POST /Observation (LOINC 8867-4) | Display: 74 BPM Green",
+                detail: "The graphics engine paints the green ECG trace on the bedside monitor at 60 FPS. Simultaneously, the networking card packages the reading into an HL7 FHIR JSON packet and commits the record to the hospital's non-volatile EHR database."
+            }
+        ]
+    };
+
+    window.setSimulationStep = function (stepNum) {
+        if (!window.simTelemetryData) return;
+        window.simTelemetryData.step = stepNum;
+        window.renderSimulationDOM();
+    };
+
+    window.stepClinicalSimulation = function () {
+        if (!window.simTelemetryData) return;
+        let nextStep = window.simTelemetryData.step + 1;
+        if (nextStep > 5) nextStep = 1;
+        window.setSimulationStep(nextStep);
+    };
+
+    window.toggleContinuousSimulation = function () {
+        if (!window.simTelemetryData) return;
+        const sim = window.simTelemetryData;
+        const btn = document.getElementById('sim-continuous-toggle-btn');
+        if (sim.isPlaying) {
+            clearInterval(sim.timer);
+            sim.isPlaying = false;
+            if (btn) {
+                btn.innerHTML = '<span>⚡</span> Continuous Flow: OFF';
+                btn.style.background = 'rgba(255, 255, 255, 0.05)';
+                btn.style.color = '#cbd5e1';
+            }
+        } else {
+            sim.isPlaying = true;
+            if (btn) {
+                btn.innerHTML = '<span>⚡</span> Continuous Flow: ON';
+                btn.style.background = 'rgba(16, 185, 129, 0.25)';
+                btn.style.color = '#34d399';
+            }
+            sim.timer = setInterval(() => {
+                window.stepClinicalSimulation();
+            }, 1800);
+        }
+    };
+
+    window.resetClinicalSimulation = function () {
+        if (!window.simTelemetryData) return;
+        if (window.simTelemetryData.isPlaying) {
+            window.toggleContinuousSimulation();
+        }
+        window.setSimulationStep(1);
+    };
+
+    window.renderSimulationDOM = function () {
+        const sim = window.simTelemetryData;
+        if (!sim) return;
+        const activeStage = sim.stages[sim.step - 1];
+
+        // Update active nodes styling
+        sim.stages.forEach(st => {
+            const el = document.getElementById(`sim-node-${st.num}`);
+            if (el) {
+                if (st.num === sim.step) {
+                    el.classList.add('active-sim-node');
+                    el.style.borderColor = st.color;
+                    el.style.boxShadow = `0 0 20px ${st.color}55`;
+                    el.style.background = `${st.color}18`;
+                } else {
+                    el.classList.remove('active-sim-node');
+                    el.style.borderColor = 'rgba(255,255,255,0.08)';
+                    el.style.boxShadow = 'none';
+                    el.style.background = 'rgba(255,255,255,0.02)';
+                }
+            }
+        });
+
+        // Update active readout box
+        const readoutBox = document.getElementById('sim-active-readout-box');
+        if (readoutBox && activeStage) {
+            readoutBox.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.8rem;">${activeStage.icon}</span>
+                        <div>
+                            <div style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: ${activeStage.color}; font-weight: 700; text-transform: uppercase;">
+                                ${activeStage.badge}
+                            </div>
+                            <h4 style="font-family: 'Space Grotesk'; font-size: 1.15rem; font-weight: 700; color: white; margin: 0;">
+                                ${activeStage.title} (${activeStage.sub})
+                            </h4>
+                        </div>
+                    </div>
+                    <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; background: ${activeStage.color}22; color: ${activeStage.color}; border: 1px solid ${activeStage.color}44;">
+                        Clock Cycle: #${sim.step} of 5
+                    </div>
+                </div>
+                
+                <div style="background: #020617; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; margin-bottom: 12px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: #38bdf8; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                    <span style="color: #94a3b8;">DATA PAYLOAD:</span>
+                    <span style="font-weight: 700; color: ${activeStage.color};">${activeStage.payload}</span>
+                </div>
+
+                <p style="font-family: 'Plus Jakarta Sans'; font-size: 0.92rem; line-height: 1.6; color: #cbd5e1; margin: 0;">
+                    ${activeStage.detail}
+                </p>
+            `;
+        }
+    };
+
+    console.log('[MasterclassEngine]: v16.1 World-Class Masterclass Engine Fully Initialized.');
 })();

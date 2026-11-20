@@ -174,6 +174,25 @@
         if (weekNum === 1 || t.includes('von neumann') || t.includes('cache') || t.includes('nvme') || t.includes('kernel') || t.includes('multithreading') || t.includes('hardware')) {
             return {
                 domain: 'Hardware & System Architecture',
+                eli5: {
+                    title: "What is a Computer? (Explain Like I'm 5 / The Emergency Room Model)",
+                    analogy: "If you have never touched or studied computer science before, think of a computer as a high-speed electronic hospital triage team with 4 simple parts:\n\n1. 📥 INPUT (The Eyes & Ears): Sensors on a patient's body (like heart-rate sticky patches, temperature probes, or oxygen fingertip clips) that sense what is happening in the physical world.\n\n2. 🧠 CPU / Processor (The Doctor's Brain): The chip that reads numbers and makes calculations step-by-step millions of times per second (Fetch an instruction -> Decode what it means -> Execute the calculation -> Store the answer).\n\n3. 📋 RAM / Memory (The Working Clipboard): The temporary desk where the live patient vitals and active software sit right now. It is ultra-fast, but if the machine is turned off, this clipboard is wiped clean.\n\n4. 🗄️ STORAGE / SSD (The Hospital Archive): The permanent hard drive where years of medical records, scans, and software are safely filed away even when power is turned off.\n\n5. 📤 OUTPUT (The Bedside Monitor & Alarms): The screen, speaker alarm, and doctor's pager that displays real-time health data.",
+                    binaryBitsExplained: "Why 0s and 1s? Computers are built from billions of microscopic electrical switches called transistors. A switch can only be ON (1) or OFF (0). A single switch is a 'BIT'. Eight switches together make a 'BYTE' (like the number 72 or letter 'A'). When a patient's heart beats, it creates a tiny electrical voltage in microvolts. The medical sensor measures this voltage thousands of times every second and converts it into 0s and 1s so the computer can plot the heartbeat waveform on the screen!"
+                },
+                onFieldPractice: {
+                    roleTitle: "Biomedical Systems Engineer / Hospital Infrastructure Specialist",
+                    dayToDayDuties: "On the hospital floor, you are responsible for ensuring that zero ICU telemetry streams drop during emergency shifts. You monitor telemetry gateway server health, track RAM buffers, calibrate analog-to-digital converters, and configure automated failover servers so a hardware glitch never interrupts a patient's cardiac alarm.",
+                    onFieldChecklist: [
+                        "Verify that ICU telemetry gateways maintain CPU utilization below 70% to prevent context-switching delays.",
+                        "Inspect non-volatile storage logs for kernel panic warnings or memory-buffer overflow errors.",
+                        "Calibrate bedside telemetry Analog-to-Digital Converters (ADCs) to eliminate 60Hz wall-power electrical noise."
+                    ]
+                },
+                interviewQA: {
+                    question: "How do you explain the difference between RAM and Storage when troubleshooting an ICU telemetry gateway that is dropping patient alarms?",
+                    idealAnswer: "RAM is volatile, high-speed working memory that holds active, in-flight physiological telemetry packets so the CPU can evaluate arrhythmia thresholds with sub-millisecond latency. Storage is non-volatile permanent drive capacity used for long-term audit archiving. When an ICU telemetry gateway drops alarms, it is almost always due to RAM buffer exhaustion or CPU scheduling starvation—meaning the computer cannot hold incoming real-time sensor packets in memory. Expanding long-term disk storage will not resolve a live telemetry buffer overflow.",
+                    keyTakeaway: "In life-critical clinical engineering, RAM exhaustion triggers real-time telemetry dropped frames, while storage limitations only affect retrospective data persistence."
+                },
                 fiveWs: {
                     what: `Deconstructs hardware execution mechanisms for ${dayTitle}. Covers how instructions cycle through processor registers (PC, MAR, MDR, IR), pipeline hazards, memory bus bandwidth, and hardware interrupt handling.`,
                     why: `Medical monitoring devices require real-time determinism. Microsecond latency spikes or CPU memory bus contention can drop continuous ECG telemetry frames, directly threatening patient life.`,
@@ -228,6 +247,25 @@
         if (weekNum <= 4 || t.includes('excel') || t.includes('lookup') || t.includes('formula') || t.includes('vlookup') || t.includes('xlookup') || t.includes('grid')) {
             return {
                 domain: 'Clinical Spreadsheet Informatics',
+                eli5: {
+                    title: "What is a Spreadsheet? (Explain Like I'm 5 / The Medical Pillbox Grid)",
+                    analogy: "Think of a spreadsheet like a giant organizer of little labeled medicine boxes. Each box has a grid address like A1 (Column A, Row 1). A formula is an automatic instruction: 'Take the number from box A1 and add it to box B1.' If you write $A$1 with dollar signs (Absolute Referencing), you put a golden lock on that box so that even if you copy the formula down to 5,000 patient rows, it always references that exact same medical dosage baseline without shifting!",
+                    binaryBitsExplained: "Why does Excel sometimes corrupt medical data? If a patient ID is '004582', Excel might assume it's just the number 4582 and erase the leading zeros! In clinical informatics, a field professional always formats medical record numbers (MRNs) as TEXT so software doesn't alter patient identifiers."
+                },
+                onFieldPractice: {
+                    roleTitle: "Clinical Data Analyst / Pharmacy Informatics Specialist",
+                    dayToDayDuties: "You build automated medication reconciliation models for hospital pharmacies, cross-reference prescribed doses against therapeutic toxic ceilings, and automate daily patient census audits for ICU departments.",
+                    onFieldChecklist: [
+                        "Always use explicit exact-match lookups (XLOOKUP or INDEX/MATCH with exact match 0) to avoid approximate medication pairings.",
+                        "Enforce strict text data types on Medical Record Numbers (MRNs) and National Drug Codes (NDCs).",
+                        "Lock and password-protect calculation cells to comply with FDA 21 CFR Part 11 audit guidelines."
+                    ]
+                },
+                interviewQA: {
+                    question: "How do you defend against silent data corruption when using spreadsheets in a clinical research trial?",
+                    idealAnswer: "I enforce explicit data validation on all entry columns, format identifier codes as text to avoid truncation of leading zeros or automated scientific notation, use exact-match lookup functions (XLOOKUP with fallback values), and lock formula cells behind role-based access control with version-controlled audit logging.",
+                    keyTakeaway: "Spreadsheets in healthcare must treat numbers as discrete clinical tokens with boundary validation rather than arbitrary floating-point numbers."
+                },
                 fiveWs: {
                     what: `Mastering spreadsheet computational models for ${dayTitle}. Covers cell references ($A$1 vs A1), formula dependency trees, calculation chains, exact match lookup algorithms, and rigorous data validation.`,
                     why: `Over 80% of clinical research cohorts and hospital pharmacy formularies originate in spreadsheets. A single misplaced relative reference or truncated text string can alter drug dosage calculations tenfold.`,
@@ -282,6 +320,25 @@
         if (weekNum <= 8 || t.includes('stat') || t.includes('mean') || t.includes('variance') || t.includes('distribution') || t.includes('hypothesis') || t.includes('p-value')) {
             return {
                 domain: 'Biostatistics & Clinical Analytics',
+                eli5: {
+                    title: "What is Biostatistics? (Explain Like I'm 5 / The Hospital Stay Story)",
+                    analogy: "Imagine 10 patients have flu: 9 go home in 2 days, but 1 patient has severe pneumonia and stays 50 days. If you calculate the average (Mean), it says: 'Average stay is 6.8 days!' That sounds like the hospital is terrible, even though 90% left in 2 days! The Median (middle number) is 2 days. Biostatistics is the art of choosing the right mathematical tools so hospital doctors and health leaders see true medical reality instead of misleading averages.",
+                    binaryBitsExplained: "Why do we test for P-values? In medical science, we never assume a new heart drug worked just because 5 patients felt better. We use a P-value (probability) to ask: 'What are the chances this happened purely by luck?' If p < 0.05 (less than 5% chance of luck), doctors have scientific confidence that the medicine actually works!"
+                },
+                onFieldPractice: {
+                    roleTitle: "Biostatistician / Clinical Research Informatician",
+                    dayToDayDuties: "You design clinical trial statistical analysis plans, compute sample sizes to ensure trials have enough statistical power, perform survival analysis (Kaplan-Meier curves) for cancer patients, and present verified data to the Institutional Review Board (IRB).",
+                    onFieldChecklist: [
+                        "Test data for normality (Shapiro-Wilk) before deciding between parametric (t-test) and non-parametric (Mann-Whitney) tests.",
+                        "Report effect size and confidence intervals alongside p-values, not just raw statistical significance.",
+                        "Account for multiple testing corrections (Bonferroni / Benjamini-Hochberg FDR) when testing thousands of genetic biomarkers."
+                    ]
+                },
+                interviewQA: {
+                    question: "When would you choose a non-parametric test over a standard Student's t-test in clinical trial evaluation?",
+                    idealAnswer: "I choose a non-parametric test (such as the Mann-Whitney U test) when the clinical outcome variable is ordinal (e.g. pain scale 1-10), heavily skewed with extreme outliers (e.g. ICU length-of-stay or medical costs), or when the sample size is small and the normality assumption is violated. Non-parametric methods evaluate rank sums rather than raw parameters, making them robust against distributional distortions.",
+                    keyTakeaway: "Parametric tests assume Gaussian normality; non-parametric tests evaluate distribution-free ranks to protect against outlier bias."
+                },
                 fiveWs: {
                     what: `Rigorous biostatistical formulations for ${dayTitle}. Covers parametric vs non-parametric distributions, variance, standard error of the mean (SEM), confidence intervals, and hypothesis test rigor.`,
                     why: `Clinical conclusions dictate medical treatments. Misinterpreting p-values or reporting mean instead of median for skewed data invalidates clinical trials and leads to ineffective drug approvals.`,
@@ -336,6 +393,25 @@
         if (weekNum <= 20 || t.includes('sql') || t.includes('postgres') || t.includes('join') || t.includes('query') || t.includes('cte') || t.includes('database')) {
             return {
                 domain: 'Relational Database Engineering & SQL',
+                eli5: {
+                    title: "What is a Database & SQL? (Explain Like I'm 5 / The Connected Hospital Drawers)",
+                    analogy: "Imagine a hospital had all patient names, doctors, surgeries, and prescriptions written on one gigantic roll of paper. If a patient changed their phone number, a nurse would have to spend hours finding every prescription to update it! A Relational Database is like neat, separate filing drawers: Drawer 1 has 'Patients', Drawer 2 has 'Doctors', Drawer 3 has 'Prescriptions'. They connect with an ID number. SQL (Structured Query Language) is simply the universal computer language you use to ask: 'Hey database, look at the Patients drawer and Prescriptions drawer, and show me all patients given Antibiotics today!'",
+                    binaryBitsExplained: "Why ACID matters in hospitals: When a doctor prescribes a drug, two things must happen: 1. Deduct the pill from pharmacy inventory, and 2. Add the dose to the patient's record. ACID guarantees that either BOTH happen, or NEITHER happens! If the power fails mid-second, the computer will NEVER deduct the pill without recording it in the patient's chart."
+                },
+                onFieldPractice: {
+                    roleTitle: "Clinical SQL Database Engineer / Health Data Architect",
+                    dayToDayDuties: "You build and maintain high-speed relational queries across hospital databases (Epic Clarity, Cerner, MIMIC-IV), extract cohorts for clinical research, audit 30-day readmission metrics, and design database indexes so emergency department queries never cause server lockups.",
+                    onFieldChecklist: [
+                        "Always test queries with EXPLAIN ANALYZE on read-only replica databases (e.g. Epic Clarity) before production deployment.",
+                        "Enforce foreign key constraints and primary keys to prevent orphaned lab observation records.",
+                        "Use Common Table Expressions (CTEs) and Window Functions (LEAD/LAG) to reconstruct sequential patient hospital trajectories."
+                    ]
+                },
+                interviewQA: {
+                    question: "What is the critical difference between an INNER JOIN and a LEFT JOIN when querying patient hospital admissions?",
+                    idealAnswer: "An INNER JOIN returns only records where there is a match in both tables. A LEFT JOIN returns all records from the left master table, regardless of whether a matching record exists in the right table (filling unmatched fields with NULL). In healthcare analytics, if you query all registered clinic patients with an INNER JOIN on emergency admissions, you accidentally erase all healthy patients who never visited the ER! For comprehensive clinical reporting, a LEFT JOIN is required to retain the full denominator.",
+                    keyTakeaway: "INNER JOIN drops non-matching patients; LEFT JOIN preserves the full patient cohort denominator, which is vital for calculating accurate hospital disease incidence rates."
+                },
                 fiveWs: {
                     what: `Relational database architectures and high-performance SQL for ${dayTitle}. Covers ACID transaction guarantees, multi-table joins, subqueries, CTEs, window functions, and B-Tree indexing.`,
                     why: `Healthcare databases contain billions of sensitive records. Inefficient SQL queries lock transactional patient charting tables, while improper JOIN logic duplicates billing charges or drops vital encounter records.`,
@@ -390,6 +466,25 @@
         if (weekNum <= 32 || t.includes('python') || t.includes('pandas') || t.includes('numpy') || t.includes('variable') || t.includes('dataframe') || t.includes('series')) {
             return {
                 domain: 'Python Healthcare Engineering & Pandas',
+                eli5: {
+                    title: "What is Python & Coding? (Explain Like I'm 5 / The Automated Hospital Assistant)",
+                    analogy: "If computers only understand binary electric pulses (0s and 1s), writing code in 0s and 1s would take forever. Python is written in plain, human-friendly English. Instead of hiring 50 people to open 100,000 messy patient lab files by hand, you write 10 lines of Python code using a library called 'Pandas'. The computer reads all 100,000 files in 2 seconds, cleans all missing values, flags abnormal lab results, and saves hours of human labor!",
+                    binaryBitsExplained: "Why is Python fast with NumPy? Regular Python checks data types for every single number, which takes extra time. NumPy groups millions of medical readings into contiguous physical memory and uses the CPU's vector engines (SIMD) to calculate 100,000 heart rates simultaneously in one single tick of the processor clock!"
+                },
+                onFieldPractice: {
+                    roleTitle: "Healthcare Data Scientist / Clinical Python Developer",
+                    dayToDayDuties: "You build automated clinical data extraction pipelines, parse complex HL7 FHIR JSON streams, clean messy observational lab values, engineer biomedical features (e.g. rolling heart rate variability), and deploy production microservices that alert doctors to physiological deterioration.",
+                    onFieldChecklist: [
+                        "Avoid explicit for-loops on large patient DataFrames; utilize vectorized boolean indexing and NumPy primitives.",
+                        "Inspect missing value distributions (MCAR vs MNAR) before applying clinical imputation strategies.",
+                        "Pin dependencies using modern package managers (uv, poetry) and enforce PEP 8 type annotations for FDA compliance."
+                    ]
+                },
+                interviewQA: {
+                    question: "How do you handle missing lab values (NaNs) in patient EHR time-series data using Python?",
+                    idealAnswer: "In clinical data, missingness is informative (Missing Not at Random / MNAR)—physicians do not order cardiac troponin unless a patient presents with cardiac chest pain. Imputing with zero or global mean introduces lethal diagnostic bias. I first create binary presence indicators ('troponin_measured = 1'), apply forward-fill (ffill) within bounded time windows to simulate the last known physiological state, and use domain-specific median or iterative MICE imputation for analytical models.",
+                    keyTakeaway: "Never blindly impute clinical missing values without assessing clinical intention; missingness itself is a strong diagnostic signal."
+                },
                 fiveWs: {
                     what: `Python runtime mechanics, object models, and vectorized data manipulation with Pandas and NumPy for ${dayTitle}. Covers CPython bytecode, dynamic typing, memory layouts, and DataFrame transformations.`,
                     why: `Python powers modern clinical data science. Flawed memory management or unvectorized Python loops introduce intolerable processing delays when ingesting high-frequency continuous ICU telemetry.`,
@@ -443,6 +538,25 @@
         // 6. Clinical AI, Machine Learning & Deep Learning (W33-W52)
         return {
             domain: 'Clinical AI, Machine Learning & Deep Learning',
+            eli5: {
+                title: "What is Machine Learning & AI? (Explain Like I'm 5 / The Medical Detective Apprentice)",
+                analogy: "Instead of writing 10,000 complicated rules by hand ('if cough and fever and sore throat then flu'), machine learning is like showing an apprentice doctor 500,000 past medical charts. The computer looks at all the examples and spots subtle patterns that humans might miss—like how a tiny shift in blood pressure combined with breathing rate warns of sepsis 6 hours before symptoms appear!",
+                binaryBitsExplained: "How does a neural network 'think'? A neural network is simply layers of math equations (matrix multiplications). Each artificial 'neuron' takes numbers from patient labs, multiplies them by importance weights, and calculates a risk score between 0% and 100%. It doesn't have feelings or magic; it is high-speed pattern matching running on billions of computer transistors!"
+            },
+            onFieldPractice: {
+                roleTitle: "Clinical AI Engineer / Hospital ML Ops Specialist",
+                dayToDayDuties: "You validate AI model inference latency on hospital GPU servers, monitor model drift as patient demographics shift, prevent false-positive alert fatigue in the Emergency Department, and audit radiological computer vision models for demographic fairness.",
+                onFieldChecklist: [
+                    "Split train/test splits strictly by Patient ID to prevent cross-encounter patient data leakage.",
+                    "Calibrate decision thresholds specifically for clinical cost-benefit (prioritize high sensitivity for life-threatening triage).",
+                    "Implement real-time model telemetry logging with SHAP feature attribution to explain AI alerts to attending physicians."
+                ]
+            },
+            interviewQA: {
+                question: "Why can't you evaluate a clinical AI model predicting rare sepsis mortality using standard accuracy?",
+                idealAnswer: "In hospital telemetry, rare conditions like septic shock occur in only 1-2% of ICU patients. A naive 'dummy' model that predicts 'No Sepsis' for every patient achieves 98-99% accuracy while letting 100% of dying septic patients slip through undetected! In clinical AI, we evaluate models using Area Under the Precision-Recall Curve (PR-AUC), Sensitivity (Recall) at fixed high Specificity (e.g. 95%), and the Brier score for probability calibration.",
+                keyTakeaway: "In imbalanced clinical outcomes, accuracy is a dangerously misleading vanity metric; precision, recall, and threshold calibration protect patient lives."
+            },
             fiveWs: {
                 what: `Mathematical formulations, architectures, and deployment pipelines for ${dayTitle}. Covers linear algebra, backpropagation, convolutional networks, transformers, loss functions, and clinical risk scoring.`,
                 why: `Clinical artificial intelligence directly guides life-or-death decisions. Poorly regularized models, data leakage across patient encounters, or uncalibrated probabilities cause misdiagnoses and patient harm.`,
@@ -517,6 +631,10 @@
         const video = window.resolveDailyVideo(weekNum, dayNum, dayTitle);
 
         return {
+            domain: domain.domain,
+            eli5: domain.eli5,
+            onFieldPractice: domain.onFieldPractice,
+            interviewQA: domain.interviewQA,
             fiveWs: domain.fiveWs,
             objectives: objectives,
             theoryP1: domain.theory[0],
