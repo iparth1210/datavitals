@@ -11,7 +11,7 @@ class NarrativeEngine {
             {
                 id: "scene-neural",
                 title: "NEURAL LOGIC",
-                desc: "Synthesizing clinical data streams into actionable intelligence.",
+                desc: "Synthesizing distributed event streams into actionable production intelligence.",
                 svg: `<svg viewBox="0 0 800 600" class="quantum-svg">
                         <circle cx="400" cy="300" r="100" class="pulse-ring" />
                         <path d="M400 200 L400 400 M300 300 L500 300" class="neural-cross" />
@@ -20,8 +20,8 @@ class NarrativeEngine {
             },
             {
                 id: "scene-pulse",
-                title: "CLINICAL PULSE",
-                desc: "Monitoring real-time vital metrics through the neural fabric.",
+                title: "SYSTEM PULSE",
+                desc: "Monitoring real-time production telemetry through the computing fabric.",
                 svg: `<svg viewBox="0 0 800 600" class="quantum-svg">
                         <path d="M100 300 Q250 100 400 300 T700 300" class="pulse-wave" />
                         <rect x="350" y="250" width="100" height="100" class="pulse-core" />

@@ -1,6 +1,6 @@
 /**
  * 🔐 LOGIN OVERLAY v2.0 (THE "KILLER" STANDARD)
- * Redesigned as a floating holographic clinical terminal.
+ * Redesigned as a floating holographic engineering terminal.
  */
 
 class LoginOverlay {

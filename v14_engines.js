@@ -1,7 +1,7 @@
 /**
  * DATAVITALS OS - v14.0 ADVANCED ENGINE SUITE
  * 1. 🎧 AI Audio Briefing Engine (Web Speech API)
- * 2. 🎯 Clinical Knowledge Check & Micro-Quiz Engine (+50 XP)
+ * 2. 🎯 Technical Knowledge Check & Micro-Quiz Engine (+50 XP)
  * 3. 📊 Interactive SVG Live Chart Engine for Data Studio
  * 4. 📈 Dynamic Reading Progress Bar
  */
@@ -185,7 +185,7 @@ window.toggleAudioBriefing = () => {
     if (window.AudioBriefing) window.AudioBriefing.toggle();
 };
 
-// --- 2. 🎯 CLINICAL KNOWLEDGE CHECK & MICRO-QUIZ ENGINE ---
+// --- 2. 🎯 TECHNICAL KNOWLEDGE CHECK & MICRO-QUIZ ENGINE ---
 const clinicalKnowledgeBank = {
     'lesson-w1-d1': {
         question: 'In an emergency EHR infrastructure, which hardware architecture is fundamentally required for parallel matrix multiplications in diagnostic deep learning models?',
@@ -249,7 +249,7 @@ window.renderQuizCard = (lesson) => {
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <span style="font-family: 'JetBrains Mono'; font-size: 0.8rem; color: ${isCompleted ? '#10b981' : 'var(--accent-violet)'}; font-weight: 700;">
-                        ${isCompleted ? '✓ CLINICAL ACCREDITATION VERIFIED' : '⚡ CLINICAL KNOWLEDGE CHECK'}
+                        ${isCompleted ? '✓ TECHNICAL ACCREDITATION VERIFIED' : '⚡ TECHNICAL KNOWLEDGE CHECK'}
                     </span>
                 </div>
                 <span id="quiz-xp-badge-${lesson.id}" style="font-family: 'JetBrains Mono'; font-size: 0.72rem; padding: 3px 8px; border-radius: 6px; background: ${isCompleted ? 'rgba(16, 185, 129, 0.15)' : 'rgba(236, 72, 153, 0.15)'}; color: ${isCompleted ? '#10b981' : 'var(--accent-pink)'}; border: 1px solid ${isCompleted ? '#10b981' : 'var(--accent-pink)'};">
@@ -364,7 +364,7 @@ window.submitQuizAnswer = (lessonId, optionIndex) => {
             feedbackEl.style.color = '#fee2e2';
             feedbackEl.innerHTML = `
                 <div style="font-weight: 700; color: var(--accent-pink); margin-bottom: 4px;">⚠️ Clinical Mismatch</div>
-                <div>Review the mission briefing parameters above and select the optimal clinical response.</div>
+                <div>Review the mission briefing parameters above and select the optimal architectural response.</div>
             `;
         }
     }
@@ -724,10 +724,10 @@ window.getModulesHubHTML = () => {
                             <span style="font-size: 0.78rem; color: #38bdf8; font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: 0.8px;">🎓 DATAVITALS ACCREDITED CURRICULUM • 52 WEEKS • 364 MISSIONS</span>
                         </div>
                         <h1 style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; color: white; margin: 0 0 10px 0; line-height: 1.2; letter-spacing: -0.5px;">
-                            Healthcare Data Intelligence Master Curriculum
+                            Computer Science, Data Engineering & Applied AI Master Curriculum
                         </h1>
                         <p style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.05rem; color: #94a3b8; margin: 0; line-height: 1.65;">
-                            An exhaustive, production-grade professional curriculum. Every module provides a complete academic dossier powered by the <strong>5 W's & H Framework (What, Why, Who, Where, When, How)</strong>, real-world clinical case studies, and hands-on laboratory missions.
+                            An exhaustive, production-grade professional curriculum. Every module provides a complete academic dossier powered by the <strong>5 W's & H Framework (What, Why, Who, Where, When, How)</strong>, real-world enterprise systems, outage postmortems, and hands-on laboratory missions.
                         </p>
                     </div>
 
@@ -761,7 +761,7 @@ window.getModulesHubHTML = () => {
                     <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
                         <div style="flex: 1; min-width: 280px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 12px 18px; display: flex; align-items: center; gap: 12px;">
                             <span style="color: #38bdf8; font-size: 1.1rem;">🔍</span>
-                            <input type="text" id="hub-search-input" placeholder="Search topics, 5 W's, clinical applications, or tools (e.g. SQL, Sepsis, DICOM, ICU, PyTorch)..." 
+                            <input type="text" id="hub-search-input" placeholder="Search topics, 5 W's, system architectures, or tools (e.g. SQL, Python, Kafka, Spark, PyTorch, LLMs)..." 
                                 oninput="window.filterModulesHub(this.value)"
                                 style="background: transparent; border: none; color: white; width: 100%; outline: none; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem;">
                         </div>
@@ -902,7 +902,7 @@ window.getModulesHubHTML = () => {
 
                             <div style="background: rgba(56,189,248,0.03); border: 1px solid rgba(56,189,248,0.2); border-radius: 12px; padding: 16px 18px;">
                                 <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; font-weight: 700; color: #38bdf8; margin-bottom: 8px;">
-                                    🏥 REAL-WORLD CLINICAL CASE STUDY
+                                    🏢 PRODUCTION ARCHITECTURE & INCIDENT POSTMORTEM
                                 </div>
                                 <p style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.88rem; color: #cbd5e1; line-height: 1.6; margin: 0 0 10px 0;">
                                     ${week.clinicalCaseStudy || week.clinicalApplication || ''}

@@ -15,7 +15,7 @@ class GuidedLoading {
         ];
         this.tips = [
             "Tip: DataVitals runs 100% locally for maximum privacy.",
-            "Analyzing clinical datasets manually develops medical intuition.",
+            "Analyzing raw production datasets manually develops strong engineering intuition.",
             "Aura AI can help troubleshoot Python Sandbox errors.",
             "The Quad-Track ensures 360° competence in MedTech."
         ];

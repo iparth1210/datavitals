@@ -1,5 +1,5 @@
 /**
- * 🏥 LESSON CONTENT MASTER MODULES 🏥
+ * 🎓 LESSON CONTENT MASTER MODULES 🎓
  * Complete Zero-to-Hero Data Science & AI Curriculum
  */
 
@@ -32,7 +32,7 @@ if ram_gb >= 16 and gpu_enabled:
                 </div>
                 <div class="track-section health">
                     <h4>🏥 2. Enterprise Systems: Hardware Redundancy</h4>
-                    <p>Hospital EHR servers rely on RAID arrays and redundant power supplies to guarantee 99.999% uptime during emergency surgeries.</p>
+                    <p>Enterprise cloud servers rely on RAID arrays and redundant power supplies to guarantee 99.999% uptime during emergency surgeries.</p>
                 </div>
                 <div class="track-section bio">
                     <h4>🧬 3. Bio-Analog: Neural Pathways</h4>
@@ -72,7 +72,7 @@ if ram_gb >= 16 and gpu_enabled:
         code_start: `# Descriptive Statistics in Python
 import numpy as np
 
-# Patient Systolic Blood Pressure readings
+# Service Response Latency readings (ms)
 data = np.array([120, 122, 118, 130, 145, 125, 119, 128, 195]) # Note outlier 195
 
 mean_val = np.mean(data)
@@ -82,10 +82,10 @@ q75, q25 = np.percentile(data, [75 ,25])
 iqr = q75 - q25
 
 print(f"Data Samples: {data}")
-print(f"Mean (Average): {mean_val:.2f} mmHg")
-print(f"Median (50th percentile): {median_val:.2f} mmHg")
-print(f"Standard Deviation (Spread): {std_dev:.2f} mmHg")
-print(f"Interquartile Range (IQR): {iqr:.2f} mmHg")
+print(f"Mean (Average): {mean_val:.2f} ms")
+print(f"Median (50th percentile): {median_val:.2f} ms")
+print(f"Standard Deviation (Spread): {std_dev:.2f} ms")
+print(f"Interquartile Range (IQR): {iqr:.2f} ms")
 print("\nNotice how the outlier (195) pulls the Mean higher than the Median!")
 `,
         story: `
@@ -95,8 +95,8 @@ print("\nNotice how the outlier (195) pulls the Mean higher than the Median!")
                     <p><strong>Descriptive Statistics</strong> summarizes data using metrics: <strong>Mean</strong> (average), <strong>Median</strong> (middle value), <strong>Standard Deviation ($\sigma$)</strong> (data dispersion), and <strong>IQR</strong> (middle 50% spread). Median and IQR are robust to extreme outliers.</p>
                 </div>
                 <div class="track-section health">
-                    <h4>🏥 2. Clinical Analytics: Patient Baseline Monitoring</h4>
-                    <p>Clinicians evaluate physiological metrics against population distributions to flag patient vitals exceeding 2 standard deviations from the norm.</p>
+                    <h4>🏢 2. Production Telemetry: System Baseline Monitoring</h4>
+                    <p>Systems engineers evaluate service latency against historical baselines to flag anomalies exceeding 2 standard deviations from the norm.</p>
                 </div>
                 <div class="track-section bio">
                     <h4>🧬 3. Bio-Analog: Homeostatic Range</h4>
@@ -157,7 +157,7 @@ print("If p-value < 0.05, we Reject H0 and conclude Drug A is statistically sign
                     <p><strong>Inferential Statistics</strong> allows us to draw conclusions about a population from a sample. We form a <strong>Null Hypothesis ($H_0$)</strong> (no effect) and calculate a <strong>$p$-value</strong>. If $p < 0.05$, the observed difference is statistically significant.</p>
                 </div>
                 <div class="track-section health">
-                    <h4>🏥 2. Clinical Trials: Drug Efficacy Validation</h4>
+                    <h4>🏢 2. Product Experimentation: A/B Testing & Hypothesis Testing</h4>
                     <p>Pharma companies must prove new treatment medications achieve statistically significant clinical improvement over placebo control groups prior to FDA approval.</p>
                 </div>
                 <div class="track-section bio">
@@ -200,15 +200,15 @@ import sqlite3
 
 conn = sqlite3.connect(":memory:")
 cur = conn.cursor()
-cur.execute("CREATE TABLE patients (id INT, name TEXT, diagnosis TEXT, age INT)")
-cur.execute("INSERT INTO patients VALUES (1, 'Alice Smith', 'Diabetes', 54)")
-cur.execute("INSERT INTO patients VALUES (2, 'Bob Jones', 'Hypertension', 62)")
-cur.execute("INSERT INTO patients VALUES (3, 'Carol Danvers', 'Asthma', 29)")
+cur.execute("CREATE TABLE users (id INT, name TEXT, tier TEXT, active_sessions INT)")
+cur.execute("INSERT INTO users VALUES (1, 'Alice Smith', 'Enterprise', 54)")
+cur.execute("INSERT INTO users VALUES (2, 'Bob Jones', 'Standard', 62)")
+cur.execute("INSERT INTO users VALUES (3, 'Carol Danvers', 'Free', 29)")
 
-cur.execute("SELECT name, diagnosis FROM patients WHERE age > 50")
+cur.execute("SELECT name, tier FROM users WHERE active_sessions > 50")
 print("--- SQL SELECT QUERY RESULTS ---")
 for r in cur.fetchall():
-    print(f"Patient: {r[0]:15} | Diagnosis: {r[1]}")
+    print(f"User: {r[0]:15} | Tier: {r[1]}")
 `,
         story: `
             <div class="quad-track">
@@ -225,17 +225,17 @@ for r in cur.fetchall():
                     <p>DNA databases index 3.2 billion base pairs using gene locus markers, mirroring relational database primary key indexing.</p>
                 </div>
                 <div class="track-section lab">
-                    <h4>🧪 4. Lab Protocol: Patient Cohort Query</h4>
+                    <h4>🧪 4. Lab Protocol: Enterprise User Cohort Query</h4>
                     <p><strong>Mission:</strong> Query the database table for the patient diagnosed with <strong>Type 2 Diabetes</strong>.</p>
                 </div>
             </div>
         `,
         task: {
             type: 'find-value',
-            targetColumn: 'Diagnosis',
-            condition: (val) => val === 'Type 2 Diabetes',
+            targetColumn: 'Tier',
+            condition: (val) => val === 'Enterprise',
             successMessage: "Great query execution! Extracted the Type 2 Diabetes cohort record.",
-            errorMessage: "Find the patient record with Diagnosis = 'Type 2 Diabetes'."
+            errorMessage: "Find the user record with Tier = 'Enterprise'."
         },
         data: [
             { Patient_ID: 101, Name: "Sarah Connor", Age: 42, Diagnosis: "Hypertension" },

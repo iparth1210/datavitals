@@ -5,8 +5,8 @@ const MODULES_PATH = 'D:/GitHub/digital-os/datavitals/modules.js';
 
 // --- TEMPLATES ---
 const LORE_TEMPLATES = [
-    '<div class="quad-track"><div class="track-section tech"><h4>💻 1. Core Mechanics</h4><p>Mastering this concept requires understanding the underlying synthetic logic. In enterprise computing, this is the foundational bedrock.</p></div><div class="track-section health"><h4>🏥 2. Bio-Systems</h4><p>Data science in healthcare relies on absolute precision. We apply this logic to sequence genomic arrays.</p></div><div class="track-section bio"><h4>🧬 3. Neural Architecture</h4><p>Information must flow efficiently like a biological synapse. Optimize your code.</p></div><div class="track-section lab"><h4>🧪 4. God-Mode Lab</h4><p><strong>Mission:</strong> Locate the critical node anomaly to restore integrity.</p></div></div>',
-    '<div class="quad-track"><div class="track-section tech"><h4>💻 1. Algorithmic Processing</h4><p>This module focuses on high-speed data parsing. Time Complexity (Big O) prevents server timeouts.</p></div><div class="track-section health"><h4>🏥 2. Clinical Data Streams</h4><p>Hospitals generate terabytes of telemetry hourly. Structuring this raw byte data is critical.</p></div><div class="track-section bio"><h4>🧬 3. Evolutionary Algorithms</h4><p>Algorithms evolve through mutation and selection. Structure ML pipelines to adapt dynamically.</p></div><div class="track-section lab"><h4>🧪 4. God-Mode Lab</h4><p><strong>Mission:</strong> The pipeline has stalled. Isolate the errant data frame.</p></div></div>'
+    '<div class="quad-track"><div class="track-section tech"><h4>💻 1. Core Mechanics</h4><p>Mastering this concept requires understanding the underlying synthetic logic. In enterprise computing, this is the foundational bedrock.</p></div><div class="track-section health"><h4>🏢 2. Enterprise Systems</h4><p>Data science in production infrastructure relies on absolute precision. We apply this logic to sequence large-scale datasets.</p></div><div class="track-section bio"><h4>🧬 3. Neural Architecture</h4><p>Information must flow efficiently through computing pipelines. Optimize your code.</p></div><div class="track-section lab"><h4>🧪 4. God-Mode Lab</h4><p><strong>Mission:</strong> Locate the critical node anomaly to restore integrity.</p></div></div>',
+    '<div class="quad-track"><div class="track-section tech"><h4>💻 1. Algorithmic Processing</h4><p>This module focuses on high-speed data parsing. Time Complexity (Big O) prevents server timeouts.</p></div><div class="track-section health"><h4>🏢 2. Event Data Streams</h4><p>Distributed clusters generate terabytes of telemetry hourly. Structuring this raw byte data is critical.</p></div><div class="track-section bio"><h4>🧬 3. Evolutionary Algorithms</h4><p>Algorithms evolve through optimization and selection. Structure ML pipelines to adapt dynamically.</p></div><div class="track-section lab"><h4>🧪 4. God-Mode Lab</h4><p><strong>Mission:</strong> The pipeline has stalled. Isolate the errant data frame.</p></div></div>'
 ];
 
 const VIDEO_URLS = [
@@ -24,10 +24,10 @@ const DATA_TEMPLATES = [
         { id: "{RAND}", value: "Zeta_Node", metric: "1.00", status: "Active" }
     ],
     [
-        { key: "Patient_XYZ", vitals: "Stable", heart_rate: "72", anomaly: "False" },
-        { key: "Patient_ABC", vitals: "Unstable", heart_rate: "145", anomaly: "True" },
-        { key: "Patient_LMN", vitals: "Stable", heart_rate: "65", anomaly: "False" },
-        { key: "Patient_QRS", vitals: "Stable", heart_rate: "80", anomaly: "False" }
+        { key: "Node_XYZ", telemetry: "Stable", cpu_load: "72", anomaly: "False" },
+        { key: "Node_ABC", telemetry: "Unstable", cpu_load: "145", anomaly: "True" },
+        { key: "Node_LMN", telemetry: "Stable", cpu_load: "65", anomaly: "False" },
+        { key: "Node_QRS", telemetry: "Stable", cpu_load: "80", anomaly: "False" }
     ]
 ];
 
