@@ -1569,21 +1569,21 @@ function getLessonById(lessonId) {
         lessonType = "data";
 
         techContent = `<strong>Spreadsheet & Logical Foundations (Day ${dayNum}):</strong> Master cell grid references, structured data entry, formatting, and formulas like <code>=SUM()</code>, <code>=AVERAGE()</code>, and <code>=IF()</code>.`;
-        healthContent = `<strong>Clinical Operations:</strong> Managing patient admission records, vital sign triage logs, and shift rosters.`;
-        bioContent = `<strong>Bio-Telemetry:</strong> Standardizing human baseline measurements (Heart Rate 60-100 bpm, Blood Pressure 120/80 mmHg).`;
-        labContent = `<strong>Mission Protocol:</strong> Analyze the triage telemetry table. Locate the patient record flagged with <strong>CRITICAL</strong> status.`;
-        taskInstruction = "Locate the patient with 'CRITICAL' status in the telemetry table.";
+        healthContent = `<strong>Production Operations:</strong> Monitoring high-availability server clusters, network ingress queues, and distributed workers.`;
+        bioContent = `<strong>System Telemetry:</strong> Standardizing cloud infrastructure baseline metrics (CPU utilization < 75%, Latency p99 < 150ms).`;
+        labContent = `<strong>Mission Protocol:</strong> Analyze the cluster telemetry table. Locate the server node flagged with <strong>CRITICAL</strong> status.`;
+        taskInstruction = "Locate the server node with 'CRITICAL' status in the telemetry table.";
         taskTarget = "CRITICAL";
-        starterCode = `# Excel / Logic Simulation Script
-patients = [
-    {"id": "P-101", "name": "Sarah Connor", "hr": 72, "status": "STABLE"},
-    {"id": "P-102", "name": "James Cole", "hr": 142, "status": "CRITICAL"},
-    {"id": "P-103", "name": "Ellen Ripley", "hr": 68, "status": "STABLE"}
+        starterCode = `# Cloud Cluster Telemetry & Systems Script
+servers = [
+    {"id": "SRV-101", "name": "Auth Gateway", "latency_ms": 18, "status": "ONLINE"},
+    {"id": "SRV-102", "name": "Billing Engine", "latency_ms": 340, "status": "CRITICAL"},
+    {"id": "SRV-103", "name": "Stream Ingest", "latency_ms": 12, "status": "ONLINE"}
 ]
 
-print("--- PATIENT TELEMETRY AUDIT ---")
-for p in patients:
-    print(f"ID: {p['id']} | Name: {p['name']:15} | HR: {p['hr']} bpm => Status: {p['status']}")
+print("--- CLOUD CLUSTER TELEMETRY AUDIT ---")
+for s in servers:
+    print(f"ID: {s['id']} | Service: {s['name']:15} | Latency: {s['latency_ms']} ms => Status: {s['status']}")
 `;
     }
     // PHASE 2: WEEKS 9-20 (SQL & RELATIONAL ANALYTICS)
@@ -1595,24 +1595,24 @@ for p in patients:
         lessonType = "data";
 
         techContent = `<strong>Relational DB & SQL Protocols (Day ${dayNum}):</strong> Querying relational tables using <code>SELECT</code>, <code>WHERE</code>, <code>GROUP BY</code>, <code>HAVING</code>, and multi-table <code>JOIN</code> operations.`;
-        healthContent = `<strong>Enterprise EHR Systems:</strong> Querying Epic/Cerner databases for clinical cohort analysis and ICU resource planning.`;
-        bioContent = `<strong>Biomarker Indexing:</strong> Structuring blood panel results, genomic markers, and pathology reports across normalized database tables.`;
-        labContent = `<strong>Mission Protocol:</strong> Run a query on the patient database table. Identify the record with <strong>Type 2 Diabetes</strong>.`;
-        taskInstruction = "Locate the patient record with Diagnosis = 'Type 2 Diabetes'.";
-        taskTarget = "Type 2 Diabetes";
+        healthContent = `<strong>Enterprise Database Systems:</strong> Querying PostgreSQL/Snowflake data warehouses for high-tier account analysis and infrastructure planning.`;
+        bioContent = `<strong>Relational Indexing:</strong> Structuring transaction ledgers, user sessions, and access logs across normalized relational tables.`;
+        labContent = `<strong>Mission Protocol:</strong> Run a query on the enterprise accounts table. Identify the record with <strong>Enterprise</strong> tier.`;
+        taskInstruction = "Locate the account record with Plan = 'Enterprise'.";
+        taskTarget = "Enterprise";
         starterCode = `# SQL Query Simulator in Python
 import sqlite3
 
 conn = sqlite3.connect(":memory:")
 cur = conn.cursor()
-cur.execute("CREATE TABLE EHR (id INT, patient TEXT, diagnosis TEXT, triage TEXT)")
-cur.execute("INSERT INTO EHR VALUES (101, 'Alex Mercer', 'Hypertension', 'Normal')")
-cur.execute("INSERT INTO EHR VALUES (102, 'Dana Scully', 'Type 2 Diabetes', 'Active')")
-cur.execute("INSERT INTO EHR VALUES (103, 'Fox Mulder', 'Asthma', 'Normal')")
+cur.execute("CREATE TABLE accounts (id INT, company TEXT, plan TEXT, status TEXT)")
+cur.execute("INSERT INTO accounts VALUES (101, 'Acme Corp', 'Standard', 'Active')")
+cur.execute("INSERT INTO accounts VALUES (102, 'Stripe Tech', 'Enterprise', 'Active')")
+cur.execute("INSERT INTO accounts VALUES (103, 'Apex Labs', 'Starter', 'Trial')")
 
-cur.execute("SELECT patient, diagnosis FROM EHR WHERE diagnosis = 'Type 2 Diabetes'")
+cur.execute("SELECT company, plan FROM accounts WHERE plan = 'Enterprise'")
 for row in cur.fetchall():
-    print(f"Query Result -> Patient: {row[0]} | Diagnosis: {row[1]}")
+    print(f"Query Result -> Account: {row[0]} | Plan Tier: {row[1]}")
 `;
     }
     // PHASE 3: WEEKS 21-32 (PYTHON DATA SCIENCE & PANDAS)
@@ -1624,11 +1624,11 @@ for row in cur.fetchall():
         lessonType = "python";
 
         techContent = `<strong>Python & Pandas Analytics (Day ${dayNum}):</strong> Ingesting, cleaning, transforming, and visualizing large datasets using Python, Pandas DataFrames, NumPy, and Matplotlib.`;
-        healthContent = `<strong>Bioinformatics Pipelines:</strong> Processing raw DNA fasta sequences, RNA-seq gene counts, and clinical trial cohorts.`;
-        bioContent = `<strong>Genomic Data Structures:</strong> Manipulating nucleotide sequences (A, C, T, G) and codon reading frames programmatically.`;
-        labContent = `<strong>Mission Protocol:</strong> Execute the Python Pandas analysis script in the editor to identify the <strong>MUTATED</strong> gene marker.`;
-        taskInstruction = "Find the gene record with Mutation_Status = 'MUTATED'.";
-        taskTarget = "MUTATED";
+        healthContent = `<strong>Data Engineering Pipelines:</strong> Processing high-volume clickstream logs, financial transactions, and distributed telemetry matrices.`;
+        bioContent = `<strong>Vectorized Data Structures:</strong> Manipulating dense numerical series, multi-dimensional tensors, and time-indexed event logs programmatically.`;
+        labContent = `<strong>Mission Protocol:</strong> Execute the Python Pandas analysis script in the editor to identify the <strong>DEGRADED</strong> service node.`;
+        taskInstruction = "Find the service record with Status = 'DEGRADED'.";
+        taskTarget = "DEGRADED";
         starterCode = `# Python Data Science & Pandas Analysis
 import pandas as pd
 
@@ -1657,8 +1657,8 @@ print(mutated)
         lessonType = "python";
 
         techContent = `<strong>Neural Networks & AI Architecture (Day ${dayNum}):</strong> Building supervised regression, classification, deep neural networks, CNNs, Transformers, and GenAI applications.`;
-        healthContent = `<strong>Medical AI Diagnostics:</strong> Computer Vision models analyzing X-rays, MRIs, and predictive patient risk models.`;
-        bioContent = `<strong>Oncology Deep Learning:</strong> Classifying histological cell structures and predicting therapeutic drug binding affinities.`;
+        healthContent = `<strong>Enterprise AI Systems:</strong> Deep Learning and Transformer models performing real-time fraud detection, search ranking, and LLM reasoning.`;
+        bioContent = `<strong>Neural Embedding Vectors:</strong> Projecting high-dimensional feature spaces, token embeddings, and multi-modal latent representations.`;
         labContent = `<strong>Mission Protocol:</strong> Execute the Neural Model script to verify the AI model prediction of <strong>HIGH RISK</strong>.`;
         taskInstruction = "Identify the AI prediction output of 'HIGH RISK'.";
         taskTarget = "HIGH RISK";
@@ -1668,21 +1668,21 @@ import numpy as np
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
-# Features: [Age_Norm, Systolic_BP_Norm, Glucose_Norm]
-patient_vector = np.array([0.85, 0.92, 0.78])
+# Features: [CPU_Load_Norm, Ingress_Rate_Norm, Error_Frequency_Norm]
+system_vector = np.array([0.85, 0.92, 0.78])
 weights = np.array([1.5, 2.1, 1.2])
 bias = -1.8
 
-z = np.dot(patient_vector, weights) + bias
+z = np.dot(system_vector, weights) + bias
 risk_probability = sigmoid(z)
 
 print(f"Neural Activation (z): {z:.4f}")
-print(f"Predicted Disease Risk Probability: {risk_probability * 100:.2f}%")
+print(f"Predicted Outage Probability: {risk_probability * 100:.2f}%")
 
 if risk_probability > 0.5:
-    print("AI Diagnosis: HIGH RISK DETECTED")
+    print("AI Alert: HIGH RISK DETECTED (Scale Up Recommended)")
 else:
-    print("AI Diagnosis: LOW RISK")
+    print("AI Alert: SYSTEM STABLE")
 `;
     }
 
@@ -1778,7 +1778,7 @@ function renderLesson(lessonId, dayId) {
     const currentDay = currentModule && currentModule.days ? currentModule.days.find(d => d.id === dayId || d.lessonId === lessonId) : null;
     const moduleOverview = currentModule ? currentModule.overview : '';
     const daySummary = currentDay ? currentDay.summary : (lesson.techDesc || '');
-    const clinicalApp = currentModule ? currentModule.clinicalApplication : '';
+    const productionImpact = currentModule ? (currentModule.productionArchitecture || currentModule.incidentPostmortem || currentModule.clinicalApplication || '') : '';
 
     const app = document.getElementById('app');
     if (!app) return;
@@ -1814,7 +1814,7 @@ function renderLesson(lessonId, dayId) {
                     <div class="lesson-mission-briefing-card glass-refractive" style="border-radius: 14px; padding: 18px 20px; margin-bottom: 20px; background: rgba(13, 17, 34, 0.75); border: 1px solid rgba(6, 182, 212, 0.25); box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
                             <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--accent-cyan); font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
-                                <span>📖</span> ${currentModule ? currentModule.title : 'Healthcare Data Intelligence Mission'}
+                                <span>📖</span> ${currentModule ? currentModule.title : 'Computer Science & Enterprise Data Intelligence Mission'}
                             </span>
                             <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-muted); background: rgba(255,255,255,0.06); padding: 2px 8px; border-radius: 4px;">
                                 ${currentModule ? currentModule.level : 'Active Mission'} • ${currentDay ? 'Day ' + (currentDay.dayNum || 1) : 'Daily Mission'}
@@ -1826,14 +1826,14 @@ function renderLesson(lessonId, dayId) {
                         </div>
 
                         <p style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.88rem; color: #cbd5e1; line-height: 1.55; margin: 0 0 10px 0;">
-                            ${daySummary || moduleOverview || 'Master the fundamental architectural models and medical data workflows in this hands-on interactive mission.'}
+                            ${daySummary || moduleOverview || 'Master the fundamental architectural models, data workflows, and engineering systems in this hands-on interactive mission.'}
                         </p>
 
-                        ${clinicalApp ? `
+                        ${productionImpact ? `
                         <div style="display: flex; align-items: flex-start; gap: 8px; background: rgba(6,182,212,0.06); border-left: 3px solid var(--accent-cyan); padding: 8px 12px; border-radius: 0 6px 6px 0;">
-                            <span style="font-size: 0.85rem;">🏥</span>
+                            <span style="font-size: 0.85rem;">🏢</span>
                             <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.8rem; color: #94a3b8; line-height: 1.45;">
-                                <strong style="color: var(--accent-cyan);">Real-World Production Impact:</strong> ${clinicalApp}
+                                <strong style="color: var(--accent-cyan);">Real-World Production Impact:</strong> ${productionImpact}
                             </div>
                         </div>` : ''}
                     </div>
@@ -1869,11 +1869,11 @@ function renderLesson(lessonId, dayId) {
                                 <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary);">${extractTrackText(lesson.story, 'tech')}</p>
                             </div>
                             <div class="track-node">
-                                <h4 style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; margin-bottom: 8px;">🏥 CLINICAL_BASE</h4>
+                                <h4 style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; margin-bottom: 8px;">🏢 PRODUCTION_SYSTEMS</h4>
                                 <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary);">${extractTrackText(lesson.story, 'health')}</p>
                             </div>
                             <div class="track-node">
-                                <h4 style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; margin-bottom: 8px;">🧬 BIO_SYNC</h4>
+                                <h4 style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; margin-bottom: 8px;">⚡ DATA_PIPELINE</h4>
                                 <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary);">${extractTrackText(lesson.story, 'bio')}</p>
                             </div>
                             <div class="track-node">
@@ -1941,7 +1941,7 @@ function renderLesson(lessonId, dayId) {
                                 52-Week Master Curriculum & 5 W's & H Framework
                             </h3>
                             <p style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.92rem; color: #94a3b8; margin: 0; max-width: 820px; line-height: 1.55;">
-                                Scroll down below to explore all 52 modules in full academic detail (What, Why, Who, Where, When, How), clinical case studies, competencies, and 364 daily hands-on laboratory missions. Click any day to load it into the video player above.
+                                Scroll down below to explore all 52 modules in full academic detail (What, Why, Who, Where, When, How), incident postmortems, system architectures, competencies, and 364 daily hands-on laboratory missions. Click any day to load it into the video player above.
                             </p>
                         </div>
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
@@ -2673,31 +2673,31 @@ Designed and deployed an end-to-end relational SQL ETL pipeline and executive da
 
 ## 📊 Analytical Highlights & SQL Window Functions
 \`\`\`sql
--- Query: 30-Day Patient Readmission Window Analysis
-WITH PatientVisits AS (
+-- Query: 30-Day Enterprise User Churn & Retention Window Analysis
+WITH UserSessions AS (
     SELECT 
-        patient_id,
-        visit_date,
-        diagnosis_code,
-        LAG(visit_date, 1) OVER (PARTITION BY patient_id ORDER BY visit_date) AS prev_visit
-    FROM hospital_admissions
+        user_id,
+        session_timestamp,
+        event_type,
+        LAG(session_timestamp, 1) OVER (PARTITION BY user_id ORDER BY session_timestamp) AS prev_session
+    FROM user_activity_logs
 )
 SELECT 
-    patient_id,
-    visit_date,
-    prev_visit,
-    (visit_date - prev_visit) AS days_between_visits,
+    user_id,
+    session_timestamp,
+    prev_session,
+    ROUND(EXTRACT(EPOCH FROM (session_timestamp - prev_session)) / 86400, 1) AS days_between_sessions,
     CASE 
-        WHEN (visit_date - prev_visit) <= 30 THEN 1 
+        WHEN (session_timestamp - prev_session) <= INTERVAL '30 days' THEN 1 
         ELSE 0 
-    END AS is_30day_readmit
-FROM PatientVisits
-WHERE prev_visit IS NOT NULL;
+    END AS is_retained_30d
+FROM UserSessions
+WHERE prev_session IS NOT NULL;
 \`\`\`
 
 ## 📈 Key Findings
-1. Patients with high Triage Scores (Level 4-5) had a **34% higher probability** of readmission within 14 days without follow-up tele-health calls.
-2. Implemented automated SQL trigger alerts for high-risk chronic care patient discharges.
+1. High-activity customer cohorts demonstrated a **34% higher 30-day retention rate** following automated onboarding workflows.
+2. Implemented automated SQL stream triggers and materialized views for real-time churn risk detection.
 `;
     } else if (track === 'stats_scipy') {
         md = `# 🧪 A/B Testing Statistical Analysis & Hypothesis Testing (SciPy)
@@ -2716,7 +2716,7 @@ Statistical evaluation of conversion and performance metrics across 5,000 user c
 import numpy as np
 from scipy import stats
 
-# Clinical Trial Blood Pressure Data (mmHg Drop)
+# A/B Test Metric Data: API Latency Optimization (ms Improvement)
 control_group = np.random.normal(loc=4.2, scale=2.1, size=150)
 treatment_group = np.random.normal(loc=12.8, scale=2.4, size=150)
 
@@ -2725,7 +2725,7 @@ t_stat, p_val = stats.ttest_ind(treatment_group, control_group)
 print(f"T-Statistic: {t_stat:.4f} | P-Value: {p_val:.4e}")
 
 if p_val < 0.05:
-    print("Conclusion: Reject H0 — Statistically significant blood pressure reduction achieved!")
+    print("Conclusion: Reject H0 — Statistically significant latency speedup achieved!")
 \`\`\`
 `;
     } else {
@@ -2746,7 +2746,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
 # Vector Embeddings Cosine Distance Query
-def query_clinical_knowledgebase(query_vector, doc_vectors):
+def query_enterprise_knowledgebase(query_vector, doc_vectors):
     similarities = cosine_similarity([query_vector], doc_vectors)[0]
     top_k_idx = np.argsort(similarities)[::-1][:3]
     return top_k_idx
@@ -2821,9 +2821,9 @@ window.showCheatSheetModal = () => {
 
 const cheatSheetData = {
     sql: [
-        { title: "Window Function (ROW_NUMBER & PARTITION)", code: "SELECT patient_id, visit_date,\n       ROW_NUMBER() OVER (PARTITION BY patient_id ORDER BY visit_date DESC) as visit_rank\nFROM hospital_admissions;" },
-        { title: "Common Table Expression (CTE)", code: "WITH HighRisk AS (\n    SELECT patient_id, COUNT(*) as visit_count\n    FROM admissions GROUP BY patient_id\n    HAVING COUNT(*) >= 3\n)\nSELECT * FROM HighRisk WHERE visit_count > 5;" },
-        { title: "SQL LEFT JOIN with Aggregation", code: "SELECT p.dept_name, COUNT(a.id) as total_admissions, AVG(a.cost) as avg_cost\nFROM departments p\nLEFT JOIN admissions a ON p.id = a.dept_id\nGROUP BY p.dept_name;" }
+        { title: "Window Function (ROW_NUMBER & PARTITION)", code: "SELECT user_id, transaction_timestamp,\n       ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY transaction_timestamp DESC) as visit_rank\nFROM user_transactions;" },
+        { title: "Common Table Expression (CTE)", code: "WITH HighVolume AS (\n    SELECT user_id, COUNT(*) as tx_count\n    FROM transactions GROUP BY user_id\n    HAVING COUNT(*) >= 3\n)\nSELECT * FROM HighVolume WHERE tx_count > 5;" },
+        { title: "SQL LEFT JOIN with Aggregation", code: "SELECT c.region_name, COUNT(t.id) as total_transactions, AVG(t.amount) as avg_amount\nFROM cloud_regions c\nLEFT JOIN transactions t ON c.id = t.region_id\nGROUP BY c.region_name;" }
     ],
     excel: [
         { title: "XLOOKUP (Modern Lookup)", code: "=XLOOKUP(lookup_val, A2:A100, B2:B100, 'Not Found', 0)" },
@@ -2831,8 +2831,8 @@ const cheatSheetData = {
         { title: "SUMIFS Multi-Condition", code: "=SUMIFS(CostRange, DeptRange, 'Cardiology', StatusRange, 'Admitted')" }
     ],
     python: [
-        { title: "Pandas GroupBy & Multi-Aggregation", code: "df.groupby('department').agg(\n    avg_readmission=('readmitted', 'mean'),\n    total_patients=('patient_id', 'count')\n).reset_index()" },
-        { title: "Pandas Merge (SQL JOIN equivalent)", code: "df_combined = pd.merge(df_patients, df_visits, on='patient_id', how='left')" },
+        { title: "Pandas GroupBy & Multi-Aggregation", code: "df.groupby('department').agg(\n    avg_latency=('latency_ms', 'mean'),\n    total_requests=('request_id', 'count')\n).reset_index()" },
+        { title: "Pandas Merge (SQL JOIN equivalent)", code: "df_combined = pd.merge(df_users, df_sessions, on='user_id', how='left')" },
         { title: "Missing Data Handling", code: "df['age'] = df['age'].fillna(df['age'].median())" }
     ],
     stats: [
@@ -2977,25 +2977,29 @@ window.showDataStudio = () => {
 };
 
 const studioDatasets = {
-    ehr: [
-        { id: 101, patient_id: "P-492", age: 64, triage_level: 4, wait_min: 45, dept: "Cardiology", readmitted: "YES" },
-        { id: 102, patient_id: "P-118", age: 42, triage_level: 2, wait_min: 12, dept: "Trauma", readmitted: "NO" },
-        { id: 103, patient_id: "P-883", age: 71, triage_level: 5, wait_min: 90, dept: "Neurology", readmitted: "YES" },
-        { id: 104, patient_id: "P-304", age: 35, triage_level: 1, wait_min: 8, dept: "General", readmitted: "NO" },
-        { id: 105, patient_id: "P-752", age: 58, triage_level: 3, wait_min: 30, dept: "Cardiology", readmitted: "YES" }
+    events: [
+        { id: 101, session_id: "SES-492", priority_tier: 4, latency_ms: 45, service: "AuthService", status: "SUCCESS" },
+        { id: 102, session_id: "SES-118", priority_tier: 2, latency_ms: 12, service: "BillingEngine", status: "SUCCESS" },
+        { id: 103, session_id: "SES-883", priority_tier: 5, latency_ms: 90, service: "StreamIngest", status: "TIMEOUT" },
+        { id: 104, session_id: "SES-304", priority_tier: 1, latency_ms: 8,  service: "UserRegistry", status: "SUCCESS" },
+        { id: 105, session_id: "SES-752", priority_tier: 3, latency_ms: 30, service: "AnalyticsAPI", status: "SUCCESS" }
     ],
-    bp: [
-        { trial_id: "T-01", group: "Placebo", baseline_bp: 142, week4_bp: 140, drop_mmHg: 2 },
-        { trial_id: "T-02", group: "Treatment_10mg", baseline_bp: 145, week4_bp: 128, drop_mmHg: 17 },
-        { trial_id: "T-03", group: "Treatment_20mg", baseline_bp: 150, week4_bp: 122, drop_mmHg: 28 },
-        { trial_id: "T-04", group: "Placebo", baseline_bp: 138, week4_bp: 137, drop_mmHg: 1 }
+    ab_test: [
+        { cohort_id: "C-01", variant: "Control_Baseline", baseline_latency_ms: 142, week4_latency_ms: 140, improvement_ms: 2 },
+        { cohort_id: "C-02", variant: "Variant_Memcached", baseline_latency_ms: 145, week4_latency_ms: 128, improvement_ms: 17 },
+        { cohort_id: "C-03", variant: "Variant_RedisCluster", baseline_latency_ms: 150, week4_latency_ms: 122, improvement_ms: 28 },
+        { cohort_id: "C-04", variant: "Control_Baseline", baseline_latency_ms: 138, week4_latency_ms: 137, improvement_ms: 1 }
     ],
-    claims: [
-        { claim_id: "CLM-901", icd_code: "I10", billed_amount: 1450.00, approved_amount: 1200.00, status: "APPROVED" },
-        { claim_id: "CLM-902", icd_code: "E11.9", billed_amount: 2800.00, approved_amount: 0.00, status: "DENIED" },
-        { claim_id: "CLM-903", icd_code: "J45.909", billed_amount: 980.00, approved_amount: 950.00, status: "APPROVED" }
+    transactions: [
+        { tx_id: "TXN-901", routing_code: "RT-100", requested_usd: 1450.00, settled_usd: 1450.00, status: "SETTLED" },
+        { tx_id: "TXN-902", routing_code: "RT-204", requested_usd: 2800.00, settled_usd: 0.00, status: "FRAUD_FLAGGED" },
+        { tx_id: "TXN-903", routing_code: "RT-105", requested_usd: 980.00, settled_usd: 980.00, status: "SETTLED" }
     ]
 };
+// Aliases for backward compatibility
+studioDatasets.ehr = studioDatasets.events;
+studioDatasets.bp = studioDatasets.ab_test;
+studioDatasets.claims = studioDatasets.transactions;
 
 window.loadStudioDataset = (key) => {
     const data = studioDatasets[key] || studioDatasets.ehr;
@@ -3109,7 +3113,7 @@ window.showWelcomePortal = () => {
             </div>
 
             <p style="color: var(--text-secondary); font-family: 'Space Grotesk'; font-size: 1.05rem; line-height: 1.6; max-width: 650px; margin: 0 auto 30px;">
-                Master 52 weeks of structured computer science, clinical database systems, applied statistics, machine learning, and generative AI. Built for non-tech beginners and future AI leaders.
+                Master 52 weeks of structured computer science, distributed database systems, software engineering, applied statistics, machine learning, and generative AI. Built for non-tech beginners and future AI leaders.
             </p>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 36px; text-align: left;">

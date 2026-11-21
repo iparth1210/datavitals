@@ -23,7 +23,7 @@ window.AudioBriefing = {
 
         return `DataVitals mission briefing for ${title}. ` +
                `Core Technical Substrate: ${tech}. ` +
-               `Clinical Application: ${health}. ` +
+               `Enterprise Production Impact: ${health}. ` +
                `Lab Protocol: ${lab}. Mission active. Proceed with analysis.`;
     },
 
@@ -186,9 +186,9 @@ window.toggleAudioBriefing = () => {
 };
 
 // --- 2. 🎯 TECHNICAL KNOWLEDGE CHECK & MICRO-QUIZ ENGINE ---
-const clinicalKnowledgeBank = {
+const technicalKnowledgeBank = {
     'lesson-w1-d1': {
-        question: 'In an emergency EHR infrastructure, which hardware architecture is fundamentally required for parallel matrix multiplications in diagnostic deep learning models?',
+        question: 'In distributed cloud computing infrastructure, which hardware architecture is fundamentally required for parallel matrix multiplications in deep learning and large-scale AI inference?',
         options: [
             { text: 'Sequential Single-Core CPU Arithmetic Logic Units', correct: false },
             { text: 'GPU / TPU Parallel Tensor Accelerator Arrays', correct: true },
@@ -198,19 +198,19 @@ const clinicalKnowledgeBank = {
         explanation: 'GPUs and TPUs feature thousands of specialized SIMD/tensor execution cores engineered specifically for parallel matrix calculations required by deep neural networks.'
     },
     'lesson-w1-d2': {
-        question: 'When recording clinical vitals across distributed hospital campuses spanning multiple timezones, which timestamp format is required for reliable sequencing?',
+        question: 'When ingesting distributed system telemetry across global multi-region cloud clusters, which timestamp format is required for reliable chronological sequencing?',
         options: [
             { text: 'Local 12-hour AM/PM string without timezone offset', correct: false },
             { text: 'ISO 8601 UTC timestamp format (e.g. 2026-10-03T12:00:00Z)', correct: true },
             { text: 'Unformatted epoch milliseconds stored as a float', correct: false },
             { text: 'Julian day integers without calendar year references', correct: false }
         ],
-        explanation: 'ISO 8601 UTC timestamps provide unequivocal chronological ordering across worldwide EHR systems and comply strictly with HL7 FHIR interoperability standards.'
+        explanation: 'ISO 8601 UTC timestamps provide unequivocal chronological ordering across worldwide distributed systems and comply strictly with RFC 3339 standards.'
     },
     'lesson-w1-d3': {
-        question: 'In database query optimization for healthcare datasets with millions of patient records, how does a B-Tree index accelerate lookup speed?',
+        question: 'In database query optimization for high-throughput enterprise datasets with millions of transactional records, how does a B-Tree index accelerate lookup speed?',
         options: [
-            { text: 'By automatically hashing and encrypting HIPAA protected fields', correct: false },
+            { text: 'By automatically compressing table row buffers into gzip streams', correct: false },
             { text: 'By structuring search keys into a logarithmic hierarchy, avoiding O(N) full-table scans', correct: true },
             { text: 'By pre-loading the entire table into browser GPU memory', correct: false },
             { text: 'By deleting duplicate rows during query execution', correct: false }
@@ -221,18 +221,18 @@ const clinicalKnowledgeBank = {
 
 window.getLessonQuiz = (lesson) => {
     if (!lesson) return null;
-    if (clinicalKnowledgeBank[lesson.id]) {
-        return clinicalKnowledgeBank[lesson.id];
+    if (technicalKnowledgeBank[lesson.id]) {
+        return technicalKnowledgeBank[lesson.id];
     }
     return {
-        question: `Based on today's protocol for "${lesson.title}", why is real-time validation essential before deploying clinical algorithms?`,
+        question: `Based on today's protocol for "${lesson.title}", why is real-time validation essential before deploying enterprise production algorithms?`,
         options: [
-            { text: 'To eliminate algorithmic hallucinations and ensure clinical safety before patient care impact', correct: true },
-            { text: 'To bypass automated security audits and expedite product releases', correct: false },
-            { text: 'To discard patient edge-cases that do not match standard distributions', correct: false },
-            { text: 'To replace clinician diagnosis with unverified automated heuristics', correct: false }
+            { text: 'To eliminate algorithmic hallucinations and ensure high reliability before production deployment', correct: true },
+            { text: 'To bypass automated CI/CD security audits and expedite releases', correct: false },
+            { text: 'To discard critical edge-cases that do not match standard distributions', correct: false },
+            { text: 'To replace human engineering reviews with unverified heuristics', correct: false }
         ],
-        explanation: 'Rigorous clinical data verification ensures high diagnostic sensitivity, avoids fatal false negatives, and maintains compliance with FDA and HIPAA standards.'
+        explanation: 'Rigorous automated data verification prevents silent failures, avoids catastrophic production downtime, and enforces SOC 2 compliance.'
     };
 };
 
@@ -276,7 +276,7 @@ window.renderQuizCard = (lesson) => {
             </div>
 
             <div id="quiz-feedback-${lesson.id}" style="margin-top: 16px; font-family: 'Space Grotesk'; font-size: 0.88rem; display: ${isCompleted ? 'block' : 'none'}; padding: 12px 16px; border-radius: 10px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #ecfdf5;">
-                <div style="font-weight: 700; color: #10b981; margin-bottom: 4px;">✓ Verified Clinical Rationale:</div>
+                <div style="font-weight: 700; color: #10b981; margin-bottom: 4px;">✓ Verified Engineering Rationale:</div>
                 <div>${quiz.explanation}</div>
             </div>
         </div>
@@ -363,7 +363,7 @@ window.submitQuizAnswer = (lessonId, optionIndex) => {
             feedbackEl.style.borderColor = 'rgba(239, 68, 68, 0.3)';
             feedbackEl.style.color = '#fee2e2';
             feedbackEl.innerHTML = `
-                <div style="font-weight: 700; color: var(--accent-pink); margin-bottom: 4px;">⚠️ Clinical Mismatch</div>
+                <div style="font-weight: 700; color: var(--accent-pink); margin-bottom: 4px;">⚠️ Architecture Mismatch</div>
                 <div>Review the mission briefing parameters above and select the optimal architectural response.</div>
             `;
         }
@@ -418,34 +418,34 @@ window.renderStudioChart = (key) => {
 
     const datasets = (typeof studioDatasets !== 'undefined') ? studioDatasets : {
         ehr: [
-            { id: 101, patient_id: "P-492", age: 64, triage_level: 4, wait_min: 45, dept: "Cardiology", readmitted: "YES" },
-            { id: 102, patient_id: "P-118", age: 42, triage_level: 2, wait_min: 12, dept: "Trauma", readmitted: "NO" },
-            { id: 103, patient_id: "P-883", age: 71, triage_level: 5, wait_min: 90, dept: "Neurology", readmitted: "YES" },
-            { id: 104, patient_id: "P-304", age: 35, triage_level: 1, wait_min: 8, dept: "General", readmitted: "NO" },
-            { id: 105, patient_id: "P-752", age: 58, triage_level: 3, wait_min: 30, dept: "Cardiology", readmitted: "YES" }
+            { id: 101, session_id: "SES-492", latency_ms: 45, priority_tier: 4, service: "AuthService", status: "SUCCESS" },
+            { id: 102, session_id: "SES-118", latency_ms: 12, priority_tier: 2, service: "BillingEngine", status: "SUCCESS" },
+            { id: 103, session_id: "SES-883", latency_ms: 90, priority_tier: 5, service: "StreamIngest", status: "TIMEOUT" },
+            { id: 104, session_id: "SES-304", latency_ms: 8,  priority_tier: 1, service: "UserRegistry", status: "SUCCESS" },
+            { id: 105, session_id: "SES-752", latency_ms: 30, priority_tier: 3, service: "AnalyticsAPI", status: "SUCCESS" }
         ],
         bp: [
-            { trial_id: "T-01", group: "Placebo", baseline_bp: 142, week4_bp: 140, drop_mmHg: 2 },
-            { trial_id: "T-02", group: "Treatment_10mg", baseline_bp: 145, week4_bp: 128, drop_mmHg: 17 },
-            { trial_id: "T-03", group: "Treatment_20mg", baseline_bp: 150, week4_bp: 122, drop_mmHg: 28 },
-            { trial_id: "T-04", group: "Placebo", baseline_bp: 138, week4_bp: 137, drop_mmHg: 1 }
+            { cohort_id: "C-01", variant: "Control_Baseline", baseline_latency_ms: 142, week4_latency_ms: 140, improvement_ms: 2 },
+            { cohort_id: "C-02", variant: "Variant_Memcached", baseline_latency_ms: 145, week4_latency_ms: 128, improvement_ms: 17 },
+            { cohort_id: "C-03", variant: "Variant_RedisCluster", baseline_latency_ms: 150, week4_latency_ms: 122, improvement_ms: 28 },
+            { cohort_id: "C-04", variant: "Control_Baseline", baseline_latency_ms: 138, week4_latency_ms: 137, improvement_ms: 1 }
         ],
         claims: [
-            { claim_id: "CLM-901", icd_code: "I10", billed_amount: 1450.00, approved_amount: 1200.00, status: "APPROVED" },
-            { claim_id: "CLM-902", icd_code: "E11.9", billed_amount: 2800.00, approved_amount: 0.00, status: "DENIED" },
-            { claim_id: "CLM-903", icd_code: "J45.909", billed_amount: 980.00, approved_amount: 950.00, status: "APPROVED" }
+            { tx_id: "TXN-901", routing_code: "RT-100", requested_usd: 1450.00, settled_usd: 1450.00, status: "SETTLED" },
+            { tx_id: "TXN-902", routing_code: "RT-204", requested_usd: 2800.00, settled_usd: 0.00, status: "FRAUD_FLAGGED" },
+            { tx_id: "TXN-903", routing_code: "RT-105", requested_usd: 980.00, settled_usd: 980.00, status: "SETTLED" }
         ]
     };
 
-    if (key === 'ehr') {
-        const data = datasets.ehr;
+    if (key === 'ehr' || key === 'events') {
+        const data = datasets.events || datasets.ehr;
         const maxWait = 100;
         const chartHeight = 220;
         const chartWidth = 620;
         const barWidth = 60;
         const gap = (chartWidth - (data.length * barWidth)) / (data.length + 1);
 
-        const triageColors = {
+        const priorityColors = {
             1: '#10b981',
             2: '#06b6d4',
             3: '#f59e0b',
@@ -455,17 +455,21 @@ window.renderStudioChart = (key) => {
 
         const barsSvg = data.map((d, i) => {
             const x = gap + i * (barWidth + gap);
-            const barH = (d.wait_min / maxWait) * chartHeight;
+            const val = d.latency_ms || d.wait_min || 20;
+            const barH = (val / maxWait) * chartHeight;
             const y = chartHeight - barH + 30;
-            const color = triageColors[d.triage_level] || '#06b6d4';
+            const tier = d.priority_tier || d.triage_level || 2;
+            const color = priorityColors[tier] || '#06b6d4';
+            const idLabel = d.session_id || d.patient_id || 'NODE';
+            const srvLabel = d.service || d.dept || 'Core';
             return `
                 <g class="chart-bar-group">
                     <rect class="chart-bar-rect" x="${x}" y="${y}" width="${barWidth}" height="${barH}" rx="6" fill="${color}" opacity="0.85">
-                        <title>Patient: ${d.patient_id}&#10;Dept: ${d.dept}&#10;Wait Time: ${d.wait_min} min&#10;Triage Level: ${d.triage_level}</title>
+                        <title>Session: ${idLabel}&#10;Service: ${srvLabel}&#10;Latency: ${val} ms&#10;Priority: P${tier}</title>
                     </rect>
-                    <text x="${x + barWidth / 2}" y="${y - 8}" text-anchor="middle" fill="${color}" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700">${d.wait_min}m</text>
-                    <text x="${x + barWidth / 2}" y="${chartHeight + 48}" text-anchor="middle" fill="#94a3b8" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600">${d.patient_id}</text>
-                    <text x="${x + barWidth / 2}" y="${chartHeight + 64}" text-anchor="middle" fill="#64748b" font-family="'JetBrains Mono', monospace" font-size="9">${d.dept.slice(0, 5)}</text>
+                    <text x="${x + barWidth / 2}" y="${y - 8}" text-anchor="middle" fill="${color}" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700">${val}ms</text>
+                    <text x="${x + barWidth / 2}" y="${chartHeight + 48}" text-anchor="middle" fill="#94a3b8" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600">${idLabel}</text>
+                    <text x="${x + barWidth / 2}" y="${chartHeight + 64}" text-anchor="middle" fill="#64748b" font-family="'JetBrains Mono', monospace" font-size="9">${srvLabel.slice(0, 7)}</text>
                 </g>
             `;
         }).join('');
@@ -474,15 +478,15 @@ window.renderStudioChart = (key) => {
             <div style="background: rgba(13, 17, 34, 0.6); padding: 20px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.08);">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
                     <div>
-                        <div style="font-family: 'Space Grotesk'; font-size: 1.1rem; font-weight: 700; color: white;">Emergency Department Wait Times & Triage Acuity</div>
-                        <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-cyan);">COLOR CODED BY EMERGENCY TRIAGE LEVEL (1: STABLE → 5: CRITICAL)</div>
+                        <div style="font-family: 'Space Grotesk'; font-size: 1.1rem; font-weight: 700; color: white;">Microservice Cluster Latency & Alert Priority</div>
+                        <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-cyan);">COLOR CODED BY ALERT SEVERITY (P1: LOW → P5: OUTAGE)</div>
                     </div>
                     <div style="display: flex; gap: 8px; font-family: 'JetBrains Mono'; font-size: 0.7rem; align-items: center;">
-                        <span style="display: flex; align-items: center; gap: 4px; color: #10b981;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; display: inline-block;"></span> L1</span>
-                        <span style="display: flex; align-items: center; gap: 4px; color: #06b6d4;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #06b6d4; display: inline-block;"></span> L2</span>
-                        <span style="display: flex; align-items: center; gap: 4px; color: #f59e0b;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #f59e0b; display: inline-block;"></span> L3</span>
-                        <span style="display: flex; align-items: center; gap: 4px; color: #f97316;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #f97316; display: inline-block;"></span> L4</span>
-                        <span style="display: flex; align-items: center; gap: 4px; color: #ef4444;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #ef4444; display: inline-block;"></span> L5</span>
+                        <span style="display: flex; align-items: center; gap: 4px; color: #10b981;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; display: inline-block;"></span> P1</span>
+                        <span style="display: flex; align-items: center; gap: 4px; color: #06b6d4;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #06b6d4; display: inline-block;"></span> P2</span>
+                        <span style="display: flex; align-items: center; gap: 4px; color: #f59e0b;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #f59e0b; display: inline-block;"></span> P3</span>
+                        <span style="display: flex; align-items: center; gap: 4px; color: #f97316;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #f97316; display: inline-block;"></span> P4</span>
+                        <span style="display: flex; align-items: center; gap: 4px; color: #ef4444;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #ef4444; display: inline-block;"></span> P5</span>
                     </div>
                 </div>
 
@@ -499,22 +503,22 @@ window.renderStudioChart = (key) => {
 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-top: 16px;">
                     <div class="chart-kpi-card">
-                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">AVG WAIT TIME</span>
-                        <span style="font-family: 'Space Grotesk'; font-size: 1.3rem; font-weight: 700; color: white; margin-top: 2px;">37.0 min</span>
+                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">AVG LATENCY</span>
+                        <span style="font-family: 'Space Grotesk'; font-size: 1.3rem; font-weight: 700; color: white; margin-top: 2px;">37.0 ms</span>
                     </div>
                     <div class="chart-kpi-card">
-                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">HIGH ACUITY (L4-L5)</span>
+                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">CRITICAL TIERS (P4-P5)</span>
                         <span style="font-family: 'Space Grotesk'; font-size: 1.3rem; font-weight: 700; color: var(--accent-pink); margin-top: 2px;">40% (2 / 5)</span>
                     </div>
                     <div class="chart-kpi-card">
-                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">30-DAY READMISSION</span>
-                        <span style="font-family: 'Space Grotesk'; font-size: 1.3rem; font-weight: 700; color: var(--accent-cyan); margin-top: 2px;">60% (3 / 5)</span>
+                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">99.99% SLA COMPLIANCE</span>
+                        <span style="font-family: 'Space Grotesk'; font-size: 1.3rem; font-weight: 700; color: var(--accent-cyan); margin-top: 2px;">80% (4 / 5)</span>
                     </div>
                 </div>
             </div>
         `;
-    } else if (key === 'bp') {
-        const data = datasets.bp;
+    } else if (key === 'bp' || key === 'ab_test') {
+        const data = datasets.ab_test || datasets.bp;
         const chartHeight = 220;
         const chartWidth = 620;
         const groupWidth = 100;
@@ -522,24 +526,28 @@ window.renderStudioChart = (key) => {
 
         const barsSvg = data.map((d, i) => {
             const x = gap + i * (groupWidth + gap);
-            const h1 = ((d.baseline_bp - 100) / 60) * chartHeight;
-            const h2 = ((d.week4_bp - 100) / 60) * chartHeight;
+            const bVal = d.baseline_latency_ms || d.baseline_bp || 140;
+            const wVal = d.week4_latency_ms || d.week4_bp || 125;
+            const drop = d.improvement_ms || d.drop_mmHg || (bVal - wVal);
+            const h1 = ((bVal - 100) / 60) * chartHeight;
+            const h2 = ((wVal - 100) / 60) * chartHeight;
             const y1 = chartHeight - h1 + 30;
             const y2 = chartHeight - h2 + 30;
+            const label = d.cohort_id || d.trial_id || `C-0${i+1}`;
             return `
                 <g class="chart-bar-group">
                     <rect class="chart-bar-rect" x="${x}" y="${y1}" width="38" height="${h1}" rx="4" fill="#64748b" opacity="0.8">
-                        <title>${d.group}&#10;Baseline SBP: ${d.baseline_bp} mmHg</title>
+                        <title>${d.variant || d.group}&#10;Baseline: ${bVal} ms</title>
                     </rect>
-                    <text x="${x + 19}" y="${y1 - 6}" text-anchor="middle" fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-size="10">${d.baseline_bp}</text>
+                    <text x="${x + 19}" y="${y1 - 6}" text-anchor="middle" fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-size="10">${bVal}</text>
 
-                    <rect class="chart-bar-rect" x="${x + 44}" y="${y2}" width="38" height="${h2}" rx="4" fill="${d.drop_mmHg > 10 ? '#10b981' : '#06b6d4'}" opacity="0.9">
-                        <title>${d.group}&#10;Week 4 SBP: ${d.week4_bp} mmHg&#10;Reduction: -${d.drop_mmHg} mmHg</title>
+                    <rect class="chart-bar-rect" x="${x + 44}" y="${y2}" width="38" height="${h2}" rx="4" fill="${drop > 10 ? '#10b981' : '#06b6d4'}" opacity="0.9">
+                        <title>${d.variant || d.group}&#10;Optimized: ${wVal} ms&#10;Speedup: -${drop} ms</title>
                     </rect>
-                    <text x="${x + 63}" y="${y2 - 6}" text-anchor="middle" fill="${d.drop_mmHg > 10 ? '#10b981' : '#06b6d4'}" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700">${d.week4_bp}</text>
+                    <text x="${x + 63}" y="${y2 - 6}" text-anchor="middle" fill="${drop > 10 ? '#10b981' : '#06b6d4'}" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700">${wVal}</text>
 
-                    <text x="${x + 41}" y="${chartHeight + 48}" text-anchor="middle" fill="white" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600">${d.trial_id}</text>
-                    <text x="${x + 41}" y="${chartHeight + 64}" text-anchor="middle" fill="${d.drop_mmHg > 10 ? '#10b981' : '#94a3b8'}" font-family="'JetBrains Mono', monospace" font-size="9">-${d.drop_mmHg} mmHg</text>
+                    <text x="${x + 41}" y="${chartHeight + 48}" text-anchor="middle" fill="white" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600">${label}</text>
+                    <text x="${x + 41}" y="${chartHeight + 64}" text-anchor="middle" fill="${drop > 10 ? '#10b981' : '#94a3b8'}" font-family="'JetBrains Mono', monospace" font-size="9">-${drop} ms</text>
                 </g>
             `;
         }).join('');
@@ -548,8 +556,8 @@ window.renderStudioChart = (key) => {
             <div style="background: rgba(13, 17, 34, 0.6); padding: 20px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.08);">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
                     <div>
-                        <div style="font-family: 'Space Grotesk'; font-size: 1.1rem; font-weight: 700; color: white;">Antihypertensive Trial: Baseline vs Week 4 SBP (mmHg)</div>
-                        <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-cyan);">GREY: BASELINE // GREEN: WEEK 4 (SIGNIFICANT DROP >10 mmHg)</div>
+                        <div style="font-family: 'Space Grotesk'; font-size: 1.1rem; font-weight: 700; color: white;">A/B Performance Experiment: Baseline vs Cache Latency (ms)</div>
+                        <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-cyan);">GREY: DISK BASELINE // GREEN: IN-MEMORY CACHE (SIGNIFICANT GAIN >10 ms)</div>
                     </div>
                 </div>
 
@@ -566,22 +574,22 @@ window.renderStudioChart = (key) => {
 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-top: 16px;">
                     <div class="chart-kpi-card">
-                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">MAX EFFICACY DROP</span>
-                        <span style="font-family: 'Space Grotesk'; font-size: 1.3rem; font-weight: 700; color: #10b981; margin-top: 2px;">-28 mmHg (20mg)</span>
+                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">MAX LATENCY SPEEDUP</span>
+                        <span style="font-family: 'Space Grotesk'; font-size: 1.3rem; font-weight: 700; color: #10b981; margin-top: 2px;">-28 ms (Redis)</span>
                     </div>
                     <div class="chart-kpi-card">
-                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">PLACEBO MEAN EFFECT</span>
-                        <span style="font-family: 'Space Grotesk'; font-size: 1.3rem; font-weight: 700; color: var(--text-muted); margin-top: 2px;">-1.5 mmHg</span>
+                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">CONTROL MEAN DRIFT</span>
+                        <span style="font-family: 'Space Grotesk'; font-size: 1.3rem; font-weight: 700; color: var(--text-muted); margin-top: 2px;">-1.5 ms</span>
                     </div>
                     <div class="chart-kpi-card">
-                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">TRIAL SIGNIFICANCE</span>
+                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">EXPERIMENT SIGNIFICANCE</span>
                         <span style="font-family: 'Space Grotesk'; font-size: 1.3rem; font-weight: 700; color: var(--accent-cyan); margin-top: 2px;">p &lt; 0.001</span>
                     </div>
                 </div>
             </div>
         `;
-    } else if (key === 'claims') {
-        const data = datasets.claims;
+    } else if (key === 'claims' || key === 'transactions') {
+        const data = datasets.transactions || datasets.claims;
         const chartHeight = 220;
         const chartWidth = 620;
         const groupWidth = 120;
@@ -590,24 +598,29 @@ window.renderStudioChart = (key) => {
         const barsSvg = data.map((d, i) => {
             const x = gap + i * (groupWidth + gap);
             const maxVal = 3000;
-            const h1 = (d.billed_amount / maxVal) * chartHeight;
-            const h2 = (d.approved_amount / maxVal) * chartHeight;
+            const req = d.requested_usd || d.billed_amount || 1000;
+            const set = d.settled_usd || d.approved_amount || 0;
+            const h1 = (req / maxVal) * chartHeight;
+            const h2 = (set / maxVal) * chartHeight;
             const y1 = chartHeight - h1 + 30;
             const y2 = chartHeight - h2 + 30;
+            const idLabel = d.tx_id || d.claim_id || 'TXN';
+            const codeLabel = d.routing_code || d.icd_code || 'CODE';
+            const statusLabel = d.status || 'OK';
             return `
                 <g class="chart-bar-group">
                     <rect class="chart-bar-rect" x="${x}" y="${y1}" width="46" height="${h1}" rx="4" fill="#8b5cf6" opacity="0.8">
-                        <title>${d.claim_id} (${d.icd_code})&#10;Billed: $${d.billed_amount.toFixed(2)}</title>
+                        <title>${idLabel} (${codeLabel})&#10;Requested: $${req.toFixed(2)}</title>
                     </rect>
-                    <text x="${x + 23}" y="${y1 - 6}" text-anchor="middle" fill="#c4b5fd" font-family="'JetBrains Mono', monospace" font-size="10">$${d.billed_amount}</text>
+                    <text x="${x + 23}" y="${y1 - 6}" text-anchor="middle" fill="#c084fc" font-family="'JetBrains Mono', monospace" font-size="10">$${Math.round(req)}</text>
 
-                    <rect class="chart-bar-rect" x="${x + 52}" y="${y2}" width="46" height="${h2 > 0 ? h2 : 4}" rx="4" fill="${d.status === 'APPROVED' ? '#10b981' : '#ef4444'}" opacity="0.9">
-                        <title>${d.claim_id}&#10;Approved: $${d.approved_amount.toFixed(2)}&#10;Status: ${d.status}</title>
+                    <rect class="chart-bar-rect" x="${x + 52}" y="${y2}" width="46" height="${h2}" rx="4" fill="${statusLabel === 'SETTLED' || statusLabel === 'APPROVED' ? '#10b981' : '#ef4444'}" opacity="0.9">
+                        <title>${idLabel} (${codeLabel})&#10;Settled: $${set.toFixed(2)}</title>
                     </rect>
-                    <text x="${x + 75}" y="${y2 - 6}" text-anchor="middle" fill="${d.status === 'APPROVED' ? '#10b981' : '#ef4444'}" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700">$${d.approved_amount}</text>
+                    <text x="${x + 75}" y="${y2 - 6}" text-anchor="middle" fill="${statusLabel === 'SETTLED' || statusLabel === 'APPROVED' ? '#10b981' : '#ef4444'}" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700">$${Math.round(set)}</text>
 
-                    <text x="${x + 49}" y="${chartHeight + 48}" text-anchor="middle" fill="white" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600">${d.claim_id}</text>
-                    <text x="${x + 49}" y="${chartHeight + 64}" text-anchor="middle" fill="${d.status === 'APPROVED' ? '#10b981' : '#ef4444'}" font-family="'JetBrains Mono', monospace" font-size="9">[${d.status}]</text>
+                    <text x="${x + 49}" y="${chartHeight + 48}" text-anchor="middle" fill="white" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600">${idLabel}</text>
+                    <text x="${x + 49}" y="${chartHeight + 64}" text-anchor="middle" fill="${statusLabel === 'SETTLED' || statusLabel === 'APPROVED' ? '#10b981' : '#ef4444'}" font-family="'JetBrains Mono', monospace" font-size="9">[${statusLabel}]</text>
                 </g>
             `;
         }).join('');
@@ -616,8 +629,8 @@ window.renderStudioChart = (key) => {
             <div style="background: rgba(13, 17, 34, 0.6); padding: 20px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.08);">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
                     <div>
-                        <div style="font-family: 'Space Grotesk'; font-size: 1.1rem; font-weight: 700; color: white;">Hospital Billing Claims: Billed vs Approved</div>
-                        <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-cyan);">PURPLE: BILLED // GREEN: APPROVED // RED: DENIED CLAIM</div>
+                        <div style="font-family: 'Space Grotesk'; font-size: 1.1rem; font-weight: 700; color: white;">Enterprise Transactions: Ingress vs Settled ($ USD)</div>
+                        <div style="font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent-cyan);">PURPLE: REQUESTED // GREEN: SETTLED // RED: FRAUD FLAGGED</div>
                     </div>
                 </div>
 
@@ -634,23 +647,22 @@ window.renderStudioChart = (key) => {
 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-top: 16px;">
                     <div class="chart-kpi-card">
-                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">TOTAL BILLED</span>
-                        <span style="font-family: 'Space Grotesk'; font-size: 1.3rem; font-weight: 700; color: var(--accent-violet); margin-top: 2px;">$5,230.00</span>
+                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">TOTAL REQUESTED</span>
+                        <span style="font-family: 'Space Grotesk'; font-size: 1.3rem; font-weight: 700; color: #c084fc; margin-top: 2px;">$5,230</span>
                     </div>
                     <div class="chart-kpi-card">
-                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">TOTAL APPROVED</span>
-                        <span style="font-family: 'Space Grotesk'; font-size: 1.3rem; font-weight: 700; color: #10b981; margin-top: 2px;">$2,150.00</span>
+                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">TOTAL SETTLED</span>
+                        <span style="font-family: 'Space Grotesk'; font-size: 1.3rem; font-weight: 700; color: #10b981; margin-top: 2px;">$2,430</span>
                     </div>
                     <div class="chart-kpi-card">
-                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">REIMBURSEMENT RATE</span>
-                        <span style="font-family: 'Space Grotesk'; font-size: 1.3rem; font-weight: 700; color: var(--accent-pink); margin-top: 2px;">41.1% (Denied Claim)</span>
+                        <span style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-muted);">FRAUD DETECTION REJECTION</span>
+                        <span style="font-family: 'Space Grotesk'; font-size: 1.3rem; font-weight: 700; color: var(--accent-pink); margin-top: 2px;">53.5%</span>
                     </div>
                 </div>
             </div>
         `;
     }
 };
-
 
 // --- 4. 📈 DYNAMIC READING PROGRESS BAR SCROLL LISTENER ---
 window.addEventListener('scroll', () => {
@@ -751,8 +763,8 @@ window.getModulesHubHTML = () => {
                         <div style="font-size: 0.78rem; color: #94a3b8; font-family: 'Plus Jakarta Sans', sans-serif;">What, Why, Who, Where, When, How</div>
                     </div>
                     <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 14px 18px;">
-                        <div style="font-size: 1.25rem; font-weight: 800; color: white; font-family: 'Space Grotesk', sans-serif;">Clinical Case Studies</div>
-                        <div style="font-size: 0.78rem; color: #94a3b8; font-family: 'Plus Jakarta Sans', sans-serif;">Real-World Medical Systems</div>
+                        <div style="font-size: 1.25rem; font-weight: 800; color: white; font-family: 'Space Grotesk', sans-serif;">Incident Postmortems</div>
+                        <div style="font-size: 0.78rem; color: #94a3b8; font-family: 'Plus Jakarta Sans', sans-serif;">Enterprise Architecture Case Studies</div>
                     </div>
                 </div>
 
@@ -862,19 +874,19 @@ window.getModulesHubHTML = () => {
                                     <p style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.86rem; color: #cbd5e1; line-height: 1.5; margin: 0;">${fiveWs.what || ''}</p>
                                 </div>
                                 <div style="background: rgba(239,68,68,0.04); border-left: 3px solid #ef4444; border-radius: 0 10px 10px 0; padding: 12px 16px;">
-                                    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.76rem; font-weight: 700; color: #f87171; margin-bottom: 4px;">💡 WHY DOES IT MATTER? (CLINICAL URGENCY)</div>
+                                    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.76rem; font-weight: 700; color: #f87171; margin-bottom: 4px;">💡 WHY DOES IT MATTER? (PRODUCTION URGENCY & SLA)</div>
                                     <p style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.86rem; color: #cbd5e1; line-height: 1.5; margin: 0;">${fiveWs.why || ''}</p>
                                 </div>
                                 <div style="background: rgba(168,85,247,0.04); border-left: 3px solid #a855f7; border-radius: 0 10px 10px 0; padding: 12px 16px;">
-                                    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.76rem; font-weight: 700; color: #c084fc; margin-bottom: 4px;">👥 WHO USES THIS IN HEALTHCARE?</div>
+                                    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.76rem; font-weight: 700; color: #c084fc; margin-bottom: 4px;">👥 WHO USES THIS IN INDUSTRY? (JOB ROLES)</div>
                                     <p style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.86rem; color: #cbd5e1; line-height: 1.5; margin: 0;">${fiveWs.who || ''}</p>
                                 </div>
                                 <div style="background: rgba(16,185,129,0.04); border-left: 3px solid #10b981; border-radius: 0 10px 10px 0; padding: 12px 16px;">
-                                    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.76rem; font-weight: 700; color: #34d399; margin-bottom: 4px;">🏥 WHERE IS IT DEPLOYED? (SYSTEMS & EHR)</div>
+                                    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.76rem; font-weight: 700; color: #34d399; margin-bottom: 4px;">🏢 WHERE IS IT DEPLOYED? (ENTERPRISE & CLOUD INFRASTRUCTURE)</div>
                                     <p style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.86rem; color: #cbd5e1; line-height: 1.5; margin: 0;">${fiveWs.where || ''}</p>
                                 </div>
                                 <div style="background: rgba(245,158,11,0.04); border-left: 3px solid #f59e0b; border-radius: 0 10px 10px 0; padding: 12px 16px;">
-                                    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.76rem; font-weight: 700; color: #fbbf24; margin-bottom: 4px;">⏱️ WHEN IS IT EXECUTED IN CARE LIFECYCLE?</div>
+                                    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.76rem; font-weight: 700; color: #fbbf24; margin-bottom: 4px;">⏱️ WHEN IS IT EXECUTED IN PRODUCTION LIFECYCLE?</div>
                                     <p style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.86rem; color: #cbd5e1; line-height: 1.5; margin: 0;">${fiveWs.when || ''}</p>
                                 </div>
                                 <div style="background: rgba(14,165,233,0.04); border-left: 3px solid #0ea5e9; border-radius: 0 10px 10px 0; padding: 12px 16px;">
@@ -905,7 +917,7 @@ window.getModulesHubHTML = () => {
                                     🏢 PRODUCTION ARCHITECTURE & INCIDENT POSTMORTEM
                                 </div>
                                 <p style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.88rem; color: #cbd5e1; line-height: 1.6; margin: 0 0 10px 0;">
-                                    ${week.clinicalCaseStudy || week.clinicalApplication || ''}
+                                    ${week.incidentPostmortem || week.clinicalCaseStudy || week.productionArchitecture || week.clinicalApplication || ''}
                                 </p>
                                 <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.76rem; color: #94a3b8; font-weight: 600;">
                                     STACK & STANDARDS: ${(week.tools || []).join(' • ')}

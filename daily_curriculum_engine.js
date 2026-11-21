@@ -110,23 +110,23 @@
         '41-6': { id: 'IHZwWFHWa-w', title: 'Hands-On PyTorch Binary Classification Predictor from Scratch', channel: 'Aladdin Persson', duration: '32:40' },
         '41-7': { id: 'Ilg3gGewQ5U', title: 'Overfitting Mitigation: Dropout, L1/L2 Regularization & Early Stopping', channel: 'DeepLearningAI', duration: '23:50' },
 
-        // --- WEEK 47: Transformers & Self-Attention in Healthcare ---
+        // --- WEEK 47: Transformers & Large Language Model Architecture ---
         '47-1': { id: 'wjZofJX0v4E', title: 'The Transformer Revolution: Why RNNs Failed on Long Sequence Records', channel: '3Blue1Brown', duration: '24:15' },
         '47-2': { id: 'eMlx5fFNoYc', title: 'Self-Attention Mathematical Mechanics: Query, Key & Value Vectors', channel: 'StatQuest', duration: '21:30' },
-        '47-3': { id: 'wjZofJX0v4E', title: 'Multi-Head Attention: Capturing Multiple Clinical Contexts Simultaneously', channel: 'Yannic Kilcher', duration: '26:40' },
-        '47-4': { id: 'eMlx5fFNoYc', title: 'Positional Encodings: Injecting Temporal Sequencing into Clinical Tokens', channel: 'Umar Jamil', duration: '22:15' },
-        '47-5': { id: 'wjZofJX0v4E', title: 'Clinical BERT & Med-BERT: Pretraining on 2 Million EHR Patient Notes', channel: 'Stanford AI Health', duration: '28:50' },
-        '47-6': { id: 'eMlx5fFNoYc', title: 'Hands-On Hugging Face Transformers Lab: Clinical Named Entity Recognition', channel: 'DataVitals AI', duration: '34:10' },
-        '47-7': { id: 'wjZofJX0v4E', title: 'Attention Map Interpretability: Explaining AI Predictions to Physicians', channel: 'DeepLearningAI', duration: '25:20' },
+        '47-3': { id: 'wjZofJX0v4E', title: 'Multi-Head Attention: Capturing Multiple Semantic Contexts Simultaneously', channel: 'Yannic Kilcher', duration: '26:40' },
+        '47-4': { id: 'eMlx5fFNoYc', title: 'Positional Encodings: Injecting Temporal Sequencing into Token Vectors', channel: 'Umar Jamil', duration: '22:15' },
+        '47-5': { id: 'wjZofJX0v4E', title: 'Enterprise RoBERTa & Modern BERT: Pretraining on 100 Billion Token Corpus', channel: 'Stanford AI Lab', duration: '28:50' },
+        '47-6': { id: 'eMlx5fFNoYc', title: 'Hands-On Hugging Face Transformers Lab: Token Classification & NER', channel: 'DataVitals AI', duration: '34:10' },
+        '47-7': { id: 'wjZofJX0v4E', title: 'Attention Map Interpretability: Explaining Transformer Attentions in Enterprise Systems', channel: 'DeepLearningAI', duration: '25:20' },
 
         // --- WEEK 52: Production AI Deployment & Graduation ---
         '52-1': { id: 'q3Z3qa1GQFI', title: 'Production ML Architecture: Serving Low-Latency Models with FastAPI & Triton', channel: 'ArjanCodes', duration: '23:40' },
-        '52-2': { id: 'q3Z3qa1GQFI', title: 'Docker Containerization & Kubernetes Orchestration for Healthcare AI', channel: 'TechWorld with Nana', duration: '28:15' },
-        '52-3': { id: 'q3Z3qa1GQFI', title: 'Model Monitoring, Data Drift & Concept Drift in Production Clinical EHRs', channel: 'Chip Huyen MLOps', duration: '24:50' },
-        '52-4': { id: 'q3Z3qa1GQFI', title: 'HIPAA Cloud Security, BAA Agreements & Encrypted Model Enclaves', channel: 'AWS Healthcare', duration: '22:10' },
-        '52-5': { id: 'q3Z3qa1GQFI', title: 'FDA SaMD Regulatory Submission: Clinical Evaluation & Good Machine Learning', channel: 'FDA Regulatory Affairs', duration: '26:30' },
-        '52-6': { id: 'q3Z3qa1GQFI', title: 'Final Capstone System Defense: Live Real-Time Sepsis Prediction Showcase', channel: 'DataVitals Graduation', duration: '38:00' },
-        '52-7': { id: 'q3Z3qa1GQFI', title: 'Graduation Masterclass: Career Pathways in Healthcare Data Science & AI', channel: 'DataVitals Academy', duration: '30:15' }
+        '52-2': { id: 'q3Z3qa1GQFI', title: 'Docker Containerization & Kubernetes Orchestration for Enterprise Microservices & AI', channel: 'TechWorld with Nana', duration: '28:15' },
+        '52-3': { id: 'q3Z3qa1GQFI', title: 'Model Monitoring, Data Drift & Concept Drift in Production Distributed ML Pipelines', channel: 'Chip Huyen MLOps', duration: '24:50' },
+        '52-4': { id: 'q3Z3qa1GQFI', title: 'Zero-Trust Cloud Security, SOC 2 / ISO 27001 Auditing & Encrypted Key Enclaves', channel: 'AWS Cloud Security', duration: '22:10' },
+        '52-5': { id: 'q3Z3qa1GQFI', title: 'Production AI Governance: Model Risk Management, Audit Trails & Compliance', channel: 'Production MLOps', duration: '26:30' },
+        '52-6': { id: 'q3Z3qa1GQFI', title: 'Final Capstone System Defense: Real-Time Fraud & Anomaly Ingestion Showcase', channel: 'DataVitals Graduation', duration: '38:00' },
+        '52-7': { id: 'q3Z3qa1GQFI', title: 'Graduation Masterclass: Career Pathways in Systems Architecture, Data Engineering & AI', channel: 'DataVitals Academy', duration: '30:15' }
     };
 
     window.dailyVideoDirectory = dailyVideos;

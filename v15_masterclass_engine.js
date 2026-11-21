@@ -776,7 +776,7 @@
                             </div>
                         </div>
 
-                        <!-- BENTO 2: ON-FIELD HOSPITAL DUTY -->
+                        <!-- BENTO 2: ON-FIELD INDUSTRY ROLE -->
                         <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 16px; padding: 22px; display: flex; flex-direction: column;">
                             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
                                 <span style="font-size: 1.3rem;">💻</span>
@@ -800,7 +800,7 @@
                             </div>
                         </div>
 
-                        <!-- BENTO 3: HOSPITAL INTERVIEW DEFENSE -->
+                        <!-- BENTO 3: TOP-TIER TECH INTERVIEW DEFENSE -->
                         <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 16px; padding: 22px; display: flex; flex-direction: column;">
                             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
                                 <span style="font-size: 1.3rem;">💼</span>
@@ -824,7 +824,7 @@
                     </div>
                 </div>
 
-                <!-- 2.8. INTERACTIVE CLINICAL COMPUTER ARCHITECTURE SIMULATOR -->
+                <!-- 2.8. INTERACTIVE COMPUTER & DATA ARCHITECTURE SIMULATOR -->
                 <div id="lesson-computer-simulator" class="modern-card" style="border-radius: 20px; padding: 30px; margin-bottom: 28px; background: #0f172a; border: 1px solid rgba(59, 130, 246, 0.25); box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 14px; flex-wrap: wrap; gap: 12px;">
                         <div style="display: flex; align-items: center; gap: 12px;">
@@ -1015,11 +1015,11 @@
                     </div>
                 </div>
 
-                <!-- 6. SECTION II: HEALTHCARE ECOSYSTEM & CLINICAL SYSTEMS INTEGRATION -->
+                <!-- 6. SECTION II: ENTERPRISE PRODUCTION & SYSTEMS ENGINEERING -->
                 <div id="lesson-clinical-systems" class="modern-card" style="border-radius: 20px; padding: 34px; margin-bottom: 28px; background: #0f172a; border: 1px solid rgba(244, 63, 94, 0.25); box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px; flex-wrap: wrap; gap: 10px;">
                         <div style="display: flex; align-items: center; gap: 12px;">
-                            <span style="font-size: 1.6rem;">🏥</span>
+                            <span style="font-size: 1.6rem;">🏢</span>
                             <div>
                                 <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #f43f5e; text-transform: uppercase; font-weight: 700;">PART II • ENTERPRISE PRODUCTION & SYSTEMS ENGINEERING</span>
                                 <h2 style="font-family: 'Space Grotesk'; font-size: 1.45rem; font-weight: 700; color: white; margin: 2px 0 0 0;">
@@ -1041,11 +1041,11 @@
                     </div>
                 </div>
 
-                <!-- 7. SECTION III: BIOMEDICAL TELEMETRY & STANDARDS -->
+                <!-- 7. SECTION III: SYSTEM TELEMETRY & PRODUCTION STANDARDS -->
                 <div id="lesson-telemetry-standards" class="modern-card" style="border-radius: 20px; padding: 34px; margin-bottom: 28px; background: #0f172a; border: 1px solid rgba(16, 185, 129, 0.25); box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px; flex-wrap: wrap; gap: 10px;">
                         <div style="display: flex; align-items: center; gap: 12px;">
-                            <span style="font-size: 1.6rem;">🧬</span>
+                            <span style="font-size: 1.6rem;">📊</span>
                             <div>
                                 <span style="font-family: 'JetBrains Mono'; font-size: 0.72rem; color: #10b981; text-transform: uppercase; font-weight: 700;">PART III • TELEMETRY, PROTOCOLS & STANDARDS</span>
                                 <h2 style="font-family: 'Space Grotesk'; font-size: 1.45rem; font-weight: 700; color: white; margin: 2px 0 0 0;">
@@ -1158,7 +1158,7 @@
                     `}
                 </div>
 
-                <!-- 10. SECTION VI: CLINICAL ACCREDITATION QUIZ -->
+                <!-- 10. SECTION VI: TECHNICAL ACCREDITATION QUIZ -->
                 <div id="lesson-knowledge-quiz" style="margin-bottom: 28px;">
                     ${window.renderMasterQuiz(lesson)}
                 </div>
